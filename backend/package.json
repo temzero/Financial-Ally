@@ -1,9 +1,9 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "backend.js",
+  "main": "src/backend.js",
   "scripts": {
-    "start": "nodemon --inspect backend.js",
+    "start": "nodemon --inspect src/backend.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "nhan",
