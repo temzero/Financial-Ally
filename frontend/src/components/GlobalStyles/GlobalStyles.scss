@@ -1,0 +1,28 @@
+@import 'normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+:root {
+ --primary-color: #B0AB9C;
+ --secondary-color: #828282;
+ --background-color: #D3D0C7;
+ --primary-text-color: #442912;
+ --text-color: black;
+ --button-color: #28180B;
+
+ --positive-color: #42A168;
+ --negative-color: #A14242;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+
+}
+
+body {
+    font-family: "Playfair Display", serif;
+    font-size: 1.6rem;
+    line-height: 1.5;
+}

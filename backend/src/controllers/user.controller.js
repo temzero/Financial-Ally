@@ -3,7 +3,7 @@ const User = require("../models/user.model");
 const userControllers = {
   getRegister: async (req, res) => {
     try {
-      res.send("Render: Username - Password");
+      res.send("Register: Username - Password");
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
@@ -16,7 +16,14 @@ const userControllers = {
       res.status(500).json({ message: error.message });
     }
   },
-  login: async (req, res) => {
+  getLogin: async (req, res) => {
+    try {
+      res.send("Login: Username - Password");
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
+  postLogin: async (req, res) => {
     try {
       const userID = req.params.id;
       const user = await User.findById(userID);
