@@ -1,5 +1,6 @@
 @import 'normalize.css';
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 :root {
 // Colour
@@ -7,6 +8,7 @@
  --secondary-color: #828282;
  --background-color: #E6E2D8;
  --primary-text-color: #442912;
+ --primary-text-color-hover: #442912eb;
  --text-color: black;
  --button-color: #28180B;
 
@@ -15,7 +17,7 @@
 
  // Dimension
  --header-height: 60px;
- --sidebar-width: 140px;
+ --sidebar-width: 120px;
  --side-padding: 18px
 
 }
@@ -31,7 +33,7 @@ html {
 }
 
 body {
-    font-family: "Playfair Display", serif;
+    font-family: "Inter", sans-serif;
     font-size: 1.6rem;
     line-height: 1.5;
 }

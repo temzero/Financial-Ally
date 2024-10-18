@@ -5,12 +5,13 @@ function Sidebar() {
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
+                <h2 className={styles.welcome}>Welcome!</h2>
                 <a className={styles.navBtn} href="./profile">
                     Nhan
                 </a>
             </div>
             <div className={styles.nav}>
-                <a className={styles.navBtn} href="./">
+                <a className={`${styles.navBtn} ${styles.active}`} href="./">
                     Home
                 </a>
                 <a className={styles.navBtn} href="./analysis">
@@ -24,7 +25,7 @@ function Sidebar() {
                 </a>
             </div>
             <div className={styles.setting}>
-                <a className={styles.navBtn} href="./">
+                <a className={styles.arrowBtn} href="./">
                     <IoArrowBack />
                 </a>
                 <a className={styles.navBtn} href="./setting">
