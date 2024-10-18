@@ -1,0 +1,14 @@
+.wrapper {
+    display: flex;
+    background-color: var(--background-color);
+    min-height: 720px;
+}
+
+.container {
+    width: 100%;
+}
+
+.content {
+    padding: var(--side-padding);
+    
+}
