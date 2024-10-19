@@ -2,6 +2,7 @@
     font-family: "Playfair Display", serif;
     font-size: 2rem;
     margin-bottom: 1rem;
+    user-select: none;
 }
 
 .formGroup {
@@ -15,6 +16,7 @@
     padding: 0.5rem;
     border: none;
     border-bottom: 2px solid var(--primary-text-color);
+    user-select: none;
     
     &:focus {
         border: none;
@@ -38,6 +40,7 @@
     font-weight: 200;
     font-size: 0.8rem;
     margin-top: .4rem;
+    user-select: none;
 
     &:first-child {
         margin-top: 1rem;

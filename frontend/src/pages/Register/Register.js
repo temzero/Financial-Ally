@@ -3,16 +3,50 @@ import styles from './Register.module.scss';
 import Button from '../../components/Button/Button';
 
 function Register() {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+    const [message, setMessage] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle the Register logic here (e.g., validation, API call)
-        console.log( 'First Name: ', firstName, 'Last Name: ', lastName, 'Email:', email, 'Password:', password, 'Confirm password: ', confirmPassword);
+
+        if (password !== confirmPassword) {
+            console.log('Password does not match');
+            alert('Password does not match');
+            return;
+        } 
+
+        const userData = {
+            firstName,
+            lastName,
+            email,
+            password,
+        };
+
+        fetch('http://localhost:4000/user/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Success:', data);
+            setMessage('Registration successful! Please check your email for verification.');
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            setMessage('Registration failed. Please try again.');
+        });
     };
 
     return (
@@ -75,6 +109,7 @@ function Register() {
                 <div className={styles.button}>
                     <Button type='submit' primary rounded className={styles.submitButton}>Sign Up</Button>
                 </div>
+                {message && <p className={styles.message}>{message}</p>}
                 <h3 className={styles.link}>
                     Already have an account? 
                     <a href='/login'>Login now!</a>

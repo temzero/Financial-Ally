@@ -10,7 +10,6 @@ function Button({ to, href, onClick, disabled, primary, black, rounded, classNam
         ${black ? styles.black : ''}
         ${rounded ? styles.rounded : ''}
     `;
-    console.log('Classes: ', classes)
     
     const props = {
         onClick,

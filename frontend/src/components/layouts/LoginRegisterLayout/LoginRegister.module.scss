@@ -10,6 +10,7 @@
 .title {
     font-family: "Playfair Display", serif;
     margin-bottom: calc(var(--header-height)/2 + 16px);
+    user-select: none;
 }
 
 

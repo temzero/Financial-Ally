@@ -1,6 +1,7 @@
 const User = require("../models/user.model");
 
 const userControllers = {
+  
   getRegister: async (req, res) => {
     try {
       res.send("Register: Username - Password");

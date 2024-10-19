@@ -2,18 +2,12 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      match: [/^\S+@\S+\.\S+$/, "Invalid email format"],
-    },
     firstName: {
       type: String,
       required: true,
       validate: {
         validator: function (v) {
-          return !/\s/.test(v); // Check if there is no space in the name
+          return !/\s/.test(v);
         },
         message: "First name must be one word only",
       },
@@ -27,6 +21,12 @@ const userSchema = new mongoose.Schema(
         },
         message: "Last name must be one word only",
       },
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      match: [/^\S+@\S+\.\S+$/, "Invalid email format"],
     },
     password: {
       type: String,
@@ -45,4 +45,4 @@ const userSchema = new mongoose.Schema(
 
 // Add methods or middleware if needed
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("users", userSchema);

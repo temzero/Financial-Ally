@@ -2,6 +2,7 @@
     font-family: "Playfair Display", serif;
     font-size: 1.8rem;
     margin-bottom: 1rem;
+    user-select: none;
 }
 
 .formGroup {
@@ -28,6 +29,7 @@
     padding: 0.5rem;
     border: none;
     border-bottom: 2px solid var(--primary-text-color);
+    user-select: none;
     
     &:focus {
         border: none;
@@ -47,6 +49,7 @@
     font-weight: 200;
     font-size: 0.8rem;
     margin-top: 1rem;
+    user-select: none;
   
     a {
       margin-left: 4px;
@@ -59,3 +62,9 @@
       }
     }
   }
+
+.message {
+    font-size: .8rem;
+    font-style: italic;
+    color: var(--primary-text-color);
+}
