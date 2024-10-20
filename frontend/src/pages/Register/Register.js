@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './Register.module.scss';
 import Button from '../../components/Button/Button';
 
@@ -9,6 +10,9 @@ function Register() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [message, setMessage] = useState('');
+    
+    const navigate = useNavigate();
+    const FailMessage = 'Registration failed. Please try again.'
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -26,7 +30,7 @@ function Register() {
             password,
         };
 
-        fetch('http://localhost:4000/user/register', {
+        fetch('http://localhost:4000/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -37,15 +41,18 @@ function Register() {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            return response.json();
+
+            const JSONresponse = response.json()
+            return JSONresponse;
         })
-        .then(data => {
-            console.log('Success:', data);
-            setMessage('Registration successful! Please check your email for verification.');
+        .then(newUser => {
+            console.log('New user:', newUser);
+            setMessage('Registration successful! Please wait...');
+            navigate('/', { state: { user: newUser } });
         })
         .catch((error) => {
             console.error('Error:', error);
-            setMessage('Registration failed. Please try again.');
+            setMessage(FailMessage);
         });
     };
 
@@ -109,7 +116,11 @@ function Register() {
                 <div className={styles.button}>
                     <Button type='submit' primary rounded className={styles.submitButton}>Sign Up</Button>
                 </div>
-                {message && <p className={styles.message}>{message}</p>}
+                {
+                    message === FailMessage 
+                    ? <h3 className={`${styles.message} ${styles.fail}`}>{message}</h3>
+                    : <h3 className={`${styles.message} ${styles.success}`}>{message}</h3> 
+                }
                 <h3 className={styles.link}>
                     Already have an account? 
                     <a href='/login'>Login now!</a>

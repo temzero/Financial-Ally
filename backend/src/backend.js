@@ -9,13 +9,8 @@ app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 app.use(cors())
 
-// Home
-app.get('/', (req, res) => {
-  res.send('CS50 final project - src')
-})
-
 // User interact with database
-app.use('/user', userRouter)
+app.use('/', userRouter)
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)

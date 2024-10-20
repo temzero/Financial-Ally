@@ -1,7 +1,13 @@
 const User = require("../models/user.model");
 
 const userControllers = {
-  
+  getHome: async (req, res) => {
+    try {
+      res.send("Welcome Home");
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
   getRegister: async (req, res) => {
     try {
       res.send("Register: Username - Password");
@@ -26,9 +32,21 @@ const userControllers = {
   },
   postLogin: async (req, res) => {
     try {
-      const userID = req.params.id;
-      const user = await User.findById(userID);
-      res.status(200).json(user);
+      const loginEmail = req.body.email
+      const loginPassword = req.body.password
+      console.log('Login Email: ', loginEmail)
+      console.log('Login Password: ', loginPassword)
+
+      const matchedUser = await User.findOne({email: loginEmail});
+      console.log('User actual password: ', matchedUser.password)
+
+      if(loginPassword !== matchedUser.password) {
+        console.log('Invalid email or password!');
+        return res.status(401).json('Invalid email or password!');
+      }
+      
+      console.log('Login success');
+      res.status(200).json(matchedUser);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }

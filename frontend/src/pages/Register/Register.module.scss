@@ -65,6 +65,14 @@
 
 .message {
     font-size: .8rem;
+    font-weight: 400;
     font-style: italic;
-    color: var(--primary-text-color);
+}
+
+.success {
+    color: rgb(0, 213, 0);
+}
+
+.fail {
+    color: red;
 }

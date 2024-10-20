@@ -1,21 +1,45 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.scss';
 import Button from '../../components/Button/Button';
+import axios from 'axios';
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [message, setMessage] = useState('');
+    
+    const navigate = useNavigate();
+    const successMessage = 'Welcome back! Please wait...';
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle the login logic here (e.g., validation, API call)
-        console.log('Email:', email, 'Password:', password);
+
+        const loginInfo = {
+            email,
+            password
+        };
+
+        axios.post('http://localhost:4000/login', loginInfo)
+            .then(response => {
+                const user = response.data;
+                console.log('Login success:', response.data);
+                console.log('UserID:', user);
+                setMessage(successMessage);
+                navigate('/', { state: { user: user } });
+            })
+            .catch(error => {
+                console.error('Login error!', error);
+                setMessage('Invalid email or password');
+            });
+
+        console.log('Login:', loginInfo);
     };
 
     return (
         <div>
             <h2 className={styles.title}>Login</h2>
-            <form method='POST' onSubmit={handleSubmit} className={styles.form}>
+            <form onSubmit={handleSubmit} className={styles.form}>
                 <div className={styles.formGroup}>
                     <input
                         type="email"
@@ -41,6 +65,11 @@ function Login() {
                 <div className={styles.button}>
                     <Button type='submit' primary rounded className={styles.submitButton}>Login</Button>
                 </div>
+                {
+                    message === successMessage 
+                    ? <h3 className={`${styles.message} ${styles.success}`}>{message}</h3> 
+                    : <h3 className={`${styles.message} ${styles.fail}`}>{message}</h3>
+                }
                 <div>
                     <h3 className={styles.link}>
                         <a href="/forgot-password">Forgot password?</a>
