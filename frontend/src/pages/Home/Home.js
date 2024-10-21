@@ -1,16 +1,23 @@
-import { useLocation, useNavigate } from 'react-router-dom';
-
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 function Home() {
-    const navigate = useNavigate()
-    const location = useLocation();
-    const user = location.state?.user; 
+    const user = useSelector((state) => state.user);
+    const navigate = useNavigate();
+    
+    useEffect(() => {
+        if (!user) {
+            // Redirect to login if user is not present
+            navigate('/login');
+        }
+    }, [user, navigate]);  // Add navigate to the dependency array
 
-    if (!user || !user.firstName) {
-        navigate('/login');
-        return null; 
+    if (!user) {
+        // While waiting for redirection, render nothing (or you can show a loading spinner)
+        return null;
     }
-
+    
     return (
         <div>
             <h2>Home</h2>

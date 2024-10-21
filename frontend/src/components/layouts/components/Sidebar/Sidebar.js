@@ -1,10 +1,31 @@
 import styles from './Sidebar.module.scss';
 import { IoArrowBack } from 'react-icons/io5';
-import { useLocation } from 'react-router-dom';
+import Button from '../../../Button/Button';
+import { useEffect } from 'react';
+
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { store } from '../../../../redux/store';
+import { logout } from '../../../../redux/actions';
 
 function Sidebar() {
-    const location = useLocation();
-    const user = location.state?.user; 
+    const user = useSelector((state) => state.user);
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        store.dispatch(logout());
+    }
+
+    useEffect(() => {
+        if (!user) {
+            navigate('/login');
+        }
+    }, [user, navigate]);
+
+    // Avoid rendering the component if the user is not logged in
+    if (!user) {
+        return null;
+    }
 
     return (
         <div className={styles.wrapper}>
@@ -13,9 +34,7 @@ function Sidebar() {
                 <a className={styles.navBtn} href="./profile">
                     {user.firstName}
                 </a>
-                <a className={styles.logoutBtn} href="./login">
-                    Logout
-                </a>
+                <Button className={styles.navBtn} onClick={handleLogout}>Logout</Button>
             </div>
             <div className={styles.nav}>
                 <a className={`${styles.navBtn} ${styles.active}`} href="./">
