@@ -28,11 +28,12 @@
     font-size: 1.8rem;
     font-weight: 700;
     color: var(--primary-text-color);
+    user-select: none;
 }
 
 .icon {
-    margin-right: 8px;
-    font-size: 2rem;
+    margin-right: 6px;
+    font-size: 1.8rem;
 }
 
 .LoginRegister {
@@ -45,4 +46,9 @@
     height: 81vh;
     font-size: 1rem;
     font-weight: 200;
+}
+
+.LoginRegisterBtn {
+    font-family: "Playfair Display", serif;
+    font-weight: 700;
 }

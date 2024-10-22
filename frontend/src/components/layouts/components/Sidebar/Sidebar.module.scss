@@ -1,7 +1,8 @@
 .wrapper {
     width: var(--sidebar-width);
     background-color: var(--primary-color);
-    padding: 8px var(--side-padding);
+    padding: 8px 16px;
+    user-select: none;
     
     font-family: "Inter", sans-serif;
     font-size: 1.2rem;
@@ -46,6 +47,11 @@
     &:hover {
         color: var(--primary-text-color)
     }
+}
+
+.logoutBtn {
+    padding: 20px;
+    width: 80px;
 }
 
 .arrowBtn {

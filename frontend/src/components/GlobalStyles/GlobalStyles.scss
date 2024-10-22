@@ -9,6 +9,8 @@
  --background-color: #E6E2D8;
  --primary-text-color: #442912;
  --primary-text-color-hover: #442912eb;
+ --pale-color: grey;
+
  --text-color: black;
  --button-color: #28180B;
 
@@ -18,7 +20,7 @@
  // Dimension
  --header-height: 60px;
  --sidebar-width: 120px;
- --side-padding: 18px
+ --side-padding: 24px
 
 }
 
@@ -32,4 +34,5 @@ body {
     font-family: "Inter", sans-serif;
     font-size: 1.6rem;
     line-height: 1.5;
+    user-select: none;
 }

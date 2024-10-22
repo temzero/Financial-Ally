@@ -13,8 +13,8 @@ function LandingPageLayout({ children }) {
                 </a>
 
                 <div className={styles.LoginRegister}>
-                    <Button simple l href='./login' >Login</Button>
-                    <Button simple l href='./register' >Register</Button>
+                    <Button className={styles.LoginRegisterBtn} simple l href='./login' >Login</Button>
+                    <Button className={styles.LoginRegisterBtn} simple l href='./register' >Register</Button>
                 </div>
             </div>
             <div className={styles.content}>

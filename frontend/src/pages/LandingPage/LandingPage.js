@@ -1,10 +1,13 @@
 import styles from './LandingPage.module.scss'
+import { GiCoinflip } from 'react-icons/gi';
+
 
 const LandingPage = function () {
     return (
         <div className={styles.container}>
             <div className={styles.header}>
                 <h1 className={styles.title}>Track Your Bills,<br />Track Your Success!</h1>
+                <GiCoinflip className={styles.icon} />
             </div>
             <div className={styles.content}>
                 <h1 className={styles.contentTitle}>Read me!</h1>

@@ -1,15 +1,26 @@
-.container {
-
-}
-
 .title {
     font-size: 3.6rem;
     font-weight: 200;
     line-height: 1.2;
 }
 
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.icon {
+    font-size: 8rem;
+    color: var(--primary-color);
+
+    &:hover {
+        color: var(--background-color);
+    }
+}
+
 .content {
     background-color: white;
+    border-radius: 2px;
     padding: 24px 36px;
     margin-top: 40px;
     height: 60vh;

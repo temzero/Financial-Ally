@@ -49,7 +49,7 @@ function Sidebar() {
                 <a className={navLinkClasses(navLinks.profile)} href={navLinks.profile}>
                     {user.firstName}
                 </a>
-                <Button primary s className={styles.navBtn} onClick={handleLogout}>Logout</Button>
+                <Button className={styles.logoutBtn} simple onClick={handleLogout}>Logout</Button>
             </div>
             <div className={styles.nav}>
                 <a

@@ -3,7 +3,144 @@
     justify-content: space-between;
 }
 
+.title {
+    font-size: 3rem;
+    font-weight: 300;
+    line-height: 1;
+    margin-bottom: 20px;
+}
+
 .info {
     font-size: 1rem;
     font-weight: 300;
+}
+
+/* Style for the overlay form */
+.formOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.formContainer {
+    background: white;
+    padding-top: 16px;
+    padding-bottom: 8px;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 360px;
+    max-width: 90%;
+}
+
+.formDivider {
+    height: 2px;
+    width: 100%;
+    background-color: var(--pale-color);
+    margin-top: 12px;
+    margin-bottom: 24px;
+}
+
+.formNameInput {
+    font-size: 1.6rem;
+    width: 100%;
+    height: 40px;
+    padding: 1.2rem;
+    border: none;
+    user-select: none;
+    
+    &:focus {
+        border: none;
+        outline: none;
+    }
+}
+
+.formContent {
+    padding: 0 28px;
+}
+
+.formInput {
+    font-size: 1.4rem;
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-bottom: 1px solid var(--pale-color);
+    user-select: none;
+    margin-bottom: 28px;
+    
+    &:focus {
+        border: none;
+        outline: none;
+        border-bottom: 3px solid var(--primary-text-color);
+    }
+}
+
+.formInputSelect {
+    font-size: 1.2rem;
+    color: rgb(66, 66, 66);
+}
+
+.formLabel {
+    font-size: 1rem;
+    font-weight: 200;
+}
+
+.formBtnContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.formBtn {
+    width: 100px;
+    font-size: 1.2rem;
+}
+
+.colorOptions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+    margin-bottom: 28px;
+}
+
+.circleOption {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 4px solid transparent; /* To show selection when clicked */
+    transition: border-color 1s;
+}
+
+.circleOption.green {
+    background-color: #4caf50;
+}
+
+.circleOption.red {
+    background-color: #f44336;
+}
+
+.circleOption.blue {
+    background-color: #2196f3;
+}
+
+.circleOption.yellow {
+    background-color: #f0f56d;
+}
+
+.circleOption.orange {
+    background-color: #ff9800;
+}
+
+.circleOption.purple {
+    background-color: #9c27b0;
+}
+
+.circleOption:hover {
+    border: 4px solid black;
 }
