@@ -4,16 +4,27 @@ import Button from '../../../Button/Button';
 import { useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { store } from '../../../../redux/store';
 import { logout } from '../../../../redux/actions';
 
 function Sidebar() {
     const user = useSelector((state) => state.user);
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const navLinks = {
+        home: '/home',
+        analysis: '/analysis',
+        budget: '/budget',
+        wallet: '/wallet',
+        profile: '/profile',
+        setting: '/setting',
+    }
 
     const handleLogout = () => {
         store.dispatch(logout());
+        navigate('/');
     }
 
     useEffect(() => {
@@ -27,26 +38,42 @@ function Sidebar() {
         return null;
     }
 
+    const navLinkClasses = (path) => {
+        return `${styles.navBtn} ${location.pathname === path ? styles.active : ''}`
+    }
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
                 <h2 className={styles.welcome}>Welcome!</h2>
-                <a className={styles.navBtn} href="./profile">
+                <a className={navLinkClasses(navLinks.profile)} href={navLinks.profile}>
                     {user.firstName}
                 </a>
-                <Button className={styles.navBtn} onClick={handleLogout}>Logout</Button>
+                <Button primary s className={styles.navBtn} onClick={handleLogout}>Logout</Button>
             </div>
             <div className={styles.nav}>
-                <a className={`${styles.navBtn} ${styles.active}`} href="./">
+                <a
+                    className={navLinkClasses(navLinks.home)}
+                    href={navLinks.home}
+                >
                     Home
                 </a>
-                <a className={styles.navBtn} href="./analysis">
+                <a
+                    className={navLinkClasses(navLinks.analysis)}
+                    href={navLinks.analysis}
+                >
                     Analysis
                 </a>
-                <a className={styles.navBtn} href="./budget">
+                <a
+                    className={navLinkClasses(navLinks.budget)}
+                    href={navLinks.budget}
+                >
                     Budget
                 </a>
-                <a className={styles.navBtn} href="./wallet">
+                <a
+                    className={navLinkClasses(navLinks.wallet)}
+                    href={navLinks.wallet}
+                >
                     Wallet
                 </a>
             </div>
@@ -54,7 +81,7 @@ function Sidebar() {
                 <a className={styles.arrowBtn} href="./">
                     <IoArrowBack />
                 </a>
-                <a className={styles.navBtn} href="./setting">
+                <a className={navLinkClasses(navLinks.setting)} href={navLinks.setting}>
                     {/* <IoMdSettings /> */}
                     Setting
                 </a>

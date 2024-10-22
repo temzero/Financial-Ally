@@ -48,7 +48,7 @@ function Register() {
         .then(newUser => {
             console.log('New user:', newUser);
             setMessage('Registration successful! Please wait...');
-            navigate('/', { state: { user: newUser } });
+            navigate('/home');
         })
         .catch((error) => {
             console.error('Error:', error);

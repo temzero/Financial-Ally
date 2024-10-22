@@ -1,6 +1,6 @@
 import styles from './Button.module.scss';
 
-function Button({ to, href, onClick, disabled, primary, black, rounded, className, children, ...passProps }) {
+function Button({ to, href, onClick, disabled, primary, black, simple, rounded, s, l, className, children, ...passProps }) {
     let Component = 'button';
     let classes = `
         ${className} 
@@ -8,7 +8,10 @@ function Button({ to, href, onClick, disabled, primary, black, rounded, classNam
         ${disabled ? styles.disabled : ''}
         ${primary ? styles.primary : ''}
         ${black ? styles.black : ''}
+        ${simple ? styles.simple : ''}
         ${rounded ? styles.rounded : ''}
+        ${s ? styles.s : ''}
+        ${l ? styles.l : ''}
     `;
     
     const props = {

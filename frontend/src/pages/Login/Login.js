@@ -26,7 +26,7 @@ function Login() {
                 const user = response.data;
                 setMessage(successMessage);
                 store.dispatch(loginSuccess(user));
-                navigate('/');
+                navigate('/home');
             })
             .catch((error) => {
                 console.error('Login error!', error);

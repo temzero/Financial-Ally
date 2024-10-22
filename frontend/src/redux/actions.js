@@ -1,5 +1,6 @@
 import { Types } from "./types"
 
+// Authentication
 export const loginRequest = () => {
     return {
         type: Types.loginRequest,
@@ -16,5 +17,12 @@ export const loginSuccess = (user) => {
 export const logout = () => {
     return {
         type: Types.logout,
+    }
+}
+
+// Wallet
+export const addWallet = () => {
+    return {
+        type: Types.addWallet,
     }
 }

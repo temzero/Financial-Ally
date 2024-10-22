@@ -1,14 +1,17 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { publicRoutes } from './routes/routes';
+import { publicRoutes, privateRoutes } from './routes/routes';
 import { DefaultLayout } from './components/layouts/layouts';
 import { Fragment } from 'react';
+import RouteIdentifier from './routes/routeIdentifier';
 
 function App() {
+    const routes = RouteIdentifier(publicRoutes, privateRoutes)
+
     return (
         <Router>
             <div className="App">
                 <Routes>
-                    {publicRoutes.map((publicRoute, index) => {
+                    {routes.map((publicRoute, index) => {
                         let Layout = publicRoute.layout;
 
                         if (Layout === null) {

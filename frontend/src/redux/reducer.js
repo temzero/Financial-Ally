@@ -11,6 +11,7 @@ export const authReducer = (state = initState, action) => {
 
     console.log('Reducer action: ', action)
     switch(action.type) {
+        // Authentication
         case Types.loginRequest:
             return state;
         case Types.loginSuccess:
@@ -19,6 +20,10 @@ export const authReducer = (state = initState, action) => {
             return loginUser;  
         case Types.logout:
             return initState;
+
+        // Wallet
+        case Types.addWallet:
+             return state;
         default: 
             return state
     }

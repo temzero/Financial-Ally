@@ -9,8 +9,17 @@
 
 .title {
     font-family: "Playfair Display", serif;
-    margin-bottom: calc(var(--header-height)/2 + 16px);
+    margin-bottom: calc(var(--header-height)/2 + 8px);
     user-select: none;
+
+    &:hover {
+        color: var(--primary-text-color);
+    }
+}
+
+.titleLink {
+    color: black;
+    text-decoration: none;
 }
 
 
