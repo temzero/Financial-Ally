@@ -4,31 +4,49 @@ import { useEffect, useState, useRef } from 'react';
 import styles from './Wallet.module.scss';
 import Button from '../../components/Button/Button';
 import { store } from '../../redux/store';
-import { addWallet } from '../../redux/actions';
+import { addWallet, getWallets } from '../../redux/actions';
 import axios from 'axios';
 
 import { WalletItems } from './WalletItems';
 
 function Wallet() {
-    const [showForm, setShowForm] = useState(false);
+    const currentUser = useSelector((state) => state.user);
+    const userId = currentUser._id;
+    console.log('UserID: ', userId);
+    const navigate = useNavigate();
+    const formRef = useRef(null);
+    console.log('Wallet.js: user Before load wallets: ', currentUser);
+    // Load Wallets from database when click to this page and then save wallets to state, after that, load wallet from state
+    useEffect(() => {
+        axios
+            .get(`http://localhost:4000/user/${userId}/wallet`)
+            .then((response) => {
+                const wallets = response.data;
+                console.log('Wallet.js: wallets from database: ', wallets);
+                store.dispatch(getWallets(wallets));
+            })
+            .catch((error) => {
+                console.error('Login error!', error);
+            });
+    }, []);
+
+    // Reference for the form container
+
+    console.log('Wallet.js: user After load wallets: ', currentUser);
+    const wallets = currentUser.wallets;
 
     // State for form values
+    const [showForm, setShowForm] = useState(false);
     const [walletName, setWalletName] = useState('');
     const [balance, setBalance] = useState('');
     const [walletType, setWalletType] = useState('');
     const [selectedColor, setSelectedColor] = useState('');
 
-    // Reference for the form container
-    const formRef = useRef(null);
-
-    const user = useSelector((state) => state.user);
-    const navigate = useNavigate();
-
     useEffect(() => {
-        if (!user) {
+        if (!currentUser) {
             navigate('/login');
         }
-    }, [user, navigate]);
+    }, [currentUser, navigate]);
 
     // Detect outside click to close the form
     useEffect(() => {
@@ -67,7 +85,7 @@ function Wallet() {
             balance,
             type: walletType,
             color: selectedColor,
-            userId: user._id
+            userId: userId,
         };
 
         // Dispatch the action to add the wallet (or make an API call)
@@ -76,7 +94,6 @@ function Wallet() {
             .then((response) => {
                 const wallet = response.data;
                 store.dispatch(addWallet(wallet));
-
             })
             .catch((error) => {
                 console.error('Cannot add wallet!', error);
@@ -105,16 +122,12 @@ function Wallet() {
                 </div>
             </div>
 
+            {/* Pass data to WalletItems */}
             <div className={styles.walletContainer}>
-                <WalletItems />
-                <WalletItems />
-                <WalletItems />
-                <WalletItems />
-                <WalletItems />
-                <WalletItems />
-                <WalletItems />
+                {wallets.map((wallet) => (
+                    <WalletItems key={wallet._id} walletData={wallet} />
+                ))}
             </div>
-
 
             {showForm && (
                 <div className={styles.formOverlay}>
@@ -125,9 +138,11 @@ function Wallet() {
                                 <input
                                     className={styles.formNameInput}
                                     type="text"
-                                    placeholder='Wallet Name'
+                                    placeholder="Wallet Name"
                                     value={walletName}
-                                    onChange={(e) => setWalletName(e.target.value)}
+                                    onChange={(e) =>
+                                        setWalletName(e.target.value)
+                                    }
                                     required
                                 />
                             </div>
@@ -138,9 +153,11 @@ function Wallet() {
                                     <input
                                         className={styles.formInput}
                                         type="number"
-                                        placeholder='$'
+                                        placeholder="$"
                                         value={balance}
-                                        onChange={(e) => setBalance(e.target.value)}
+                                        onChange={(e) =>
+                                            setBalance(e.target.value)
+                                        }
                                         required
                                     />
                                 </div>
@@ -151,12 +168,20 @@ function Wallet() {
                                     <select
                                         className={`${styles.formInput} ${styles.formInputSelect}`}
                                         value={walletType}
-                                        onChange={(e) => setWalletType(e.target.value)}
+                                        onChange={(e) =>
+                                            setWalletType(e.target.value)
+                                        }
                                         required
                                     >
-                                        <option value="" disabled>Select Type</option>
-                                        <option value="personal">Personal</option>
-                                        <option value="business">Business</option>
+                                        <option value="" disabled>
+                                            Select Type
+                                        </option>
+                                        <option value="personal">
+                                            Personal
+                                        </option>
+                                        <option value="business">
+                                            Business
+                                        </option>
                                         <option value="savings">Savings</option>
                                     </select>
                                 </div>
@@ -167,34 +192,73 @@ function Wallet() {
                                     <div className={styles.colorOptions}>
                                         <div
                                             className={`${styles.circleOption} ${styles.green}`}
-                                            onClick={() => handleColorSelect('green')}
-                                            style={{ border: selectedColor === 'green' ? '4px solid grey' : 'none' }}
+                                            onClick={() =>
+                                                handleColorSelect('green')
+                                            }
+                                            style={{
+                                                border:
+                                                    selectedColor === 'green'
+                                                        ? '4px solid grey'
+                                                        : 'none',
+                                            }}
                                         ></div>
                                         <div
                                             className={`${styles.circleOption} ${styles.red}`}
-                                            onClick={() => handleColorSelect('red')}
-                                            style={{ border: selectedColor === 'red' ? '4px solid grey' : 'none' }}
+                                            onClick={() =>
+                                                handleColorSelect('red')
+                                            }
+                                            style={{
+                                                border:
+                                                    selectedColor === 'red'
+                                                        ? '4px solid grey'
+                                                        : 'none',
+                                            }}
                                         ></div>
                                         <div
                                             className={`${styles.circleOption} ${styles.blue}`}
-                                            onClick={() => handleColorSelect('blue')}
-                                            style={{ border: selectedColor === 'blue' ? '4px solid grey' : 'none' }}
+                                            onClick={() =>
+                                                handleColorSelect('blue')
+                                            }
+                                            style={{
+                                                border:
+                                                    selectedColor === 'blue'
+                                                        ? '4px solid grey'
+                                                        : 'none',
+                                            }}
                                         ></div>
                                         <div
                                             className={`${styles.circleOption} ${styles.orange}`}
-                                            onClick={() => handleColorSelect('orange')}
-                                            style={{ border: selectedColor === 'orange' ? '4px solid grey' : 'none' }}
+                                            onClick={() =>
+                                                handleColorSelect('orange')
+                                            }
+                                            style={{
+                                                border:
+                                                    selectedColor === 'orange'
+                                                        ? '4px solid grey'
+                                                        : 'none',
+                                            }}
                                         ></div>
                                         <div
                                             className={`${styles.circleOption} ${styles.purple}`}
-                                            onClick={() => handleColorSelect('purple')}
-                                            style={{ border: selectedColor === 'purple' ? '4px solid grey' : 'none' }}
+                                            onClick={() =>
+                                                handleColorSelect('purple')
+                                            }
+                                            style={{
+                                                border:
+                                                    selectedColor === 'purple'
+                                                        ? '4px solid grey'
+                                                        : 'none',
+                                            }}
                                         ></div>
                                     </div>
                                 </div>
 
                                 <div className={styles.formBtnContainer}>
-                                    <Button className={styles.formBtn} type="submit" simple>
+                                    <Button
+                                        className={styles.formBtn}
+                                        type="submit"
+                                        simple
+                                    >
                                         Add Wallet
                                     </Button>
                                 </div>

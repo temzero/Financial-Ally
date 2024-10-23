@@ -90,13 +90,19 @@ const userControllers = {
   // Wallet controllers
   getWallet: async (req, res) => {
     try {
-      const userID = req.params.id;
-      const Wallet = await Wallet.findById(userID);
-      res.status(200).json(Wallet);
+      const userId = req.params.id;
+      const wallets = await Wallet.find({ userId: userId });
+      
+      if (!wallets.length) {
+        return res.status(404).json({ message: "You don't have any wallet!" });
+      }
+  
+      res.status(200).json(wallets);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
   },
+
   addWallet: async (req, res) => {
     try {
       const { name, balance, type, color, userId } = req.body;
@@ -108,11 +114,11 @@ const userControllers = {
         userId,
       }
 
-      const newWallet = await Wallet.create(walletData);
+      const addedWallet = await Wallet.create(walletData);
 
       res
         .status(201)
-        .json({ message: "Wallet added successfully", wallet: newWallet });
+        .json({ message: "Wallet added successfully", wallet: addedWallet });
     } catch (error) {
       console.error('Error adding wallet:', error);
       res.status(500).json({ message: "Failed to add wallet", error });

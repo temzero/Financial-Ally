@@ -3,6 +3,7 @@ export const Types = {
     loginSuccess: 'LOGIN SUCCESS',
     logout: 'LOGOUT',
     
+    getWallets: 'GET WALLETS',
     addWallet: 'ADD WALLET',
     addBudget: 'ADD BUDGET',
 }

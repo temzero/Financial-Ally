@@ -7,12 +7,12 @@ function RouteIdentifier(publicRoutes, privateRoutes) {
     // If the user is not logged in, redirect to the login page
     if (!user) {
         
-        console.log('Public Routes')
+        console.log('Outside')
         return publicRoutes;
     }
 
     // If logged in, render the private route
-    console.log('Private Routes')
+    console.log(`You've logged in`, user.firstName)
     return privateRoutes;
 }
 

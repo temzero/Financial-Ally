@@ -1,8 +1,9 @@
 // Layout
-import {
-    LoginRegisterLayout,
-    LandingPageLayout,
-} from '../components/layouts/layouts';
+import {LoginRegisterLayout, LandingPageLayout } from '../components/layouts/layouts';
+
+import Login from '../pages/Login/Login';
+import Register from '../pages/Register/Register';
+import LandingPage from '../pages/LandingPage/LandingPage';
 
 import Home from '../pages/Home/Home';
 import Analysis from '../pages/Analysis/Analysis';
@@ -10,10 +11,6 @@ import Budget from '../pages/Budget/Budget';
 import Wallet from '../pages/Wallet/Wallet';
 import Setting from '../pages/Setting/Setting';
 import Profile from '../pages/Profile/Profile';
-
-import Login from '../pages/Login/Login';
-import Register from '../pages/Register/Register';
-import LandingPage from '../pages/LandingPage/LandingPage';
 
 const publicRoutes = [
     { path: '/', component: LandingPage, layout: LandingPageLayout },

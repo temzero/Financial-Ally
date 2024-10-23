@@ -1,33 +1,44 @@
-import { Types } from "./types"
-// import { useNavigate } from 'react-router-dom';
+import { Types } from './types';
 
 const initState = {
-    user: null,
-    error: ''
-}
+    user: null, // null when not logged in
+    error: '',
+};
 
 export const authReducer = (state = initState, action) => {
-    // const navigate = useNavigate();
-
-    console.log('Reducer action: ', action)
-    switch(action.type) {
+    switch (action.type) {
         // Authentication
-        case Types.loginRequest:
-            return state;
         case Types.loginSuccess:
-            const user = action.payload
-            const loginUser = {...state, user}
-            return loginUser;  
-        case Types.logout:
-            return initState;
+            return {
+                ...state,
+                user: action.payload, // Directly update the user on login success
+                error: '', // Clear any previous error on login success
+            };
 
-        // Wallet
+        case Types.logout:
+            return initState; // Reset state on logout
+
+        // Wallet management: Load wallets into user object
+        case Types.getWallets:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    wallets: action.wallets || [], // Ensure wallets is always an array
+                },
+            };
+
+        // Wallet management: Add a new wallet
         case Types.addWallet:
-            const walletData = action.wallet
-            const newState = {...state, addWallet: walletData}
-            console.log("Newstate: ", newState)
-            return newState;
-        default: 
-            return state
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    wallets: [...(state.user?.wallets || []), action.wallet], // Append the new wallet to the wallets array
+                },
+            };
+
+        default:
+            return state;
     }
-}
+};

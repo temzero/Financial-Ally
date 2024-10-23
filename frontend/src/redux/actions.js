@@ -21,6 +21,13 @@ export const logout = () => {
 }
 
 // Wallet actions
+export const getWallets = (wallets) => {
+    return {
+        type: Types.getWallets,
+        wallets: wallets,
+    }
+}
+
 export const addWallet = (walletData) => {
     return {
         type: Types.addWallet,
