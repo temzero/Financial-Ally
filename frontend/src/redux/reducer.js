@@ -23,7 +23,10 @@ export const authReducer = (state = initState, action) => {
 
         // Wallet
         case Types.addWallet:
-             return state;
+            const walletData = action.wallet
+            const newState = {...state, addWallet: walletData}
+            console.log("Newstate: ", newState)
+            return newState;
         default: 
             return state
     }

@@ -5,13 +5,16 @@ import styles from './Wallet.module.scss';
 import Button from '../../components/Button/Button';
 import { store } from '../../redux/store';
 import { addWallet } from '../../redux/actions';
+import axios from 'axios';
+
+import { WalletItems } from './WalletItems';
 
 function Wallet() {
     const [showForm, setShowForm] = useState(false);
 
     // State for form values
     const [walletName, setWalletName] = useState('');
-    const [amount, setAmount] = useState('');
+    const [balance, setBalance] = useState('');
     const [walletType, setWalletType] = useState('');
     const [selectedColor, setSelectedColor] = useState('');
 
@@ -32,7 +35,7 @@ function Wallet() {
         const handleClickOutside = (event) => {
             if (formRef.current && !formRef.current.contains(event.target)) {
                 setWalletName('');
-                setAmount('');
+                setBalance('');
                 setWalletType('');
                 setSelectedColor('');
                 setShowForm(false);
@@ -61,19 +64,27 @@ function Wallet() {
         // Data to send
         const walletData = {
             name: walletName,
-            amount,
+            balance,
             type: walletType,
-            color: selectedColor
+            color: selectedColor,
+            userId: user._id
         };
 
-        console.log('Submitting wallet data:', walletData);
-
         // Dispatch the action to add the wallet (or make an API call)
-        store.dispatch(addWallet(walletData));
+        axios
+            .post('http://localhost:4000/wallet/add', walletData)
+            .then((response) => {
+                const wallet = response.data;
+                store.dispatch(addWallet(wallet));
+
+            })
+            .catch((error) => {
+                console.error('Cannot add wallet!', error);
+            });
 
         // Clear the form and hide it
         setWalletName('');
-        setAmount('');
+        setBalance('');
         setWalletType('');
         setSelectedColor('');
         setShowForm(false);
@@ -94,13 +105,16 @@ function Wallet() {
                 </div>
             </div>
 
-            <div className={styles.info}>
-                <h3>
-                    {user.firstName} {user.lastName}
-                </h3>
-                <h3>Email: {user.email}</h3>
-                <h3>Balance: ${user.balance}</h3>
+            <div className={styles.walletContainer}>
+                <WalletItems />
+                <WalletItems />
+                <WalletItems />
+                <WalletItems />
+                <WalletItems />
+                <WalletItems />
+                <WalletItems />
             </div>
+
 
             {showForm && (
                 <div className={styles.formOverlay}>
@@ -125,8 +139,8 @@ function Wallet() {
                                         className={styles.formInput}
                                         type="number"
                                         placeholder='$'
-                                        value={amount}
-                                        onChange={(e) => setAmount(e.target.value)}
+                                        value={balance}
+                                        onChange={(e) => setBalance(e.target.value)}
                                         required
                                     />
                                 </div>

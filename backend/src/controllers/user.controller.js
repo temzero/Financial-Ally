@@ -1,4 +1,5 @@
 const User = require("../models/user.model");
+const Wallet = require("../models/wallet.model");
 
 const userControllers = {
   getHome: async (req, res) => {
@@ -17,8 +18,8 @@ const userControllers = {
   },
   postRegister: async (req, res) => {
     try {
-      const user = await User.create(req.body)
-      res.status(200).json(user)
+      const user = await User.create(req.body);
+      res.status(200).json(user);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
@@ -32,20 +33,15 @@ const userControllers = {
   },
   postLogin: async (req, res) => {
     try {
-      const loginEmail = req.body.email
-      const loginPassword = req.body.password
-      console.log('Login Email: ', loginEmail)
-      console.log('Login Password: ', loginPassword)
+      const loginEmail = req.body.email;
+      const loginPassword = req.body.password;
 
-      const matchedUser = await User.findOne({email: loginEmail});
-      console.log('User actual password: ', matchedUser.password)
+      const matchedUser = await User.findOne({ email: loginEmail });
+      console.log("User actual password: ", matchedUser.password);
 
-      if(loginPassword !== matchedUser.password) {
-        console.log('Invalid email or password!');
-        return res.status(401).json('Invalid email or password!');
+      if (loginPassword !== matchedUser.password) {
+        return res.status(401).json("Invalid email or password!");
       }
-      
-      console.log('Login success');
       res.status(200).json(matchedUser);
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -88,6 +84,38 @@ const userControllers = {
       res.status(200).json(deletedUser);
     } catch (error) {
       res.status(500).json({ message: error.message });
+    }
+  },
+
+  // Wallet controllers
+  getWallet: async (req, res) => {
+    try {
+      const userID = req.params.id;
+      const Wallet = await Wallet.findById(userID);
+      res.status(200).json(Wallet);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
+  addWallet: async (req, res) => {
+    try {
+      const { name, balance, type, color, userId } = req.body;
+      const walletData = {
+        name,
+        balance,
+        type,
+        color,
+        userId,
+      }
+
+      const newWallet = await Wallet.create(walletData);
+
+      res
+        .status(201)
+        .json({ message: "Wallet added successfully", wallet: newWallet });
+    } catch (error) {
+      console.error('Error adding wallet:', error);
+      res.status(500).json({ message: "Failed to add wallet", error });
     }
   },
 };
