@@ -1,11 +1,29 @@
-import { Types } from "./types"
+import axios from 'axios';
+import { Types } from "./types";
 
 // Authentication
-export const loginRequest = () => {
-    return {
-        type: Types.loginRequest,
-    }
-}
+export const loginRequest = (loginRequestInfo, setMessage, navigate) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.post('http://localhost:4000/login', loginRequestInfo);
+            const user = response.data;
+
+            // Dispatch success action with user data
+            dispatch(loginSuccess(user));
+
+            // Set a success message
+            setMessage('Welcome back! Please wait...');
+            
+            // Navigate to the home page
+            navigate('/home');
+
+            return user; // Optional: return user data if needed
+        } catch (error) {
+            console.error('Error Login Request! ', error);
+            setMessage('Invalid email or password'); // Set error message
+        }
+    };
+};
 
 export const loginSuccess = (user) => {
     return {
@@ -20,17 +38,47 @@ export const logout = () => {
     }
 }
 
-// Wallet actions
-export const getWallets = (wallets) => {
+// Action to get wallets and update the Redux store
+export const getWallets = (userId) => {
+
+    return async (dispatch) => {
+        try {
+            const response = await axios.get(`http://localhost:4000/user/${userId}/wallet`);
+            const responsedWallets = response.data;
+
+            // Dispatch the success action to update Redux state
+            dispatch(getWalletsSuccess(responsedWallets));
+        } catch (error) {
+            console.error('Error fetching wallets:', error);
+            // Optionally, dispatch an error action to handle errors
+        }
+    };
+};
+
+export const getWalletsSuccess = (wallets) => {
     return {
-        type: Types.getWallets,
+        type: Types.getWalletsSuccess,
         wallets: wallets,
-    }
+    };
+};
+
+export const addWallet = (newWallet, closeForm) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.post('http://localhost:4000/wallet/add', newWallet);
+            const wallet = response.data;
+            
+            dispatch(addWalletSuccess(wallet));
+            closeForm();
+        } catch (error) {
+            console.error('Cannot Add Wallet:', error);
+        }
+    };
 }
 
-export const addWallet = (walletData) => {
+export const addWalletSuccess = (wallet) => {
     return {
-        type: Types.addWallet,
-        wallet: walletData,
+        type: Types.addWalletSuccess,
+        wallet: wallet,
     }
 }

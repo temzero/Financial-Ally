@@ -2,10 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.scss';
 import Button from '../../components/Button/Button';
-import axios from 'axios';
-
-import { store } from '../../redux/store';
-import { loginSuccess } from '../../redux/actions';
+import { useDispatch } from 'react-redux';
+import { loginRequest } from '../../redux/actions';
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -13,25 +11,14 @@ function Login() {
     const [message, setMessage] = useState('');
 
     const navigate = useNavigate();
+    const dispatch = useDispatch()
     const successMessage = 'Welcome back! Please wait...';
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         const loginInfo = { email, password };
-
-        axios
-            .post('http://localhost:4000/login', loginInfo)
-            .then((response) => {
-                const user = response.data;
-                setMessage(successMessage);
-                store.dispatch(loginSuccess(user));
-                navigate('/home');
-            })
-            .catch((error) => {
-                console.error('Login error!', error);
-                setMessage('Invalid email or password');
-            });
+        dispatch(loginRequest(loginInfo, setMessage, navigate));
     };
 
     return (

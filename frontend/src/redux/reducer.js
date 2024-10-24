@@ -19,7 +19,7 @@ export const authReducer = (state = initState, action) => {
             return initState; // Reset state on logout
 
         // Wallet management: Load wallets into user object
-        case Types.getWallets:
+        case Types.getWalletsSuccess:
             return {
                 ...state,
                 user: {
