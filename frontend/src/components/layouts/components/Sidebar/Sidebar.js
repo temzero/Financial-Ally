@@ -39,7 +39,7 @@ function Sidebar() {
     }
 
     const navLinkClasses = (path) => {
-        return `${styles.navBtn} ${location.pathname === path ? styles.active : ''}`
+        return `${styles.navBtn} ${location.pathname.startsWith(path) ? styles.active : ''}`
     }
 
     return (

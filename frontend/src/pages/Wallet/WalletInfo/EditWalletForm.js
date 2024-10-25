@@ -1,10 +1,11 @@
-import styles from './Wallet.module.scss';
-import Button from '../../components/Button/Button';
-import { useState, useEffect, useCallback } from 'react';
-import { useDispatch } from 'react-redux'; // Assuming you're using Redux
-import { addWallet } from '../../redux/actions';
 
-function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
+import styles from './WalletInfo.module.scss';
+import Button from '../../../components/Button/Button';
+import { useState, useEffect, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { editWallet } from '../../../redux/actions';
+
+function EditWalletForm({ showForm, setShowForm, formRef, walletId}) {
 
     const dispatch = useDispatch(); // Initialize useDispatch for Redux
     const [walletName, setWalletName] = useState('');
@@ -44,15 +45,14 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
         e.preventDefault();
 
         // Data to send
-        const newWallet = {
+        const updateWalletData = {
             name: walletName,
             balance,
             type: walletType,
             color: selectedColor,
-            userId,
         };
 
-        dispatch(addWallet(newWallet, closeForm));
+        dispatch(editWallet(updateWalletData, walletId, closeForm));
     };
 
     return (
@@ -67,7 +67,6 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
                                 placeholder="Wallet Name"
                                 value={walletName}
                                 onChange={(e) => setWalletName(e.target.value)}
-                                required
                             />
                         </div>
                         <div className={styles.formDivider}></div>
@@ -80,7 +79,6 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
                                     placeholder="$"
                                     value={balance}
                                     onChange={(e) => setBalance(e.target.value)}
-                                    required
                                 />
                             </div>
                             <div>
@@ -89,7 +87,6 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
                                     className={`${styles.formInput} ${styles.formInputSelect}`}
                                     value={walletType}
                                     onChange={(e) => setWalletType(e.target.value)}
-                                    required
                                 >
                                     <option value="" disabled>
                                         Select Type
@@ -115,8 +112,8 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
                                 </div>
                             </div>
                             <div className={styles.formBtnContainer}>
-                                <Button className={styles.formBtn} type="submit" simple>
-                                    Add Wallet
+                                <Button type="submit" simple>
+                                    Update
                                 </Button>
                             </div>
                         </div>
@@ -127,4 +124,4 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
     );
 }
 
-export default AddWalletForm;
+export default EditWalletForm;

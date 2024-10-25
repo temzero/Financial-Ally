@@ -26,7 +26,7 @@ function App() {
                                 key={index}
                                 path={publicRoute.path}
                                 element={
-                                    <Layout>
+                                    <Layout currentPage={<Page />}>
                                         <Page />
                                     </Layout>
                                 }

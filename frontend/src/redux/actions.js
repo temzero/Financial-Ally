@@ -82,3 +82,39 @@ export const addWalletSuccess = (wallet) => {
         wallet: wallet,
     }
 }
+
+export const editWallet = (walletUpdateData, walletId, closeForm) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.patch(`http://localhost:4000/wallet/update/${walletId}`, walletUpdateData);
+            const updatedWallet = response.data.wallet;
+            console.log('Updated Wallet Data: ', updatedWallet)
+            
+            dispatch(editWalletSuccess(updatedWallet));
+            closeForm();
+            return updatedWallet;
+        } catch (error) {
+            console.error('Cannot Add Wallet:', error);
+        }
+    };
+}
+
+export const editWalletSuccess = (updatedWallet) => {
+    return {
+        type: Types.editWalletSuccess,
+        wallet: updatedWallet,
+    }
+}
+
+export const deleteWallet = (walletId, closeForm) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.delete(`http://localhost:4000/wallet/delete/${walletId}`);
+            const deletedWallet = response.data;
+            console.log("deleted wallet: ", deletedWallet)
+            closeForm();
+        } catch (error) {
+            console.error('Cannot Add Wallet:', error);
+        }
+    };
+}

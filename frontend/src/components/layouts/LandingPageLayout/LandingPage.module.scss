@@ -24,7 +24,6 @@
     text-decoration: none;
     padding: 4px 0;
     display: block;
-    color: var(--text-color);
     font-size: 1.8rem;
     font-weight: 700;
     color: var(--primary-text-color);
@@ -51,4 +50,5 @@
 .LoginRegisterBtn {
     font-family: "Playfair Display", serif;
     font-weight: 700;
+    color: var(--primary-text-color);
 }

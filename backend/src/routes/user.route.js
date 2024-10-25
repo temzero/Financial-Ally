@@ -19,5 +19,7 @@ router.delete('/user/:id', userControllers.deleteUser); // Delete a specific use
 // Wallet routes
 router.get('/user/:id/wallet', userControllers.getWallet); // Get wallet for a specific user
 router.post('/wallet/add', userControllers.addWallet); // Add to the wallet
+router.patch('/wallet/update/:walletId', userControllers.updateWallet); // Update wallet data
+router.delete('/wallet/delete/:walletId', userControllers.deleteWallet); // Delete a wallet
 
 module.exports = router;

@@ -1,12 +1,12 @@
+import styles from './Wallet.module.scss';
+import Button from '../../components/Button/Button';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
-import styles from './Wallet.module.scss';
-import Button from '../../components/Button/Button';
 import { getWallets } from '../../redux/actions';
 import AddWalletForm from './AddWalletForm';
 
-import { WalletItems } from './WalletCard';
+import { WalletCard } from './WalletCard';
 
 function Wallet() {
     const [showForm, setShowForm] = useState(false);
@@ -52,7 +52,7 @@ function Wallet() {
                     <h1>No wallet</h1>
                 ) : (
                     wallets.map((wallet) => (
-                        <WalletItems key={wallet._id} walletData={wallet} />
+                        <WalletCard key={wallet._id} walletData={wallet} />
                     ))
                 )}
             </div>

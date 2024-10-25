@@ -29,13 +29,21 @@ export const authReducer = (state = initState, action) => {
             };
 
         // Wallet management: Add a new wallet
-        case Types.addWallet:
+        case Types.addWalletSuccess:
             return {
                 ...state,
                 user: {
                     ...state.user,
                     wallets: [...(state.user?.wallets || []), action.wallet], // Append the new wallet to the wallets array
                 },
+            };
+        
+        case Types.editWalletSuccess:
+            return {
+                ...state,
+                wallets: state.wallets.map(wallet => 
+                wallet._id === action.payload.wallet._id ? action.payload.wallet : wallet
+                )
             };
 
         default:
