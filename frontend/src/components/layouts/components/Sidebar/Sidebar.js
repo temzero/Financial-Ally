@@ -45,11 +45,10 @@ function Sidebar() {
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
-                <h2 className={styles.welcome}>Welcome!</h2>
                 <a className={navLinkClasses(navLinks.profile)} href={navLinks.profile}>
                     {user.firstName}
                 </a>
-                <Button className={styles.logoutBtn} simple onClick={handleLogout}>Logout</Button>
+                <Button s simple onClick={handleLogout}>Logout</Button>
             </div>
             <div className={styles.nav}>
                 <a

@@ -1,26 +1,37 @@
 
 import styles from './WalletInfo.module.scss';
 import Button from '../../../components/Button/Button';
-import { useState, useEffect, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { editWallet } from '../../../redux/actions';
 
-function EditWalletForm({ showForm, setShowForm, formRef, walletId}) {
 
-    const dispatch = useDispatch(); // Initialize useDispatch for Redux
-    const [walletName, setWalletName] = useState('');
-    const [balance, setBalance] = useState('');
-    const [walletType, setWalletType] = useState('');
-    const [selectedColor, setSelectedColor] = useState('');
+function EditWalletForm({
+    walletData,
+    formRef,
+    showForm,
+    setShowForm,
+    walletName,
+    setWalletName,
+    walletBalance,
+    setWalletBalance,
+    walletType,
+    setWalletType,
+    walletColor,
+    setWalletColor,
+}) {
+
+    const walletId = walletData._id;
+    const dispatch = useDispatch(); 
 
     const closeForm = useCallback(() => {
-        setWalletName('');
-        setBalance('');
-        setWalletType('');
-        setSelectedColor('');
+        setWalletName(walletData.name);
+        setWalletBalance(walletData.balance);
+        setWalletType(walletData.type);
+        setWalletColor(walletData.color);
         setShowForm(false);
-    }, [setShowForm]);
-    
+    }, [walletData, setShowForm, setWalletName, setWalletBalance, setWalletType, setWalletColor]);
+
     // Clear Form data when the form is closed
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -44,15 +55,15 @@ function EditWalletForm({ showForm, setShowForm, formRef, walletId}) {
     const handleFormSubmit = (e) => {
         e.preventDefault();
 
-        // Data to send
         const updateWalletData = {
             name: walletName,
-            balance,
+            balance: walletBalance,
             type: walletType,
-            color: selectedColor,
+            color: walletColor,
         };
 
-        dispatch(editWallet(updateWalletData, walletId, closeForm));
+        dispatch(editWallet(updateWalletData, walletId));
+        closeForm();
     };
 
     return (
@@ -77,8 +88,8 @@ function EditWalletForm({ showForm, setShowForm, formRef, walletId}) {
                                     className={styles.formInput}
                                     type="number"
                                     placeholder="$"
-                                    value={balance}
-                                    onChange={(e) => setBalance(e.target.value)}
+                                    value={walletBalance}
+                                    onChange={(e) => setWalletBalance(e.target.value)}
                                 />
                             </div>
                             <div>
@@ -103,9 +114,9 @@ function EditWalletForm({ showForm, setShowForm, formRef, walletId}) {
                                         <div
                                             key={color}
                                             className={`${styles.circleOption} ${styles[color]}`}
-                                            onClick={() => setSelectedColor(color)}
+                                            onClick={() => setWalletColor(color)}
                                             style={{
-                                                border: selectedColor === color ? '4px solid grey' : 'none',
+                                                border: walletColor === color ? '4px solid grey' : 'none',
                                             }}
                                         ></div>
                                     ))}

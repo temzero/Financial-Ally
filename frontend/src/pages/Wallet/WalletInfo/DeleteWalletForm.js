@@ -46,7 +46,7 @@ function DeleteWalletForm({ showForm, setShowForm, formRef, walletId }) {
                         Do you want to delete this wallet?
                     </div>
                     <div className={styles.deleteFormBtn}>
-                        <Button s onClick={handleFormSubmit}>
+                        <Button s danger onClick={handleFormSubmit}>
                             Delete
                         </Button>
                         <Button s onClick={closeForm}>

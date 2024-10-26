@@ -5,6 +5,8 @@ export const Types = {
     
     getWallets: 'GET WALLETS',
     getWalletsSuccess: 'GET WALLETS SUCCESS',
+    getOneWallet: 'GET ONE WALLET',
+    getOneWalletSuccess: 'GET ONE WALLET SUCCESS',
     addWallet: 'ADD WALLET',
     addWalletSuccess: 'ADD WALLET SUCCESS',
     editWallet: 'EDIT WALLET',

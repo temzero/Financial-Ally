@@ -62,14 +62,35 @@ export const getWalletsSuccess = (wallets) => {
     };
 };
 
-export const addWallet = (newWallet, closeForm) => {
+export const getOneWallet = (walletId) => {
+
+    return async (dispatch) => {
+        try {
+            const response = await axios.get(`http://localhost:4000/wallet/info/${walletId}`);
+            const walletData = response.data;
+
+            dispatch(getOneWalletSuccess(walletData));
+            return walletData;
+        } catch (error) {
+            console.error('Error fetching wallets:', error);
+        }
+    };
+};
+
+export const getOneWalletSuccess = (wallet) => {
+    return {
+        type: Types.getOneWalletSuccess,
+        wallets: wallet,
+    };
+};
+
+export const addWallet = (newWallet) => {
     return async (dispatch) => {
         try {
             const response = await axios.post('http://localhost:4000/wallet/add', newWallet);
             const wallet = response.data;
             
             dispatch(addWalletSuccess(wallet));
-            closeForm();
         } catch (error) {
             console.error('Cannot Add Wallet:', error);
         }
@@ -83,7 +104,7 @@ export const addWalletSuccess = (wallet) => {
     }
 }
 
-export const editWallet = (walletUpdateData, walletId, closeForm) => {
+export const editWallet = (walletUpdateData, walletId) => {
     return async (dispatch) => {
         try {
             const response = await axios.patch(`http://localhost:4000/wallet/update/${walletId}`, walletUpdateData);
@@ -91,7 +112,6 @@ export const editWallet = (walletUpdateData, walletId, closeForm) => {
             console.log('Updated Wallet Data: ', updatedWallet)
             
             dispatch(editWalletSuccess(updatedWallet));
-            closeForm();
             return updatedWallet;
         } catch (error) {
             console.error('Cannot Add Wallet:', error);

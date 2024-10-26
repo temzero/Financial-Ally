@@ -38,12 +38,18 @@ export const authReducer = (state = initState, action) => {
                 },
             };
         
+        // Wallet management: Edit an existing wallet
         case Types.editWalletSuccess:
+            console.log("Action: ", action);
+            console.log("Wallet updated: ", action.wallet);
             return {
                 ...state,
-                wallets: state.wallets.map(wallet => 
-                wallet._id === action.payload.wallet._id ? action.payload.wallet : wallet
-                )
+                user: {
+                    ...state.user,
+                    wallets: state.user?.wallets.map(wallet => // Access wallets from the user object
+                        wallet._id === action.wallet._id ? action.wallet : wallet
+                    ) || [], // Ensure wallets is always an array
+                },
             };
 
         default:

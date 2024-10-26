@@ -39,16 +39,19 @@
 }
 
 .button {
-        margin: 2rem;
         display: flex;
-        justify-content: center;
+        justify-content: center;  
+}
+
+.submitButton {
+    padding: 8px 24px;
+    margin: 2rem;
 }
 
 .link {
     font-family: sans-serif;
     font-weight: 200;
     font-size: 0.8rem;
-    margin-top: 1rem;
     user-select: none;
   
     a {

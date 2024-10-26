@@ -1,27 +1,39 @@
 import styles from './WalletInfo.module.scss';
 import { useLocation } from 'react-router-dom';
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Button from '../../../components/Button/Button';
 import EditWalletForm from './EditWalletForm';
 import DeleteWalletForm from './DeleteWalletForm';
-
+import { useSelector } from 'react-redux';
 
 function WalletInfo() {
+    const { state } = useLocation();
+    const walletId = state?.walletId || '';
+    const wallets = useSelector((state) => state.user.wallets);
+    const currentWallet = wallets.find(wallet => wallet._id === walletId);
+    
     const [showEditForm, setShowEditForm] = useState(false);
     const [showDeleteForm, setShowDeleteForm] = useState(false);
-
-    const { state } = useLocation();
-    const walletData = state?.walletData || {};
-
-    // Ensure properties exist before accessing
-    const walletId = walletData._id || ''
-    const name = walletData.name || 'Default Name';
-    const balance = walletData.balance || 0;
-    const color = walletData.color || 'defaultColor';
-
+    
+    // State variables for wallet details
+    const [walletName, setWalletName] = useState('');
+    const [walletBalance, setWalletBalance] = useState(0);
+    const [walletType, setWalletType] = useState('');
+    const [walletColor, setWalletColor] = useState('');
+    
     const formRef = useRef(null);
-    const walletColorClass = styles[color];
+    const walletColorClass = styles[walletColor];
     const headerClasses = [walletColorClass, styles.walletHeader].join(' ');
+
+    useEffect(() => {
+        // Update the state if currentWallet is found
+        if (currentWallet) {
+            setWalletName(currentWallet.name);
+            setWalletBalance(currentWallet.balance);
+            setWalletType(currentWallet.type);
+            setWalletColor(currentWallet.color);
+        }
+    }, [walletId, showEditForm, showDeleteForm, wallets, currentWallet]);
 
     const handleShowEditForm = () => {
         setShowEditForm(!showEditForm)
@@ -46,22 +58,33 @@ function WalletInfo() {
             </div>
             <div className={styles.walletInfo}>
                 <div className={headerClasses}>
-                    <div className={styles.walletName}>{name}</div>
+                    <div className={styles.walletName}>{walletName}</div>
                 </div>
                 <div className={styles.walletContent}>
-                    <div className={styles.walletBalance}>${balance}</div>
+                    <div className={styles.walletBalance}>${walletBalance}</div>
                     <div>
                         <div className={styles.walletSubHeader}>Analysis</div>
                         <div className={styles.walletSubHeader}>Transactions</div>
+                        <div className={styles.walletSubHeader}>{walletType}</div>
                     </div>
                 </div>
             </div>
 
             <EditWalletForm
+                walletData={currentWallet}
+                formRef={formRef}
+
                 showForm={showEditForm}
                 setShowForm={setShowEditForm}
-                formRef={formRef}
-                walletId={walletId}
+
+                walletName={walletName}
+                setWalletName={setWalletName}
+                walletBalance={walletBalance}
+                setWalletBalance={setWalletBalance}
+                walletType={walletType}
+                setWalletType={setWalletType}
+                walletColor={walletColor}
+                setWalletColor={setWalletColor}
             />
             
             <DeleteWalletForm

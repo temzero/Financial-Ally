@@ -52,7 +52,8 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
             userId,
         };
 
-        dispatch(addWallet(newWallet, closeForm));
+        dispatch(addWallet(newWallet));
+        closeForm();
     };
 
     return (
@@ -94,9 +95,9 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
                                     <option value="" disabled>
                                         Select Type
                                     </option>
-                                    <option value="personal">Personal</option>
-                                    <option value="business">Business</option>
-                                    <option value="savings">Savings</option>
+                                    <option value="Personal">Personal</option>
+                                    <option value="Business">Business</option>
+                                    <option value="Savings">Savings</option>
                                 </select>
                             </div>
                             <div>

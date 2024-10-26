@@ -1,4 +1,5 @@
 .wrapper {
+    position: fixed;
     width: var(--sidebar-width);
     background-color: var(--primary-color);
     padding: 8px 16px;
@@ -47,11 +48,6 @@
     &:hover {
         color: var(--primary-text-color)
     }
-}
-
-.logoutBtn {
-    padding: 20px;
-    width: 80px;
 }
 
 .arrowBtn {
