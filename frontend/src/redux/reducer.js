@@ -40,8 +40,6 @@ export const authReducer = (state = initState, action) => {
         
         // Wallet management: Edit an existing wallet
         case Types.editWalletSuccess:
-            console.log("Action: ", action);
-            console.log("Wallet updated: ", action.wallet);
             return {
                 ...state,
                 user: {
@@ -49,6 +47,38 @@ export const authReducer = (state = initState, action) => {
                     wallets: state.user?.wallets.map(wallet => // Access wallets from the user object
                         wallet._id === action.wallet._id ? action.wallet : wallet
                     ) || [], // Ensure wallets is always an array
+                },
+            };
+
+        // Wallet management: Load wallets into user object
+        case Types.getBudgetsSuccess:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    budgets: action.budgets || [], // Ensure Budgets is always an array
+                },
+            };
+
+        // Wallet management: Add a new wallet
+        case Types.addBudgetSuccess:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    budgets: [...(state.user?.budgets || []), action.budget], // Append the new wallet to the Budgets array
+                },
+            };
+        
+        // Wallet management: Edit an existing wallet
+        case Types.editBudgetsSuccess:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    budgets: state.user?.budgets.map(budget => // Access Budgets from the user object
+                        budget._id === action.budget._id ? action.budget : budget
+                    ) || [], // Ensure Budgets is always an array
                 },
             };
 

@@ -101,7 +101,6 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
                                 </select>
                             </div>
                             <div>
-                                <h2 className={styles.formLabel}>Color</h2>
                                 <div className={styles.colorOptions}>
                                     {['green', 'red', 'blue', 'orange', 'purple', 'rainbow'].map(color => (
                                         <div
@@ -116,7 +115,7 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
                                 </div>
                             </div>
                             <div className={styles.formBtnContainer}>
-                                <Button className={styles.formBtn} type="submit" simple>
+                                <Button type="submit" simple>
                                     Add Wallet
                                 </Button>
                             </div>

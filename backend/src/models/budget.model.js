@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const WalletSchema = new mongoose.Schema({
+const BudgetSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -10,8 +10,21 @@ const WalletSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    type: {
+    wallet: [
+        {
+            type: String
+        }
+    ],
+    category: {
         type: String,
+    }
+    ,
+    startDate: {
+        type: Date,
+        required: true
+    },
+    finishDate: {
+        type: Date,
         required: true
     },
     color: {
@@ -24,6 +37,6 @@ const WalletSchema = new mongoose.Schema({
     }
 });
 
-const Wallet = mongoose.model('Wallet', WalletSchema);
+const Budget = mongoose.model('Budget', BudgetSchema);
 
-module.exports = Wallet;
+module.exports = Budget;

@@ -8,133 +8,177 @@ export const loginRequest = (loginRequestInfo, setMessage, navigate) => {
             const response = await axios.post('http://localhost:4000/login', loginRequestInfo);
             const user = response.data;
 
-            // Dispatch success action with user data
             dispatch(loginSuccess(user));
-
-            // Set a success message
             setMessage('Welcome back! Please wait...');
-            
-            // Navigate to the home page
             navigate('/home');
 
-            return user; // Optional: return user data if needed
+            return user;
         } catch (error) {
-            console.error('Error Login Request! ', error);
-            setMessage('Invalid email or password'); // Set error message
+            console.error('Error Login Request!', error);
+            setMessage('Invalid email or password');
         }
     };
 };
 
-export const loginSuccess = (user) => {
-    return {
-        type: Types.loginSuccess,
-        payload: user
-    }
-}
+export const loginSuccess = (user) => ({
+    type: Types.loginSuccess,
+    payload: user
+});
 
-export const logout = () => {
-    return {
-        type: Types.logout,
-    }
-}
+export const logout = () => ({
+    type: Types.logout,
+});
 
-// Action to get wallets and update the Redux store
+// Wallet Actions
 export const getWallets = (userId) => {
-
     return async (dispatch) => {
         try {
             const response = await axios.get(`http://localhost:4000/user/${userId}/wallet`);
-            const responsedWallets = response.data;
-
-            // Dispatch the success action to update Redux state
-            dispatch(getWalletsSuccess(responsedWallets));
+            dispatch(getWalletsSuccess(response.data));
         } catch (error) {
             console.error('Error fetching wallets:', error);
-            // Optionally, dispatch an error action to handle errors
         }
     };
 };
 
-export const getWalletsSuccess = (wallets) => {
-    return {
-        type: Types.getWalletsSuccess,
-        wallets: wallets,
-    };
-};
+export const getWalletsSuccess = (wallets) => ({
+    type: Types.getWalletsSuccess,
+    wallets
+});
 
 export const getOneWallet = (walletId) => {
-
     return async (dispatch) => {
         try {
             const response = await axios.get(`http://localhost:4000/wallet/info/${walletId}`);
-            const walletData = response.data;
-
-            dispatch(getOneWalletSuccess(walletData));
-            return walletData;
+            dispatch(getOneWalletSuccess(response.data));
+            return response.data;
         } catch (error) {
-            console.error('Error fetching wallets:', error);
+            console.error('Error fetching wallet:', error);
         }
     };
 };
 
-export const getOneWalletSuccess = (wallet) => {
-    return {
-        type: Types.getOneWalletSuccess,
-        wallets: wallet,
-    };
-};
+export const getOneWalletSuccess = (wallet) => ({
+    type: Types.getOneWalletSuccess,
+    wallet
+});
 
 export const addWallet = (newWallet) => {
     return async (dispatch) => {
         try {
             const response = await axios.post('http://localhost:4000/wallet/add', newWallet);
-            const wallet = response.data;
-            
-            dispatch(addWalletSuccess(wallet));
+            dispatch(addWalletSuccess(response.data));
+            return response.data;
         } catch (error) {
-            console.error('Cannot Add Wallet:', error);
+            console.error('Cannot add wallet:', error);
         }
     };
-}
+};
 
-export const addWalletSuccess = (wallet) => {
-    return {
-        type: Types.addWalletSuccess,
-        wallet: wallet,
-    }
-}
+export const addWalletSuccess = (wallet) => ({
+    type: Types.addWalletSuccess,
+    wallet
+});
 
 export const editWallet = (walletUpdateData, walletId) => {
     return async (dispatch) => {
         try {
             const response = await axios.patch(`http://localhost:4000/wallet/update/${walletId}`, walletUpdateData);
-            const updatedWallet = response.data.wallet;
-            console.log('Updated Wallet Data: ', updatedWallet)
-            
-            dispatch(editWalletSuccess(updatedWallet));
-            return updatedWallet;
+            dispatch(editWalletSuccess(response.data.wallet));
+            return response.data.wallet;
         } catch (error) {
-            console.error('Cannot Add Wallet:', error);
+            console.error('Cannot update wallet:', error);
         }
     };
-}
+};
 
-export const editWalletSuccess = (updatedWallet) => {
-    return {
-        type: Types.editWalletSuccess,
-        wallet: updatedWallet,
-    }
-}
+export const editWalletSuccess = (updatedWallet) => ({
+    type: Types.editWalletSuccess,
+    wallet: updatedWallet
+});
 
 export const deleteWallet = (walletId, closeForm) => {
     return async (dispatch) => {
         try {
-            const response = await axios.delete(`http://localhost:4000/wallet/delete/${walletId}`);
-            const deletedWallet = response.data;
-            console.log("deleted wallet: ", deletedWallet)
+            await axios.delete(`http://localhost:4000/wallet/delete/${walletId}`);
             closeForm();
+            dispatch(deleteWalletSuccess(walletId));
         } catch (error) {
-            console.error('Cannot Add Wallet:', error);
+            console.error('Cannot delete wallet:', error);
         }
     };
-}
+};
+
+export const deleteWalletSuccess = (walletId) => ({
+    type: Types.deleteWalletSuccess,
+    walletId
+});
+
+// Budget Actions
+export const getBudgets = (userId) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.get(`http://localhost:4000/user/${userId}/budget`);
+            dispatch(getBudgetsSuccess(response.data));
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching budgets:', error);
+        }
+    };
+};
+
+export const getBudgetsSuccess = (budgets) => ({
+    type: Types.getBudgetsSuccess,
+    budgets
+});
+
+export const addBudget = (newBudget) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.post('http://localhost:4000/budget/add', newBudget);
+            dispatch(addBudgetSuccess(response.data));
+            return response.data;
+        } catch (error) {
+            console.error('Cannot add budget:', error);
+        }
+    };
+};
+
+export const addBudgetSuccess = (budget) => ({
+    type: Types.addBudgetSuccess,
+    budget
+});
+
+export const editBudget = (budgetUpdateData, budgetId) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.patch(`http://localhost:4000/budget/update/${budgetId}`, budgetUpdateData);
+            dispatch(editBudgetSuccess(response.data.budget));
+            return response.data.budget;
+        } catch (error) {
+            console.error('Cannot update budget:', error);
+        }
+    };
+};
+
+export const editBudgetSuccess = (updatedBudget) => ({
+    type: Types.editBudgetSuccess,
+    budget: updatedBudget
+});
+
+export const deleteBudget = (budgetId, closeForm) => {
+    return async (dispatch) => {
+        try {
+            await axios.delete(`http://localhost:4000/budget/delete/${budgetId}`);
+            closeForm();
+            dispatch(deleteBudgetSuccess(budgetId));
+        } catch (error) {
+            console.error('Cannot delete budget:', error);
+        }
+    };
+};
+
+export const deleteBudgetSuccess = (budgetId) => ({
+    type: Types.deleteBudgetSuccess,
+    budgetId
+});

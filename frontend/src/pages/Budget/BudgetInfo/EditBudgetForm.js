@@ -1,38 +1,34 @@
-
-import styles from './WalletInfo.module.scss';
+import styles from './BudgetInfo.module.scss';
 import Button from '../../../components/Button/Button';
 import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { editWallet } from '../../../redux/actions';
+import { editBudget } from '../../../redux/actions';
 
-
-function EditWalletForm({
-    walletData,
+function EditBudgetForm({
+    budgetData,
     formRef,
     showForm,
     setShowForm,
-    walletName,
-    setWalletName,
-    walletBalance,
-    setWalletBalance,
-    walletType,
-    setWalletType,
-    walletColor,
-    setWalletColor,
+    budgetName,
+    setBudgetName,
+    budgetBalance,
+    setBudgetBalance,
+    budgetCategory,
+    setBudgetCategory,
+    budgetColor,
+    setBudgetColor,
 }) {
-
-    const walletId = walletData._id;
-    const dispatch = useDispatch(); 
+    const budgetId = budgetData._id;
+    const dispatch = useDispatch();
 
     const closeForm = useCallback(() => {
-        setWalletName(walletData.name);
-        setWalletBalance(walletData.balance);
-        setWalletType(walletData.type);
-        setWalletColor(walletData.color);
+        setBudgetName(budgetData.name);
+        setBudgetBalance(budgetData.amount);
+        setBudgetCategory(budgetData.category);
+        setBudgetColor(budgetData.color);
         setShowForm(false);
-    }, [walletData, setShowForm, setWalletName, setWalletBalance, setWalletType, setWalletColor]);
+    }, [budgetData, setShowForm, setBudgetName, setBudgetBalance, setBudgetCategory, setBudgetColor]);
 
-    // Clear Form data when the form is closed
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (formRef.current && !formRef.current.contains(e.target)) {
@@ -47,7 +43,6 @@ function EditWalletForm({
         }
 
         return () => {
-            // Cleanup event listener on unmount
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [showForm, closeForm, formRef]);
@@ -55,14 +50,14 @@ function EditWalletForm({
     const handleFormSubmit = (e) => {
         e.preventDefault();
 
-        const updateWalletData = {
-            name: walletName,
-            balance: walletBalance,
-            type: walletType,
-            color: walletColor,
+        const updatedBudget = {
+            name: budgetName,
+            amount: budgetBalance,
+            category: budgetCategory,
+            color: budgetColor,
         };
 
-        dispatch(editWallet(updateWalletData, walletId));
+        dispatch(editBudget(updatedBudget, budgetId));
         closeForm();
     };
 
@@ -75,47 +70,46 @@ function EditWalletForm({
                             <input
                                 className={styles.formNameInput}
                                 type="text"
-                                placeholder="Wallet Name"
-                                value={walletName}
-                                onChange={(e) => setWalletName(e.target.value)}
+                                placeholder="Budget Name"
+                                value={budgetName}
+                                onChange={(e) => setBudgetName(e.target.value)}
+                                required
                             />
                         </div>
                         <div className={styles.formDivider}></div>
                         <div className={styles.formContent}>
                             <div>
-                                <h2 className={styles.formLabel}>Amount</h2>
+                                <h2 className={styles.formLabel}>Set Limit Amount</h2>
                                 <input
                                     className={styles.formInput}
                                     type="number"
                                     placeholder="$"
-                                    value={walletBalance}
-                                    onChange={(e) => setWalletBalance(e.target.value)}
+                                    value={budgetBalance}
+                                    onChange={(e) => setBudgetBalance(e.target.value)}
+                                    required
                                 />
                             </div>
                             <div>
-                                <h2 className={styles.formLabel}>Type</h2>
+                                <h2 className={styles.formLabel}>Category</h2>
                                 <select
                                     className={`${styles.formInput} ${styles.formInputSelect}`}
-                                    value={walletType}
-                                    onChange={(e) => setWalletType(e.target.value)}
+                                    value={budgetCategory}
+                                    onChange={(e) => setBudgetCategory(e.target.value)}
+                                    required
                                 >
-                                    <option value="" disabled>
-                                        Select Type
-                                    </option>
-                                    <option value="personal">Personal</option>
-                                    <option value="business">Business</option>
-                                    <option value="savings">Savings</option>
+                                    <option value="Income">Incomes</option>
+                                    <option value="Expense">Expenses</option>
                                 </select>
                             </div>
                             <div>
                                 <div className={styles.colorOptions}>
-                                    {['green', 'red', 'blue', 'orange', 'purple', 'rainbow'].map(color => (
+                                    {['green', 'red', 'blue', 'orange', 'purple', 'rainbow'].map((color) => (
                                         <div
                                             key={color}
                                             className={`${styles.circleOption} ${styles[color]}`}
-                                            onClick={() => setWalletColor(color)}
+                                            onClick={() => setBudgetColor(color)}
                                             style={{
-                                                border: walletColor === color ? '4px solid grey' : 'none',
+                                                border: budgetColor === color ? '4px solid grey' : 'none',
                                             }}
                                         ></div>
                                     ))}
@@ -134,4 +128,4 @@ function EditWalletForm({
     );
 }
 
-export default EditWalletForm;
+export default EditBudgetForm;

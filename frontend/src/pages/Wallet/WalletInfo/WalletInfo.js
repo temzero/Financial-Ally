@@ -23,7 +23,7 @@ function WalletInfo() {
     
     const formRef = useRef(null);
     const walletColorClass = styles[walletColor];
-    const headerClasses = [walletColorClass, styles.walletHeader].join(' ');
+    const headerClasses = [walletColorClass, styles.contentHeader].join(' ');
 
     useEffect(() => {
         // Update the state if currentWallet is found
@@ -56,16 +56,16 @@ function WalletInfo() {
                     </Button>
                 </div>
             </div>
-            <div className={styles.walletInfo}>
+            <div className={styles.content}>
                 <div className={headerClasses}>
-                    <div className={styles.walletName}>{walletName}</div>
+                    <div className={styles.contentName}>{walletName}</div>
                 </div>
-                <div className={styles.walletContent}>
-                    <div className={styles.walletBalance}>${walletBalance}</div>
+                <div className={styles.contentBody}>
+                    <div className={styles.contentBalance}>${walletBalance.toLocaleString()}</div>
                     <div>
-                        <div className={styles.walletSubHeader}>Analysis</div>
-                        <div className={styles.walletSubHeader}>Transactions</div>
-                        <div className={styles.walletSubHeader}>{walletType}</div>
+                        <div className={styles.contentSubHeader}>Analysis</div>
+                        <div className={styles.contentSubHeader}>Transactions</div>
+                        <div className={styles.contentSubHeader}>{walletType}</div>
                     </div>
                 </div>
             </div>

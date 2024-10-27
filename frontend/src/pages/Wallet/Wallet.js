@@ -1,7 +1,6 @@
 import styles from './Wallet.module.scss';
 import Button from '../../components/Button/Button';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import { getWallets } from '../../redux/actions';
 import AddWalletForm from './AddWalletForm';
@@ -11,13 +10,6 @@ import { WalletCard } from './WalletCard';
 function Wallet() {
     const [showForm, setShowForm] = useState(false);
     const currentUser = useSelector((state) => state.user);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (!currentUser) {
-            navigate('/login');
-        }
-    }, [currentUser, navigate]);
     
     const wallets = currentUser?.wallets || [];
 
@@ -29,6 +21,10 @@ function Wallet() {
     useEffect(() => {
             dispatch(getWallets(userId));
     }, [showForm, userId, dispatch]);
+
+    // Calculate total balance
+    const totalBalance = wallets.reduce((sum, wallet) => sum + wallet.balance, 0);
+    const formattedBalance = totalBalance.toLocaleString();
 
     // State for form values
     const showWallet = () => {
@@ -45,9 +41,10 @@ function Wallet() {
                     </Button>
                 </div>
             </div>
+            <div className={styles.totalBalance}>${formattedBalance}</div>
 
             {/* Pass data to WalletItems */}
-            <div className={styles.walletContainer}>
+            <div className={styles.bodyContainer}>
                 {wallets.length === 0 ? (
                     <h1>No wallet</h1>
                 ) : (

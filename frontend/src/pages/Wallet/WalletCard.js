@@ -5,11 +5,10 @@ export const WalletCard = ({ walletData }) => {
     const walletId = walletData._id;
     const walletName = walletData.name;
     const walletBalance = walletData.balance;
+    const formattedBalance = walletBalance.toLocaleString();
     const navigate = useNavigate()
     
     const handleCardClick = () => {
-        //  navigate(`info`)
-        console.log('WalletDate from WalletCard: ', walletData)
          navigate(`${walletData.name}`, { state: { walletId } })
     }
 
@@ -21,7 +20,7 @@ export const WalletCard = ({ walletData }) => {
                 {walletName}
             </div>
             <div className={styles.walletCardBalance}>
-                ${walletBalance}
+                ${formattedBalance}
             </div>
         </div>
     );
