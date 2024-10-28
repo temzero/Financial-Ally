@@ -63,12 +63,14 @@ export const getOneWalletSuccess = (wallet) => ({
     wallet
 });
 
-export const addWallet = (newWallet) => {
+export const addWallet = (newWalletData) => {
     return async (dispatch) => {
         try {
-            const response = await axios.post('http://localhost:4000/wallet/add', newWallet);
-            dispatch(addWalletSuccess(response.data));
-            return response.data;
+            const response = await axios.post('http://localhost:4000/wallet/add', newWalletData);
+            const newWallet = response.data.wallet
+            console.log('newWallet from actions: ', newWallet)
+            dispatch(addWalletSuccess(newWallet));
+            return newWallet;
         } catch (error) {
             console.error('Cannot add wallet:', error);
         }
@@ -132,12 +134,13 @@ export const getBudgetsSuccess = (budgets) => ({
     budgets
 });
 
-export const addBudget = (newBudget) => {
+export const addBudget = (newBudgetData) => {
     return async (dispatch) => {
         try {
-            const response = await axios.post('http://localhost:4000/budget/add', newBudget);
-            dispatch(addBudgetSuccess(response.data));
-            return response.data;
+            const response = await axios.post('http://localhost:4000/budget/add', newBudgetData);
+            const newBudget = response.data.budget
+            dispatch(addBudgetSuccess(newBudget));
+            return newBudget;
         } catch (error) {
             console.error('Cannot add budget:', error);
         }

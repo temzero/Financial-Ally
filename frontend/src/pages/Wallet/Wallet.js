@@ -20,7 +20,7 @@ function Wallet() {
     // Load Wallets from database when click to this page and then save wallets to state, after that, load wallet from state
     useEffect(() => {
             dispatch(getWallets(userId));
-    }, [showForm, userId, dispatch]);
+    }, [userId, dispatch]);
 
     // Calculate total balance
     const totalBalance = wallets.reduce((sum, wallet) => sum + wallet.balance, 0);
@@ -46,7 +46,7 @@ function Wallet() {
             {/* Pass data to WalletItems */}
             <div className={styles.bodyContainer}>
                 {wallets.length === 0 ? (
-                    <h1>No wallet</h1>
+                    ''
                 ) : (
                     wallets.map((wallet) => (
                         <WalletCard key={wallet._id} walletData={wallet} />

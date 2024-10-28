@@ -6,9 +6,13 @@ const BudgetSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    balance: {
+    moneyLimit: {
         type: Number,
         required: true
+    },
+    moneySpend: {
+        type: Number,
+        default: 0,
     },
     wallet: [
         {
@@ -17,8 +21,7 @@ const BudgetSchema = new mongoose.Schema({
     ],
     category: {
         type: String,
-    }
-    ,
+    },
     startDate: {
         type: Date,
         required: true

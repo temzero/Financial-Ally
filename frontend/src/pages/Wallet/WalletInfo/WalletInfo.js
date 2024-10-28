@@ -62,8 +62,10 @@ function WalletInfo() {
                 </div>
                 <div className={styles.contentBody}>
                     <div className={styles.contentBalance}>${walletBalance.toLocaleString()}</div>
-                    <div>
+                    <div className={styles.contentAnalysis}>
                         <div className={styles.contentSubHeader}>Analysis</div>
+                    </div>
+                    <div className={styles.contentTransaction}>
                         <div className={styles.contentSubHeader}>Transactions</div>
                         <div className={styles.contentSubHeader}>{walletType}</div>
                     </div>

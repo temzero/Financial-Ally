@@ -23,7 +23,7 @@ function EditBudgetForm({
 
     const closeForm = useCallback(() => {
         setBudgetName(budgetData.name);
-        setBudgetBalance(budgetData.amount);
+        setBudgetBalance(budgetData.balance);
         setBudgetCategory(budgetData.category);
         setBudgetColor(budgetData.color);
         setShowForm(false);
@@ -97,6 +97,7 @@ function EditBudgetForm({
                                     onChange={(e) => setBudgetCategory(e.target.value)}
                                     required
                                 >
+                                    <option >All Expenses & incomes</option>
                                     <option value="Income">Incomes</option>
                                     <option value="Expense">Expenses</option>
                                 </select>

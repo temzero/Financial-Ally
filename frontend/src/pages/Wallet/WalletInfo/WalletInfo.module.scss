@@ -1,3 +1,8 @@
+:root {
+    --item-width: 1111px;
+    --item-header-height: calc(var(--header-height) * 1.2);
+}
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -16,7 +21,7 @@
     gap: 12px;
 }
 
-.bodyInfo {
+.content {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -24,33 +29,47 @@
 
 .contentHeader {
     padding: 12px 16px;
-    height: calc(var(--header-height) * 1.2);
+    height: var(--item-header-height);
     display: flex;
     align-items: center;
-    width: 90%;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    width: var(--item-width);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    color: rgba(0, 0, 0, 0.7);
 }
 
 .contentBody {
-    width: 90%;
+    width: var(--item-width);
     height: 90vh;
     background-color: white;
-    padding: 20px 32px;
-    font-weight: 200;
+    
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
 }
 
 .contentName {
     font-size: 2.6rem;
     font-weight: 400;
     margin: 20px 0;
+    color: rgba(0, 0, 0, 0.8)
 }
 
 .contentBalance {
     font-size: 3rem;
     font-weight: 200;
-    margin-bottom: 20px;
+    padding: 20px;
 }   
+
+.contentAnalysis {
+    padding: 4px 28px;
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.contentTransaction {
+    padding: 4px 28px;
+    
+}
 
 .contentSubHeader {
     font-size: 1.4rem;

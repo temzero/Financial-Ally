@@ -15,12 +15,12 @@ function Budget() {
     
     const budgets = currentUser?.budgets || [];
     const userId = currentUser._id;
-    
+
     useEffect(() => {
         dispatch(getBudgets(userId));
         dispatch(getWallets(userId));
 
-    }, [showForm, userId, dispatch]);
+    }, [userId, dispatch]);
 
     const toggleForm = () => {
         setShowForm(!showForm);
@@ -37,7 +37,7 @@ function Budget() {
 
             <div className={styles.bodyContainer}>
                 {budgets.length === 0 ? (
-                    <h1>No budget</h1>
+                    ''
                 ) : (
                     budgets.map((budget) => (
                         <BudgetCard key={budget._id} budgetData={budget} />

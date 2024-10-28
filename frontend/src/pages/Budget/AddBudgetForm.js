@@ -21,7 +21,7 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId }) {
     const stateWallets = currentUser.wallets || [];
 
     const [budgetName, setBudgetName] = useState('');
-    const [balance, setBalance] = useState('');
+    const [moneyLimit, setMoneyLimit] = useState('');
     const [wallets, setWallets] = useState([]);
     const [category, setCategory] = useState('');
     const [startDate, setStartDate] = useState(
@@ -33,7 +33,7 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId }) {
 
     const closeForm = useCallback(() => {
         setBudgetName('');
-        setBalance('');
+        setMoneyLimit('');
         setWallets([]);
         setCategory('');
         setStartDate(new Date().toISOString().split('T')[0]);
@@ -65,19 +65,16 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId }) {
 
         const newBudget = {
             name: budgetName,
-            balance,
-            wallet: [wallets],
+            moneyLimit,
+            wallet: wallets,
             category: category,
             startDate,
             finishDate,
             color: selectedColor,
             userId,
         };
-
-        console.log('newBudget: ', newBudget)
         
-        const newBudgetReturn = dispatch(addBudget(newBudget));
-        console.log('newBudgetReturn: ', newBudgetReturn)
+        dispatch(addBudget(newBudget));
         closeForm();
     };
 
@@ -106,8 +103,8 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId }) {
                                     className={styles.formInput}
                                     type="number"
                                     placeholder="$"
-                                    value={balance}
-                                    onChange={(e) => setBalance(e.target.value)}
+                                    value={moneyLimit}
+                                    onChange={(e) => setMoneyLimit(e.target.value)}
                                     required
                                 />
                             </div>
