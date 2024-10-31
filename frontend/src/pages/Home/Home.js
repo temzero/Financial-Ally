@@ -1,28 +1,89 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import styles from './Home.module.scss';
+import Receipt from './Receipt';
+import Button from '../../components/Button/Button';
+import { getBudgets, getWallets } from '../../redux/actions';
 
 function Home() {
-    const user = useSelector((state) => state.user);
     const navigate = useNavigate();
-    
+    const dispatch = useDispatch();
+    const currentUser = useSelector((state) => state.user);
+    const [activeChart, setActiveChart] = useState('1D');
+    const [displayBalance, setDisplayBalance] = useState(0); // Animated balance state
+
+    const {
+        _id, firstName, lastName, email, balance, wallets = [], budgets
+    } = currentUser || {};
+
+    const totalBalance = wallets.reduce((sum, wallet) => sum + wallet.balance, 0);
+
     useEffect(() => {
-        if (!user) {
-            // Redirect to login if user is not present
+        if (!currentUser) {
             navigate('/login');
         }
-    }, [user, navigate]);  // Add navigate to the dependency array
+    }, [currentUser, navigate]);
 
-    if (!user) {
-        // While waiting for redirection, render nothing (or you can show a loading spinner)
+    useEffect(() => {
+        dispatch(getWallets(_id));
+        dispatch(getBudgets(_id));
+    }, [_id, dispatch]);
+
+    // Count-up effect for balance display
+    useEffect(() => {
+        let startBalance = 0;
+        const increment = Math.ceil(totalBalance / 100); // Adjust speed by changing the divisor
+
+        const interval = setInterval(() => {
+            startBalance += increment;
+            if (startBalance >= totalBalance) {
+                setDisplayBalance(totalBalance);
+                clearInterval(interval);
+            } else {
+                setDisplayBalance(startBalance);
+            }
+        }, 5);
+
+        return () => clearInterval(interval);
+    }, [totalBalance]);
+
+    if (!currentUser) {
         return null;
     }
-    
+
+    const handleChartButtonClick = (period) => {
+        setActiveChart(period);
+    };
+
     return (
-        <div>
-            <h2>Home</h2>
-            <h4>{user.firstName}</h4>
-            <h4>${user.balance}</h4>
+        <div className={styles.container}>
+            <div className={styles.content}>
+                <h2 className={styles.balance}>${displayBalance.toLocaleString()}</h2>
+                <div className={styles.contentSection}>
+                    <div className={styles.chart} />
+                    <div className={styles.chartBtnContainer}>
+                        {['1D', '1W', '1M', '1Y', 'All'].map((period) => (
+                            <Button
+                                key={period}
+                                s
+                                rounded
+                                className={`${styles.chartBtn} ${activeChart === period ? styles.active : ''}`}
+                                onClick={() => handleChartButtonClick(period)}
+                            >
+                                {period}
+                            </Button>
+                        ))}
+                    </div>
+                </div>
+                <div className={styles.contentSection}>
+                    <div className={styles.header}>Transactions</div>
+                    <div className={styles.transactions}>
+                        ...
+                    </div>
+                </div>
+            </div>
+            <Receipt currentUser={currentUser}/>
         </div>
     );
 }
