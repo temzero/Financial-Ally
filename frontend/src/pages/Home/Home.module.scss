@@ -5,7 +5,7 @@
 }
 
 .content {
-    flex: 1; // Expand to take up remaining space
+    flex: 1;
     padding: 0 32px;
 
     .balance {
@@ -17,7 +17,7 @@
     .contentSection {
         width: 100%;
         font-weight: 400;
-        border: 1px dashed rgba(0,0,0,0.2);
+        // border: 1px dashed rgba(0,0,0,0.2);
         margin: 20px 0;
 
         .chart {
@@ -64,26 +64,42 @@
 .transactions {
     margin-top: 12px;
     font-weight: 200;
+
+    .dateDivider {
+        font-size: 1.4rem;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(0,0,0,0.2);
+    }
     
     .transaction {
         font-size: 1.1rem;
-        padding: 8px 4px;
-        border-top: 1px solid rgba(0,0,0,0.1);
-        border-bottom: 1px solid rgba(0,0,0,0.1);
-        display: flex;
+        padding: 0px 4px;
+        height: 44px;
+        border-bottom: 1px solid rgba(0,0,0,0.2);
+        display: grid;
+        grid-template-columns: .25fr 1.2fr 1fr 1fr 1fr 1fr;
         justify-content: space-between;
+        align-items: center;
         cursor: pointer;
-
+        
         &:hover {
             background-color: rgba(0,0,0,0.02);
         }
 
-        .transType {
-
+        .income {
+            color: var(--color-green);
+            font-size: 1.5rem;
+            
+        }
+        
+        .expense {
+            color: var(--color-red);
+            font-size: 1.5rem;
         }
 
         .transAmount {
             font-size: 1.2rem;
+            text-align: left;
         }
 
         .transLabel {
@@ -99,7 +115,10 @@
         }
 
         .transNote {
-
+            white-space: nowrap; 
+            overflow: hidden;  
+            text-overflow: ellipsis;
+            max-width: 150px;   
         }
 
         .transImage {

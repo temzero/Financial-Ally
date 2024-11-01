@@ -90,11 +90,11 @@ function Receipt({ currentUser }) {
                     value={label}
                     onChange={(e) => setLabel(e.target.value)}
                 >
-                    <option value="others">Others</option>
-                    <option value="food">Food</option>
-                    <option value="fashion">Fashion</option>
-                    <option value="arcade">Arcade</option>
-                    <option value="grocery">Grocery</option>
+                    <option value="Others">Others</option>
+                    <option value="Food">Food</option>
+                    <option value="Fashion">Fashion</option>
+                    <option value="Arcade">Arcade</option>
+                    <option value="Grocery">Grocery</option>
                 </select>
 
                 <div className={styles.formLabel}>Wallet</div>
