@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import styles from './Home.module.scss';
 import Receipt from './Receipt';
 import Button from '../../components/Button/Button';
-import { getBudgets, getWallets } from '../../redux/actions';
+import { getBudgets, getWallets, getTransactions } from '../../redux/actions';
 
 function Home() {
     const navigate = useNavigate();
@@ -14,11 +14,11 @@ function Home() {
     const [displayBalance, setDisplayBalance] = useState(0); // Animated balance state
 
     const {
-        _id, firstName, lastName, email, balance, wallets = [], budgets
+        _id, firstName, lastName, email, balance, wallets = [], budgets = [], transactions = []
     } = currentUser || {};
 
     const totalBalance = wallets.reduce((sum, wallet) => sum + wallet.balance, 0);
-
+    
     useEffect(() => {
         if (!currentUser) {
             navigate('/login');
@@ -28,6 +28,9 @@ function Home() {
     useEffect(() => {
         dispatch(getWallets(_id));
         dispatch(getBudgets(_id));
+        
+        dispatch(getTransactions(_id));
+
     }, [_id, dispatch]);
 
     // Count-up effect for balance display
@@ -79,7 +82,17 @@ function Home() {
                 <div className={styles.contentSection}>
                     <div className={styles.header}>Transactions</div>
                     <div className={styles.transactions}>
-                        ...
+                        {transactions.map(transaction => {
+                            return <div key={transaction._id} className={styles.transaction}>
+                                <div className={styles.transType}>{transaction.type}</div>
+                                <div className={styles.transAmount}>{transaction.amount}</div>
+                                <div className={styles.transLabel}>{transaction.label}</div>
+                                <div className={styles.transWallet}>{transaction.walletId}</div>
+                                <div className={styles.transDate}>{transaction.date}</div>
+                                <div className={styles.transNote}>{transaction.note}</div>
+                                <div className={styles.transImage}>{transaction.image}</div>
+                            </div>
+                        })}
                     </div>
                 </div>
             </div>

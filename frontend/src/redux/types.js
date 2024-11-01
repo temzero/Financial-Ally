@@ -20,9 +20,19 @@ export const Types = {
     getBudgets: 'GET BUDGETS',
     getBudgetsSuccess: 'GET BUDGETS SUCCESS',
     addBudget: 'ADD BUDGET',
-    addBudgetSuccess: 'ADD BUDGET SUCCESS', // Ensure to add success type
+    addBudgetSuccess: 'ADD BUDGET SUCCESS',
     editBudget: 'EDIT BUDGET',
     editBudgetSuccess: 'EDIT BUDGET SUCCESS',
-    deleteBudget: 'DELETE BUDGET', // Add delete type
-    deleteBudgetSuccess: 'DELETE BUDGET SUCCESS', // Add delete success type
+    deleteBudget: 'DELETE BUDGET',
+    deleteBudgetSuccess: 'DELETE BUDGET SUCCESS', 
+    
+    // Transaction Management
+    getTransactions: 'GET TRANSACTIONS', 
+    getTransactionsSuccess: 'GET TRANSACTIONS SUCCESS',
+    addTransaction: 'ADD TRANSACTION',
+    addTransactionSuccess: 'ADD TRANSACTION SUCCESS',
+    editTransaction: 'EDIT TRANSACTION',
+    editTransactionSuccess: 'EDIT TRANSACTION SUCCESS',
+    deleteTransaction: 'DELETE TRANSACTION',
+    deleteTransactionSuccess: 'DELETE TRANSACTION SUCCESS',
 };

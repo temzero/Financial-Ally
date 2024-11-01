@@ -29,7 +29,7 @@
         .chartBtnContainer {
             display: flex;
             justify-content: space-between;
-            padding: 20px 200px;
+            padding: 20px;
         }
 
         .chartBtn {
@@ -60,8 +60,52 @@
         font-weight: 400;
     }
     
-    .transactions {
+}
+.transactions {
+    margin-top: 12px;
+    font-weight: 200;
     
+    .transaction {
+        font-size: 1.1rem;
+        padding: 8px 4px;
+        border-top: 1px solid rgba(0,0,0,0.1);
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        display: flex;
+        justify-content: space-between;
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgba(0,0,0,0.02);
+        }
+
+        .transType {
+
+        }
+
+        .transAmount {
+            font-size: 1.2rem;
+        }
+
+        .transLabel {
+
+        }
+
+        .transWallet {
+
+        }
+
+        .transDate {
+
+        }
+
+        .transNote {
+
+        }
+
+        .transImage {
+
+        }
+
     }
 }
 
@@ -129,16 +173,23 @@
     font-size: 1rem;
     height: 2rem;
     padding: 0 4px;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 4px;
+    cursor: pointer;
 }   
 
+.option0 {
+    color: rgba(0,0,0,0.4);
+}
+
 .formInputNote {
-    border: 2px dashed #ccc; /* Change #ccc to any color you prefer */
+    border: 2px dashed #ccc;
     height: 6rem;
-    border-radius: 2px; /* Optional: rounded corners */
+    border-radius: 2px;
     padding: 8px;
     width: 100%;
-    box-sizing: border-box; /* Ensures padding doesn't affect width */
-    resize: none; /* Allows vertical resizing only */
+    box-sizing: border-box;
+    resize: none; 
     margin-top: 16px;
     margin-bottom: -8px;
 }
@@ -162,6 +213,7 @@
         width: 2rem;
         height: 2rem;
         border-radius: 4px;
+        object-fit: cover; 
     }
 }
 

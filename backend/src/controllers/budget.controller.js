@@ -33,8 +33,8 @@ const budgetControllers = {
 
   addBudget: async (req, res) => {
     try {
-      const { name, moneyLimit, moneySpend, wallet, category, startDate, finishDate, color, userId } = req.body;
-      const budgetData = { name, moneyLimit, moneySpend, wallet, category, startDate, finishDate, color, userId };
+      const { name, moneyLimit, moneySpend, walletsId, category, startDate, finishDate, color, userId } = req.body;
+      const budgetData = { name, moneyLimit, moneySpend, walletsId, category, startDate, finishDate, color, userId };
 
       const addedBudget = await Budget.create(budgetData);
 
@@ -49,9 +49,9 @@ const budgetControllers = {
 
   updateBudget: async (req, res) => {
     try {
-      const { name, moneyLimit, wallet, category, startDate, finishDate, color } = req.body;
+      const { name, moneyLimit, walletsId, category, startDate, finishDate, color } = req.body;
       const budgetId = req.params.budgetId;
-      const budgetUpdateData = { name, moneyLimit, wallet, category, startDate, finishDate, color };
+      const budgetUpdateData = { name, moneyLimit, walletsId, category, startDate, finishDate, color };
 
       const updatedBudget = await Budget.findByIdAndUpdate(budgetId, budgetUpdateData, { new: true });
 

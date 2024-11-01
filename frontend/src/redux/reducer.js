@@ -1,7 +1,7 @@
 import { Types } from './types';
 
 const initState = {
-    user: null, // null when not logged in
+    user: null,
     error: '',
 };
 
@@ -18,7 +18,7 @@ export const authReducer = (state = initState, action) => {
         case Types.logout:
             return initState; // Reset state on logout
 
-        // Wallet management: Load wallets into user object
+        // Wallet management
         case Types.getWalletsSuccess:
             return {
                 ...state,
@@ -28,7 +28,6 @@ export const authReducer = (state = initState, action) => {
                 },
             };
 
-        // Wallet management: Add a new wallet
         case Types.addWalletSuccess:
             return {
                 ...state,
@@ -38,7 +37,6 @@ export const authReducer = (state = initState, action) => {
                 },
             };
         
-        // Wallet management: Edit an existing wallet
         case Types.editWalletSuccess:
             return {
                 ...state,
@@ -50,7 +48,7 @@ export const authReducer = (state = initState, action) => {
                 },
             };
 
-        // Wallet management: Load wallets into user object
+        // Budget management
         case Types.getBudgetsSuccess:
             return {
                 ...state,
@@ -60,7 +58,6 @@ export const authReducer = (state = initState, action) => {
                 },
             };
 
-        // Wallet management: Add a new wallet
         case Types.addBudgetSuccess:
             return {
                 ...state,
@@ -70,7 +67,6 @@ export const authReducer = (state = initState, action) => {
                 },
             };
         
-        // Wallet management: Edit an existing wallet
         case Types.editBudgetsSuccess:
             return {
                 ...state,
@@ -79,6 +75,45 @@ export const authReducer = (state = initState, action) => {
                     budgets: state.user?.budgets.map(budget => // Access Budgets from the user object
                         budget._id === action.budget._id ? action.budget : budget
                     ) || [], // Ensure Budgets is always an array
+                },
+            };
+
+        // Transaction management
+        case Types.getTransactionsSuccess:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    transactions: action.transactions || [], // Store fetched transactions inside user
+                },
+            };
+
+        case Types.addTransactionSuccess:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    transactions: [...(state.user?.transactions || []), action.transaction], // Add new transaction to the user's transactions
+                },
+            };
+
+        case Types.editTransactionSuccess:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    transactions: state.user?.transactions.map(transaction =>
+                        transaction._id === action.transaction._id ? action.transaction : transaction
+                    ) || [], // Update the specific transaction
+                },
+            };
+
+        case Types.deleteTransactionSuccess:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    transactions: state.user?.transactions.filter(transaction => transaction._id !== action.transactionId), // Remove deleted transaction
                 },
             };
 

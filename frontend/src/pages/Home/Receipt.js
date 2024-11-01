@@ -1,50 +1,50 @@
 import { useState } from 'react';
-import { BiSolidPlusCircle, BiSolidMinusCircle } from "react-icons/bi";
+import { useDispatch } from 'react-redux';
+import { BiSolidPlusCircle, BiSolidMinusCircle } from 'react-icons/bi';
 import styles from './Home.module.scss';
 import Button from '../../components/Button/Button';
+import { addTransaction } from '../../redux/actions';
 
-function Receipt({currentUser}) {
-    const [transferType, setTransferType] = useState('');
+function Receipt({ currentUser }) {
+    const [type, setType] = useState('');
     const [amount, setAmount] = useState('');
-    const [label, setLabel] = useState('');
-    const [wallet, setWallet] = useState('');
-    const [date, setDate] = useState(new Date().toISOString().split("T")[0]); // Default to today
+    const [label, setLabel] = useState('others');
+    const [walletId, setWalletId] = useState('');
+    const [date, setDate] = useState(new Date().toISOString().split('T')[0]); // Default to today
     const [note, setNote] = useState('');
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
 
     const Wallets = currentUser?.wallets || [];
-    const userId = currentUser._id
-    
+    const userId = currentUser._id;
+
+    const dispatch = useDispatch()
+
     const handleReceiptSubmit = (event) => {
         event.preventDefault();
 
-        if (!transferType) {
-            alert('Please select either Income or Expense.');
-            return; // Prevent submission
-        }
-
-        const transaction = {
-            transferType,
+        const transactionData = {
+            type,
             amount,
             label,
-            wallet,
+            walletId,
             date,
             note,
             image,
             userId,
         };
 
-        console.log("transaction data:", transaction);
+        console.log('transaction data:', transactionData);
+        dispatch(addTransaction(transactionData))
 
-        setTransferType('')
-        setAmount(''); 
-        setLabel('');
-        setWallet('');
-        setDate(new Date().toISOString().split("T")[0])
-        setNote('')
-        setImage(null)
-        setImagePreview(null)
+        setType('');
+        setAmount('');
+        setLabel('others');
+        setWalletId('');
+        // setDate(new Date().toISOString().split('T')[0]);
+        setNote('');
+        setImage(null);
+        setImagePreview(null);
     };
 
     const handleImageUpload = (event) => {
@@ -55,18 +55,22 @@ function Receipt({currentUser}) {
         }
     };
 
-    return ( 
+    return (
         <form className={styles.receipt} onSubmit={handleReceiptSubmit}>
             <div className={styles.plusMinusContainer}>
-                <BiSolidPlusCircle 
-                    value={transferType}
-                    className={`${styles.plusBtn} ${transferType === 'income' ? styles.active : ''}`}
-                    onClick={() => setTransferType('income')}
-                    />
-                <BiSolidMinusCircle 
-                    value={transferType}
-                    className={`${styles.minusBtn} ${transferType === 'expense' ? styles.active : ''}`}
-                    onClick={() => setTransferType('expense')}
+                <BiSolidPlusCircle
+                    value={type}
+                    className={`${styles.plusBtn} ${
+                        type === 'income' ? styles.active : ''
+                    }`}
+                    onClick={() => setType('income')}
+                />
+                <BiSolidMinusCircle
+                    value={type}
+                    className={`${styles.minusBtn} ${
+                        type === 'expense' ? styles.active : ''
+                    }`}
+                    onClick={() => setType('expense')}
                 />
             </div>
             <div className={styles.formContent}>
@@ -74,7 +78,7 @@ function Receipt({currentUser}) {
                 <input
                     className={styles.formInputAmount}
                     type="number"
-                    placeholder='$'
+                    placeholder="$"
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                     required
@@ -85,7 +89,6 @@ function Receipt({currentUser}) {
                     className={styles.formInputOptions}
                     value={label}
                     onChange={(e) => setLabel(e.target.value)}
-                    required
                 >
                     <option value="others">Others</option>
                     <option value="food">Food</option>
@@ -97,12 +100,16 @@ function Receipt({currentUser}) {
                 <div className={styles.formLabel}>Wallet</div>
                 <select
                     className={styles.formInputOptions}
-                    value={wallet}
-                    onChange={(e) => setWallet(e.target.value)}
+                    placeholder="Select a wallet"
+                    value={walletId}
+                    onChange={(e) => setWalletId(e.target.value)}
                     required
                 >
+                    <option value="" disabled hidden>
+                        Select a wallet
+                    </option>
                     {Wallets.map((walletItem) => (
-                        <option key={walletItem._id} value={walletItem.name}>
+                        <option key={walletItem._id} value={walletItem._id}>
                             {walletItem.name}
                         </option>
                     ))}
@@ -130,7 +137,11 @@ function Receipt({currentUser}) {
                     />
 
                     {imagePreview && (
-                        <img src={imagePreview} alt="Uploaded Preview" className={styles.imagePreview} />
+                        <img
+                            src={imagePreview}
+                            alt="Uploaded Preview"
+                            className={styles.imagePreview}
+                        />
                     )}
                 </div>
 
@@ -140,9 +151,15 @@ function Receipt({currentUser}) {
                     value={note}
                     onChange={(e) => setNote(e.target.value)}
                 />
-            
+
                 <div className={styles.receiptBtnContainer}>
-                    <Button type="submit" primary rounded className={styles.receiptSubmit}>
+                    <Button
+                        disabled={!type || !amount || !walletId || !date}
+                        type="submit"
+                        primary
+                        rounded
+                        className={styles.receiptSubmit}
+                    >
                         Add
                     </Button>
                 </div>

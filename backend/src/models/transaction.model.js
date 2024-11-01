@@ -1,17 +1,37 @@
 const mongoose = require("mongoose");
 
-const walletSchema = new mongoose.Schema({
+const transactionSchema = new mongoose.Schema({
   type: {
     type: String,
-    enum: ['savings', 'checking', 'credit'],
     required: true,
   },
   amount: {
     type: Number,
-    required: true
-  }
+    required: true,
+  },
+  label: {
+    type: String,
+    required: true,
+  },
+  walletId: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: Date,
+    required: true,
+  },
+  note: {
+    type: String,
+    default: '',
+  },
+  image: {
+    type: String,
+  },
+  userId: { 
+    type: String,
+    required: true,
+  },
 });
 
-// Add methods or middleware if needed
-
-module.exports = mongoose.model("Transactions", userSchema);
+module.exports = mongoose.model("Transactions", transactionSchema);
