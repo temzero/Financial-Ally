@@ -2,7 +2,7 @@ import styles from './BudgetInfo.module.scss';
 import Button from '../../../components/Button/Button';
 import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { editBudget } from '../../../redux/actions';
+import { updateBudget } from '../../../redux/actions';
 
 function EditBudgetForm({
     budgetData,
@@ -11,8 +11,8 @@ function EditBudgetForm({
     setShowForm,
     budgetName,
     setBudgetName,
-    budgetBalance,
-    setBudgetBalance,
+    budgetMoneyLimit,
+    setBudgetMoneyLimit,
     budgetCategory,
     setBudgetCategory,
     budgetColor,
@@ -23,11 +23,11 @@ function EditBudgetForm({
 
     const closeForm = useCallback(() => {
         setBudgetName(budgetData.name);
-        setBudgetBalance(budgetData.balance);
+        setBudgetMoneyLimit(budgetData.balance);
         setBudgetCategory(budgetData.category);
         setBudgetColor(budgetData.color);
         setShowForm(false);
-    }, [budgetData, setShowForm, setBudgetName, setBudgetBalance, setBudgetCategory, setBudgetColor]);
+    }, [budgetData, setShowForm, setBudgetName, setBudgetMoneyLimit, setBudgetCategory, setBudgetColor]);
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -52,12 +52,12 @@ function EditBudgetForm({
 
         const updatedBudget = {
             name: budgetName,
-            amount: budgetBalance,
+            amount: budgetMoneyLimit,
             category: budgetCategory,
             color: budgetColor,
         };
 
-        dispatch(editBudget(updatedBudget, budgetId));
+        dispatch(updateBudget(updatedBudget, budgetId));
         closeForm();
     };
 
@@ -73,7 +73,6 @@ function EditBudgetForm({
                                 placeholder="Budget Name"
                                 value={budgetName}
                                 onChange={(e) => setBudgetName(e.target.value)}
-                                required
                             />
                         </div>
                         <div className={styles.formDivider}></div>
@@ -84,9 +83,8 @@ function EditBudgetForm({
                                     className={styles.formInput}
                                     type="number"
                                     placeholder="$"
-                                    value={budgetBalance}
-                                    onChange={(e) => setBudgetBalance(e.target.value)}
-                                    required
+                                    value={budgetMoneyLimit}
+                                    onChange={(e) => setBudgetMoneyLimit(Number(e.target.value))}
                                 />
                             </div>
                             <div>
@@ -95,7 +93,6 @@ function EditBudgetForm({
                                     className={`${styles.formInput} ${styles.formInputSelect}`}
                                     value={budgetCategory}
                                     onChange={(e) => setBudgetCategory(e.target.value)}
-                                    required
                                 >
                                     <option >All Expenses & incomes</option>
                                     <option value="Income">Incomes</option>

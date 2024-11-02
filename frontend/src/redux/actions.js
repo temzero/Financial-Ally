@@ -34,7 +34,10 @@ export const getWallets = (userId) => {
     return async (dispatch) => {
         try {
             const response = await axios.get(`http://localhost:4000/user/${userId}/wallets`);
-            dispatch(getWalletsSuccess(response.data));
+            const wallets = response.data;
+            if(wallets) {
+                dispatch(getWalletsSuccess(wallets));
+            }
         } catch (error) {
             console.error('Error fetching wallets:', error);
         }
@@ -152,11 +155,11 @@ export const addBudgetSuccess = (budget) => ({
     budget
 });
 
-export const editBudget = (budgetUpdateData, budgetId) => {
+export const updateBudget = (budgetUpdateData, budgetId) => {
     return async (dispatch) => {
         try {
             const response = await axios.patch(`http://localhost:4000/budget/${budgetId}`, budgetUpdateData);
-            dispatch(editBudgetSuccess(response.data.budget));
+            dispatch(updateBudgetSuccess(response.data.budget));
             return response.data.budget;
         } catch (error) {
             console.error('Cannot update budget:', error);
@@ -164,8 +167,8 @@ export const editBudget = (budgetUpdateData, budgetId) => {
     };
 };
 
-export const editBudgetSuccess = (updatedBudget) => ({
-    type: Types.editBudgetSuccess,
+export const updateBudgetSuccess = (updatedBudget) => ({
+    type: Types.updateBudgetSuccess,
     budget: updatedBudget
 });
 

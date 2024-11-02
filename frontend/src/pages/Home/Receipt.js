@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { BiSolidPlusCircle, BiSolidMinusCircle } from 'react-icons/bi';
 import styles from './Home.module.scss';
 import Button from '../../components/Button/Button';
-import { addTransaction } from '../../redux/actions';
+import { addTransaction, updateBudget, editWallet } from '../../redux/actions';
 
 function Receipt({ currentUser }) {
     const [type, setType] = useState('');
@@ -15,13 +15,46 @@ function Receipt({ currentUser }) {
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
 
-    const Wallets = currentUser?.wallets || [];
+    const wallets = currentUser?.wallets || [];
+    const budgets = currentUser?.budgets || [];
+    console.log("budgets", budgets)
     const userId = currentUser._id;
 
     const dispatch = useDispatch()
 
     const handleReceiptSubmit = (event) => {
         event.preventDefault();
+
+        const wallet = wallets.find(wallet => wallet._id === walletId) || '';
+        let walletBalance = wallet.balance
+        console.log("Wallet: ", wallet)
+        console.log("walletBalance before: ", walletBalance)
+        
+        if(type === 'income') {
+            walletBalance += amount;
+        } else if(type === 'expense') {
+            if(walletBalance < amount) {
+                console.log('Not enough money!');
+                return null
+            }
+            walletBalance -= amount;
+
+            // Add expense to budget
+            budgets.forEach(budget => {
+                let updatedMoneySpend = budget.moneySpend + amount;
+
+                let budgetUpdatedData = {
+                    moneySpend: updatedMoneySpend,
+                };
+                
+                dispatch(updateBudget(budgetUpdatedData, budget._id));
+            });
+        }
+        console.log("walletBalance after: ", walletBalance)
+
+        const walletUpdatedData = {
+            balance: walletBalance,
+        }
 
         const transactionData = {
             type,
@@ -34,8 +67,9 @@ function Receipt({ currentUser }) {
             userId,
         };
 
-        console.log('transaction data:', transactionData);
+        dispatch(editWallet(walletUpdatedData, walletId))
         dispatch(addTransaction(transactionData))
+        
 
         setType('');
         setAmount('');
@@ -80,7 +114,7 @@ function Receipt({ currentUser }) {
                     type="number"
                     placeholder="$"
                     value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
+                    onChange={(e) => setAmount(Number(e.target.value))}
                     required
                 />
 
@@ -108,7 +142,7 @@ function Receipt({ currentUser }) {
                     <option value="" disabled hidden>
                         Select a wallet
                     </option>
-                    {Wallets.map((walletItem) => (
+                    {wallets.map((walletItem) => (
                         <option key={walletItem._id} value={walletItem._id}>
                             {walletItem.name}
                         </option>

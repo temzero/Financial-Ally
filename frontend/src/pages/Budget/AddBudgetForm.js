@@ -66,7 +66,7 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId }) {
         const newBudget = {
             name: budgetName,
             moneyLimit,
-            wallet: wallets,
+            wallets: wallets,
             category: category,
             startDate,
             finishDate,

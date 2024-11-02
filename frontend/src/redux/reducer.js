@@ -37,7 +37,7 @@ export const authReducer = (state = initState, action) => {
                 },
             };
         
-        case Types.editWalletSuccess:
+        case Types.updateWalletSuccess:
             return {
                 ...state,
                 user: {
@@ -67,7 +67,7 @@ export const authReducer = (state = initState, action) => {
                 },
             };
         
-        case Types.editBudgetsSuccess:
+        case Types.updateBudgetSuccess:
             return {
                 ...state,
                 user: {
@@ -97,7 +97,7 @@ export const authReducer = (state = initState, action) => {
                 },
             };
 
-        case Types.editTransactionSuccess:
+        case Types.updateTransactionSuccess:
             return {
                 ...state,
                 user: {

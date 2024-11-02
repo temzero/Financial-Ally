@@ -11,8 +11,8 @@ export const Types = {
     getOneWalletSuccess: 'GET ONE WALLET SUCCESS',
     addWallet: 'ADD WALLET',
     addWalletSuccess: 'ADD WALLET SUCCESS',
-    editWallet: 'EDIT WALLET',
-    editWalletSuccess: 'EDIT WALLET SUCCESS',
+    updateWallet: 'UPDATE WALLET',
+    updateWalletSuccess: 'UPDATE WALLET SUCCESS',
     deleteWallet: 'DELETE WALLET',
     deleteWalletSuccess: 'DELETE WALLET SUCCESS',
 
@@ -21,8 +21,8 @@ export const Types = {
     getBudgetsSuccess: 'GET BUDGETS SUCCESS',
     addBudget: 'ADD BUDGET',
     addBudgetSuccess: 'ADD BUDGET SUCCESS',
-    editBudget: 'EDIT BUDGET',
-    editBudgetSuccess: 'EDIT BUDGET SUCCESS',
+    updateBudget: 'UPDATE BUDGET',
+    updateBudgetSuccess: 'UPDATE BUDGET SUCCESS',
     deleteBudget: 'DELETE BUDGET',
     deleteBudgetSuccess: 'DELETE BUDGET SUCCESS', 
     
@@ -31,8 +31,8 @@ export const Types = {
     getTransactionsSuccess: 'GET TRANSACTIONS SUCCESS',
     addTransaction: 'ADD TRANSACTION',
     addTransactionSuccess: 'ADD TRANSACTION SUCCESS',
-    editTransaction: 'EDIT TRANSACTION',
-    editTransactionSuccess: 'EDIT TRANSACTION SUCCESS',
+    updateTransaction: 'UPDATE TRANSACTION',
+    updateTransactionSuccess: 'UPDATE  TRANSACTION SUCCESS',
     deleteTransaction: 'DELETE TRANSACTION',
     deleteTransactionSuccess: 'DELETE TRANSACTION SUCCESS',
 };

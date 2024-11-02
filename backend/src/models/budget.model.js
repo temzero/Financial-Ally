@@ -14,7 +14,7 @@ const BudgetSchema = new mongoose.Schema({
         type: Number,
         default: 0,
     },
-    walletsId: [
+    wallets: [
         {
             type: String
         }
