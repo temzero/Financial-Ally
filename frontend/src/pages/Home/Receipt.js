@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { BiSolidPlusCircle, BiSolidMinusCircle } from 'react-icons/bi';
 import styles from './Home.module.scss';
 import Button from '../../components/Button/Button';
-import { addTransaction, updateBudget, editWallet } from '../../redux/actions';
+import { addTransaction, updateBudget, updateWallet } from '../../redux/actions';
 
 function Receipt({ currentUser }) {
     const [type, setType] = useState('');
@@ -17,7 +17,7 @@ function Receipt({ currentUser }) {
 
     const wallets = currentUser?.wallets || [];
     const budgets = currentUser?.budgets || [];
-    console.log("budgets", budgets)
+    // console.log("budgets", budgets)
     const userId = currentUser._id;
 
     const dispatch = useDispatch()
@@ -28,7 +28,6 @@ function Receipt({ currentUser }) {
         const wallet = wallets.find(wallet => wallet._id === walletId) || '';
         let walletBalance = wallet.balance
         console.log("Wallet: ", wallet)
-        console.log("walletBalance before: ", walletBalance)
         
         if(type === 'income') {
             walletBalance += amount;
@@ -46,11 +45,22 @@ function Receipt({ currentUser }) {
                 let budgetUpdatedData = {
                     moneySpend: updatedMoneySpend,
                 };
+
+                // Budget's wallet is the name of wallet
+                const budgetWallets = budget.wallets
+
+                if(!budgetWallets.length) {
+                    dispatch(updateBudget(budgetUpdatedData, budget._id));
+                }
                 
-                dispatch(updateBudget(budgetUpdatedData, budget._id));
+                const isOneWalletMatchedBudgetWallets = budgetWallets.some(budgetWallet => budgetWallet === wallet.name)
+
+                if(isOneWalletMatchedBudgetWallets) {
+                    dispatch(updateBudget(budgetUpdatedData, budget._id));
+                }
+                
             });
         }
-        console.log("walletBalance after: ", walletBalance)
 
         const walletUpdatedData = {
             balance: walletBalance,
@@ -67,7 +77,7 @@ function Receipt({ currentUser }) {
             userId,
         };
 
-        dispatch(editWallet(walletUpdatedData, walletId))
+        dispatch(updateWallet(walletUpdatedData, walletId))
         dispatch(addTransaction(transactionData))
         
 

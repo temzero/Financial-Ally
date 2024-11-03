@@ -11,7 +11,6 @@ function BudgetInfo() {
     const budgetId = state?.budgetId || '';
     const budgets = useSelector((state) => state.user.budgets);
     const currentBudget = budgets.find((budget) => budget._id === budgetId);
-    console.log(currentBudget);
     const {
         name,
         moneyLimit,
@@ -28,8 +27,8 @@ function BudgetInfo() {
 
     // State variables for budget details
     const [budgetName, setBudgetName] = useState('');
-    const [budgetMoneyLimit, setBudgetMoneyLimit] = useState(0);
-    const [budgetMoneySpend, setBudgetMoneySpend] = useState(moneySpend);
+    const [budgetMoneyLimit, setBudgetMoneyLimit] = useState(moneyLimit);
+    const [budgetMoneySpend, setBudgetMoneySpend] = useState(moneySpend || 0);
     const [budgetCategory, setBudgetCategory] = useState('');
     const [budgetColor, setBudgetColor] = useState('');
     const [budgetStartDate, setBudgetStartDate] = useState('');
@@ -50,7 +49,7 @@ function BudgetInfo() {
             setBudgetFinishDate(finishDate);
             setBudgetWallets(wallets);
         }
-    }, [budgetId, showEditForm, showDeleteForm, budgets, currentBudget]);
+    }, [budgetId, showEditForm, showDeleteForm, budgets, currentBudget, category, color, finishDate, moneyLimit, name, startDate, wallets]);
 
     // Convert startDate and finishDate to readable date format
     const formattedStartDate = new Date(startDate).toLocaleDateString('en-GB', {

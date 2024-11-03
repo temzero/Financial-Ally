@@ -85,11 +85,11 @@ export const addWalletSuccess = (wallet) => ({
     wallet
 });
 
-export const editWallet = (walletUpdateData, walletId) => {
+export const updateWallet = (walletUpdateData, walletId) => {
     return async (dispatch) => {
         try {
             const response = await axios.patch(`http://localhost:4000/wallet/${walletId}`, walletUpdateData);
-            dispatch(editWalletSuccess(response.data.wallet));
+            dispatch(updateWalletSuccess(response.data.wallet));
             return response.data.wallet;
         } catch (error) {
             console.error('Cannot update wallet:', error);
@@ -97,8 +97,8 @@ export const editWallet = (walletUpdateData, walletId) => {
     };
 };
 
-export const editWalletSuccess = (updatedWallet) => ({
-    type: Types.editWalletSuccess,
+export const updateWalletSuccess = (updatedWallet) => ({
+    type: Types.updateWalletSuccess,
     wallet: updatedWallet
 });
 
