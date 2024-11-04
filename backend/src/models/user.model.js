@@ -33,10 +33,6 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlength: 4,
     },
-    balance: {
-      type: Number,
-      default: 0,
-    },
   },
   {
     timestamps: true,

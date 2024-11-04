@@ -1,0 +1,33 @@
+.container {
+
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 20px;
+}
+
+.buttonContainer {
+    display: flex;
+    gap: 8px;
+}
+
+.title {
+    font-size: 2.6rem;
+    font-weight: 300;
+    line-height: 1;
+}
+
+.text {
+    font-size: 1.4rem;
+    font-weight: 200;
+}
+
+.divider {
+    height: 1px;
+    background-color: grey;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

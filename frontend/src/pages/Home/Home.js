@@ -6,6 +6,7 @@ import Receipt from './Receipt';
 import Button from '../../components/Button/Button';
 import { BiSolidPlusCircle, BiSolidMinusCircle } from 'react-icons/bi';
 import { getBudgets, getWallets, getTransactions } from '../../redux/actions';
+import Transaction from './Transaction';
 
 function Home() {
     const navigate = useNavigate();
@@ -139,6 +140,9 @@ function Home() {
                 </div>
             </div>
             <Receipt currentUser={currentUser}/>
+            {transactions.map(transaction => {     
+                return <Transaction transaction={transaction} hidden/>
+            })}
         </div>
     );
 }

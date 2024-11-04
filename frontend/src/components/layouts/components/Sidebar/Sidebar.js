@@ -20,6 +20,7 @@ function Sidebar() {
         wallet: '/wallet',
         profile: '/profile',
         setting: '/setting',
+        logout: '/logout',
     }
 
     const handleLogout = () => {
@@ -48,7 +49,6 @@ function Sidebar() {
                 <a className={navLinkClasses(navLinks.profile)} href={navLinks.profile}>
                     {user.firstName}
                 </a>
-                <Button s simple onClick={handleLogout}>Logout</Button>
             </div>
             <div className={styles.nav}>
                 <a
@@ -76,13 +76,9 @@ function Sidebar() {
                     Wallet
                 </a>
             </div>
-            <div className={styles.setting}>
-                <a className={styles.arrowBtn} href="./">
-                    <IoArrowBack />
-                </a>
-                <a className={navLinkClasses(navLinks.setting)} href={navLinks.setting}>
-                    {/* <IoMdSettings /> */}
-                    Setting
+            <div className={styles.bottom}>
+                <a className={styles.logoutBtn} onClick={handleLogout} href={navLinks.logout}>
+                    Logout
                 </a>
             </div>
         </div>

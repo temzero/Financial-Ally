@@ -1,10 +1,8 @@
-
 import styles from './WalletInfo.module.scss';
 import Button from '../../../components/Button/Button';
 import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateWallet } from '../../../redux/actions';
-
 
 function EditWalletForm({
     walletData,

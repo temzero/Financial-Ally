@@ -1,5 +1,15 @@
+import styles from './Analysis.module.scss'
+
 function Analysis() {
-    return ( <h2>Analysis</h2> );
+    return (
+        <div className={styles.container}>
+            <div className={styles.header}>
+                
+                <div className={styles.title}>Analysis</div> 
+            </div> 
+        </div>
+
+);
 }
 
 export default Analysis;
