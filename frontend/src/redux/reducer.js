@@ -27,7 +27,7 @@ export const authReducer = (state = initState, action) => {
                     wallets: action.wallets || [], // Ensure wallets is always an array
                 },
             };
-
+            
         case Types.addWalletSuccess:
             return {
                 ...state,
@@ -36,6 +36,7 @@ export const authReducer = (state = initState, action) => {
                     wallets: [...(state.user?.wallets || []), action.wallet], // Append the new wallet to the wallets array
                 },
             };
+                
         
         case Types.updateWalletSuccess:
             return {
@@ -47,6 +48,15 @@ export const authReducer = (state = initState, action) => {
                     ) || [], // Ensure wallets is always an array
                 },
             };
+        
+        // case Types.getWalletTransactionsSuccess:
+        //         return {
+        //             ...state,
+        //             user: {
+        //                 ...state.user,
+        //                 wallets: action.wallets || [], // Ensure wallets is always an array
+        //             },
+        //         };
 
         // Budget management
         case Types.getBudgetsSuccess:

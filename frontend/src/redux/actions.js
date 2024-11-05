@@ -119,6 +119,18 @@ export const deleteWalletSuccess = (walletId) => ({
     walletId
 });
 
+export const getWalletTransactions = (walletId) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.get(`http://localhost:4000/wallet/${walletId}/transactions`);
+            // dispatch(getWalletTransactionsSuccess(response.data));
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching budgets:', error);
+        }
+    };
+}
+
 // Budget Actions
 export const getBudgets = (userId) => {
     return async (dispatch) => {

@@ -210,7 +210,7 @@ function BudgetInfo() {
                             Transactions
                         </div>
                         <div className={styles.contentSubHeader}>
-                            {budgetCategory}
+                            {/* {budgetCategory} */}
                         </div>
                     </div>
                 </div>

@@ -14,6 +14,7 @@ function Home() {
     const currentUser = useSelector((state) => state.user);
     const [activeChart, setActiveChart] = useState('1D');
     const [displayBalance, setDisplayBalance] = useState(0); // Animated balance state
+    const [selectedTransaction, setSelectedTransaction] = useState(null);
 
     const {
         _id, firstName, lastName, email, balance, wallets = [], budgets = [], transactions = []
@@ -81,12 +82,14 @@ function Home() {
         }
     };
 
-    // Sort and group transactions by date
-    const sortedTransactions = [...transactions].sort(
-        (a, b) => new Date(b.date) - new Date(a.date)
-    );
+    const sortedTransactions = transactions ? [...transactions].reverse() : [];
 
     let lastDate = '';
+
+    const handleTransactionClick = (transaction) => {
+        console.log('Transaction ID: ', transaction._id)
+        setSelectedTransaction(transaction._id)
+    }
 
     return (
         <div className={styles.container}>
@@ -116,16 +119,18 @@ function Home() {
                             const showDivider = transactionDate !== lastDate;
                             lastDate = transactionDate;
 
+                            const color = transaction.type === 'income' ? 'green' : 'red';
+
                             return (
                                 <div key={transaction._id}>
                                     {showDivider && (
                                         <div className={styles.dateDivider}>{transactionDate}</div>
                                     )}
-                                    <div className={styles.transaction}>
+                                    <div className={styles.transaction} onClick={() => handleTransactionClick(transaction)}>
                                         {transaction.type === 'income' ? (
-                                            <BiSolidPlusCircle className={styles.income} />
+                                            <BiSolidPlusCircle className={`${styles.typeIcon} ${styles[color]}`} />
                                         ) : (
-                                            <BiSolidMinusCircle className={styles.expense} />
+                                            <BiSolidMinusCircle className={`${styles.typeIcon} ${styles[color]}`} />
                                         )}
                                         <div className={styles.transAmount}>${transaction.amount}</div>
                                         <div className={styles.transLabel}>{transaction.label}</div>
@@ -133,6 +138,11 @@ function Home() {
                                         <div className={styles.transNote}>{transaction.note}</div>
                                         {/* <div className={styles.transImage}>{transaction.image}</div> */}
                                     </div>
+                                    <Transaction 
+                                        transaction={transaction} 
+                                        setSelectedTransaction={setSelectedTransaction}
+                                        color={color}
+                                        hidden={selectedTransaction !== transaction._id}/>
                                 </div>
                             );
                         })}
@@ -140,9 +150,6 @@ function Home() {
                 </div>
             </div>
             <Receipt currentUser={currentUser}/>
-            {transactions.map(transaction => {     
-                return <Transaction transaction={transaction} hidden/>
-            })}
         </div>
     );
 }

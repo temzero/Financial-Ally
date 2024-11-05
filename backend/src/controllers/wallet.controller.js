@@ -1,4 +1,5 @@
 const Wallet = require('../models/wallet.model')
+const Transaction = require('../models/transaction.model')
 
 const walletControllers = {
  // Wallet controllers
@@ -89,6 +90,21 @@ const walletControllers = {
       res.status(500).json({ message: "Failed to delete wallet", error });
     }
   },
+
+  getWalletTransactions: async (req, res) => {
+    try {
+      const walletId = req.params.walletId;
+      const transactions = await Transaction.find({ walletId: walletId });
+      
+      if (!transactions.length) {
+        return res.status(404).json({ message: "You don't have any transactions in this wallet!" });
+      }
+  
+      res.status(200).json(transactions);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
 };
 
 module.exports = walletControllers;

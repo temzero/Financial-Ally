@@ -310,14 +310,31 @@
     font-weight: 300;
 }
 
-.plusIcon {
+// .typeIcon,
+// .transactionTypeIcon {
+//     &.green { 
+//         color: var(--color-green);
+//     }
+
+//     &.red {
+//         color: var(--color-red);
+//     }
+// }
+
+.green { 
     color: var(--color-green);
-    font-size: 2.2rem;
 }
 
-.minusIcon {
+.red {
     color: var(--color-red);
-    font-size: 2.2rem;
+}
+
+.typeIcon {
+    font-size: 1.8rem;
+}
+
+.transactionTypeIcon {
+    font-size: 2.1rem;
 }
 
 .transactionInfo {
@@ -325,9 +342,17 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
-    border-top: 2px solid rgba(0, 0, 0, 0.5);
-    border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+    border-top: 3px solid;
+    border-bottom: 3px solid;
     padding: 16px 0;
+
+    &.bordergreen {
+        border-color: var(--color-green);
+    }
+
+    &.borderred {
+        border-color: var(--color-red);
+    }
 
     .transactionLabel {
         font-size: 2rem;

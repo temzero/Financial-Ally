@@ -15,6 +15,8 @@ export const Types = {
     updateWalletSuccess: 'UPDATE WALLET SUCCESS',
     deleteWallet: 'DELETE WALLET',
     deleteWalletSuccess: 'DELETE WALLET SUCCESS',
+    getWalletTransactions: 'GET WALLET TRANSACTIONS',
+    getWalletTransactionsSuccess: 'GET WALLET TRANSACTIONS SUCCESS',
 
     // Budget Management
     getBudgets: 'GET BUDGETS',

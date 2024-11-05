@@ -8,7 +8,7 @@ import { addTransaction, updateBudget, updateWallet } from '../../redux/actions'
 function Receipt({ currentUser }) {
     const [type, setType] = useState('');
     const [amount, setAmount] = useState('');
-    const [label, setLabel] = useState('others');
+    const [label, setLabel] = useState('Others');
     const [walletId, setWalletId] = useState('');
     const [date, setDate] = useState(new Date().toISOString().split('T')[0]); // Default to today
     const [note, setNote] = useState('');
@@ -83,7 +83,7 @@ function Receipt({ currentUser }) {
 
         setType('');
         setAmount('');
-        setLabel('others');
+        setLabel('');
         setWalletId('');
         // setDate(new Date().toISOString().split('T')[0]);
         setNote('');
