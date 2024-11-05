@@ -126,7 +126,7 @@ export const getWalletTransactions = (walletId) => {
             // dispatch(getWalletTransactionsSuccess(response.data));
             return response.data;
         } catch (error) {
-            console.error('Error fetching budgets:', error);
+            console.error('Error fetching wallet transactions:', error);
         }
     };
 }

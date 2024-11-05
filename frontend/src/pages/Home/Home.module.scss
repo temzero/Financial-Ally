@@ -76,7 +76,7 @@
         height: 44px;
         border-bottom: 1px solid rgba(0,0,0,0.2);
         display: grid;
-        grid-template-columns: .25fr 1.2fr 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
         justify-content: space-between;
         align-items: center;
         cursor: pointer;
@@ -97,6 +97,8 @@
         }
 
         .transAmount {
+            display: flex;
+            gap: 10px;
             font-size: 1.2rem;
             text-align: left;
         }

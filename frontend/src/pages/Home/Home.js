@@ -4,9 +4,8 @@ import { useEffect, useState } from 'react';
 import styles from './Home.module.scss';
 import Receipt from './Receipt';
 import Button from '../../components/Button/Button';
-import { BiSolidPlusCircle, BiSolidMinusCircle } from 'react-icons/bi';
 import { getBudgets, getWallets, getTransactions } from '../../redux/actions';
-import Transaction from './Transaction';
+import TransactionList from './TransactionList';
 
 function Home() {
     const navigate = useNavigate();
@@ -31,9 +30,7 @@ function Home() {
     useEffect(() => {
         dispatch(getWallets(_id));
         dispatch(getBudgets(_id));
-        
         dispatch(getTransactions(_id));
-
     }, [_id, dispatch]);
 
     // Count-up effect for balance display
@@ -62,34 +59,31 @@ function Home() {
         setActiveChart(period);
     };
 
-    const formatTransactionDate = (date) => {
-        const transactionDate = new Date(date);
-        const today = new Date();
-        const yesterday = new Date();
-        yesterday.setDate(today.getDate() - 1);
+    // const formatTransactionDate = (date) => {
+    //     const transactionDate = new Date(date);
+    //     const today = new Date();
+    //     const yesterday = new Date();
+    //     yesterday.setDate(today.getDate() - 1);
     
-        // Remove time from comparison by setting time to midnight
-        today.setHours(0, 0, 0, 0);
-        yesterday.setHours(0, 0, 0, 0);
-        transactionDate.setHours(0, 0, 0, 0);
+    //     // Remove time from comparison by setting time to midnight
+    //     today.setHours(0, 0, 0, 0);
+    //     yesterday.setHours(0, 0, 0, 0);
+    //     transactionDate.setHours(0, 0, 0, 0);
     
-        if (transactionDate.getTime() === today.getTime()) {
-            return 'Today';
-        } else if (transactionDate.getTime() === yesterday.getTime()) {
-            return 'Yesterday';
-        } else {
-            return transactionDate.toLocaleDateString('en-GB');
-        }
-    };
+    //     if (transactionDate.getTime() === today.getTime()) {
+    //         return 'Today';
+    //     } else if (transactionDate.getTime() === yesterday.getTime()) {
+    //         return 'Yesterday';
+    //     } else {
+    //         return transactionDate.toLocaleDateString('en-GB');
+    //     }
+    // };
+    // let lastDate = '';
 
-    const sortedTransactions = transactions ? [...transactions].reverse() : [];
-
-    let lastDate = '';
-
-    const handleTransactionClick = (transaction) => {
-        console.log('Transaction ID: ', transaction._id)
-        setSelectedTransaction(transaction._id)
-    }
+    // const handleTransactionClick = (transaction) => {
+    //     console.log('Transaction ID: ', transaction._id)
+    //     setSelectedTransaction(transaction._id)
+    // }
 
     return (
         <div className={styles.container}>
@@ -113,7 +107,7 @@ function Home() {
                 </div>
                 <div className={styles.contentSection}>
                     <div className={styles.header}>Transactions</div>
-                    <div className={styles.transactions}>
+                    {/* <div className={styles.transactions}>
                         {sortedTransactions.map((transaction) => {
                             const transactionDate = formatTransactionDate(transaction.date);
                             const showDivider = transactionDate !== lastDate;
@@ -137,7 +131,7 @@ function Home() {
                                         <div className={styles.transWallet}>{wallets.find(wallet => wallet._id === transaction.walletId)?.name || ''}</div>
                                         <div className={styles.transNote}>{transaction.note}</div>
                                         {/* <div className={styles.transImage}>{transaction.image}</div> */}
-                                    </div>
+                                    {/* </div>
                                     <Transaction 
                                         transaction={transaction} 
                                         setSelectedTransaction={setSelectedTransaction}
@@ -146,7 +140,10 @@ function Home() {
                                 </div>
                             );
                         })}
-                    </div>
+                    </div> */}
+
+                    <TransactionList wallets={wallets} transactions={transactions}/>
+
                 </div>
             </div>
             <Receipt currentUser={currentUser}/>
@@ -155,3 +152,4 @@ function Home() {
 }
 
 export default Home;
+

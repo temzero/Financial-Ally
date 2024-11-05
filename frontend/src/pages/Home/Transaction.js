@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux';
 import { deleteTransaction, editTransaction } from '../../redux/actions';
 
 function Transaction({transaction, setSelectedTransaction, color, hidden, className, ...passProps }) {
-    console.log('transaction', transaction)
 
     const { _id, type, amount, label, wallet, date, note, image} = transaction
 
@@ -51,9 +50,11 @@ function Transaction({transaction, setSelectedTransaction, color, hidden, classN
         console.log('Transaction Delete')
         dispatch(deleteTransaction(_id))
     }
-
-    const handleClickOutside = () => {
+        
+    const handleClickOutside = (event) => {
+        event.stopPropagation();
         setSelectedTransaction(null)
+        console.log('Close transaction') 
     }
 
     return ( 

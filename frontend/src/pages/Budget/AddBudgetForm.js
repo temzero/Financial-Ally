@@ -22,7 +22,7 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId }) {
 
     const [budgetName, setBudgetName] = useState('');
     const [moneyLimit, setMoneyLimit] = useState('');
-    const [wallets, setWallets] = useState([]);
+    const [walletIds, setWalletIds] = useState([]);
     const [category, setCategory] = useState('');
     const [startDate, setStartDate] = useState(
         new Date().toISOString().split('T')[0]
@@ -34,7 +34,7 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId }) {
     const closeForm = useCallback(() => {
         setBudgetName('');
         setMoneyLimit('');
-        setWallets([]);
+        setWalletIds([]);
         setCategory('');
         setStartDate(new Date().toISOString().split('T')[0]);
         setFinishDate('');
@@ -66,7 +66,7 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId }) {
         const newBudget = {
             name: budgetName,
             moneyLimit,
-            wallets: wallets,
+            walletIds: walletIds,
             category: category,
             startDate,
             finishDate,
@@ -112,8 +112,8 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId }) {
                             <div>
                                 <WalletDropdown
                                     wallets={stateWallets}
-                                    selectedWallets={wallets}
-                                    setSelectedWallets={setWallets}
+                                    selectedWallets={walletIds}
+                                    setSelectedWallets={setWalletIds}
                                 />
                             </div>
                             <div>

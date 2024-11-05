@@ -5,6 +5,7 @@ import Button from '../../../components/Button/Button';
 import EditBudgetForm from './EditBudgetForm';
 import DeleteBudgetForm from './DeleteBudgetForm';
 import { useSelector } from 'react-redux';
+import BudgetTransactionList from './BudgetTransactionList';
 
 function BudgetInfo() {
     const { state } = useLocation();
@@ -18,7 +19,7 @@ function BudgetInfo() {
         category,
         startDate,
         finishDate,
-        wallets,
+        walletIds,
         color,
     } = currentBudget;
 
@@ -47,9 +48,9 @@ function BudgetInfo() {
             setBudgetColor(color);
             setBudgetStartDate(startDate);
             setBudgetFinishDate(finishDate);
-            setBudgetWallets(wallets);
+            setBudgetWallets(walletIds);
         }
-    }, [budgetId, showEditForm, showDeleteForm, budgets, currentBudget, category, color, finishDate, moneyLimit, name, startDate, wallets]);
+    }, [budgetId, showEditForm, showDeleteForm, budgets, currentBudget, category, color, finishDate, moneyLimit, name, startDate, walletIds]);
 
     // Convert startDate and finishDate to readable date format
     const formattedStartDate = new Date(startDate).toLocaleDateString('en-GB', {
@@ -209,6 +210,8 @@ function BudgetInfo() {
                         <div className={styles.contentSubHeader}>
                             Transactions
                         </div>
+
+                        <BudgetTransactionList walletIds={walletIds} budgetId={budgetId}/>
                         <div className={styles.contentSubHeader}>
                             {/* {budgetCategory} */}
                         </div>

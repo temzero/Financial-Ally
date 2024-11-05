@@ -4,13 +4,17 @@ import { useState, useEffect, useRef } from 'react';
 import Button from '../../../components/Button/Button';
 import EditWalletForm from './EditWalletForm';
 import DeleteWalletForm from './DeleteWalletForm';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { getWalletTransactions } from '../../../redux/actions';
+import WalletTransactionList from './WalletTransactionList';
 
 function WalletInfo() {
     const { state } = useLocation();
     const walletId = state?.walletId || '';
     const wallets = useSelector((state) => state.user.wallets);
     const currentWallet = wallets.find(wallet => wallet._id === walletId);
+
+    const { name, balance, type, color, userId} = currentWallet
     
     const [showEditForm, setShowEditForm] = useState(false);
     const [showDeleteForm, setShowDeleteForm] = useState(false);
@@ -28,10 +32,10 @@ function WalletInfo() {
     useEffect(() => {
         // Update the state if currentWallet is found
         if (currentWallet) {
-            setWalletName(currentWallet.name);
-            setWalletBalance(currentWallet.balance);
-            setWalletType(currentWallet.type);
-            setWalletColor(currentWallet.color);
+            setWalletName(name);
+            setWalletBalance(balance);
+            setWalletType(type);
+            setWalletColor(color);
         }
     }, [walletId, showEditForm, showDeleteForm, wallets, currentWallet]);
 
@@ -64,10 +68,11 @@ function WalletInfo() {
                     <div className={styles.contentBalance}>${walletBalance.toLocaleString()}</div>
                     <div className={styles.contentAnalysis}>
                         <div className={styles.contentSubHeader}>Analysis</div>
+                        <div className={styles.contentSubHeader}>{walletType}</div>
                     </div>
                     <div className={styles.contentTransaction}>
                         <div className={styles.contentSubHeader}>Transactions</div>
-                        <div className={styles.contentSubHeader}>{walletType}</div>
+                        <WalletTransactionList walletId={walletId}/>
                     </div>
                 </div>
             </div>
