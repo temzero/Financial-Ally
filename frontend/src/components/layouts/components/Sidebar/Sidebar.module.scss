@@ -2,7 +2,7 @@
     position: fixed;
     width: var(--sidebar-width);
     background-color: var(--primary-color);
-    padding: 8px 16px;
+    padding: 10px 20px;
     user-select: none;
     
     font-family: "Inter", sans-serif;
@@ -84,4 +84,8 @@
         font-weight: 400;
         color: var(--color-red);
     }
+}
+
+.greeting {
+    font-size: 1rem;
 }

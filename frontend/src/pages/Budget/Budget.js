@@ -39,9 +39,10 @@ function Budget() {
                 {budgets.length === 0 ? (
                     ''
                 ) : (
-                    budgets.map((budget) => (
-                        <BudgetCard key={budget._id} budgetData={budget} />
-                    ))
+                    budgets.map((budget) => {
+                        console.log('Budget: ', budget);
+                        return <BudgetCard key={budget._id} budgetData={budget} />;
+                    })
                 )}
             </div>
 

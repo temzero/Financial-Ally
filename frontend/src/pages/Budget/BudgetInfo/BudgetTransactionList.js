@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getTransactions } from '../../../redux/actions';
 
-function BudgetTransactionList({ budgetId, walletIds = [], startDate }) {
+function BudgetTransactionList({ currentBudget, walletIds = [], startDate }) {
     const [selectedTransaction, setSelectedTransaction] = useState(null);
     const currentUser = useSelector((state) => state.user) || [];
     const userId = currentUser._id;
@@ -17,29 +17,11 @@ function BudgetTransactionList({ budgetId, walletIds = [], startDate }) {
     console.log('Current user: ', currentUser);
 
     const allTransactions = currentUser.transactions;
+    const budgetTransactionsId = currentBudget.transactionIds;
 
-    const budgetTransactionsNotime = walletIds.some((walletId) =>
-        allTransactions.some((transaction) => transaction.walletId === walletId)
-    )
-        ? allTransactions.filter(
-              (transaction) =>
-                  transaction.type === 'expense' &&
-                  walletIds.includes(transaction.walletId)
-          )
-        : allTransactions;
-
-    const startTimestamp = new Date(startDate).getTime();
-    const budgetTransactions = budgetTransactionsNotime.filter(transaction => {
-        const transactionTimestamp = new Date(transaction.date).getTime();
-        console.log('Transaction Date:', transaction.date, '=>', transactionTimestamp);
-        console.log('Start Date:', startDate, '=>', startTimestamp);
-        console.log('Is After Start Date:', transactionTimestamp > startTimestamp);
-        return transactionTimestamp >= startTimestamp;
-    });
-        
-    console.log('walletIds: ', walletIds);
-    console.log('budgetTransactions: ', budgetTransactions);
-    console.log('budgetId', budgetId);
+    const budgetTransactions = allTransactions.filter(transaction =>
+        budgetTransactionsId.includes(transaction._id)
+    );
 
     const formatTransactionDate = (date) => {
         const transactionDate = new Date(date);

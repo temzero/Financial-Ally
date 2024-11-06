@@ -208,7 +208,7 @@ function BudgetInfo() {
                             Transactions
                         </div>
 
-                        <BudgetTransactionList walletIds={walletIds} budgetId={budgetId} startDate={startDate}/>
+                        <BudgetTransactionList walletIds={walletIds} currentBudget={currentBudget}/>
                         <div className={styles.contentSubHeader}>
                             {/* {budgetCategory} */}
                         </div>

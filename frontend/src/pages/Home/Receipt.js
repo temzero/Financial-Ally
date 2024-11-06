@@ -22,13 +22,38 @@ function Receipt({ currentUser }) {
 
     const dispatch = useDispatch()
 
-    const handleReceiptSubmit = (event) => {
+    const handleReceiptSubmit = async (event) => {
         event.preventDefault();
 
         const wallet = wallets.find(wallet => wallet._id === walletId) || '';
         let walletBalance = wallet.balance
         console.log("Wallet: ", wallet)
-        
+
+        const walletUpdatedData = {
+            balance: walletBalance,
+        }
+
+        const transactionData = {
+            type,
+            amount,
+            label,
+            walletId,
+            date,
+            note,
+            image,
+            userId,
+        };
+
+        dispatch(updateWallet(walletUpdatedData, walletId))
+        const newTransaction = await dispatch(addTransaction(transactionData))
+        const newTransactionId = newTransaction._id
+
+        if (!newTransactionId) {
+            console.error('Failed to retrieve new transaction ID');
+            return;
+        }
+
+        // Update transaction Data to budget
         if(type === 'income') {
             walletBalance += amount;
         } else if(type === 'expense') {
@@ -38,12 +63,15 @@ function Receipt({ currentUser }) {
             }
             walletBalance -= amount;
 
-            // Add expense to budget
+            // Add expense and transactionId to budget
             budgets.forEach(budget => {
                 let updatedMoneySpend = budget.moneySpend + amount;
 
+                let existingIds = budget.transactionIds || [];
+                console.log('Existing Ids: ', existingIds)
                 let budgetUpdatedData = {
                     moneySpend: updatedMoneySpend,
+                    transactionIds: [...existingIds, newTransactionId]
                 };
 
                 // Budget's wallet is the name of wallet
@@ -62,24 +90,6 @@ function Receipt({ currentUser }) {
                 
             });
         }
-
-        const walletUpdatedData = {
-            balance: walletBalance,
-        }
-
-        const transactionData = {
-            type,
-            amount,
-            label,
-            walletId,
-            date,
-            note,
-            image,
-            userId,
-        };
-
-        dispatch(updateWallet(walletUpdatedData, walletId))
-        dispatch(addTransaction(transactionData))
         
 
         setType('');
