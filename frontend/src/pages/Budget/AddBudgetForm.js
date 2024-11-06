@@ -18,11 +18,11 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId }) {
         }
     }, [currentUser, navigate]);
 
-    const stateWallets = currentUser.wallets || [];
+    const allWallets = currentUser.wallets || [];
 
     const [budgetName, setBudgetName] = useState('');
     const [moneyLimit, setMoneyLimit] = useState('');
-    const [walletIds, setWalletIds] = useState([]);
+    const [selectedWallets, setSelectedWallets] = useState([]);
     const [category, setCategory] = useState('');
     const [startDate, setStartDate] = useState(
         new Date().toISOString().split('T')[0]
@@ -34,13 +34,13 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId }) {
     const closeForm = useCallback(() => {
         setBudgetName('');
         setMoneyLimit('');
-        setWalletIds([]);
+        setSelectedWallets(allWallets);
         setCategory('');
         setStartDate(new Date().toISOString().split('T')[0]);
         setFinishDate('');
         setSelectedColor('');
         setShowForm(false);
-    }, [setShowForm]);
+    }, [setShowForm, allWallets]);
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -62,18 +62,20 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId }) {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
+        const selectedWalletsId =  selectedWallets.map(wallet => wallet._id);
 
         const newBudget = {
             name: budgetName,
             moneyLimit,
-            walletIds: walletIds,
+            walletIds: selectedWalletsId,
             category: category,
             startDate,
             finishDate,
             color: selectedColor,
             userId,
         };
-        
+        console.log('newBudget: ', newBudget)
+
         dispatch(addBudget(newBudget));
         closeForm();
     };
@@ -111,9 +113,9 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId }) {
 
                             <div>
                                 <WalletDropdown
-                                    wallets={stateWallets}
-                                    selectedWallets={walletIds}
-                                    setSelectedWallets={setWalletIds}
+                                    allWallets={allWallets}
+                                    selectedWallets={selectedWallets}
+                                    setSelectedWallets={setSelectedWallets}
                                 />
                             </div>
                             <div>

@@ -58,14 +58,11 @@ function BudgetInfo() {
         month: '2-digit',
         year: 'numeric',
     });
-    const formattedFinishDate = new Date(finishDate).toLocaleDateString(
-        'en-GB',
-        {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-        }
-    );
+    const formattedFinishDate = new Date(finishDate).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+    });
 
     const start = new Date(startDate);
     const end = new Date(finishDate);
@@ -211,7 +208,7 @@ function BudgetInfo() {
                             Transactions
                         </div>
 
-                        <BudgetTransactionList walletIds={walletIds} budgetId={budgetId}/>
+                        <BudgetTransactionList walletIds={walletIds} budgetId={budgetId} startDate={startDate}/>
                         <div className={styles.contentSubHeader}>
                             {/* {budgetCategory} */}
                         </div>

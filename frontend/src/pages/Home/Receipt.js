@@ -47,13 +47,14 @@ function Receipt({ currentUser }) {
                 };
 
                 // Budget's wallet is the name of wallet
-                const budgetWallets = budget.wallets
+                const budgetWalletIds = budget.walletIds
+                console.log('Budget wallets: ', budgetWalletIds)
 
-                if(!budgetWallets.length) {
+                if(!budgetWalletIds.length) {
                     dispatch(updateBudget(budgetUpdatedData, budget._id));
                 }
                 
-                const isOneWalletMatchedBudgetWallets = budgetWallets.some(budgetWallet => budgetWallet === wallet.name)
+                const isOneWalletMatchedBudgetWallets = budgetWalletIds.some(budgetWalletId => budgetWalletId === wallet._id)
 
                 if(isOneWalletMatchedBudgetWallets) {
                     dispatch(updateBudget(budgetUpdatedData, budget._id));

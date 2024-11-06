@@ -49,9 +49,9 @@ const budgetControllers = {
 
   updateBudget: async (req, res) => {
     try {
-      const { name, moneyLimit, moneySpend, walletIds, category, startDate, finishDate, color } = req.body;
+      const { name, moneyLimit, moneySpend, walletIds, transactionIds, category, startDate, finishDate, color } = req.body;
       const budgetId = req.params.budgetId;
-      const budgetUpdateData = { name, moneyLimit, moneySpend, walletIds, category, startDate, finishDate, color };
+      const budgetUpdateData = { name, moneyLimit, moneySpend, walletIds, transactionIds, category, startDate, finishDate, color };
 
       const updatedBudget = await Budget.findByIdAndUpdate(budgetId, budgetUpdateData, { new: true });
 

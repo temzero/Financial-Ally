@@ -19,6 +19,11 @@ const BudgetSchema = new mongoose.Schema({
             type: String
         }
     ],
+    transactionIds: [
+        {
+            type: String
+        }
+    ],
     category: {
         type: String,
     },

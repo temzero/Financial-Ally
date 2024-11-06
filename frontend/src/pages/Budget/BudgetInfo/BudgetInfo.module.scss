@@ -62,7 +62,7 @@
 
 .contentBody {
     width: var(--item-width);
-    height: 90vh;
+    min-height: 90vh;
     background-color: white;
     font-weight: 200;
     border-bottom-left-radius: 6px;
