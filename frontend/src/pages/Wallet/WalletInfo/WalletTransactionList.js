@@ -4,14 +4,21 @@ import Transaction from '../../Home/Transaction';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-function WalletTransactionList({walletId}) {
+function WalletTransactionList({transactionIds}) {
     const [selectedTransaction, setSelectedTransaction] = useState(null);
     
-    const transactions = useSelector((state) => state.user.transactions) || [];
-    // const wallets = useSelector((state) => state.user.wallets) || [];
-    console.log('Transactions: ', transactions)
-    console.log("wallets", walletId)
-    
+    const allTransactions = useSelector((state) => state.user.transactions) || [];
+    const walletTransactions = allTransactions.filter(transaction =>
+        transactionIds.includes(transaction._id)
+    );
+
+    const sortedTransactions = [...walletTransactions].reverse();
+    let lastDate = '';
+
+    const handleTransactionClick = (transaction) => {
+        setSelectedTransaction(transaction._id)
+    }
+
     const formatTransactionDate = (date) => {
         const transactionDate = new Date(date);
         const today = new Date();
@@ -31,13 +38,6 @@ function WalletTransactionList({walletId}) {
             return transactionDate.toLocaleDateString('en-GB');
         }
     };
-
-    const sortedTransactions = [...transactions].reverse();
-    let lastDate = '';
-
-    const handleTransactionClick = (transaction) => {
-        setSelectedTransaction(transaction._id)
-    }
 
     return (
         <div className={styles.transactions}>

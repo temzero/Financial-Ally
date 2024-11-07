@@ -12,11 +12,10 @@ function Home() {
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.user);
     const [activeChart, setActiveChart] = useState('1D');
-    const [displayBalance, setDisplayBalance] = useState(0); // Animated balance state
-    const [selectedTransaction, setSelectedTransaction] = useState(null);
+    const [displayBalance, setDisplayBalance] = useState(0); 
 
     const {
-        _id, firstName, lastName, email, balance, wallets = [], budgets = [], transactions = []
+        _id, wallets = [], transactions = []
     } = currentUser || {};
 
     const totalBalance = wallets.reduce((sum, wallet) => sum + wallet.balance, 0);
@@ -59,32 +58,6 @@ function Home() {
         setActiveChart(period);
     };
 
-    // const formatTransactionDate = (date) => {
-    //     const transactionDate = new Date(date);
-    //     const today = new Date();
-    //     const yesterday = new Date();
-    //     yesterday.setDate(today.getDate() - 1);
-    
-    //     // Remove time from comparison by setting time to midnight
-    //     today.setHours(0, 0, 0, 0);
-    //     yesterday.setHours(0, 0, 0, 0);
-    //     transactionDate.setHours(0, 0, 0, 0);
-    
-    //     if (transactionDate.getTime() === today.getTime()) {
-    //         return 'Today';
-    //     } else if (transactionDate.getTime() === yesterday.getTime()) {
-    //         return 'Yesterday';
-    //     } else {
-    //         return transactionDate.toLocaleDateString('en-GB');
-    //     }
-    // };
-    // let lastDate = '';
-
-    // const handleTransactionClick = (transaction) => {
-    //     console.log('Transaction ID: ', transaction._id)
-    //     setSelectedTransaction(transaction._id)
-    // }
-
     return (
         <div className={styles.container}>
             <div className={styles.content}>
@@ -107,40 +80,6 @@ function Home() {
                 </div>
                 <div className={styles.contentSection}>
                     <div className={styles.header}>Transactions</div>
-                    {/* <div className={styles.transactions}>
-                        {sortedTransactions.map((transaction) => {
-                            const transactionDate = formatTransactionDate(transaction.date);
-                            const showDivider = transactionDate !== lastDate;
-                            lastDate = transactionDate;
-
-                            const color = transaction.type === 'income' ? 'green' : 'red';
-
-                            return (
-                                <div key={transaction._id}>
-                                    {showDivider && (
-                                        <div className={styles.dateDivider}>{transactionDate}</div>
-                                    )}
-                                    <div className={styles.transaction} onClick={() => handleTransactionClick(transaction)}>
-                                        {transaction.type === 'income' ? (
-                                            <BiSolidPlusCircle className={`${styles.typeIcon} ${styles[color]}`} />
-                                        ) : (
-                                            <BiSolidMinusCircle className={`${styles.typeIcon} ${styles[color]}`} />
-                                        )}
-                                        <div className={styles.transAmount}>${transaction.amount}</div>
-                                        <div className={styles.transLabel}>{transaction.label}</div>
-                                        <div className={styles.transWallet}>{wallets.find(wallet => wallet._id === transaction.walletId)?.name || ''}</div>
-                                        <div className={styles.transNote}>{transaction.note}</div>
-                                        {/* <div className={styles.transImage}>{transaction.image}</div> */}
-                                    {/* </div>
-                                    <Transaction 
-                                        transaction={transaction} 
-                                        setSelectedTransaction={setSelectedTransaction}
-                                        color={color}
-                                        hidden={selectedTransaction !== transaction._id}/>
-                                </div>
-                            );
-                        })}
-                    </div> */}
 
                     <TransactionList wallets={wallets} transactions={transactions}/>
 

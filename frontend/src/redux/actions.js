@@ -71,7 +71,6 @@ export const addWallet = (newWalletData) => {
         try {
             const response = await axios.post('http://localhost:4000/wallet/add', newWalletData);
             const newWallet = response.data.wallet
-            console.log('newWallet from actions: ', newWallet)
             dispatch(addWalletSuccess(newWallet));
             return newWallet;
         } catch (error) {
@@ -136,10 +135,13 @@ export const getBudgets = (userId) => {
     return async (dispatch) => {
         try {
             const response = await axios.get(`http://localhost:4000/user/${userId}/budgets`);
-            dispatch(getBudgetsSuccess(response.data));
-            return response.data;
+            const budgets = response.data;
+            dispatch(getBudgetsSuccess(budgets));
+            return budgets;
         } catch (error) {
             console.error('Error fetching budgets:', error);
+            // Handle any errors from the request
+            return "An error occurred while fetching budgets.";
         }
     };
 };

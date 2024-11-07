@@ -135,27 +135,6 @@
     margin: 20px 0;
 }
 
-// Color
-.colorOptions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 12px;
-    margin-bottom: 20px;
-}
-
-.circleOption {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 4px solid transparent; /* To show selection when clicked */
-    transition: border-color 1s;
-}
-
-.circleOption:hover {
-    border: 4px solid black;
-}
-
 // Color Variants
 .green { background-color: var(--background-green); }
 .red { background-color: var(--background-red); }

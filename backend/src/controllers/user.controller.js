@@ -37,7 +37,6 @@ const userControllers = {
       const loginPassword = req.body.password;
 
       const matchedUser = await User.findOne({ email: loginEmail });
-      console.log("User actual password: ", matchedUser.password);
 
       if (loginPassword !== matchedUser.password) {
         return res.status(401).json("Invalid email or password!");

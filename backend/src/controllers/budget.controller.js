@@ -7,7 +7,7 @@ const budgetControllers = {
       const budgets = await Budget.find({ userId });
       
       if (!budgets.length) {
-        return res.status(404).json({ message: "No budgets found!" });
+        return res.status(200).json([]);
       }
   
       res.status(200).json(budgets);

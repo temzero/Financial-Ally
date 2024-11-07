@@ -3,6 +3,9 @@ import Button from '../../../components/Button/Button';
 import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateWallet } from '../../../redux/actions';
+import BalanceInput from '../../../components/FormInput/BalanceInput';
+import WalletTypeInput from '../../../components/FormInput/WalletTypeInput';
+import ColorInput from '../../../components/FormInput/ColorInput';
 
 function EditWalletForm({
     walletData,
@@ -82,42 +85,14 @@ function EditWalletForm({
                         <div className={styles.formContent}>
                             <div>
                                 <h2 className={styles.formLabel}>Amount</h2>
-                                <input
-                                    className={styles.formInput}
-                                    type="number"
-                                    placeholder="$"
-                                    value={walletBalance}
-                                    onChange={(e) => setWalletBalance(e.target.value)}
-                                />
+                                <BalanceInput amount={walletBalance} setAmount={setWalletBalance}/>
                             </div>
                             <div>
                                 <h2 className={styles.formLabel}>Type</h2>
-                                <select
-                                    className={`${styles.formInput} ${styles.formInputSelect}`}
-                                    value={walletType}
-                                    onChange={(e) => setWalletType(e.target.value)}
-                                >
-                                    <option value="" disabled>
-                                        Select Type
-                                    </option>
-                                    <option value="personal">Personal</option>
-                                    <option value="business">Business</option>
-                                    <option value="savings">Savings</option>
-                                </select>
+                                <WalletTypeInput type={walletType} setType={setWalletType}/>
                             </div>
                             <div>
-                                <div className={styles.colorOptions}>
-                                    {['green', 'red', 'blue', 'orange', 'purple', 'rainbow'].map(color => (
-                                        <div
-                                            key={color}
-                                            className={`${styles.circleOption} ${styles[color]}`}
-                                            onClick={() => setWalletColor(color)}
-                                            style={{
-                                                border: walletColor === color ? '4px solid grey' : 'none',
-                                            }}
-                                        ></div>
-                                    ))}
-                                </div>
+                                <ColorInput color={walletColor} setColor={setWalletColor}/>
                             </div>
                             <div className={styles.formBtnContainer}>
                                 <Button type="submit" simple>

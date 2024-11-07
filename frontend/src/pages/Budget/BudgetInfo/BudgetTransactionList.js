@@ -1,27 +1,23 @@
 import { BiSolidPlusCircle, BiSolidMinusCircle } from 'react-icons/bi';
 import styles from '../../Home/Home.module.scss'; // Create this SCSS file for styles
 import Transaction from '../../Home/Transaction';
-import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { getTransactions } from '../../../redux/actions';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
-function BudgetTransactionList({ currentBudget, walletIds = [], startDate }) {
+function BudgetTransactionList({ transactionIds = [], walletIds = [] }) {
     const [selectedTransaction, setSelectedTransaction] = useState(null);
-    const currentUser = useSelector((state) => state.user) || [];
-    const userId = currentUser._id;
-
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getTransactions(userId));
-    }, [userId, dispatch]);
-    console.log('Current user: ', currentUser);
-
-    const allTransactions = currentUser.transactions;
-    const budgetTransactionsId = currentBudget.transactionIds;
+    const allTransactions = useSelector((state) => state.user.transactions) || [];
 
     const budgetTransactions = allTransactions.filter(transaction =>
-        budgetTransactionsId.includes(transaction._id)
+        transactionIds.includes(transaction._id)
     );
+
+    const sortedTransactions = [...budgetTransactions].reverse();
+    let lastDate = '';
+
+    const handleTransactionClick = (transaction) => {
+        setSelectedTransaction(transaction._id);
+    };
 
     const formatTransactionDate = (date) => {
         const transactionDate = new Date(date);
@@ -41,13 +37,6 @@ function BudgetTransactionList({ currentBudget, walletIds = [], startDate }) {
         } else {
             return transactionDate.toLocaleDateString('en-GB');
         }
-    };
-
-    const sortedTransactions = [...budgetTransactions].reverse();
-    let lastDate = '';
-
-    const handleTransactionClick = (transaction) => {
-        setSelectedTransaction(transaction._id);
     };
 
     return (

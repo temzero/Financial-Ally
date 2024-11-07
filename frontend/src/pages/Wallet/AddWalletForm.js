@@ -3,6 +3,9 @@ import Button from '../../components/Button/Button';
 import { useState, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux'; // Assuming you're using Redux
 import { addWallet } from '../../redux/actions';
+import BalanceInput from '../../components/FormInput/BalanceInput';
+import WalletTypeInput from '../../components/FormInput/WalletTypeInput';
+import ColorInput from '../../components/FormInput/ColorInput';
 
 function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
 
@@ -10,13 +13,13 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
     const [walletName, setWalletName] = useState('');
     const [balance, setBalance] = useState('');
     const [walletType, setWalletType] = useState('');
-    const [selectedColor, setSelectedColor] = useState('');
+    const [walletColor, setWalletColor] = useState('');
 
     const closeForm = useCallback(() => {
         setWalletName('');
         setBalance('');
         setWalletType('');
-        setSelectedColor('');
+        setWalletColor('');
         setShowForm(false);
     }, [setShowForm]);
     
@@ -48,7 +51,7 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
             name: walletName,
             balance,
             type: walletType,
-            color: selectedColor,
+            color: walletColor,
             userId,
         };
 
@@ -75,18 +78,11 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
                         <div className={styles.formContent}>
                             <div>
                                 <h2 className={styles.formLabel}>Amount</h2>
-                                <input
-                                    className={styles.formInput}
-                                    type="number"
-                                    placeholder="$"
-                                    value={balance}
-                                    onChange={(e) => setBalance(e.target.value)}
-                                    required
-                                />
+                                <BalanceInput amount={balance} setAmount={setBalance}/>
                             </div>
                             <div>
                                 <h2 className={styles.formLabel}>Type</h2>
-                                <select
+                                {/* <select
                                     className={`${styles.formInput} ${styles.formInputSelect}`}
                                     value={walletType}
                                     onChange={(e) => setWalletType(e.target.value)}
@@ -98,21 +94,11 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
                                     <option value="Personal">Personal</option>
                                     <option value="Business">Business</option>
                                     <option value="Savings">Savings</option>
-                                </select>
+                                </select> */}
+                                <WalletTypeInput type={walletType} setType={setWalletType}/>
                             </div>
                             <div>
-                                <div className={styles.colorOptions}>
-                                    {['green', 'red', 'blue', 'orange', 'purple', 'rainbow'].map(color => (
-                                        <div
-                                            key={color}
-                                            className={`${styles.circleOption} ${styles[color]}`}
-                                            onClick={() => setSelectedColor(color)}
-                                            style={{
-                                                border: selectedColor === color ? '4px solid grey' : 'none',
-                                            }}
-                                        ></div>
-                                    ))}
-                                </div>
+                                <ColorInput color={walletColor} setColor={setWalletColor} />
                             </div>
                             <div className={styles.formBtnContainer}>
                                 <Button type="submit" simple>

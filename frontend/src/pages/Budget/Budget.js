@@ -3,6 +3,7 @@ import Button from '../../components/Button/Button';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState, useRef } from 'react';
 import { getBudgets, getWallets } from '../../redux/actions';
+import { AiOutlinePlus } from "react-icons/ai";
 import AddBudgetForm from './AddBudgetForm';
 import BudgetCard from './BudgetCard';
 
@@ -14,6 +15,7 @@ function Budget() {
     const formRef = useRef(null);
     
     const budgets = currentUser?.budgets || [];
+    const wallets = currentUser?.wallets || [];
     const userId = currentUser._id;
 
     useEffect(() => {
@@ -37,7 +39,9 @@ function Budget() {
 
             <div className={styles.bodyContainer}>
                 {budgets.length === 0 ? (
-                    ''
+                    <div className={styles.addBudgetCard} onClick={toggleForm}>
+                        <AiOutlinePlus className={styles.addBudgetCardIcon}/>
+                    </div>
                 ) : (
                     budgets.map((budget) => {
                         console.log('Budget: ', budget);
@@ -51,6 +55,8 @@ function Budget() {
                 setShowForm={setShowForm}
                 formRef={formRef}
                 userId={userId}
+                wallets={wallets}
+                currentUser={currentUser}
             />
         </div>
     );

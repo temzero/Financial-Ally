@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState, useRef } from 'react';
 import { getWallets } from '../../redux/actions';
 import AddWalletForm from './AddWalletForm';
-
+import { AiOutlinePlus } from "react-icons/ai";
 import { WalletCard } from './WalletCard';
 
 function Wallet() {
@@ -27,7 +27,7 @@ function Wallet() {
     const formattedBalance = totalBalance.toLocaleString();
 
     // State for form values
-    const showWallet = () => {
+    const toggleWallet = () => {
         setShowForm(!showForm);
     };
 
@@ -36,7 +36,7 @@ function Wallet() {
             <div className={styles.header}>
                 <h2 className={styles.title}>Wallet</h2>
                 <div>
-                    <Button s onClick={showWallet}>
+                    <Button s onClick={toggleWallet}>
                         Add Wallet
                     </Button>
                 </div>
@@ -46,7 +46,9 @@ function Wallet() {
             {/* Pass data to WalletItems */}
             <div className={styles.bodyContainer}>
                 {wallets.length === 0 ? (
-                    ''
+                    <div className={styles.addWalletCard} onClick={toggleWallet}>
+                        <AiOutlinePlus className={styles.addWalletCardIcon}/>
+                    </div>
                 ) : (
                     wallets.map((wallet) => (
                         <WalletCard key={wallet._id} walletData={wallet} />

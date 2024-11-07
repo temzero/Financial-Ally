@@ -9,7 +9,7 @@ const walletControllers = {
       const wallets = await Wallet.find({ userId: userId });
       
       if (!wallets.length) {
-        return res.status(404).json({ message: "You don't have any wallet!" });
+        return res.status(200).json([]);
       }
   
       res.status(200).json(wallets);
@@ -57,9 +57,9 @@ const walletControllers = {
 
   updateWallet: async (req, res) => {
     try {
-      const { name, balance, type, color } = req.body;
+      const { name, balance, type, color, transactionIds } = req.body;
       const walletId = req.params.walletId;
-      const walletUpdateData = { name, balance, type, color }
+      const walletUpdateData = { name, balance, type, color, transactionIds }
 
       const updatedWallet = await Wallet.findByIdAndUpdate(walletId, walletUpdateData, { new: true });
 
@@ -75,8 +75,6 @@ const walletControllers = {
   deleteWallet: async (req, res) => {
     try {
       const walletId = req.params.walletId;
-      console.log('delete wallet request: ', req);
-      console.log('delete walletId: ', walletId);
   
       const deletedWallet = await Wallet.deleteOne({ _id: walletId });
   

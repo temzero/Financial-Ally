@@ -1,8 +1,12 @@
 import styles from './BudgetInfo.module.scss';
 import Button from '../../../components/Button/Button';
+import ColorInput from '../../../components/FormInput/ColorInput';
 import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateBudget } from '../../../redux/actions';
+import BalanceInput from '../../../components/FormInput/BalanceInput';
+import CategoryInput from '../../../components/FormInput/CategoryInput';
+import DateInput from '../../../components/FormInput/DateInput'
 
 function EditBudgetForm({
     budgetData,
@@ -15,6 +19,8 @@ function EditBudgetForm({
     setBudgetMoneyLimit,
     budgetCategory,
     setBudgetCategory,
+    budgetFinishDate,
+    setBudgetFinishDate,
     budgetColor,
     setBudgetColor,
 }) {
@@ -50,14 +56,14 @@ function EditBudgetForm({
     const handleFormSubmit = (e) => {
         e.preventDefault();
 
-        const updatedBudget = {
+        const updatedBudgetData = {
             name: budgetName,
             amount: budgetMoneyLimit,
             category: budgetCategory,
             color: budgetColor,
         };
 
-        dispatch(updateBudget(updatedBudget, budgetId));
+        dispatch(updateBudget(updatedBudgetData, budgetId));
         closeForm();
     };
 
@@ -79,39 +85,18 @@ function EditBudgetForm({
                         <div className={styles.formContent}>
                             <div>
                                 <h2 className={styles.formLabel}>Set Limit Amount</h2>
-                                <input
-                                    className={styles.formInput}
-                                    type="number"
-                                    placeholder="$"
-                                    value={budgetMoneyLimit}
-                                    onChange={(e) => setBudgetMoneyLimit(Number(e.target.value))}
-                                />
+                                <BalanceInput amount={budgetMoneyLimit} setAmount={setBudgetMoneyLimit}/>
                             </div>
                             <div>
                                 <h2 className={styles.formLabel}>Category</h2>
-                                <select
-                                    className={`${styles.formInput} ${styles.formInputSelect}`}
-                                    value={budgetCategory}
-                                    onChange={(e) => setBudgetCategory(e.target.value)}
-                                >
-                                    <option >All Expenses & incomes</option>
-                                    <option value="Income">Incomes</option>
-                                    <option value="Expense">Expenses</option>
-                                </select>
+                                <CategoryInput category={budgetCategory} setCategory={setBudgetCategory}/>
                             </div>
                             <div>
-                                <div className={styles.colorOptions}>
-                                    {['green', 'red', 'blue', 'orange', 'purple', 'rainbow'].map((color) => (
-                                        <div
-                                            key={color}
-                                            className={`${styles.circleOption} ${styles[color]}`}
-                                            onClick={() => setBudgetColor(color)}
-                                            style={{
-                                                border: budgetColor === color ? '4px solid grey' : 'none',
-                                            }}
-                                        ></div>
-                                    ))}
-                                </div>
+                                <h2 className={styles.formLabel}>Finish Date</h2>
+                                <DateInput date={budgetFinishDate} setDate={setBudgetFinishDate} />
+                            </div>
+                            <div>
+                                <ColorInput color={budgetColor} setColor={setBudgetColor}/>
                             </div>
                             <div className={styles.formBtnContainer}>
                                 <Button type="submit" simple>

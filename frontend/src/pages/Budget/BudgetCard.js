@@ -13,6 +13,7 @@ function BudgetCard({ budgetData }) {
 
     // Money left calculation (example)
     const leftToSpend = moneyLimit - moneySpend;
+    const spendPerDay = Math.floor(leftToSpend / daysLeft);
     const spendPercent = (moneySpend / moneyLimit) * 100;
 
     const colorClass = styles[budgetData.color];
@@ -30,8 +31,8 @@ function BudgetCard({ budgetData }) {
                     {daysLeft > 0 ? daysLeft : 0} days left
                 </div>
                 <div className={styles.budgetCardDay}>
-                    {leftToSpend !== undefined
-                        ? `$${leftToSpend.toLocaleString()} left`
+                    {spendPerDay !== undefined
+                        ? `$${spendPerDay} per day`
                         : 'No data available'}
                 </div>
                 <div className={styles.budgetCardMoneyLimit}>

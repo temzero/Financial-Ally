@@ -4,8 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Button from '../../../components/Button/Button';
 import EditWalletForm from './EditWalletForm';
 import DeleteWalletForm from './DeleteWalletForm';
-import { useSelector, useDispatch } from 'react-redux';
-import { getWalletTransactions } from '../../../redux/actions';
+import { useSelector } from 'react-redux';
 import WalletTransactionList from './WalletTransactionList';
 
 function WalletInfo() {
@@ -14,7 +13,7 @@ function WalletInfo() {
     const wallets = useSelector((state) => state.user.wallets);
     const currentWallet = wallets.find(wallet => wallet._id === walletId);
 
-    const { name, balance, type, color, userId} = currentWallet
+    const { name, balance, type, color, transactionIds } = currentWallet
     
     const [showEditForm, setShowEditForm] = useState(false);
     const [showDeleteForm, setShowDeleteForm] = useState(false);
@@ -37,7 +36,7 @@ function WalletInfo() {
             setWalletType(type);
             setWalletColor(color);
         }
-    }, [walletId, showEditForm, showDeleteForm, wallets, currentWallet]);
+    }, [showEditForm, showDeleteForm, wallets, currentWallet, balance, color, name, type]);
 
     const handleShowEditForm = () => {
         setShowEditForm(!showEditForm)
@@ -72,7 +71,7 @@ function WalletInfo() {
                     </div>
                     <div className={styles.contentTransaction}>
                         <div className={styles.contentSubHeader}>Transactions</div>
-                        <WalletTransactionList walletId={walletId}/>
+                        <WalletTransactionList transactionIds={transactionIds}/>
                     </div>
                 </div>
             </div>

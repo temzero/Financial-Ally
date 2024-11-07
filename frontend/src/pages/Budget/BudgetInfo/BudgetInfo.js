@@ -20,6 +20,7 @@ function BudgetInfo() {
         startDate,
         finishDate,
         walletIds,
+        transactionIds,
         color,
     } = currentBudget;
 
@@ -29,7 +30,6 @@ function BudgetInfo() {
     // State variables for budget details
     const [budgetName, setBudgetName] = useState('');
     const [budgetMoneyLimit, setBudgetMoneyLimit] = useState(moneyLimit);
-    const [budgetMoneySpend, setBudgetMoneySpend] = useState(moneySpend || 0);
     const [budgetCategory, setBudgetCategory] = useState('');
     const [budgetColor, setBudgetColor] = useState('');
     const [budgetStartDate, setBudgetStartDate] = useState('');
@@ -76,8 +76,8 @@ function BudgetInfo() {
     // Calculate the remaining days between today and finishDate
     const daysLeft = Math.ceil(Math.abs((end - now) / (1000 * 60 * 60 * 24)));
     
-    const leftToSpend = budgetMoneyLimit - budgetMoneySpend;
-    const spendPercent = Math.ceil((budgetMoneySpend / budgetMoneyLimit) * 100);
+    const leftToSpend = budgetMoneyLimit - moneySpend;
+    const spendPercent = Math.ceil((moneySpend / budgetMoneyLimit) * 100);
 
     const handleShowEditForm = () => {
         setShowEditForm(!showEditForm);
@@ -208,7 +208,7 @@ function BudgetInfo() {
                             Transactions
                         </div>
 
-                        <BudgetTransactionList walletIds={walletIds} currentBudget={currentBudget}/>
+                        <BudgetTransactionList transactionIds={transactionIds} walletIds={walletIds}/>
                         <div className={styles.contentSubHeader}>
                             {/* {budgetCategory} */}
                         </div>
