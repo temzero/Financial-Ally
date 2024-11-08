@@ -176,19 +176,6 @@ function BudgetInfo() {
                         </div>
                         <div>
                             <div className={styles.contentSummaryHeader}>
-                                Spend:{' '}
-                            </div>
-                            <div>
-                                <span className={styles.contentSummaryValue}>
-                                    {spendPercent}
-                                </span>
-                                <span className={styles.contentSummaryUnit}>
-                                    %
-                                </span>
-                            </div>
-                        </div>
-                        <div>
-                            <div className={styles.contentSummaryHeader}>
                                 Left to spend:{' '}
                             </div>
                             <div className={styles.contentSummaryValue}>

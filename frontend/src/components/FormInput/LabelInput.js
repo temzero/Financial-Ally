@@ -1,9 +1,9 @@
 import styles from './FormInput.module.scss'
 
-function LabelInput({label, setLabel}) {
+function LabelInput({label, setLabel, className}) {
     return ( 
         <select
-            className={styles.formInputOptions}
+            className={`${styles.formInputOptions} ${className || ''}`}
             value={label}
             onChange={(e) => setLabel(e.target.value)}
         >

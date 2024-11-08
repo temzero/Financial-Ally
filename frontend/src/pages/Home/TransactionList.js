@@ -1,6 +1,6 @@
 import { BiSolidPlusCircle, BiSolidMinusCircle } from 'react-icons/bi';
 import styles from './Home.module.scss'; // Create this SCSS file for styles
-import Transaction from './Transaction';
+import Transaction from '../../components/Transaction/Transaction';
 import { useState } from 'react';
 
 function TransactionList({wallets, transactions}) {

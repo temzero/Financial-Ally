@@ -1,0 +1,162 @@
+// Transaction Form
+.hidden {
+    display: none;
+}
+
+.formOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.formContainer {
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    max-width: 90%;
+    padding: 0 20px;
+}
+
+.formLabel {
+    font-size: 1rem;
+    font-weight: 200;
+}
+
+.transactionHeader {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 0;
+}
+
+.TransactionBalance {
+    font-size: 2rem;
+    font-weight: 300;
+    
+    .balanceInput {
+        font-size: 2rem;
+        margin: 0 4px;
+    }
+}
+
+.typeIcon {
+    font-size: 1.8rem;
+}
+
+.transactionTypeIcon {
+    font-size: 2.1rem;
+}
+
+.transactionInfo {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border-top: 3px solid;
+    border-bottom: 3px solid;
+    padding: 16px 0;
+
+    &.bordergreen {
+        border-color: var(--color-green);
+    }
+
+    &.borderred {
+        border-color: var(--color-red);
+    }
+
+    .transactionLabelContainer {
+        width: 52%;
+        
+        .labelInput {
+            font-size: 1.2rem;
+            margin: 1px 0;
+        }
+
+        .transactionLabel {
+            font-size: 2rem;
+            line-height: 2rem;
+            font-weight: 300;
+        }
+    }
+
+
+    .transactionImage {
+        border: 2px solid rgba(0, 0, 0, 0.2);
+        border-radius: 4px;
+        width: 160px;
+        height: 160px;
+        // width: 40%;
+    }
+}
+
+.transactionNote {
+    height: 110px;
+    padding: 12px 0;
+
+    .noteInput {
+        margin: 0;
+        font-size: 1rem;
+    }
+}
+
+.transactionActions {
+    display: flex;
+    height: 40px;
+    justify-content: space-between;
+    align-items: center;
+    margin: 4px 0px;
+
+    .transactionDate {
+        color: #777;
+        font-weight: 200;
+        font-size: 1rem;
+    }
+
+    .transactionBtnContainer {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .transactionBtn {
+        background-color: transparent;
+        border: none;
+        color: #777;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+}
+
+.transactionTypeIcon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.confirmIcon {
+    font-size: 1.8rem;
+    color: var(--color-green);
+}
+
+.closeIcon {
+    font-size: 1.8rem;
+    color: var(--color-red);
+}
+
+.green { 
+    color: var(--color-green);
+}
+
+.red {
+    color: var(--color-red);
+}

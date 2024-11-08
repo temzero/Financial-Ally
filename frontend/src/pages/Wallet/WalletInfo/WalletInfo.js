@@ -13,7 +13,7 @@ function WalletInfo() {
     const wallets = useSelector((state) => state.user.wallets);
     const currentWallet = wallets.find(wallet => wallet._id === walletId);
 
-    const { name, balance, type, color, transactionIds } = currentWallet
+    const { name, balance, type, color, transactionIds } = currentWallet;
     
     const [showEditForm, setShowEditForm] = useState(false);
     const [showDeleteForm, setShowDeleteForm] = useState(false);
