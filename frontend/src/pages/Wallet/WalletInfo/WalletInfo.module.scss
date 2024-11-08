@@ -32,10 +32,15 @@
     height: var(--item-header-height);
     display: flex;
     align-items: center;
+    justify-content: space-between;
     width: var(--item-width);
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
     color: rgba(0, 0, 0, 0.7);
+
+    .contentSubHeader {
+        font-size: 1.6rem;
+    }
 }
 
 .contentBody {
@@ -73,8 +78,8 @@
 }
 
 .contentSubHeader {
-    font-size: 1.4rem;
-    font-weight: 200;
+    font-size: 1.8rem;
+    font-weight: 300;
     margin: 20px 0;
 }
 

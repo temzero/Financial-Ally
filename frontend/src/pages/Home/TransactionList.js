@@ -6,9 +6,6 @@ import { useState } from 'react';
 function TransactionList({wallets, transactions}) {
     const [selectedTransaction, setSelectedTransaction] = useState(null);
     
-    // const transactions = useSelector((state) => state.user.transactions) || [];
-    // const wallets = useSelector((state) => state.user.wallets) || [];
-    
     const formatTransactionDate = (date) => {
         const transactionDate = new Date(date);
         const today = new Date();
@@ -70,7 +67,6 @@ function TransactionList({wallets, transactions}) {
                                 color={color}
                                 hidden={selectedTransaction !== transaction._id}
                             />
-                            {/* {console.log('selectedTransaction: ',selectedTransaction)} */}
                         </div>
                     </div>
                 );

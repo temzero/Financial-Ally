@@ -43,7 +43,7 @@
     
     .balanceInput {
         font-size: 2rem;
-        margin: 0 4px;
+        margin: 0;
     }
 }
 
@@ -72,7 +72,10 @@
     }
 
     .transactionLabelContainer {
-        width: 52%;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         
         .labelInput {
             font-size: 1.2rem;
@@ -92,7 +95,7 @@
         border-radius: 4px;
         width: 160px;
         height: 160px;
-        // width: 40%;
+        margin-left: 10px;
     }
 }
 

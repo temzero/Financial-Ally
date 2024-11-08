@@ -32,8 +32,9 @@ function EditBudgetForm({
         setBudgetMoneyLimit(budgetData.balance);
         setBudgetCategory(budgetData.category);
         setBudgetColor(budgetData.color);
+        setBudgetFinishDate(budgetData.finishDate)
         setShowForm(false);
-    }, [budgetData, setShowForm, setBudgetName, setBudgetMoneyLimit, setBudgetCategory, setBudgetColor]);
+    }, [budgetData, setShowForm, setBudgetName, setBudgetMoneyLimit, setBudgetCategory, setBudgetColor, setBudgetFinishDate]);
 
     useEffect(() => {
         const handleClickOutside = (e) => {

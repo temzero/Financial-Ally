@@ -28,29 +28,15 @@ function BudgetInfo() {
     const [showDeleteForm, setShowDeleteForm] = useState(false);
 
     // State variables for budget details
-    const [budgetName, setBudgetName] = useState('');
+    const [budgetName, setBudgetName] = useState(name);
     const [budgetMoneyLimit, setBudgetMoneyLimit] = useState(moneyLimit);
-    const [budgetCategory, setBudgetCategory] = useState('');
-    const [budgetColor, setBudgetColor] = useState('');
-    const [budgetStartDate, setBudgetStartDate] = useState('');
-    const [budgetFinishDate, setBudgetFinishDate] = useState('');
-    const [budgetWallets, setBudgetWallets] = useState([]);
-
+    const [budgetCategory, setBudgetCategory] = useState(category);
+    const [budgetColor, setBudgetColor] = useState(color);
+    const [budgetStartDate, setBudgetStartDate] = useState(startDate);
+    const [budgetFinishDate, setBudgetFinishDate] = useState(finishDate);
+    const [budgetWallets, setBudgetWallets] = useState(walletIds);
+    console.log('budget info Budget finish date: ', budgetFinishDate)
     const formRef = useRef(null);
-    const budgetColorClass = styles[budgetColor];
-    const headerClasses = [budgetColorClass, styles.contentHeader].join(' ');
-
-    useEffect(() => {
-        if (currentBudget) {
-            setBudgetName(name);
-            setBudgetMoneyLimit(moneyLimit);
-            setBudgetCategory(category);
-            setBudgetColor(color);
-            setBudgetStartDate(startDate);
-            setBudgetFinishDate(finishDate);
-            setBudgetWallets(walletIds);
-        }
-    }, [budgetId, showEditForm, showDeleteForm, budgets, currentBudget, category, color, finishDate, moneyLimit, name, startDate, walletIds]);
 
     // Convert startDate and finishDate to readable date format
     const formattedStartDate = new Date(startDate).toLocaleDateString('en-GB', {
@@ -109,7 +95,7 @@ function BudgetInfo() {
                 </div>
             </div>
             <div className={styles.contentInfo}>
-                <div className={headerClasses}>
+                <div className={`${styles.contentHeader} ${styles[budgetColor]}`}>
                     <div className={styles.contentHeaderContainer}>
                         <div className={styles.contentName}>{budgetName}</div>
                         <div className={styles.contentMoneyLimit}>

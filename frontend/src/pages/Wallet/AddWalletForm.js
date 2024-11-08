@@ -82,19 +82,6 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
                             </div>
                             <div>
                                 <h2 className={styles.formLabel}>Type</h2>
-                                {/* <select
-                                    className={`${styles.formInput} ${styles.formInputSelect}`}
-                                    value={walletType}
-                                    onChange={(e) => setWalletType(e.target.value)}
-                                    required
-                                >
-                                    <option value="" disabled>
-                                        Select Type
-                                    </option>
-                                    <option value="Personal">Personal</option>
-                                    <option value="Business">Business</option>
-                                    <option value="Savings">Savings</option>
-                                </select> */}
                                 <WalletTypeInput type={walletType} setType={setWalletType}/>
                             </div>
                             <div>

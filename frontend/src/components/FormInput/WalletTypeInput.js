@@ -10,9 +10,9 @@ function WalletTypeInput({ type, setType }) {
             <option value="" disabled>
                 Select Type
             </option>
-            <option value="personal">Personal</option>
-            <option value="business">Business</option>
-            <option value="savings">Savings</option>
+            <option value="Personal">Personal</option>
+            <option value="Business">Business</option>
+            <option value="Savings">Savings</option>
         </select>
     );
 }

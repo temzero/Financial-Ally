@@ -2,33 +2,46 @@ import styles from './Transaction.module.scss';
 import { BiSolidPlusCircle, BiSolidMinusCircle } from 'react-icons/bi';
 import { editIcon, deleteIcon } from '../../assets/icons/icons';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { deleteTransaction } from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteTransaction, updateWallet, updateBudget, updateTransaction } from '../../redux/actions';
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from "react-icons/ai";
 import BalanceInput from '../FormInput/BalanceInput';
 import LabelInput from '../FormInput/LabelInput';
 import NoteInput from '../FormInput/NoteInput';
 
 function Transaction({ transaction, setSelectedTransaction, color, hidden, className }) {
-    const [editable, setEditable] = useState(false);
-    const [amount, setAmount] = useState(transaction.amount);
-    const [label, setLabel] = useState(transaction.label);
-    const [note, setNote] = useState(transaction.note);
-
-    const editData = {
-        amount,
-        label,
-        note
-    }
-
     let classes = `
         ${className} 
         ${styles.transactionForm} 
         ${color ? styles.color : ''}
         ${hidden ? styles.hidden : ''}
     `;
-
     const dispatch = useDispatch();
+    const budgets = useSelector((state) => state.user.budgets) || [];
+    const wallets = useSelector((state) => state.user.wallets) || [];
+    const wallet = wallets.find((wallet) => wallet._id === transaction.walletId) || {};
+
+    console.log('transaction Wallet: ', wallet)
+
+    const [editable, setEditable] = useState(false);
+    const [amount, setAmount] = useState(transaction.amount);
+    const [label, setLabel] = useState(transaction.label);
+    const [note, setNote] = useState(transaction.note);
+
+    const oldTransactionData = {
+        oldAmount: transaction.amount,
+        oldLabel: transaction.label,
+        oldNote: transaction.note,
+    }
+    
+    const updateTransactionData = {
+        amount,
+        label,
+        note
+    }
+
+    console.log('Old transaction data: ', oldTransactionData)
+    console.log('Updated transaction data: ', updateTransactionData)
 
     const typeIcon = () => {
         if(transaction.type === 'income') {
@@ -77,6 +90,26 @@ function Transaction({ transaction, setSelectedTransaction, color, hidden, class
         );
     };
 
+    const updateData = () => {
+        const updatedWalletBalance = wallet.balance + transaction.amount - amount;
+        const updateWalletData = { balance: updatedWalletBalance}
+        dispatch(updateTransaction(updateTransactionData, transaction._id));
+        dispatch(updateWallet(updateWalletData, wallet._id));
+
+        budgets.forEach((budget) => {
+            const budgetWalletIds = budget.walletIds || [];
+            const isWalletInBudget = budgetWalletIds.includes(transaction.walletId);
+
+            if (!budgetWalletIds.length || isWalletInBudget) {
+                const updatedMoneySpend = budget.moneySpend - transaction.amount + amount;
+                const budgetUpdatedData = {
+                    moneySpend: updatedMoneySpend,
+                };
+                dispatch(updateBudget(budgetUpdatedData, budget._id));
+            }
+        });
+    }
+
     const onEditButtonClicked = (event) => {
         event.stopPropagation();
         setEditable(true);
@@ -84,9 +117,9 @@ function Transaction({ transaction, setSelectedTransaction, color, hidden, class
     
     const handleEditConfirm = (event) => {
         event.stopPropagation();
-        console.log('Transaction Edit', editData);
         setEditable(false);
-        // dispatch(editTransaction(editData, _id)); // Uncomment to send data to Redux
+        setSelectedTransaction(null);
+        updateData();
     };
     
     const handleCancelEdit = (event) => {
@@ -100,12 +133,34 @@ function Transaction({ transaction, setSelectedTransaction, color, hidden, class
     const handleTransactionDelete = () => {
         console.log('Transaction Delete');
         dispatch(deleteTransaction(transaction._id));
+
+        const updatedWalletBalance = wallet.balance + transaction.amount;
+        const updateWalletData = { balance: updatedWalletBalance}
+        dispatch(updateTransaction(updateTransactionData, transaction._id));
+        dispatch(updateWallet(updateWalletData, wallet._id));
+
+        budgets.forEach((budget) => {
+            const budgetWalletIds = budget.walletIds || [];
+            const isWalletInBudget = budgetWalletIds.includes(transaction.walletId);
+
+            if (!budgetWalletIds.length || isWalletInBudget) {
+                const updatedMoneySpend = budget.moneySpend - transaction.amount;
+                const budgetUpdatedData = {
+                    moneySpend: updatedMoneySpend,
+                };
+                dispatch(updateBudget(budgetUpdatedData, budget._id));
+            }
+        });
     };
         
     const handleClickOutside = (event) => {
         event.stopPropagation();
         setSelectedTransaction(null);
-        console.log('Close transaction');
+        setEditable(false);
+        
+        setAmount(transaction.amount);
+        setLabel(transaction.label);
+        setNote(transaction.note);
     };
 
     return ( 
@@ -127,11 +182,11 @@ function Transaction({ transaction, setSelectedTransaction, color, hidden, class
                         
                     <div className={`${styles.transactionInfo} ${styles[`border${color}`]}`}>
                         <div className={styles.transactionLabelContainer}>
-                            {editable ? (
+                            {/* {editable ? (
                                 <LabelInput label={label} setLabel={setLabel} className={styles.labelInput}/>
                             ) : (
-                                <div className={styles.transactionLabel}>{label}</div>
-                            )}
+                            )} */}
+                            <div className={styles.transactionLabel}>{label}</div>
                             <div>Icon</div>
                         </div>
                         <div className={styles.transactionImage}></div>

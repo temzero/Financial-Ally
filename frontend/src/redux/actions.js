@@ -257,11 +257,11 @@ export const addTransactionSuccess = (transaction) => ({
     transaction
 });
 
-export const editTransaction = (transactionUpdateData, transactionId) => {
+export const updateTransaction = (transactionUpdateData, transactionId) => {
     return async (dispatch) => {
         try {
             const response = await axios.patch(`http://localhost:4000/transaction/${transactionId}`, transactionUpdateData);
-            dispatch(editTransactionSuccess(response.data.transaction));
+            dispatch(updateTransactionSuccess(response.data.transaction));
             return response.data.transaction;
         } catch (error) {
             console.error('Cannot update transaction:', error);
@@ -269,8 +269,8 @@ export const editTransaction = (transactionUpdateData, transactionId) => {
     };
 };
 
-export const editTransactionSuccess = (updatedTransaction) => ({
-    type: Types.editTransactionSuccess,
+export const updateTransactionSuccess = (updatedTransaction) => ({
+    type: Types.updateTransactionSuccess,
     transaction: updatedTransaction
 });
 
