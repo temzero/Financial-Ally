@@ -26,7 +26,7 @@ function DateInput({ date, setDate }) {
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                required
+                // required
             />
         </div>
     );

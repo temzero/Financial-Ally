@@ -13,17 +13,26 @@ function EditBudgetForm({
     formRef,
     showForm,
     setShowForm,
+
     budgetName,
     setBudgetName,
+
     budgetMoneyLimit,
     setBudgetMoneyLimit,
+
     budgetCategory,
     setBudgetCategory,
+
     budgetFinishDate,
     setBudgetFinishDate,
+
     budgetColor,
     setBudgetColor,
 }) {
+
+    console.log('budgetFinishDate', budgetFinishDate)
+    console.log('FinishDate', budgetData.finishDate)
+    const formattedFinishDate = budgetFinishDate ? new Date(budgetFinishDate).toISOString().split('T')[0] : '';
     const budgetId = budgetData._id;
     const dispatch = useDispatch();
 
@@ -61,11 +70,12 @@ function EditBudgetForm({
             name: budgetName,
             amount: budgetMoneyLimit,
             category: budgetCategory,
+            finishDate: budgetFinishDate,
             color: budgetColor,
         };
 
         dispatch(updateBudget(updatedBudgetData, budgetId));
-        closeForm();
+        setShowForm(false);
     };
 
     return (
@@ -94,7 +104,7 @@ function EditBudgetForm({
                             </div>
                             <div>
                                 <h2 className={styles.formLabel}>Finish Date</h2>
-                                <DateInput date={budgetFinishDate} setDate={setBudgetFinishDate} />
+                                <DateInput date={formattedFinishDate} setDate={setBudgetFinishDate} />
                             </div>
                             <div>
                                 <ColorInput color={budgetColor} setColor={setBudgetColor}/>

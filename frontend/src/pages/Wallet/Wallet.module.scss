@@ -11,10 +11,17 @@
     line-height: 1;
 }
 
-.totalBalance {
-    line-height: 1;
+.balance {
+    display: flex;
+    align-items: center;
     font-size: 3rem;
+    line-height: 4rem;
     font-weight: 200;
+}
+
+.currency {
+    font-size: 2.8rem;
+    margin-right: 8px;
 }
 
 .info {

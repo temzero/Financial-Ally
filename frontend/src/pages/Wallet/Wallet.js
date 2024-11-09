@@ -24,7 +24,7 @@ function Wallet() {
 
     // Calculate total balance
     const totalBalance = wallets.reduce((sum, wallet) => sum + wallet.balance, 0);
-    const formattedBalance = totalBalance.toLocaleString();
+    const currency = '$'
 
     // State for form values
     const toggleWallet = () => {
@@ -41,7 +41,7 @@ function Wallet() {
                     </Button>
                 </div>
             </div>
-            <div className={styles.totalBalance}>${formattedBalance}</div>
+            <div className={styles.balance}><span className={styles.currency}>{currency}</span>{totalBalance.toLocaleString()}</div>
 
             {/* Pass data to WalletItems */}
             <div className={styles.bodyContainer}>

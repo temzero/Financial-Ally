@@ -1,9 +1,11 @@
 import { BiSolidPlusCircle, BiSolidMinusCircle } from 'react-icons/bi';
-import styles from './Home.module.scss'; // Create this SCSS file for styles
-import Transaction from '../../components/Transaction/Transaction';
+import styles from './Transaction.module.scss'; 
+import Transaction from './Transaction';
 import { useState } from 'react';
+import { IoWalletOutline } from "react-icons/io5";
+import { GoPencil } from "react-icons/go";
 
-function TransactionList({wallets, transactions}) {
+function TransactionList({wallets = [], transactions = [], currency = '$'}) {
     const [selectedTransaction, setSelectedTransaction] = useState(null);
     
     const formatTransactionDate = (date) => {
@@ -28,6 +30,13 @@ function TransactionList({wallets, transactions}) {
 
     const sortedTransactions = [...transactions].reverse();
     let lastDate = '';
+
+    const displayWallet = (walletId) => {
+        const walletName = wallets.find(wallet => wallet._id === walletId)?.name;
+        return walletName ? (
+            <><IoWalletOutline />{walletName}</>
+        ) : null;
+    };
 
     const handleTransactionClick = (transaction) => {
         setSelectedTransaction(transaction._id)
@@ -56,11 +65,11 @@ function TransactionList({wallets, transactions}) {
                                 ) : (
                                     <BiSolidMinusCircle className={`${styles.typeIcon} ${styles[color]}`} />
                                 )}
-                                ${transaction.amount.toLocaleString("en-US")}
+                                <span className={styles.currency}>{currency}</span>{transaction.amount.toLocaleString("en-US")}
                             </div>
+                            <div className={styles.transWallet}>{displayWallet(transaction.walletId)}</div>
+                            <div className={styles.transNote}><GoPencil /> {transaction.note ? transaction.note : '---'}</div>
                             <div className={styles.transLabel}>{transaction.label}</div>
-                            <div className={styles.transWallet}>{wallets.find(wallet => wallet._id === transaction.walletId)?.name || ''}</div>
-                            <div className={styles.transNote}>{transaction.note}</div>
                             <Transaction 
                                 transaction={transaction} 
                                 setSelectedTransaction={setSelectedTransaction}

@@ -8,7 +8,7 @@ function WalletInput({walletId, setWalletId, wallets}) {
                 value={walletId}
                 onChange={(e) => setWalletId(e.target.value)}
                 disabled={wallets.length === 0}
-                required
+                // required
             >
                 <option value="" disabled hidden>
                     {wallets.length === 0

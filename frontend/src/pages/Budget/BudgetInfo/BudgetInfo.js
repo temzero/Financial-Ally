@@ -1,17 +1,21 @@
 import styles from './BudgetInfo.module.scss';
 import { useLocation } from 'react-router-dom';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import Button from '../../../components/Button/Button';
 import EditBudgetForm from './EditBudgetForm';
 import DeleteBudgetForm from './DeleteBudgetForm';
 import { useSelector } from 'react-redux';
-import BudgetTransactionList from './BudgetTransactionList';
+import TransactionList from '../../../components/Transaction/TransactionList';
 
 function BudgetInfo() {
     const { state } = useLocation();
     const budgetId = state?.budgetId || '';
-    const budgets = useSelector((state) => state.user.budgets);
-    const currentBudget = budgets.find((budget) => budget._id === budgetId);
+    const currentUser = useSelector((state) => state.user);
+    const allBudgets = currentUser.budgets;
+    const allWallets = currentUser.wallets;
+    const allTransactions = currentUser.transactions;
+
+    const currentBudget = allBudgets.find((budget) => budget._id === budgetId);
     const {
         name,
         moneyLimit,
@@ -23,6 +27,10 @@ function BudgetInfo() {
         transactionIds,
         color,
     } = currentBudget;
+
+    const transactions = allTransactions.filter(transaction =>
+        transactionIds.includes(transaction._id)
+    );
 
     const [showEditForm, setShowEditForm] = useState(false);
     const [showDeleteForm, setShowDeleteForm] = useState(false);
@@ -39,19 +47,19 @@ function BudgetInfo() {
     const formRef = useRef(null);
 
     // Convert startDate and finishDate to readable date format
-    const formattedStartDate = new Date(startDate).toLocaleDateString('en-GB', {
+    const formattedStartDate = new Date(budgetStartDate).toLocaleDateString('en-GB', {
         day: '2-digit',
         month: '2-digit',
         year: 'numeric',
     });
-    const formattedFinishDate = new Date(finishDate).toLocaleDateString('en-GB', {
+    const formattedFinishDate = new Date(budgetFinishDate).toLocaleDateString('en-GB', {
         day: '2-digit',
         month: '2-digit',
         year: 'numeric',
     });
 
-    const start = new Date(startDate);
-    const end = new Date(finishDate);
+    const start = new Date(budgetStartDate);
+    const end = new Date(budgetFinishDate);
     const now = new Date(); // Set `now` to the current date and time
 
     // Calculate the total period in days between startDate and finishDate
@@ -107,7 +115,7 @@ function BudgetInfo() {
                     </div>
                     <div
                         className={styles.progressBar}
-                        style={{ width: `${spendPercent}%` }} // Set the width based on spendPercent
+                        style={{ width: `${spendPercent}%` }}
                     ></div>
                 </div>
                 <div className={styles.contentBody}>
@@ -165,7 +173,7 @@ function BudgetInfo() {
                                 Left to spend:{' '}
                             </div>
                             <div className={styles.contentSummaryValue}>
-                                ${leftToSpend}
+                                ${leftToSpend.toLocaleString()}
                             </div>
                         </div>
                     </div>
@@ -181,7 +189,7 @@ function BudgetInfo() {
                             Transactions
                         </div>
 
-                        <BudgetTransactionList transactionIds={transactionIds} walletIds={walletIds}/>
+                        <TransactionList wallets={allWallets} transactions={transactions}/>
                         <div className={styles.contentSubHeader}>
                             {/* {budgetCategory} */}
                         </div>
@@ -194,27 +202,34 @@ function BudgetInfo() {
                 formRef={formRef}
                 showForm={showEditForm}
                 setShowForm={setShowEditForm}
+
                 budgetName={budgetName}
                 setBudgetName={setBudgetName}
+
                 budgetMoneyLimit={budgetMoneyLimit}
                 setBudgetMoneyLimit={setBudgetMoneyLimit}
+
                 budgetCategory={budgetCategory}
                 setBudgetCategory={setBudgetCategory}
+
                 budgetColor={budgetColor}
                 setBudgetColor={setBudgetColor}
+
                 budgetStartDate={budgetStartDate}
                 setBudgetStartDate={setBudgetStartDate}
+
                 budgetFinishDate={budgetFinishDate}
                 setBudgetFinishDate={setBudgetFinishDate}
+
                 budgetWallets={budgetWallets}
                 setBudgetWallets={setBudgetWallets}
             />
 
             <DeleteBudgetForm
+                budgetId={budgetId}
+                formRef={formRef}
                 showForm={showDeleteForm}
                 setShowForm={setShowDeleteForm}
-                formRef={formRef}
-                budgetId={budgetId}
             />
         </div>
     );

@@ -5,7 +5,7 @@ import styles from './Home.module.scss';
 import Receipt from './Receipt';
 import Button from '../../components/Button/Button';
 import { getBudgets, getWallets, getTransactions } from '../../redux/actions';
-import TransactionList from './TransactionList';
+import TransactionList from '../../components/Transaction/TransactionList';
 
 function Home() {
     const navigate = useNavigate();
@@ -19,6 +19,7 @@ function Home() {
     } = currentUser || {};
 
     const totalBalance = wallets.reduce((sum, wallet) => sum + wallet.balance, 0);
+    const currency = '$'
     
     useEffect(() => {
         if (!currentUser) {
@@ -61,7 +62,7 @@ function Home() {
     return (
         <div className={styles.container}>
             <div className={styles.content}>
-                <h2 className={styles.balance}>${displayBalance.toLocaleString()}</h2>
+                <div className={styles.balance}><span className={styles.currency}>{currency}</span>{displayBalance.toLocaleString()}</div>
                 <div className={styles.contentSection}>
                     <div className={styles.chart} />
                     <div className={styles.chartBtnContainer}>

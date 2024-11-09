@@ -7,7 +7,7 @@ function CategoryInput({ category, setCategory }) {
             className={styles.formInputOptions}
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            required
+            // required
         >
             <option>All expense & income</option>
             <option value="Income">Income</option>

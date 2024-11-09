@@ -163,3 +163,89 @@
 .red {
     color: var(--color-red);
 }
+
+// Transaction List
+.transactions {
+    margin-top: 12px;
+    font-weight: 200;
+
+    .dateDivider {
+        font-size: 1.4rem;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(0,0,0,0.2);
+    }
+    
+    .transaction {
+        font-size: 1.1rem;
+        padding: 0px 4px;
+        height: 44px;
+        border-bottom: 1px solid rgba(0,0,0,0.2);
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr .6fr;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        
+        &:hover {
+            background-color: rgba(0,0,0,0.02);
+        }
+
+        .income {
+            color: var(--color-green);
+            font-size: 1.5rem;
+            
+        }
+        
+        .expense {
+            color: var(--color-red);
+            font-size: 1.5rem;
+        }
+
+        .transAmount {
+            display: flex;
+            align-items: center;
+            font-size: 1.2rem;
+            text-align: left;
+
+        }
+
+        .currency {
+            font-size: 1.2rem;
+            margin-left: 12px;
+            margin-right: 2px;
+        }
+
+        .transLabel {
+            display: flex;
+            align-items: center;
+            gap: 12px;  
+            justify-content: flex-end;
+            text-align: right;
+        }
+
+        .transWallet {
+            display: flex;
+            align-items: center;
+            gap: 8px;  
+        }
+
+        .transDate {
+
+        }
+
+        .transNote {
+            white-space: nowrap; 
+            overflow: hidden;  
+            text-overflow: ellipsis;
+            max-width: 100%; 
+            display: flex;
+            align-items: center;
+            gap: 12px;  
+        }
+
+        .transImage {
+
+        }
+
+    }
+}

@@ -64,7 +64,14 @@
     font-size: 3rem;
     font-weight: 200;
     padding: 20px;
+    display: flex;
+    align-items: center;
 }   
+
+.currency {
+    font-size: 2.8rem;
+    margin-right: 8px;
+}
 
 .contentAnalysis {
     padding: 4px 28px;
@@ -152,7 +159,7 @@
     padding-bottom: 8px;
     border-radius: 4px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    width: 360px;
+    width: 400px;
     max-width: 90%;
 }
 

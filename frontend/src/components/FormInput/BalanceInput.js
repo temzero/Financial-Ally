@@ -56,7 +56,7 @@ function BalanceInput({ amount, setAmount, className, currency = '$' }) {
                 value={formattedAmount}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                required
+                // required
             />
         </div>
     );
