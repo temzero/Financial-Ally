@@ -29,7 +29,7 @@ function EditBudgetForm({
 
     const closeForm = useCallback(() => {
         setBudgetName(budgetData.name);
-        setBudgetMoneyLimit(budgetData.balance);
+        setBudgetMoneyLimit(budgetData.moneyLimit);
         setBudgetCategory(budgetData.category);
         setBudgetColor(budgetData.color);
         setBudgetFinishDate(budgetData.finishDate)

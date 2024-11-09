@@ -56,7 +56,7 @@ function TransactionList({wallets, transactions}) {
                                 ) : (
                                     <BiSolidMinusCircle className={`${styles.typeIcon} ${styles[color]}`} />
                                 )}
-                                ${transaction.amount}
+                                ${transaction.amount.toLocaleString("en-US")}
                             </div>
                             <div className={styles.transLabel}>{transaction.label}</div>
                             <div className={styles.transWallet}>{wallets.find(wallet => wallet._id === transaction.walletId)?.name || ''}</div>

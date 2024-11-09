@@ -15,19 +15,33 @@
     }
 }
 
+.formInputAmountContainer {
+    display: flex;
+}
+
 .formInputAmount {
-    font-size: 2rem;
+    font-size: 1.6rem;
     width: 100%;
     height: 3rem;
     border: none;
     border-bottom: 1px solid var(--pale-color);
     user-select: none;
     margin-bottom: 12px;
+    display: flex;
+    align-items: center;
     
-    &:focus {
+    
+    .formAmountInput {
+        margin-left: 6px;
+        height: 100%;
+        font-size: 2rem;
+        width: 100%;
         border: none;
-        outline: none;
-        border-bottom: 3px solid var(--primary-text-color);
+
+        &:focus {
+            border: none;
+            outline: none;
+        }
     }
 }
 

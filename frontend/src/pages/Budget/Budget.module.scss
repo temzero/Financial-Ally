@@ -159,25 +159,28 @@
 }
 
 .budgetCardContent {  
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1.2fr .5fr .5fr 1fr; 
+    // justify-content: space-between;
+    width: 100%;
     align-items: center;
     padding: 6px;
-    color:rgba(0, 0, 0, 0.7)
+    color:rgba(0, 0, 0, 0.7);
+
+    .budgetCardHeader {
+        font-size: 2rem;
+    }
+    
+    .budgetCardDay {
+        font-size: 1.2rem;
+    }
+
+    .budgetCardMoneyLimit {
+        text-align: right;
+    }
 }
 
-.budgetCardHeader {
-    font-size: 2rem;
-}
 
-.budgetCard {
-    right: 0;
-    // font-weight: 200;
-}
-
-.budgetCardDay {
-    font-size: 1.2rem;
-}
 
 .progressBar {
     height: 4px;

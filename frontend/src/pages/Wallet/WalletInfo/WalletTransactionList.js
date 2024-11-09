@@ -54,12 +54,15 @@ function WalletTransactionList({transactionIds}) {
                             <div className={styles.dateDivider}>{transactionDate}</div>
                         )}
                         <div className={styles.transaction} onClick={() => handleTransactionClick(transaction)}>
-                            {transaction.type === 'income' ? (
-                                <BiSolidPlusCircle className={`${styles.typeIcon} ${styles[color]}`} />
-                            ) : (
-                                <BiSolidMinusCircle className={`${styles.typeIcon} ${styles[color]}`} />
-                            )}
-                            <div className={styles.transAmount}>${transaction.amount}</div>
+                            <div className={styles.transAmount}>
+                                {transaction.type === 'income' ? (
+                                    <BiSolidPlusCircle className={`${styles.typeIcon} ${styles[color]}`} />
+                                ) : (
+                                    <BiSolidMinusCircle className={`${styles.typeIcon} ${styles[color]}`} />
+                                )}
+
+                                ${transaction.amount.toLocaleString("en-US")}
+                            </div>
                             <div className={styles.transLabel}>{transaction.label}</div>
                             <div className={styles.transNote}>{transaction.note}</div>
                             <Transaction 

@@ -59,17 +59,18 @@ function BudgetTransactionList({ transactionIds = [], walletIds = [] }) {
                             className={styles.transaction}
                             onClick={() => handleTransactionClick(transaction)}
                         >
-                            {transaction.type === 'income' ? (
-                                <BiSolidPlusCircle
-                                    className={`${styles.typeIcon} ${styles[color]}`}
-                                />
-                            ) : (
-                                <BiSolidMinusCircle
-                                    className={`${styles.typeIcon} ${styles[color]}`}
-                                />
-                            )}
+                            
                             <div className={styles.transAmount}>
-                                ${transaction.amount}
+                                {transaction.type === 'income' ? (
+                                    <BiSolidPlusCircle
+                                        className={`${styles.typeIcon} ${styles[color]}`}
+                                    />
+                                ) : (
+                                    <BiSolidMinusCircle
+                                        className={`${styles.typeIcon} ${styles[color]}`}
+                                    />
+                                )}
+                                ${transaction.amount.toLocaleString("en-US")}
                             </div>
                             <div className={styles.transLabel}>
                                 {transaction.label}

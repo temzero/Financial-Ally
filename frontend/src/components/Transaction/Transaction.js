@@ -125,6 +125,8 @@ function Transaction({ transaction, setSelectedTransaction, color, hidden, class
     const handleCancelEdit = (event) => {
         event.stopPropagation();
         setEditable(false);
+        setSelectedTransaction(null);
+        
         setAmount(transaction.amount)
         setLabel(transaction.label)
         setNote(transaction.note)

@@ -38,7 +38,7 @@ function BudgetCard({ budgetData }) {
                 <div className={styles.budgetCardMoneyLimit}>
                     {moneyLimit !== undefined && moneySpend !== undefined
                         ? `$${moneySpend.toLocaleString()} / $${moneyLimit.toLocaleString()}`
-                        : 'mMneyLimit information unavailable'}
+                        : 'MoneyLimit information unavailable'}
                 </div>
             </div>
             <div
