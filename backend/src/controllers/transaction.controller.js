@@ -35,13 +35,13 @@ const transactionControllers = {
 
   addTransaction: async (req, res) => {
     try {
-      // const { type, amount, label, walletId, date, note, image, userId } = req.body;
-      // const transactionData = { type, amount, label, walletId, date, note, image, userId };
+      // const { type, amount, category, walletId, date, note, image, userId } = req.body;
+      // const transactionData = { type, amount, category, walletId, date, note, image, userId };
 
       const transactionData = {
         type: req.body.type,
         amount: req.body.amount,
-        label: req.body.label,
+        category: req.body.category,
         walletId: req.body.walletId,
         date: req.body.date,
         note: req.body.note,
@@ -60,9 +60,9 @@ const transactionControllers = {
 
   updateTransaction: async (req, res) => {
     try {
-      const { type, amount, label, walletId, date, note, image } = req.body;
+      const { type, amount, category, walletId, date, note, image } = req.body;
       const transactionId = req.params.transactionId;
-      const transactionUpdateData = { type, amount, label, walletId, date, note, image };
+      const transactionUpdateData = { type, amount, category, walletId, date, note, image };
 
       const updatedTransaction = await Transaction.findByIdAndUpdate(transactionId, transactionUpdateData, { new: true });
 

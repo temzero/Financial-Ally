@@ -1,16 +1,19 @@
 // import { publicRoutes, privateRoutes } from './routes';
 import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
 function RouteIdentifier(publicRoutes, privateRoutes) {
     const user = useSelector((state) => state.user);
 
-    // If the user is not logged in, redirect to the login page
     if (!user) {
-        
         return publicRoutes;
     }
     
-    return privateRoutes;
+    return privateRoutes.map((route) => ({
+        ...route,
+        element: <Navigate to="/login" replace />
+    }));
 }
 
 export default RouteIdentifier;
+

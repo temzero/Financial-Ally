@@ -45,13 +45,21 @@ function WalletsInput({ wallets, selectedWallets, setSelectedWallets }) {
         };
     }, [dropdownRef]);
 
+    const walletsDisplay = () => {
+        if (selectedWalletNames.length === 0 || selectedWalletNames.length === wallets.length) {
+            return 'All wallets'
+        } else
+        return selectedWalletNames.join(', ') 
+    }
+
     return (
         <div className={styles.dropdownContainer} ref={dropdownRef}>
             <div
                 className={`${styles.formInputOptions} ${styles.formInput}`}
                 onClick={toggleDropdown}
             >
-                {selectedWalletNames.length > 0 ? selectedWalletNames.join(', ') : 'All Wallets'}
+                
+                {walletsDisplay()}
             </div>
             {isOpen && (
                 <div className={styles.dropdownList}>

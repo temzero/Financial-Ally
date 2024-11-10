@@ -1,12 +1,12 @@
-import styles from './BudgetInfo.module.scss';
-import Button from '../../../components/Button/Button';
-import ColorInput from '../../../components/FormInput/ColorInput';
 import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateBudget } from '../../../redux/actions';
+import styles from './BudgetInfo.module.scss';
+import Button from '../../../components/Button/Button';
+import ColorInput from '../../../components/FormInput/ColorInput';
 import BalanceInput from '../../../components/FormInput/BalanceInput';
-import CategoryInput from '../../../components/FormInput/CategoryInput';
 import DateInput from '../../../components/FormInput/DateInput'
+import TypeInput from '../../../components/FormInput/TypeInput';
 
 function EditBudgetForm({
     budgetData,
@@ -20,8 +20,8 @@ function EditBudgetForm({
     budgetMoneyLimit,
     setBudgetMoneyLimit,
 
-    budgetCategory,
-    setBudgetCategory,
+    budgetType,
+    setBudgetType,
 
     budgetFinishDate,
     setBudgetFinishDate,
@@ -39,11 +39,22 @@ function EditBudgetForm({
     const closeForm = useCallback(() => {
         setBudgetName(budgetData.name);
         setBudgetMoneyLimit(budgetData.moneyLimit);
-        setBudgetCategory(budgetData.category);
+        setBudgetType(budgetData.category);
         setBudgetColor(budgetData.color);
         setBudgetFinishDate(budgetData.finishDate)
         setShowForm(false);
-    }, [budgetData, setShowForm, setBudgetName, setBudgetMoneyLimit, setBudgetCategory, setBudgetColor, setBudgetFinishDate]);
+    }, [budgetData, setShowForm, setBudgetName, setBudgetMoneyLimit, setBudgetType, setBudgetColor, setBudgetFinishDate]);
+
+    const isDataChanged = () => {
+        // Compare current form data with initial budgetData to check for changes
+        return (
+            budgetName !== budgetData.name ||
+            budgetMoneyLimit !== budgetData.moneyLimit ||
+            budgetType !== budgetData.category ||
+            budgetFinishDate !== budgetData.finishDate ||
+            budgetColor !== budgetData.color
+        );
+    };
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -69,7 +80,7 @@ function EditBudgetForm({
         const updatedBudgetData = {
             name: budgetName,
             amount: budgetMoneyLimit,
-            category: budgetCategory,
+            category: budgetType,
             finishDate: budgetFinishDate,
             color: budgetColor,
         };
@@ -99,8 +110,8 @@ function EditBudgetForm({
                                 <BalanceInput amount={budgetMoneyLimit} setAmount={setBudgetMoneyLimit}/>
                             </div>
                             <div>
-                                <h2 className={styles.formLabel}>Category</h2>
-                                <CategoryInput category={budgetCategory} setCategory={setBudgetCategory}/>
+                                <h2 className={styles.formLabel}>Type</h2>
+                                <TypeInput type={budgetType} setType={setBudgetType}/>
                             </div>
                             <div>
                                 <h2 className={styles.formLabel}>Finish Date</h2>
@@ -110,7 +121,7 @@ function EditBudgetForm({
                                 <ColorInput color={budgetColor} setColor={setBudgetColor}/>
                             </div>
                             <div className={styles.formBtnContainer}>
-                                <Button type="submit" simple>
+                                <Button type="submit" simple disabled={!isDataChanged()}>
                                     Update
                                 </Button>
                             </div>

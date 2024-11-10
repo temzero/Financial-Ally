@@ -18,13 +18,24 @@ export const authReducer = (state = initState, action) => {
         case Types.logout:
             return initState; // Reset state on logout
 
+        // User management
+        case Types.updateUser:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    users: action.users || [],
+                },
+            }
+
+
         // Wallet management
         case Types.getWalletsSuccess:
             return {
                 ...state,
                 user: {
                     ...state.user,
-                    wallets: action.wallets || [], // Ensure wallets is always an array
+                    wallets: action.wallets || [],
                 },
             };
             
@@ -48,15 +59,6 @@ export const authReducer = (state = initState, action) => {
                     ) || [], // Ensure wallets is always an array
                 },
             };
-        
-        // case Types.getWalletTransactionsSuccess:
-        //         return {
-        //             ...state,
-        //             user: {
-        //                 ...state.user,
-        //                 wallets: action.wallets || [], // Ensure wallets is always an array
-        //             },
-        //         };
 
         // Budget management
         case Types.getBudgetsSuccess:

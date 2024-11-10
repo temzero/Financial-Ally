@@ -7,9 +7,6 @@ function WalletTypeInput({ type, setType }) {
             value={type}
             onChange={(e) => setType(e.target.value)}
         >
-            <option value="" disabled>
-                Select Type
-            </option>
             <option value="Personal">Personal</option>
             <option value="Business">Business</option>
             <option value="Savings">Savings</option>

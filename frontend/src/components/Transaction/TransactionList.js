@@ -40,7 +40,6 @@ function TransactionList({wallets = [], transactions = [], currency = '$'}) {
 
     const handleTransactionClick = (transaction) => {
         setSelectedTransaction(transaction._id)
-        console.log('transaction Clicked: ', selectedTransaction)
     }
 
     return (
@@ -52,10 +51,32 @@ function TransactionList({wallets = [], transactions = [], currency = '$'}) {
 
                 const color = transaction.type === 'income' ? 'green' : 'red';
 
+                function renderNetBalance() {
+                    // Calculate the net balance
+                    const transactionsByDate = sortedTransactions.filter(sortedTransaction => sortedTransaction.date === transaction.date)
+                    const netBalanceByDate = transactionsByDate.reduce((total, transaction) => {
+                        return transaction.type === 'income' 
+                            ? total + transaction.amount 
+                            : total - transaction.amount;
+                    }, 0); // Start with 0 as the initial total
+                
+                    // Render the appropriate result based on the net balance
+                    if (netBalanceByDate > 0) {
+                        return <div className={styles.green}>(+{currency}{netBalanceByDate.toLocaleString("en-US")})</div>;
+                    } else if (netBalanceByDate < 0) {
+                        return <div className={styles.red}>(-{currency}{Math.abs(netBalanceByDate).toLocaleString("en-US")})</div>;
+                    }
+                    // Return null if netBalance is 0 to render nothing
+                    return null;
+                }
+
                 return (
                     <div key={transaction._id}>
                         {showDivider && (
-                            <div className={styles.dateDivider}>{transactionDate}</div>
+                            <div className={styles.dateDivider}>
+                                {transactionDate}
+                                {renderNetBalance()}
+                            </div>
                         )}
                         <div className={styles.transaction} onClick={() => handleTransactionClick(transaction)}>
                             
@@ -69,7 +90,7 @@ function TransactionList({wallets = [], transactions = [], currency = '$'}) {
                             </div>
                             <div className={styles.transWallet}>{displayWallet(transaction.walletId)}</div>
                             <div className={styles.transNote}><GoPencil /> {transaction.note ? transaction.note : '---'}</div>
-                            <div className={styles.transLabel}>{transaction.label}</div>
+                            <div className={styles.transCategory}>{transaction.category}</div>
                             <Transaction 
                                 transaction={transaction} 
                                 setSelectedTransaction={setSelectedTransaction}

@@ -38,7 +38,7 @@ function BudgetInfo() {
     // State variables for budget details
     const [budgetName, setBudgetName] = useState(name);
     const [budgetMoneyLimit, setBudgetMoneyLimit] = useState(moneyLimit);
-    const [budgetCategory, setBudgetCategory] = useState(category);
+    const [budgetType, setBudgetType] = useState(category);
     const [budgetColor, setBudgetColor] = useState(color);
     const [budgetStartDate, setBudgetStartDate] = useState(startDate);
     const [budgetFinishDate, setBudgetFinishDate] = useState(finishDate);
@@ -177,6 +177,7 @@ function BudgetInfo() {
                             </div>
                         </div>
                     </div>
+
                     <div className={styles.contentAnalysis}>
                         <div>
                             <div className={styles.contentSubHeader}>
@@ -184,6 +185,7 @@ function BudgetInfo() {
                             </div>
                         </div>
                     </div>
+                    
                     <div className={styles.contentTransactions}>
                         <div className={styles.contentSubHeader}>
                             Transactions
@@ -191,7 +193,7 @@ function BudgetInfo() {
 
                         <TransactionList wallets={allWallets} transactions={transactions}/>
                         <div className={styles.contentSubHeader}>
-                            {/* {budgetCategory} */}
+                            {/* {budgetType} */}
                         </div>
                     </div>
                 </div>
@@ -209,8 +211,8 @@ function BudgetInfo() {
                 budgetMoneyLimit={budgetMoneyLimit}
                 setBudgetMoneyLimit={setBudgetMoneyLimit}
 
-                budgetCategory={budgetCategory}
-                setBudgetCategory={setBudgetCategory}
+                budgetType={budgetType}
+                setBudgetType={setBudgetType}
 
                 budgetColor={budgetColor}
                 setBudgetColor={setBudgetColor}

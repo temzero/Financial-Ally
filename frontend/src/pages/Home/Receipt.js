@@ -4,8 +4,12 @@ import { BiSolidPlusCircle, BiSolidMinusCircle } from 'react-icons/bi';
 import styles from './Home.module.scss';
 import Button from '../../components/Button/Button';
 import DateInput from '../../components/FormInput/DateInput';
-import { addTransaction, updateBudget, updateWallet } from '../../redux/actions';
-import LabelInput from '../../components/FormInput/LabelInput';
+import {
+    addTransaction,
+    updateBudget,
+    updateWallet,
+} from '../../redux/actions';
+import CategoryInput from '../../components/FormInput/CategoryInput';
 import WalletInput from '../../components/FormInput/WalletInput';
 import BalanceInput from '../../components/FormInput/BalanceInput';
 import TextInput from '../../components/FormInput/NoteInput';
@@ -14,7 +18,7 @@ import ImageInput from '../../components/FormInput/ImageInput';
 function Receipt({ currentUser }) {
     const [type, setType] = useState('');
     const [amount, setAmount] = useState('');
-    const [label, setLabel] = useState('Others');
+    const [category, setCategory] = useState('Others');
     const [walletId, setWalletId] = useState('');
     const [date, setDate] = useState(new Date().toISOString().split('T')[0]); // Default to today
     const [note, setNote] = useState('');
@@ -41,7 +45,7 @@ function Receipt({ currentUser }) {
         const transactionData = {
             type,
             amount,
-            label,
+            category,
             walletId,
             date,
             note,
@@ -78,7 +82,10 @@ function Receipt({ currentUser }) {
                     const updatedMoneySpend = budget.moneySpend + amount;
                     const budgetUpdatedData = {
                         moneySpend: updatedMoneySpend,
-                        transactionIds: [...budget.transactionIds, newTransactionId],
+                        transactionIds: [
+                            ...budget.transactionIds,
+                            newTransactionId,
+                        ],
                     };
                     dispatch(updateBudget(budgetUpdatedData, budget._id));
                 }
@@ -88,7 +95,7 @@ function Receipt({ currentUser }) {
         // Reset form fields
         setType('');
         setAmount('');
-        setLabel('Others');
+        setCategory('Others');
         setWalletId('');
         setDate(new Date().toISOString().split('T')[0]);
         setNote('');
@@ -100,11 +107,15 @@ function Receipt({ currentUser }) {
         <form className={styles.receipt} onSubmit={handleReceiptSubmit}>
             <div className={styles.plusMinusContainer}>
                 <BiSolidPlusCircle
-                    className={`${styles.plusBtn} ${type === 'income' ? styles.active : ''}`}
+                    className={`${styles.plusBtn} ${
+                        type === 'income' ? styles.active : ''
+                    }`}
                     onClick={() => setType('income')}
                 />
                 <BiSolidMinusCircle
-                    className={`${styles.minusBtn} ${type === 'expense' ? styles.active : ''}`}
+                    className={`${styles.minusBtn} ${
+                        type === 'expense' ? styles.active : ''
+                    }`}
                     onClick={() => setType('expense')}
                 />
             </div>
@@ -112,16 +123,25 @@ function Receipt({ currentUser }) {
                 <div className={styles.formLabel}>Amount</div>
                 <BalanceInput amount={amount} setAmount={setAmount} />
 
-                <div className={styles.formLabel}>Label</div>
-                <LabelInput label={label} setLabel={setLabel} />
+                <div className={styles.formLabel}>Category</div>
+                <CategoryInput category={category} setCategory={setCategory} />
 
                 <div className={styles.formLabel}>Wallet</div>
-                <WalletInput walletId={walletId} setWalletId={setWalletId} wallets={wallets} />
+                <WalletInput
+                    walletId={walletId}
+                    setWalletId={setWalletId}
+                    wallets={wallets}
+                />
 
                 <div className={styles.formLabel}>Date</div>
                 <DateInput date={date} setDate={setDate} />
 
-                <ImageInput image={image} setImage={setImage} imagePreview={imagePreview} setImagePreview={setImagePreview} />
+                <ImageInput
+                    image={image}
+                    setImage={setImage}
+                    imagePreview={imagePreview}
+                    setImagePreview={setImagePreview}
+                />
 
                 <TextInput note={note} setNote={setNote} />
 
@@ -142,4 +162,3 @@ function Receipt({ currentUser }) {
 }
 
 export default Receipt;
-

@@ -1,6 +1,6 @@
 import styles from './FormInput.module.scss';
 
-function TextInput({ note, setNote, className }) {
+function NoteInput({ note, setNote, className }) {
     return (
         <textarea
             className={`${styles.formInputNote} ${className || ''}`}
@@ -11,4 +11,4 @@ function TextInput({ note, setNote, className }) {
     );
 }
 
-export default TextInput;
+export default NoteInput;

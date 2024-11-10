@@ -20,6 +20,24 @@ export const loginRequest = (loginRequestInfo, setMessage, navigate) => {
     };
 };
 
+export const registerRequest = (registerRequestInfo, setMessage, navigate) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.post('http://localhost:4000/register', registerRequestInfo);
+            const newUser = response.data;
+
+            dispatch(loginSuccess(newUser));
+            setMessage('Registration successful! Please wait...');
+            navigate('/home');
+
+            return newUser;
+        } catch (error) {
+            console.error('Error during registration:', error);
+            setMessage('Registration failed. Please try again.');
+        }
+    };
+};
+
 export const loginSuccess = (user) => ({
     type: Types.loginSuccess,
     payload: user
@@ -27,6 +45,30 @@ export const loginSuccess = (user) => ({
 
 export const logout = () => ({
     type: Types.logout,
+});
+
+// User Actions
+export const updateUser = (userId, userUpdateData) => {
+    return async (dispatch) => {
+        try {
+            // Send the update request to the backend
+            const response = await axios.patch(`http://localhost:4000/user/${userId}`, userUpdateData);
+            const updatedUser = response.data;
+
+            // Dispatch the action to update user in the store
+            dispatch(updateUserSuccess(updatedUser));
+
+            // Optionally return the updated user for use in other parts of the app
+            return updatedUser;
+        } catch (error) {
+            console.error('Cannot update user:', error);
+        }
+    };
+};
+
+export const updateUserSuccess = (updatedUser) => ({
+    type: Types.updateUser,
+    user: updatedUser
 });
 
 // Wallet Actions

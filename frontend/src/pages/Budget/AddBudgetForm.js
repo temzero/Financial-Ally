@@ -6,9 +6,9 @@ import { useState, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { addBudget } from '../../redux/actions';
 import { useNavigate } from 'react-router-dom';
-import CategoryInput from '../../components/FormInput/CategoryInput';
 import WalletsInput from '../../components/FormInput/WalletsInput';
 import ColorInput from '../../components/FormInput/ColorInput';
+import TypeInput from '../../components/FormInput/TypeInput';
 
 function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets, currentUser }) {
     const navigate = useNavigate();
@@ -23,7 +23,7 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets, curren
     const [budgetName, setBudgetName] = useState('');
     const [moneyLimit, setMoneyLimit] = useState('');
     const [selectedWallets, setSelectedWallets] = useState([]);
-    const [category, setCategory] = useState('');
+    const [type, setType] = useState('');
     const [startDate, setStartDate] = useState(
         new Date().toISOString().split('T')[0]
     );
@@ -34,7 +34,7 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets, curren
         setBudgetName('');
         setMoneyLimit('');
         setSelectedWallets(wallets);
-        setCategory('');
+        setType('');
         setStartDate(new Date().toISOString().split('T')[0]);
         setFinishDate('');
         setBudgetColor('');
@@ -67,7 +67,7 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets, curren
             name: budgetName,
             moneyLimit,
             walletIds: selectedWalletsId,
-            category: category,
+            type: type,
             startDate,
             finishDate,
             color: budgetColor,
@@ -78,6 +78,8 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets, curren
         dispatch(addBudget(newBudget));
         closeForm();
     };
+    
+    const isFormComplete = budgetName && moneyLimit && startDate && finishDate && budgetColor;
 
     return (
         showForm && (
@@ -112,10 +114,10 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets, curren
                                 />
                             </div>
                             <div>
-                                <h2 className={styles.formLabel}>Category</h2>
-                                <CategoryInput
-                                    category={category}
-                                    setCategory={setCategory}
+                                <h2 className={styles.formLabel}>Type</h2>
+                                <TypeInput
+                                    type={type}
+                                    setType={setType}
                                 />
                             </div>
                             <div>
@@ -138,7 +140,7 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets, curren
                                <ColorInput color={budgetColor} setColor={setBudgetColor}/>
                             </div>
                             <div className={styles.formBtnContainer}>
-                                <Button type="submit" simple>
+                                <Button type="submit" simple disabled={!isFormComplete}>
                                     Add Budget
                                 </Button>
                             </div>

@@ -20,23 +20,12 @@ function Sidebar() {
         wallet: '/wallet',
         profile: '/profile',
         setting: '/setting',
-        logout: '/logout',
+        // logout: '/logout',
     }
 
     const handleLogout = () => {
         store.dispatch(logout());
         navigate('/');
-    }
-
-    useEffect(() => {
-        if (!user) {
-            navigate('/login');
-        }
-    }, [user, navigate]);
-
-    // Avoid rendering the component if the user is not logged in
-    if (!user) {
-        return null;
     }
 
     const navLinkClasses = (path) => {
@@ -57,7 +46,7 @@ function Sidebar() {
             message = 'Good Evening'
         }
         
-        return <div className={styles.greeting}>{message}</div>; // Default message for late night hours
+        return <div className={styles.greeting}>{message}</div>;
     };
 
     return (

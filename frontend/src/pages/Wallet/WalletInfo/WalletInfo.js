@@ -21,6 +21,7 @@ function WalletInfo() {
         transactionIds.includes(transaction._id)
     );
     
+    const [showTransferForm, setShowTransferForm] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
     const [showDeleteForm, setShowDeleteForm] = useState(false);
     
@@ -31,6 +32,10 @@ function WalletInfo() {
     const [walletColor, setWalletColor] = useState(color);
     
     const formRef = useRef(null);
+
+    const handleTransferBalance = () => {
+        setShowTransferForm(true)
+    }
 
     const handleShowEditForm = () => {
         setShowEditForm(!showEditForm)
@@ -45,6 +50,9 @@ function WalletInfo() {
             <div className={styles.header}>
                 <div className={styles.title}>Wallet</div>
                 <div className={styles.btnContainer}>
+                    <Button s className={styles.btn} onClick={handleTransferBalance}>
+                        Transfer Balance
+                    </Button>
                     <Button s className={styles.btn} onClick={handleShowEditForm}>
                         Edit
                     </Button>

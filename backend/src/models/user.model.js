@@ -33,6 +33,9 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlength: 4,
     },
+    currency: {
+      type: String,
+    }
   },
   {
     timestamps: true,

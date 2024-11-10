@@ -1,11 +1,11 @@
 import styles from './Wallet.module.scss';
-import Button from '../../components/Button/Button';
 import { useState, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux'; // Assuming you're using Redux
 import { addWallet } from '../../redux/actions';
 import BalanceInput from '../../components/FormInput/BalanceInput';
 import WalletTypeInput from '../../components/FormInput/WalletTypeInput';
 import ColorInput from '../../components/FormInput/ColorInput';
+import Button from '../../components/Button/Button';
 
 function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
 
@@ -45,7 +45,7 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-
+        console.log("Form submitted!"); 
         // Data to send
         const newWallet = {
             name: walletName,
@@ -58,6 +58,8 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
         dispatch(addWallet(newWallet));
         closeForm();
     };
+
+    const isFormComplete = walletName && balance && walletColor;
 
     return (
         showForm && (
@@ -88,7 +90,7 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
                                 <ColorInput color={walletColor} setColor={setWalletColor} />
                             </div>
                             <div className={styles.formBtnContainer}>
-                                <Button type="submit" simple>
+                                <Button type="submit" simple disabled={!isFormComplete}>
                                     Add Wallet
                                 </Button>
                             </div>

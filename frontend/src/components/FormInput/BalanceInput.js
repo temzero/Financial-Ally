@@ -2,11 +2,7 @@ import styles from './FormInput.module.scss';
 import { useState } from 'react';
 
 function BalanceInput({ amount, setAmount, className, currency = '$' }) {
-    const [displayAmount, setDisplayAmount] = useState('')
-    console.log('Amount input before type: ', typeof amount)
-    console.log('Amount input before: ', amount)
-    console.log('displayAmount: ', displayAmount)
-    console.log('displayAmount type: ', typeof displayAmount)
+    const [displayAmount, setDisplayAmount] = useState(amount.toLocaleString("en-US"))
 
     const handleChange = (event) => {
         let inputValue = event.target.value;
@@ -56,7 +52,6 @@ function BalanceInput({ amount, setAmount, className, currency = '$' }) {
                 value={formattedAmount}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                // required
             />
         </div>
     );

@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { loginRequest } from '../../redux/actions';
+import { registerRequest } from '../../redux/actions';
 import styles from './Register.module.scss';
 import Button from '../../components/Button/Button';
 
@@ -12,49 +15,30 @@ function Register() {
     const [message, setMessage] = useState('');
     
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const FailMessage = 'Registration failed. Please try again.'
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+    
         if (password !== confirmPassword) {
             console.log('Password does not match');
             alert('Password does not match');
             return;
-        } 
-
+        }
+    
         const userData = {
             firstName,
             lastName,
             email,
             password,
         };
-
-        fetch('http://localhost:4000/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(userData),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            const JSONresponse = response.json()
-            return JSONresponse;
-        })
-        .then(newUser => {
-            console.log('New user:', newUser);
-            setMessage('Registration successful! Please wait...');
-            navigate('/home');
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            setMessage(FailMessage);
-        });
+    
+        dispatch(registerRequest(userData, setMessage, navigate));
     };
+
+    const loginInfo = { email, password };
+        dispatch(loginRequest(loginInfo, setMessage, navigate));
 
     return (
         <div>

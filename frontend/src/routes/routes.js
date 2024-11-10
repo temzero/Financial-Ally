@@ -1,4 +1,3 @@
-// Layout
 import {LoginRegisterLayout, LandingPageLayout } from '../components/layouts/layouts';
 
 import Login from '../pages/Login/Login';

@@ -2,7 +2,12 @@ export const Types = {
     // Authentication
     loginRequest: 'LOGIN REQUEST',
     loginSuccess: 'LOGIN SUCCESS',
+    registerRequest: 'REGISTER REQUEST',
+    registerSuccess: 'REGISTER SUCCESS',
     logout: 'LOGOUT',
+
+    // User Management
+    updateUser: 'UPDATE USER',
     
     // Wallet Management
     getWallets: 'GET WALLETS',

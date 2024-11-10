@@ -7,11 +7,11 @@ const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1)).toISOStr
 
 const getDateLabel = (date) => {
     if (date === today) {
-        return 'Today';
+        return <span className={styles.todayLabel}>Today</span>;
     } else if (date === yesterday) {
-        return 'Yesterday';
+        return <span className={styles.todayLabel}>Yesterday</span>;
     } else if (date === tomorrow) {
-        return 'Tomorrow';
+        return <span className={styles.todayLabel}>Tomorrow</span>;
     } else {
         return '';
     }
@@ -20,7 +20,7 @@ const getDateLabel = (date) => {
 function DateInput({ date, setDate }) {
     return (
         <div className={styles.formInputOptions}>
-            <span className={styles.todayLabel}>{getDateLabel(date)}</span>
+            {getDateLabel(date)}
             <input
                 className={styles.formInputChildren}
                 type="date"
