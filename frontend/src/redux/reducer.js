@@ -19,11 +19,11 @@ export const authReducer = (state = initState, action) => {
             return initState; // Reset state on logout
 
         // User management
-        case Types.getUserSuccess: 
+        case Types.getUserSuccess:
             return {
                 ...state,
                 user: action.user || {},
-            }
+            };
 
         case Types.updateUserSuccess:
             return {
@@ -32,8 +32,7 @@ export const authReducer = (state = initState, action) => {
                     ...state.user,
                     user: action.user || [],
                 },
-            }
-
+            };
 
         // Wallet management
         case Types.getWalletsSuccess:
@@ -44,7 +43,21 @@ export const authReducer = (state = initState, action) => {
                     wallets: action.wallets || [],
                 },
             };
-            
+
+        case Types.getOneWalletSuccess:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    wallets: state.user.wallets.map(
+                        (wallet) =>
+                            wallet._id === action.wallet._id
+                                ? action.wallet
+                                : wallet // Update the specific wallet in the array
+                    ),
+                },
+            };
+
         case Types.addWalletSuccess:
             return {
                 ...state,
@@ -53,16 +66,21 @@ export const authReducer = (state = initState, action) => {
                     wallets: [...(state.user?.wallets || []), action.wallet], // Append the new wallet to the wallets array
                 },
             };
-                
-        
+
         case Types.updateWalletSuccess:
             return {
                 ...state,
                 user: {
                     ...state.user,
-                    wallets: state.user?.wallets.map(wallet => // Access wallets from the user object
-                        wallet._id === action.wallet._id ? action.wallet : wallet
-                    ) || [], // Ensure wallets is always an array
+                    wallets:
+                        state.user?.wallets.map(
+                            (
+                                wallet // Access wallets from the user object
+                            ) =>
+                                wallet._id === action.wallet._id
+                                    ? action.wallet
+                                    : wallet
+                        ) || [], // Ensure wallets is always an array
                 },
             };
 
@@ -84,15 +102,21 @@ export const authReducer = (state = initState, action) => {
                     budgets: [...(state.user?.budgets || []), action.budget], // Append the new wallet to the Budgets array
                 },
             };
-        
+
         case Types.updateBudgetSuccess:
             return {
                 ...state,
                 user: {
                     ...state.user,
-                    budgets: state.user?.budgets.map(budget => // Access Budgets from the user object
-                        budget._id === action.budget._id ? action.budget : budget
-                    ) || [], // Ensure Budgets is always an array
+                    budgets:
+                        state.user?.budgets.map(
+                            (
+                                budget // Access Budgets from the user object
+                            ) =>
+                                budget._id === action.budget._id
+                                    ? action.budget
+                                    : budget
+                        ) || [], // Ensure Budgets is always an array
                 },
             };
 
@@ -111,7 +135,10 @@ export const authReducer = (state = initState, action) => {
                 ...state,
                 user: {
                     ...state.user,
-                    transactions: [...(state.user?.transactions || []), action.transaction], // Add new transaction to the user's transactions
+                    transactions: [
+                        ...(state.user?.transactions || []),
+                        action.transaction,
+                    ], // Add new transaction to the user's transactions
                 },
             };
 
@@ -120,9 +147,12 @@ export const authReducer = (state = initState, action) => {
                 ...state,
                 user: {
                     ...state.user,
-                    transactions: state.user?.transactions.map(transaction =>
-                        transaction._id === action.transaction._id ? action.transaction : transaction
-                    ) || [], // Update the specific transaction
+                    transactions:
+                        state.user?.transactions.map((transaction) =>
+                            transaction._id === action.transaction._id
+                                ? action.transaction
+                                : transaction
+                        ) || [], // Update the specific transaction
                 },
             };
 
@@ -131,7 +161,10 @@ export const authReducer = (state = initState, action) => {
                 ...state,
                 user: {
                     ...state.user,
-                    transactions: state.user?.transactions.filter(transaction => transaction._id !== action.transactionId), // Remove deleted transaction
+                    transactions: state.user?.transactions.filter(
+                        (transaction) =>
+                            transaction._id !== action.transactionId
+                    ), // Remove deleted transaction
                 },
             };
 

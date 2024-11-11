@@ -1,16 +1,14 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import styles from './Home.module.scss';
-import Receipt from './Receipt';
 import Button from '../../components/Button/Button';
 import { getBudgets, getWallets, getTransactions } from '../../redux/actions';
 import TransactionList from '../../components/Transaction/TransactionList';
+import AddTransaction from '../../components/Transaction/AddTransaction';
 
 function Home() {
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.user);
-    const currentState = useSelector((state) => state);
-    console.log('Current state: ', currentState)
     const [activeChart, setActiveChart] = useState('1D');
     const [displayBalance, setDisplayBalance] = useState(0); 
 
@@ -80,7 +78,7 @@ function Home() {
 
                 </div>
             </div>
-            <Receipt currentUser={currentUser}/>
+            <AddTransaction currentUser={currentUser}/>
         </div>
     );
 }

@@ -26,6 +26,7 @@ router.post('/wallet/add', walletControllers.addWallet);
 router.patch('/wallet/:walletId', walletControllers.updateWallet);
 router.delete('/wallet/:walletId', walletControllers.deleteWallet);
 router.get('/wallet/:walletId/transactions', walletControllers.getWalletTransactions);
+router.post('/wallet/transfer', walletControllers.transferBalance);
 
 // Budget routes
 router.get('/user/:id/budgets', budgetControllers.getBudgets);

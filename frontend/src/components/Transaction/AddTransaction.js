@@ -1,21 +1,21 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { BiSolidPlusCircle, BiSolidMinusCircle } from 'react-icons/bi';
-import styles from './Home.module.scss';
-import Button from '../../components/Button/Button';
-import DateInput from '../../components/FormInput/DateInput';
+import styles from './Transaction.module.scss';
 import {
     addTransaction,
     updateBudget,
     updateWallet,
 } from '../../redux/actions';
-import CategoryInput from '../../components/FormInput/CategoryInput';
-import WalletInput from '../../components/FormInput/WalletInput';
-import BalanceInput from '../../components/FormInput/BalanceInput';
-import TextInput from '../../components/FormInput/NoteInput';
-import ImageInput from '../../components/FormInput/ImageInput';
+import Button from '../Button/Button'
+import DateInput from '../FormInput/DateInput';
+import CategoryInput from '../FormInput/CategoryInput';
+import WalletInput from '../FormInput/WalletInput';
+import BalanceInput from '../FormInput/BalanceInput';
+import TextInput from '../FormInput/NoteInput';
+import ImageInput from '../FormInput/ImageInput';
 
-function Receipt({ currentUser }) {
+function AddTransaction({ currentUser }) {
     const [type, setType] = useState('');
     const [amount, setAmount] = useState('');
     const [category, setCategory] = useState('Others');
@@ -31,7 +31,7 @@ function Receipt({ currentUser }) {
 
     const dispatch = useDispatch();
 
-    const handleReceiptSubmit = async (event) => {
+    const handleAddTransactionSubmit = async (event) => {
         event.preventDefault();
 
         const wallet = wallets.find((wallet) => wallet._id === walletId) || {};
@@ -104,7 +104,7 @@ function Receipt({ currentUser }) {
     };
 
     return (
-        <form className={styles.receipt} onSubmit={handleReceiptSubmit}>
+        <form className={styles.addTransaction} onSubmit={handleAddTransactionSubmit}>
             <div className={styles.plusMinusContainer}>
                 <BiSolidPlusCircle
                     className={`${styles.plusBtn} ${
@@ -145,13 +145,13 @@ function Receipt({ currentUser }) {
 
                 <TextInput note={note} setNote={setNote} />
 
-                <div className={styles.receiptBtnContainer}>
+                <div className={styles.addTransactionBtnContainer}>
                     <Button
                         disabled={!type || !amount || !walletId || !date}
                         type="submit"
                         primary
                         rounded
-                        className={styles.receiptSubmit}
+                        className={styles.addTransactionSubmit}
                     >
                         Add
                     </Button>
@@ -161,4 +161,4 @@ function Receipt({ currentUser }) {
     );
 }
 
-export default Receipt;
+export default AddTransaction;

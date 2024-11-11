@@ -355,3 +355,27 @@ export const deleteTransactionSuccess = (transactionId) => ({
     type: Types.deleteTransactionSuccess,
     transactionId
 });
+
+// Transfer balance
+export const transferBalance = (fromWalletId, toWalletId, amount) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.post(`http://localhost:4000/wallet/transfer`, {
+                fromWalletId,
+                toWalletId,
+                amount
+            });
+            
+            // Assuming the response contains the updated wallets after transfer
+            const { updatedFromWallet, updatedToWallet } = response.data;
+
+            // Dispatch actions to update the state for both wallets
+            dispatch(updateWalletSuccess(updatedFromWallet));
+            dispatch(updateWalletSuccess(updatedToWallet));
+
+            return { updatedFromWallet, updatedToWallet };
+        } catch (error) {
+            console.error('Cannot transfer balance:', error);
+        }
+    };
+};

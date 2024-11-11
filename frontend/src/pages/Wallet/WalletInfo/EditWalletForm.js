@@ -1,8 +1,8 @@
 import styles from './WalletInfo.module.scss';
-import Button from '../../../components/Button/Button';
 import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateWallet } from '../../../redux/actions';
+import Button from '../../../components/Button/Button';
 import BalanceInput from '../../../components/FormInput/BalanceInput';
 import WalletTypeInput from '../../../components/FormInput/WalletTypeInput';
 import ColorInput from '../../../components/FormInput/ColorInput';

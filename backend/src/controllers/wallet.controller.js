@@ -102,6 +102,46 @@ const walletControllers = {
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
+  },
+
+  transferBalance: async (req, res) => {
+    const { fromWalletId, toWalletId, amount } = req.body;
+    console.log("Received fromWalletId:", fromWalletId);
+    console.log("Received toWalletId:", toWalletId);
+    console.log("Amount:", amount);
+    try {
+        // Ensure the amount is positive
+        if (amount <= 0) {
+            return res.status(400).json({ message: 'Transfer amount must be positive' });
+        }
+
+        // Find both wallets
+        const fromWallet = await Wallet.findById(fromWalletId);
+        const toWallet = await Wallet.findById(toWalletId);
+
+        if (!fromWallet || !toWallet) {
+            return res.status(404).json({ message: 'One or both wallets not found' });
+        }
+
+        // Check if the `fromWallet` has enough balance
+        if (fromWallet.balance < amount) {
+            return res.status(400).json({ message: 'Insufficient balance in the source wallet' });
+        }
+
+        // Perform the balance transfer
+        fromWallet.balance -= amount;
+        toWallet.balance += amount;
+
+        // Save the updated wallets
+        await fromWallet.save();
+        await toWallet.save();
+
+        // Return the updated wallet data
+        res.status(200).json({ updatedFromWallet: fromWallet, updatedToWallet: toWallet });
+    } catch (error) {
+        console.error('Error transferring balance:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
   }
 };
 

@@ -11,7 +11,7 @@ import {
 } from '../../redux/actions';
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from 'react-icons/ai';
 import BalanceInput from '../FormInput/BalanceInput';
-import CategoryInput from '../FormInput/CategoryInput';
+// import CategoryInput from '../FormInput/CategoryInput';
 import NoteInput from '../FormInput/NoteInput';
 
 function Transaction({
