@@ -157,6 +157,109 @@
     }
 }
 
+.formIconInput {
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.formIconInput {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.iconSelector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid black;
+    border-radius: 50%;
+    font-size: 1.4rem;
+}
+
+.iconDropdown {
+    position: absolute;
+    top: 40px;
+    right: -60px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: flex;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+.iconOption {
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.iconOption:hover {
+    background-color: #f0f0f0;
+}
+
+
+/* Updated for the correct class names and dropdown layout */
+.formColorSelectionInput {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.colorSelector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    font-size: 1.3rem;
+    border-radius: 50%;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.colorIndicator {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: transparent; /* Default transparent until color is chosen */
+}
+
+.colorDropdown {
+    position: absolute;
+    top: 40px;
+    right: -30px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: flex;
+    gap: 16px;
+    padding: 8px;
+    // flex-direction: row; /* Horizontal layout */
+    justify-content: space-between;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+.colorOption {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.colorOption:hover {
+    opacity: 0.8;
+}
 
 // Color
 .colorOptions {

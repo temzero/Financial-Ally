@@ -40,7 +40,7 @@ export const registerRequest = (registerRequestInfo, setMessage, navigate) => {
 
 export const loginSuccess = (user) => ({
     type: Types.loginSuccess,
-    payload: user
+    user: user
 });
 
 export const logout = () => ({
@@ -48,12 +48,36 @@ export const logout = () => ({
 });
 
 // User Actions
+export const getUser = (userId) => {
+    return async (dispatch) => {
+        try {
+            if (!userId) {
+                console.error("Error: User ID is undefined");
+                return;
+            }
+            const response = await axios.get(`http://localhost:4000/user/${userId}`);
+            const user = response.data;
+            if(user) {
+                dispatch(getUserSuccess(user));
+            }
+        } catch (error) {
+            console.error('Error fetching wallets:', error);
+        }
+    };
+};
+
+export const getUserSuccess = (user) => ({
+    type: Types.getUserSuccess,
+    user: user
+});
+
 export const updateUser = (userId, userUpdateData) => {
     return async (dispatch) => {
         try {
             // Send the update request to the backend
             const response = await axios.patch(`http://localhost:4000/user/${userId}`, userUpdateData);
             const updatedUser = response.data;
+            console.log('UpdatedUser: ', updatedUser)
 
             // Dispatch the action to update user in the store
             dispatch(updateUserSuccess(updatedUser));
@@ -67,7 +91,7 @@ export const updateUser = (userId, userUpdateData) => {
 };
 
 export const updateUserSuccess = (updatedUser) => ({
-    type: Types.updateUser,
+    type: Types.updateUserSuccess,
     user: updatedUser
 });
 

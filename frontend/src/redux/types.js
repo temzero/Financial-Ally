@@ -7,7 +7,10 @@ export const Types = {
     logout: 'LOGOUT',
 
     // User Management
+    getUser: 'GET USER',
+    getUserSuccess: 'GET USER SUCCESS',
     updateUser: 'UPDATE USER',
+    updateUserSuccess: 'UPDATE USER SUCCESS',
     
     // Wallet Management
     getWallets: 'GET WALLETS',

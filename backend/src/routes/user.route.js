@@ -16,7 +16,7 @@ router.post('/login', userControllers.postLogin);
 
 // User routes
 router.get('/user/:id', userControllers.getUser);
-router.put('/user/:id', userControllers.updateUser);
+router.patch('/user/:id', userControllers.updateUser);
 router.delete('/user/:id', userControllers.deleteUser);
 
 // Wallet routes

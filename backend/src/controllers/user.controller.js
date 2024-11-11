@@ -63,7 +63,7 @@ const userControllers = {
       });
 
       if (!updatedUser) {
-        return res.status(404).json({ message: "Product not found!" });
+        return res.status(404).json({ message: "User not found!" });
       }
 
       res.status(200).json(updatedUser);
@@ -77,7 +77,7 @@ const userControllers = {
       const deletedUser = await User.findByIdAndDelete(userID);
 
       if (!deletedUser) {
-        return res.status(404).json({ message: "Product not found!" });
+        return res.status(404).json({ message: "User not found!" });
       }
 
       res.status(200).json(deletedUser);

@@ -1,6 +1,6 @@
 import styles from './FormInput.module.scss';
 
-function TypeInput({ type, setType, className }) {
+function CategoryTypeInput({ type, setType, className }) {
     return (
         <select
             className={`${styles.formInputOptions} ${className || ''}`}
@@ -9,11 +9,10 @@ function TypeInput({ type, setType, className }) {
             onChange={(e) => setType(e.target.value)}
             // required
         >
-            <option>All expense & income</option>
-            <option value="Income">Income</option>
             <option value="Expense">Expense</option>
+            <option value="Income">Income</option>
         </select>
     );
 }
 
-export default TypeInput;
+export default CategoryTypeInput;

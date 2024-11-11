@@ -1,5 +1,4 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import styles from './Home.module.scss';
 import Receipt from './Receipt';
@@ -8,9 +7,10 @@ import { getBudgets, getWallets, getTransactions } from '../../redux/actions';
 import TransactionList from '../../components/Transaction/TransactionList';
 
 function Home() {
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.user);
+    const currentState = useSelector((state) => state);
+    console.log('Current state: ', currentState)
     const [activeChart, setActiveChart] = useState('1D');
     const [displayBalance, setDisplayBalance] = useState(0); 
 
@@ -20,12 +20,6 @@ function Home() {
 
     const totalBalance = wallets.reduce((sum, wallet) => sum + wallet.balance, 0);
     const currency = '$'
-    
-    useEffect(() => {
-        if (!currentUser) {
-            navigate('/login');
-        }
-    }, [currentUser, navigate]);
 
     useEffect(() => {
         dispatch(getWallets(_id));

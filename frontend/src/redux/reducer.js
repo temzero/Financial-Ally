@@ -11,7 +11,7 @@ export const authReducer = (state = initState, action) => {
         case Types.loginSuccess:
             return {
                 ...state,
-                user: action.payload, // Directly update the user on login success
+                user: action.user, // Directly update the user on login success
                 error: '', // Clear any previous error on login success
             };
 
@@ -19,12 +19,18 @@ export const authReducer = (state = initState, action) => {
             return initState; // Reset state on logout
 
         // User management
-        case Types.updateUser:
+        case Types.getUserSuccess: 
+            return {
+                ...state,
+                user: action.user || {},
+            }
+
+        case Types.updateUserSuccess:
             return {
                 ...state,
                 user: {
                     ...state.user,
-                    users: action.users || [],
+                    user: action.user || [],
                 },
             }
 

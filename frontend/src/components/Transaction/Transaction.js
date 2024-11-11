@@ -33,8 +33,6 @@ function Transaction({
     const wallet =
         wallets.find((wallet) => wallet._id === transaction.walletId) || {};
 
-    console.log('transaction Wallet: ', wallet);
-
     const [editable, setEditable] = useState(false);
     const [amount, setAmount] = useState(transaction.amount);
     const [category, setCategory] = useState(transaction.category);

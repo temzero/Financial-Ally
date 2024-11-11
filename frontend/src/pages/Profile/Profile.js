@@ -1,20 +1,39 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import styles from './Profile.module.scss';
 import Button from '../../components/Button/Button';
-import { useState } from 'react';
+import { updateUser } from '../../redux/actions';
+import { useEffect, useState } from 'react';
 import TextInput from '../../components/FormInput/TextInput';
-import TypeInput from '../../components/FormInput/TypeInput';
+import { getUser } from '../../redux/actions';
+
+import Category from './Category';
 
 function Profile() {
     const currentUser = useSelector((state) => state.user);
-
+    const currentData = useSelector((state) => state);
+    const dispatch = useDispatch();
+    
     const { firstName, lastName, email, password, createdAt } = currentUser;
+
+    useEffect(() => {
+        dispatch(getUser(currentUser._id))
+    },[currentUser._id, dispatch])
+
+    console.log('Current User data: ', currentUser)
+    console.log('Current data: ', currentData)
 
     const [editable, setEditable] = useState(false);
     const [userFirstName, setUserFirstName] = useState(firstName);
     const [userLastName, setUserLastName] = useState(lastName);
     const [userEmail, setUserEmail] = useState(email);
     const [userPassword, setUserPassword] = useState(password);
+
+    useEffect(() => {
+        setUserFirstName(firstName);
+        setUserLastName(lastName);
+        setUserEmail(email);
+        setUserPassword(password);
+    }, [firstName, lastName, email, password]);
 
     const formattedDate = new Date(createdAt).toLocaleDateString('en-GB', {
         day: '2-digit',
@@ -55,12 +74,18 @@ function Profile() {
         setUserPassword(password)
     };
 
-    const handleEditSubmit = function () {};
+    const handleEditSubmit = function () {
+        
+        const userUpdateData = {
+            firstName: userFirstName,
+            lastName: userLastName,
+            email: userEmail,
+            password: userPassword
+        }
+        console.log('Save user data: ', userUpdateData)
 
-    const handleChangePassword = function () {};
-
-    const isCategoryFormFilled = () => {
-
+        dispatch(updateUser(currentUser._id, userUpdateData))
+        setEditable(false);
     }
 
     return (
@@ -75,7 +100,7 @@ function Profile() {
                         {greeting()}
                         {editable ? (
                             <div className={styles.buttonContainer}>
-                                <Button s onClick={handleEditButtonClick}>
+                                <Button s onClick={handleEditSubmit}>
                                     Save
                                 </Button>
                                 <Button s onClick={handleCancelEdit}>
@@ -151,29 +176,9 @@ function Profile() {
                         </tbody>
                     </table>
                 </div>
-
-                <div className={styles.userCategory}>
-                    <div className={styles.bodyHeader}>
-                        Create New Category
-                        <Button s disabled={!isCategoryFormFilled()}>Add Category</Button>
-                    </div>
-                    <div className={styles.categoryForm}>
-                        <div className={styles.categoryFormHeader}>Name</div>
-                        <TextInput></TextInput>
-                        <div className={styles.categoryFormHeader}>Type</div>
-                        <TypeInput></TypeInput>
-                        <div className={styles.categoryFormHeader}>Icon</div>
-                        <div className={styles.categoryFormHeader}>Color</div>
-                        
-                    </div>
-
-                </div>
-                <div className={styles.userCategory}>
-                    <div className={styles.bodyHeader}>Categories</div>
-                    <div className={styles.categoryHeader}>Income</div>
-                    <div className={styles.categoryHeader}>Expense</div>
-
-                </div>
+                
+                <Category />
+                
             </div>
 
             <div className={styles.date}>
