@@ -103,6 +103,7 @@ export const getWallets = (userId) => {
             const wallets = response.data;
             if(wallets) {
                 dispatch(getWalletsSuccess(wallets));
+                return wallets
             }
         } catch (error) {
             console.error('Error fetching wallets:', error);
@@ -135,6 +136,7 @@ export const getOneWalletSuccess = (wallet) => ({
 export const addWallet = (newWalletData) => {
     return async (dispatch) => {
         try {
+            console.log('newWalletData, ', newWalletData)
             const response = await axios.post('http://localhost:4000/wallet/add', newWalletData);
             const newWallet = response.data.wallet
             dispatch(addWalletSuccess(newWallet));
@@ -379,3 +381,101 @@ export const transferBalance = (fromWalletId, toWalletId, amount) => {
         }
     };
 };
+
+
+// Category actions
+export const getCategories = (userId) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.get(`http://localhost:4000/user/${userId}/categories`);
+            const categories = response.data;
+            if(categories) {
+                dispatch(getCategoriesSuccess(categories));
+                return categories;
+            }
+        } catch (error) {
+            console.error('Error fetching categories:', error);
+        }
+    };
+};
+
+export const getCategoriesSuccess = (categories) => ({
+    type: Types.getCategoriesSuccess,
+    categories
+});
+
+// Fetch a single category by ID
+export const getOneCategory = (categoryId) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.get(`http://localhost:4000/category/${categoryId}`);
+            const category = response.data;
+            dispatch(getOneCategorySuccess(category));
+            return category;
+        } catch (error) {
+            console.error('Error fetching category:', error);
+        }
+    };
+};
+
+export const getOneCategorySuccess = (category) => ({
+    type: Types.getOneCategorySuccess,
+    category
+});
+
+// Add a new category
+export const addCategory = (newCategoryData) => {
+    return async (dispatch) => {
+        try {
+            console.log('newcategorydata: ', newCategoryData)
+            const response = await axios.post('http://localhost:4000/category/add', newCategoryData);
+            const newCategory = response.data.category;
+            console.log('newcategory: ', newCategory)
+            dispatch(addCategorySuccess(newCategory));
+            return newCategory;
+        } catch (error) {
+            console.error('Cannot add category:', error);
+        }
+    };
+};
+
+export const addCategorySuccess = (category) => ({
+    type: Types.addCategorySuccess,
+    category
+});
+
+// Update a category by ID
+export const updateCategory = (categoryId, categoryUpdateData) => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.patch(`http://localhost:4000/category/${categoryId}`, categoryUpdateData);
+            const updatedCategory = response.data;
+            dispatch(updateCategorySuccess(updatedCategory));
+            return updatedCategory;
+        } catch (error) {
+            console.error('Cannot update category:', error);
+        }
+    };
+};
+
+export const updateCategorySuccess = (updatedCategory) => ({
+    type: Types.updateCategorySuccess,
+    category: updatedCategory
+});
+
+// Delete a category by ID
+export const deleteCategory = (categoryId) => {
+    return async (dispatch) => {
+        try {
+            await axios.delete(`http://localhost:4000/category/${categoryId}`);
+            dispatch(deleteCategorySuccess(categoryId));
+        } catch (error) {
+            console.error('Cannot delete category:', error);
+        }
+    };
+};
+
+export const deleteCategorySuccess = (categoryId) => ({
+    type: Types.deleteCategorySuccess,
+    categoryId
+});

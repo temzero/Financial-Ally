@@ -1,11 +1,11 @@
-import { Types } from './types';
+import { Types } from '../types';
 
 const initState = {
     user: null,
     error: '',
 };
 
-export const authReducer = (state = initState, action) => {
+const reducer = (state = initState, action) => {
     switch (action.type) {
         // Authentication
         case Types.loginSuccess:
@@ -172,3 +172,5 @@ export const authReducer = (state = initState, action) => {
             return state;
     }
 };
+
+export default reducer;

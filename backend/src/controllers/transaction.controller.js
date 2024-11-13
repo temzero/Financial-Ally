@@ -35,9 +35,6 @@ const transactionControllers = {
 
   addTransaction: async (req, res) => {
     try {
-      // const { type, amount, category, walletId, date, note, image, userId } = req.body;
-      // const transactionData = { type, amount, category, walletId, date, note, image, userId };
-
       const transactionData = {
         type: req.body.type,
         amount: req.body.amount,

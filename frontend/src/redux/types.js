@@ -47,4 +47,16 @@ export const Types = {
     updateTransactionSuccess: 'UPDATE  TRANSACTION SUCCESS',
     deleteTransaction: 'DELETE TRANSACTION',
     deleteTransactionSuccess: 'DELETE TRANSACTION SUCCESS',
+
+    // Category Management 
+    getCategories: 'GET CATEGORIES', 
+    getCategoriesSuccess: 'GET CATEGORIES SUCCESS',
+    getOneCategory: 'GET ONE CATEGORY',
+    getOneCategorySuccess: 'GET ONE CATEGORY SUCCESS',
+    addCategory: 'ADD CATEGORY',
+    addCategorySuccess: 'ADD CATEGORY SUCCESS',
+    updateCategory: 'UPDATE CATEGORY',
+    updateCategorySuccess: 'UPDATE  CATEGORY SUCCESS',
+    deleteCategory: 'DELETE CATEGORY',
+    deleteCategorySuccess: 'DELETE CATEGORY SUCCESS',
 };

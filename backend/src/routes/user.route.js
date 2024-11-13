@@ -4,6 +4,7 @@ const userControllers = require('../controllers/user.controller');
 const walletControllers = require('../controllers/wallet.controller');
 const budgetControllers = require('../controllers/budget.controller');
 const transactionControllers = require('../controllers/transaction.controller')
+const categoryControllers = require('../controllers/category.controller')
 
 // Home
 router.get('/', userControllers.getHome);
@@ -41,5 +42,12 @@ router.get('/transaction/:transactionId', transactionControllers.getOneTransacti
 router.post('/transaction/add', transactionControllers.addTransaction); 
 router.patch('/transaction/:transactionId', transactionControllers.updateTransaction); 
 router.delete('/transaction/:transactionId', transactionControllers.deleteTransaction); 
+
+// Category routes
+router.get('/user/:id/categories', categoryControllers.getCategories);
+router.get('/category/:categoryId', categoryControllers.getOneCategory);
+router.post('/category/add', categoryControllers.addCategory);
+router.patch('/category/:categoryId', categoryControllers.updateCategory);
+router.delete('/category/:categoryId', categoryControllers.deleteCategory);
 
 module.exports = router;

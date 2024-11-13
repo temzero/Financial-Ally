@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BiSolidPlusCircle, BiSolidMinusCircle } from 'react-icons/bi';
 import styles from './Transaction.module.scss';
 import {
@@ -15,7 +15,11 @@ import BalanceInput from '../FormInput/BalanceInput';
 import TextInput from '../FormInput/NoteInput';
 import ImageInput from '../FormInput/ImageInput';
 
-function AddTransaction({ currentUser }) {
+function AddTransaction() {
+    const user = useSelector((state) => state.user.user);
+    const wallets = useSelector((state) => state.wallet.wallets);
+    const budgets = useSelector((state) => state.budget.budgets);
+
     const [type, setType] = useState('');
     const [amount, setAmount] = useState('');
     const [category, setCategory] = useState('Others');
@@ -25,9 +29,7 @@ function AddTransaction({ currentUser }) {
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
 
-    const wallets = currentUser?.wallets || [];
-    const budgets = currentUser?.budgets || [];
-    const userId = currentUser._id;
+    const userId = user._id;
 
     const dispatch = useDispatch();
 

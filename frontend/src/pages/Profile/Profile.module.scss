@@ -20,19 +20,6 @@
     line-height: 1;
 }
 
-.innerContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center everything horizontally */
-
-    .bodyHeader {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-    }
-}
-
-
 .text {
     font-size: 1.4rem;
     font-weight: 200;
@@ -72,62 +59,18 @@
     font-style: italic;
     color: #777;
     width: 100%;
-    text-align: right;
+    text-align: center;
 }
 
-// Category 
-.userCategory,
+.innerContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .userProfile {
     background-color: white;
-    padding: 20px;
+    padding: 20px 40px;
     border-radius: 4px;
     width: 1000px;
-}
-
-.userCategory {
-    margin-top: 20px;
-}
-
-.categoryHeader {
-    font-size: 1.2rem;
-    font-weight: 200;
-}
-
-.categoryForm {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 20px;
-
-    .categoryFormHeader {
-        font-size: 1.2rem;
-        font-weight: 200;
-    }
-}
-
-.categoryForm {
-    display: flex;
-    align-items: center;
-}
-
-.categoryInput {
-    display: flex;
-    align-items: center;
-    font-size: 1rem;
-    gap: 12px;
-}
-
-.categoryNameInput {
-    width: 240px;
-    font-size: 1rem;
-    border: 1px solid black;
-    height: 2rem;
-    padding-left: 8px;
-    opacity: 1;
-}
-
-.categoryTypeInput {
-    width: 200px;
-    margin: 0;
-
 }

@@ -9,11 +9,10 @@ import { WalletCard } from './WalletCard';
 
 function Wallet() {
     const [showForm, setShowForm] = useState(false);
-    const currentUser = useSelector((state) => state.user);
-    
-    const wallets = currentUser?.wallets || [];
+    const user = useSelector((state) => state.user.user);
+    const wallets = useSelector((state) => state.wallet.wallets);
 
-    const userId = currentUser._id;
+    const userId = user._id;
     const formRef = useRef(null);
     const dispatch = useDispatch();
 

@@ -5,12 +5,10 @@ import { updateUser } from '../../redux/actions';
 import { useEffect, useState } from 'react';
 import TextInput from '../../components/FormInput/TextInput';
 import { getUser } from '../../redux/actions';
-
-import Category from './Category';
+import Category from '../../components/Category/Category';
 
 function Profile() {
-    const currentUser = useSelector((state) => state.user);
-    const currentData = useSelector((state) => state);
+    const currentUser = useSelector((state) => state.user.user);
     const dispatch = useDispatch();
     
     const { firstName, lastName, email, password, createdAt } = currentUser;
@@ -18,9 +16,6 @@ function Profile() {
     useEffect(() => {
         dispatch(getUser(currentUser._id))
     },[currentUser._id, dispatch])
-
-    console.log('Current User data: ', currentUser)
-    console.log('Current data: ', currentData)
 
     const [editable, setEditable] = useState(false);
     const [userFirstName, setUserFirstName] = useState(firstName);
@@ -55,7 +50,7 @@ function Profile() {
             message = 'Good Evening'
         }
         
-        return <div className={styles.greeting}>{message} {firstName} {lastName}</div>; // Default message for late night hours
+        return <div className={styles.greeting}>{message} {firstName} {lastName}</div>;
     };
 
     const start = new Date(createdAt);
@@ -96,7 +91,7 @@ function Profile() {
 
             <div className={styles.innerContainer}>
                 <div className={styles.userProfile}>
-                    <div className={styles.bodyHeader}>
+                    <div className={styles.header}>
                         {greeting()}
                         {editable ? (
                             <div className={styles.buttonContainer}>
@@ -175,9 +170,9 @@ function Profile() {
                             </tr>
                         </tbody>
                     </table>
+
                 </div>
-                
-                <Category />
+            <Category />
                 
             </div>
 

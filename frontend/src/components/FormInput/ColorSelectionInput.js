@@ -1,9 +1,10 @@
+import { useState, useEffect, useRef } from 'react';
 import styles from './FormInput.module.scss';
-import { VscSymbolColor } from 'react-icons/vsc'; // Import the icon
-import { useState } from 'react';
+import { VscSymbolColor } from 'react-icons/vsc';
 
-function ColorInput({ color, setColor, className }) {
+function ColorSelectionInput({ color, setColor, className }) {
     const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef(null);
 
     // Sample color options with corresponding class names
     const colorOptions = [
@@ -18,16 +19,29 @@ function ColorInput({ color, setColor, className }) {
 
     const handleColorSelect = (selectedColor) => {
         setColor(selectedColor); // Update the selected color state
-        setIsOpen(false);         // Close the dropdown
+        setIsOpen(false);        // Close the dropdown
     };
+
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setIsOpen(false); // Close dropdown if clicked outside
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     // Dynamically set the class based on selected color
     const colorClass = color ? styles[color] : ''; // Example: styles.green, styles.red, etc.
 
     return (
-        <div className={`${styles.formColorSelectionInput} ${className || ''}`}>
+        <div ref={dropdownRef} className={`${styles.formColorSelectionInput} ${className || ''}`}>
             <div onClick={() => setIsOpen(!isOpen)} className={styles.colorSelector}>
-                {/* If no color is selected, show the icon, otherwise show the selected color */}
+                {/* Show selected color or default color icon */}
                 {color ? (
                     <div
                         className={`${styles.colorIndicator} ${colorClass}`} // Apply dynamic color class
@@ -40,12 +54,12 @@ function ColorInput({ color, setColor, className }) {
                 <div className={styles.colorDropdown}>
                     {colorOptions.map(option => {
                         // Dynamically assign class based on the color
-                        const colorClass = styles[option.color] || '';  // e.g., styles.green, styles.red
+                        const colorClass = styles[option.color] || ''; // e.g., styles.green, styles.red
 
                         return (
-                            <div 
+                            <div
                                 key={option.id}
-                                className={`${styles.colorOption} ${colorClass}`} 
+                                className={`${styles.colorOption} ${colorClass}`}
                                 onClick={() => handleColorSelect(option.color)}
                             />
                         );
@@ -56,4 +70,4 @@ function ColorInput({ color, setColor, className }) {
     );
 }
 
-export default ColorInput;
+export default ColorSelectionInput;

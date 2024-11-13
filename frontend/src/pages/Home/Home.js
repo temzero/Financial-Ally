@@ -8,22 +8,22 @@ import AddTransaction from '../../components/Transaction/AddTransaction';
 
 function Home() {
     const dispatch = useDispatch();
-    const currentUser = useSelector((state) => state.user);
+    const user = useSelector((state) => state.user.user);
+    const wallets = useSelector((state) => state.wallet.wallets);
+    const budgets = useSelector((state) => state.budget.budgets);
+    const transactions = useSelector((state) => state.transaction.transactions);
+
     const [activeChart, setActiveChart] = useState('1D');
     const [displayBalance, setDisplayBalance] = useState(0); 
-
-    const {
-        _id, wallets = [], transactions = []
-    } = currentUser || {};
 
     const totalBalance = wallets.reduce((sum, wallet) => sum + wallet.balance, 0);
     const currency = '$'
 
     useEffect(() => {
-        dispatch(getWallets(_id));
-        dispatch(getBudgets(_id));
-        dispatch(getTransactions(_id));
-    }, [_id, dispatch]);
+        dispatch(getWallets(user._id));
+        dispatch(getBudgets(user._id));
+        dispatch(getTransactions(user._id));
+    }, [user._id, dispatch]);
 
     // Count-up effect for balance display
     useEffect(() => {
@@ -43,7 +43,7 @@ function Home() {
         return () => clearInterval(interval);
     }, [totalBalance]);
 
-    if (!currentUser) {
+    if (!user) {
         return null;
     }
 
@@ -78,7 +78,7 @@ function Home() {
 
                 </div>
             </div>
-            <AddTransaction currentUser={currentUser}/>
+            <AddTransaction user={user} wallets={wallets} budgets={budgets}/>
         </div>
     );
 }

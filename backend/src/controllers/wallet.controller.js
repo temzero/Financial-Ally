@@ -44,6 +44,8 @@ const walletControllers = {
         userId,
       }
 
+      console.log('walletData', walletData)
+
       const addedWallet = await Wallet.create(walletData);
 
       res
@@ -106,9 +108,6 @@ const walletControllers = {
 
   transferBalance: async (req, res) => {
     const { fromWalletId, toWalletId, amount } = req.body;
-    console.log("Received fromWalletId:", fromWalletId);
-    console.log("Received toWalletId:", toWalletId);
-    console.log("Amount:", amount);
     try {
         // Ensure the amount is positive
         if (amount <= 0) {

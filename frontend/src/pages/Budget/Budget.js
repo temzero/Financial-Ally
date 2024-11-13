@@ -10,13 +10,14 @@ import BudgetCard from './BudgetCard';
 function Budget() {
 
     const [showForm, setShowForm] = useState(false);
-    const currentUser = useSelector((state) => state.user);
+    const user = useSelector((state) => state.user.user);
+    const budgets = useSelector((state) => state.budget.budgets);
+    const wallets = useSelector((state) => state.wallet.wallets);
+    const userId = user._id;
+
     const dispatch = useDispatch();
     const formRef = useRef(null);
-    
-    const budgets = currentUser?.budgets || [];
-    const wallets = currentUser?.wallets || [];
-    const userId = currentUser._id;
+
 
     useEffect(() => {
         dispatch(getBudgets(userId));
@@ -44,7 +45,6 @@ function Budget() {
                     </div>
                 ) : (
                     budgets.map((budget) => {
-                        console.log('Budget: ', budget);
                         return <BudgetCard key={budget._id} budgetData={budget} />;
                     })
                 )}
@@ -56,7 +56,7 @@ function Budget() {
                 formRef={formRef}
                 userId={userId}
                 wallets={wallets}
-                currentUser={currentUser}
+                user={user}
             />
         </div>
     );

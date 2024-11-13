@@ -1,6 +1,11 @@
 import styles from './FormInput.module.scss';
+import { useEffect } from 'react';
 
 function WalletTypeInput({ type, setType }) {
+    useEffect(() => {
+        setType('Personal')
+    },[type, setType])
+
     return (
         <select
             className={styles.formInputOptions}

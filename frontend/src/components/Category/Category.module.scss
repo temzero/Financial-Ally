@@ -1,0 +1,138 @@
+// Category 
+
+.categoryTitle {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.userCategory {
+    margin: 20px;
+    background-color: white;
+    width: 1000px;
+    padding: 20px 40px;
+    border-radius: 4px;
+}
+
+.categoryHeader {
+    font-size: 1.2rem;
+    font-weight: 200;
+    padding: 12px 0;
+}
+
+.categoryForm {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 24px;
+    margin-bottom: 8px;
+
+    .categoryFormHeader {
+        font-size: 1.2rem;
+        font-weight: 200;
+    }
+}
+
+.categoryForm {
+    display: flex;
+    align-items: center;
+}
+
+.categoryInput {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    gap: 12px;
+}
+
+.categoryNameInput {
+    width: 240px;
+    font-size: 1rem;
+    border: 1px solid black;
+    height: 2rem;
+    padding-left: 8px;
+    opacity: 1;
+}
+
+.categoryTypeInput {
+    width: 200px;
+    margin: 0;
+}
+
+.categoryButton {
+    font-size: 1rem;
+    padding: 8px;
+}
+
+.category {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* Adjust column widths as needed */
+    grid-template-rows: 1fr; /* For a single-row table */
+    align-items: center;
+    width: 100%;
+    height: 42px;
+    border-top: 1px solid rgba(0,0,0,0.2);
+    justify-content: space-between;
+    cursor: pointer;
+
+    &:last-child {
+        border-bottom: 1px solid rgba(0,0,0,0.2);
+    }
+
+    &:hover {
+        background-color: rgba(0,0,0,0.02);
+    }
+}
+
+.categoryName {
+    display: flex;
+    font-size: 1rem;
+    gap: 12px; /* Adds space between columns */
+    align-items: center; /* Centers content vertically */
+
+    .categoryIcon {
+        width: 60px;
+        border: 1px solid black;
+    }
+}
+
+.categoryInfo {
+    font-size: 1rem;
+}
+
+.categoryButtons {
+    display: flex;
+    color: #777;
+    gap: 12px;
+    justify-content: end;
+    
+}
+
+// Color
+.green {
+    color: var(--background-green);
+}
+
+.red {
+    color: var(--background-red);
+}
+
+.blue {
+    color: var(--background-blue);
+}
+
+.yellow {
+    color: var(--background-yellow);
+}
+
+.orange {
+    color: var(--background-orange);
+}
+
+.purple {
+    color: var(--background-purple);
+}
+
+.rainbow {
+    color: var(--background-rainbow);
+}

@@ -1,7 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import storageSession from 'redux-persist/lib/storage/session';
-import { authReducer } from './reducer';
+import reducer from '../redux/reducer/index';
+// import reducer from './reducer/oldReducer';
 import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 
 // Configuring redux-persist
@@ -10,7 +11,7 @@ const persistConfig = {
   storage: storageSession,
 };
 
-const persistedReducer = persistReducer(persistConfig, authReducer);
+const persistedReducer = persistReducer(persistConfig, reducer);
 
 // Configuring the store with the persisted reducer and custom middleware
 export const store = configureStore({

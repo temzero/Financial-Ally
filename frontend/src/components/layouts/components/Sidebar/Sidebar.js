@@ -1,15 +1,11 @@
 import styles from './Sidebar.module.scss';
-import { IoArrowBack } from 'react-icons/io5';
-import Button from '../../../Button/Button';
-import { useEffect } from 'react';
-
 import { useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { store } from '../../../../redux/store';
 import { logout } from '../../../../redux/actions';
 
 function Sidebar() {
-    const user = useSelector((state) => state.user);
+    const user = useSelector((state) => state.user.user);
     const navigate = useNavigate();
     const location = useLocation();
 

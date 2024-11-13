@@ -5,20 +5,12 @@ import BalanceInput from '../../components/FormInput/BalanceInput';
 import { useState, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { addBudget } from '../../redux/actions';
-import { useNavigate } from 'react-router-dom';
 import WalletsInput from '../../components/FormInput/WalletsInput';
 import ColorInput from '../../components/FormInput/ColorInput';
 import TypeInput from '../../components/FormInput/TypeInput';
 
-function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets, currentUser }) {
-    const navigate = useNavigate();
+function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets, user }) {
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        if (!currentUser) {
-            navigate('/login');
-        }
-    }, [currentUser, navigate]);
 
     const [budgetName, setBudgetName] = useState('');
     const [moneyLimit, setMoneyLimit] = useState('');

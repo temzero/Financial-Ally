@@ -10,10 +10,9 @@ import TransactionList from '../../../components/Transaction/TransactionList';
 function BudgetInfo() {
     const { state } = useLocation();
     const budgetId = state?.budgetId || '';
-    const currentUser = useSelector((state) => state.user);
-    const allBudgets = currentUser.budgets;
-    const allWallets = currentUser.wallets;
-    const allTransactions = currentUser.transactions;
+    const allBudgets = useSelector((state) => state.budget.budgets);
+    const allWallets = useSelector((state) => state.wallet.wallets);
+    const allTransactions = useSelector((state) => state.transaction.transactions);
 
     const currentBudget = allBudgets.find((budget) => budget._id === budgetId);
     const {
