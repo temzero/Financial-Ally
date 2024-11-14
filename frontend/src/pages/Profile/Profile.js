@@ -5,7 +5,7 @@ import { updateUser } from '../../redux/actions';
 import { useEffect, useState } from 'react';
 import TextInput from '../../components/FormInput/TextInput';
 import { getUser } from '../../redux/actions';
-import Category from '../../components/Category/Category';
+import Categories from '../../components/Category/Categories';
 
 function Profile() {
     const currentUser = useSelector((state) => state.user.user);
@@ -172,7 +172,7 @@ function Profile() {
                     </table>
 
                 </div>
-            <Category />
+            <Categories />
                 
             </div>
 

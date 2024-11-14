@@ -22,7 +22,7 @@ function AddTransaction() {
 
     const [type, setType] = useState('');
     const [amount, setAmount] = useState('');
-    const [category, setCategory] = useState('Others');
+    const [category, setCategory] = useState('');
     const [walletId, setWalletId] = useState('');
     const [date, setDate] = useState(new Date().toISOString().split('T')[0]); // Default to today
     const [note, setNote] = useState('');
@@ -40,7 +40,7 @@ function AddTransaction() {
         let walletBalance = wallet.balance;
 
         if (type === 'expense' && walletBalance < amount) {
-            console.log('Not enough money!');
+            alert('Not enough money!');
             return null;
         }
 
@@ -54,7 +54,7 @@ function AddTransaction() {
             image,
             userId,
         };
-
+        console.log('transactionData', transactionData)
         // Create the new transaction and get the transaction ID
         const newTransaction = await dispatch(addTransaction(transactionData));
         const newTransactionId = newTransaction?._id;
@@ -97,7 +97,7 @@ function AddTransaction() {
         // Reset form fields
         setType('');
         setAmount('');
-        setCategory('Others');
+        setCategory('');
         setWalletId('');
         setDate(new Date().toISOString().split('T')[0]);
         setNote('');

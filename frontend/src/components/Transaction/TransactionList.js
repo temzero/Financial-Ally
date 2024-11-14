@@ -38,10 +38,6 @@ function TransactionList({wallets = [], transactions = [], currency = '$'}) {
         ) : null;
     };
 
-    const handleTransactionClick = (transaction) => {
-        setSelectedTransaction(transaction._id)
-    }
-
     return (
         <div className={styles.transactions}>
             {sortedTransactions.map((transaction) => {
@@ -78,7 +74,7 @@ function TransactionList({wallets = [], transactions = [], currency = '$'}) {
                                 {renderNetBalance()}
                             </div>
                         )}
-                        <div className={styles.transaction} onClick={() => handleTransactionClick(transaction)}>
+                        <div className={styles.transaction} onClick={() => setSelectedTransaction(transaction._id)}>
                             
                             <div className={styles.transAmount}>
                                 {transaction.type === 'income' ? (

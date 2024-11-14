@@ -14,12 +14,6 @@
     border-radius: 4px;
 }
 
-.categoryHeader {
-    font-size: 1.2rem;
-    font-weight: 200;
-    padding: 12px 0;
-}
-
 .categoryForm {
     display: flex;
     align-items: center;
@@ -64,48 +58,97 @@
     padding: 8px;
 }
 
-.category {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr; /* Adjust column widths as needed */
-    grid-template-rows: 1fr; /* For a single-row table */
+.categoryBtn {
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    border: none;
+    color: #777;
+    margin-left: 12px;
+    cursor: pointer;
+}
+
+.categories {
+    display: flex;
     align-items: center;
     width: 100%;
     height: 42px;
     border-top: 1px solid rgba(0,0,0,0.2);
-    justify-content: space-between;
     cursor: pointer;
+    position: relative; /* Make the parent a positioned container for absolute positioning */
+    
+    &:hover {
+        background-color: rgba(0,0,0,0.02);
+    }
 
     &:last-child {
         border-bottom: 1px solid rgba(0,0,0,0.2);
     }
 
-    &:hover {
-        background-color: rgba(0,0,0,0.02);
-    }
-}
-
-.categoryName {
-    display: flex;
-    font-size: 1rem;
-    gap: 12px; /* Adds space between columns */
-    align-items: center; /* Centers content vertically */
-
     .categoryIcon {
         width: 60px;
         border: 1px solid black;
+        margin-right: 12px;
+    }
+
+    .categoryName {
+        position: absolute;
+        left: 80px; 
+        font-size: 1rem;
+    }
+
+    .categoryInfo {
+        position: absolute;
+        left: 440px; 
+        font-size: 1rem;
+    }
+
+    .formIconColorInput {
+        display: flex;
+        gap: 12px;
+    }
+
+    .formNameInput {
+        position: absolute;
+        left: 100px; 
+
+        font-size: 1rem;
+        width: 240px;
+        height: 30px;
+        margin: 0;
+    }
+
+    .formTypeInput {
+        position: absolute;
+        left: 500px; 
+
+        width: 200px;
+        height: 30px;
+        margin: 0;
+    }
+
+    .categoryButtonContainer {
+        position: absolute;
+        right: 0; 
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }
 
-.categoryInfo {
-    font-size: 1rem;
+
+.lastIncome {
+    border-bottom: 1px solid rgba(0,0,0,0.2);
 }
 
-.categoryButtons {
-    display: flex;
-    color: #777;
-    gap: 12px;
-    justify-content: end;
-    
+.lastExpense {
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+.categoryHeader {
+    font-size: 1.4rem;
+    padding: 12px 0;
+    font-weight: 200;
 }
 
 // Color
@@ -135,4 +178,73 @@
 
 .rainbow {
     color: var(--background-rainbow);
+}
+
+// Category
+.hidden {
+    display: none;
+}
+
+.formOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.formContainer {
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    max-width: 90%;
+    padding: 8px 20px;
+}
+
+.formName {
+    font-size: 2rem;
+    font-weight: 400;
+}
+
+.formIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    font-size: 2rem;
+    border: 1px solid black;
+
+}
+.formButtons {
+    width: 100%;
+    height: 28px;
+    border: 1px solid black;
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    align-items: center;
+    
+    .categoryBtn {
+        background-color: transparent;
+        border: none;
+        color: #777;
+        cursor: pointer;
+    }
+}
+
+.confirmIcon {
+    font-size: 1.8rem;
+    color: var(--color-green);
+}
+
+.closeIcon {
+    font-size: 1.8rem;
+    color: var(--color-red);
 }

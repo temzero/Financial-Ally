@@ -4,13 +4,14 @@ import { useEffect } from 'react';
 function CategoryTypeInput({ type, setType, className }) {
 
     useEffect(() => {
-        setType('Expense');
-    }, [setType]);
+        if (!type) {
+            setType('Expense');
+        }
+    }, [type, setType]);
 
     return (
         <select
             className={`${styles.formInputOptions} ${className || ''}`}
-
             value={type}
             onChange={(e) => setType(e.target.value)}
         >
