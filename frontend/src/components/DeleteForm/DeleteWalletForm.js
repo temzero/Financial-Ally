@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { deleteWallet } from '../../redux/actions';
 import { useNavigate } from 'react-router-dom';
 import trashIcon from '../../assets/images/opentrashcan.png'
-import walletIcon from '../../assets/images/moneywallet.png'
+import walletIcon from '../../assets/images/niceWallet.png'
 import { HiOutlineArrowRight } from "react-icons/hi";
 
 function DeleteWalletForm({ showForm, setShowForm, wallet }) {
@@ -29,7 +29,7 @@ function DeleteWalletForm({ showForm, setShowForm, wallet }) {
     return (
         showForm && (
             <div className={styles.formOverlay} onClick={handleClickOutside}>
-                <div className={styles.formContainer}>
+                <div className={styles.formContainer} onClick={(e) => e.stopPropagation()}>
                     <div className={styles.formTitle}>
                         Do you want to delete this wallet?
                     </div>

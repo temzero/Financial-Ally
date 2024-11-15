@@ -1,4 +1,6 @@
 import styles from './Transaction.module.scss';
+import incomeImage from '../../assets/images/takeMoney.png';
+import expenseImage from '../../assets/images/moneyFlying.png';
 import { BiSolidPlusCircle, BiSolidMinusCircle } from 'react-icons/bi';
 import { editIcon, deleteIcon } from '../../assets/icons/icons';
 import { useState } from 'react';
@@ -236,7 +238,21 @@ function Transaction({
                             </div>
                             <div>Icon</div>
                         </div>
-                        <div className={styles.transactionImage}></div>
+                        <div className={styles.transactionImage}>
+                            {transaction.type === 'expense' ? (
+                                <img 
+                                src={expenseImage} 
+                                alt="Expense" 
+                                className={styles.expenseImage} 
+                                />
+                            ) : (
+                                <img 
+                                    src={incomeImage} 
+                                    alt="Income" 
+                                    className={styles.incomeImage} 
+                                />
+                            )}
+                        </div>
                     </div>
 
                     <div className={styles.transactionNote}>

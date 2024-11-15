@@ -61,6 +61,8 @@
 }
 
 .contentBalance {
+    display: flex;
+    justify-content: space-between;
     font-size: 3rem;
     font-weight: 200;
     padding: 20px;
@@ -232,4 +234,21 @@
     gap: 8px;
     justify-content: right;
     
+}
+
+.transferBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.noMoneyImage {
+    width: 100px;
+}
+.moneyImage {
+    width: 100px;
+}
+.muchMoneyImage {
+    width: 80px;
 }

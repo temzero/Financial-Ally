@@ -8,6 +8,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import TransactionList from '../../../components/Transaction/TransactionList';
 import TransferBalanceForm from '../../../components/TransferBalance/TransferBalance';
 import { getOneWallet } from '../../../redux/actions';
+import { BiTransferAlt } from "react-icons/bi";
+
+import noMoneyImage from '../../../assets/images/noMoney.png'
+import moneyImage from '../../../assets/images/cash.png'
+import muchMoneyImage from '../../../assets/images/alotofcash.png'
 
 function WalletInfo() {
     const { state } = useLocation();
@@ -61,13 +66,44 @@ function WalletInfo() {
 
     const currency = '$';
 
+    const displayStatus = () => {
+        if (walletBalance < 100) {
+            return (
+                <img 
+                    src={noMoneyImage} 
+                    alt="noMoney" 
+                    className={styles.noMoneyImage} 
+                />
+            );
+        } else if (walletBalance < 10000) {
+            return (
+                <img 
+                    src={moneyImage} 
+                    alt="money" 
+                    className={styles.moneyImage} 
+                />
+            );
+        } else {
+            return (
+                <img 
+                    src={muchMoneyImage} 
+                    alt="muchMoney" 
+                    className={styles.muchMoneyImage} 
+                />
+            );
+        }
+    };
+
     return ( 
         <div className={styles.container}>
             <div className={styles.header}>
                 <div className={styles.title}>Wallet</div>
                 <div className={styles.btnContainer}>
                     <Button s className={styles.btn} onClick={handleShowTransferForm}>
-                        Transfer Balance
+                        <div className={styles.transferBtn}>
+                            <span>Transfer Balance</span>
+                            <BiTransferAlt/>
+                        </div>
                     </Button>
                     <Button s className={styles.btn} onClick={handleShowEditForm}>
                         Edit
@@ -84,7 +120,8 @@ function WalletInfo() {
                 </div>
                 <div className={styles.contentBody}>
                     <div className={styles.contentBalance}>
-                        <span className={styles.currency}>{currency}</span>{walletBalance.toLocaleString()}
+                        <div><span className={styles.currency}>{currency}</span>{walletBalance.toLocaleString()}</div>
+                        {displayStatus()}
                     </div>
                     <div className={styles.contentAnalysis}>
                         <div className={styles.contentSubHeader}>Analysis</div>

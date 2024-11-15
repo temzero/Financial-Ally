@@ -2,6 +2,7 @@ import styles from './Wallet.module.scss';
 import { useState, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux'; // Assuming you're using Redux
 import { addWallet } from '../../redux/actions';
+import TextInput from '../../components/FormInput/TextInput';
 import BalanceInput from '../../components/FormInput/BalanceInput';
 import WalletTypeInput from '../../components/FormInput/WalletTypeInput';
 import ColorInput from '../../components/FormInput/ColorInput';
@@ -67,14 +68,7 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
                 <div className={styles.formContainer} ref={formRef}>
                     <form onSubmit={handleFormSubmit}>
                         <div>
-                            <input
-                                className={styles.formNameInput}
-                                type="text"
-                                placeholder="Wallet Name"
-                                value={walletName}
-                                onChange={(e) => setWalletName(e.target.value)}
-                                required
-                            />
+                            <TextInput className={styles.formNameInput} content={walletName} setContent={setWalletName} placeholder="Enter wallet Name" />
                         </div>
                         <div className={styles.formDivider}></div>
                         <div className={styles.formContent}>

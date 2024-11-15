@@ -91,12 +91,26 @@
 
 
     .transactionImage {
-        border: 2px solid rgba(0, 0, 0, 0.2);
         border-radius: 4px;
         width: 160px;
         height: 160px;
         margin-left: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
     }
+}
+
+.incomeImage {
+    width: 111px;
+    // width: 211px;
+    object-fit: cover;
+}
+
+.expenseImage {
+    width: 200px;
+    object-fit: cover;
 }
 
 .transactionNote {
