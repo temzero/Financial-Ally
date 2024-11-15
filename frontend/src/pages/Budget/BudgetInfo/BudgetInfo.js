@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useState, useRef } from 'react';
 import Button from '../../../components/Button/Button';
 import EditBudgetForm from './EditBudgetForm';
-import DeleteBudgetForm from './DeleteBudgetForm';
+import DeleteBudgetForm from '../../../components/DeleteForm/DeleteBudgetForm';
 import { useSelector } from 'react-redux';
 import TransactionList from '../../../components/Transaction/TransactionList';
 
@@ -227,7 +227,7 @@ function BudgetInfo() {
             />
 
             <DeleteBudgetForm
-                budgetId={budgetId}
+                budget={currentBudget}
                 formRef={formRef}
                 showForm={showDeleteForm}
                 setShowForm={setShowDeleteForm}

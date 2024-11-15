@@ -49,9 +49,9 @@ const categoryControllers = {
 
   updateCategory: async (req, res) => {
     try {
-      const { name, icon, color } = req.body;
+      const { name, type, icon, color } = req.body;
       const categoryId = req.params.categoryId;
-      const categoryUpdateData = { name, icon, color };
+      const categoryUpdateData = { name, type, icon, color };
 
       const updatedCategory = await Category.findByIdAndUpdate(categoryId, categoryUpdateData, { new: true });
 

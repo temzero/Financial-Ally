@@ -47,14 +47,14 @@
             width: 3rem;
 
             &.active {
-                background-color: var(--color-green);
+                background-color: black;
                 color: white;
                 border: none;
             }
 
             &:hover {
                 opacity: .6;
-                background-color: var(--color-green);
+                background-color: black;
                 color: white;
                 border: none;
             }
@@ -70,9 +70,6 @@
 }
 
 // Transaction Form
-.transactionForm {
-
-}
 
 .hidden {
     display: none;

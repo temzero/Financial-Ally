@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import Button from '../../../components/Button/Button';
 import EditWalletForm from './EditWalletForm';
-import DeleteWalletForm from './DeleteWalletForm';
+import DeleteWalletForm from '../../../components/DeleteForm/DeleteWalletForm';
 import { useDispatch, useSelector } from 'react-redux';
 import TransactionList from '../../../components/Transaction/TransactionList';
 import TransferBalanceForm from '../../../components/TransferBalance/TransferBalance';
@@ -114,8 +114,7 @@ function WalletInfo() {
             <DeleteWalletForm
                 showForm={showDeleteForm}
                 setShowForm={setShowDeleteForm}
-                formRef={formRef}
-                walletId={walletId}
+                wallet={currentWallet}
             />
 
             <TransferBalanceForm

@@ -41,7 +41,6 @@
 
 .infoTable td {
     padding: 1rem;
-    border-bottom: 1px solid #ddd;
 }
 
 .label {
@@ -70,7 +69,15 @@
 
 .userProfile {
     background-color: white;
-    padding: 20px 40px;
+    padding-top: 32px;
+    padding-left: 40px;
+    padding-right: 40px;
     border-radius: 4px;
     width: 1000px;
+}
+
+.greeting {
+    font-size: 2rem;
+    line-height: 2rem;
+    font-weight: 200;
 }

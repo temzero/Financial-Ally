@@ -2,13 +2,14 @@
 import styles from './Category.module.scss';
 import { useState } from 'react';
 import { editIcon, deleteIcon } from '../../assets/icons/icons';
-import { deleteCategory, updateCategory } from '../../redux/actions';
+import { updateCategory } from '../../redux/actions';
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
 import IconInput from '../FormInput/IconInput';
 import ColorSelectionInput from '../FormInput/ColorSelectionInput';
 import TextInput from '../FormInput/TextInput';
 import CategoryTypeInput from '../FormInput/CategoryTypeInput';
+import DeleteCategoryForm from '../DeleteForm/DeleteCategoryForm';
 
 function CategoryItems({ category, index, categories }) {
     const dispatch = useDispatch();
@@ -20,6 +21,8 @@ function CategoryItems({ category, index, categories }) {
     const [categoryType, setCategoryType] = useState(type);
     const [categoryIcon, setCategoryIcon] = useState(icon);
     const [categoryColor, setCategoryColor] = useState(color);
+
+    const [selectedCategory, setSelectedCategory] = useState('');
 
     const isLast =
         type === 'Income'
@@ -61,48 +64,42 @@ function CategoryItems({ category, index, categories }) {
         dispatch(updateCategory(category._id, categoryData));
     };
 
-    const handleCategoryDelete = () => {
-        // Delete category logic here
-        dispatch(deleteCategory(category._id));
+    const handleDeleteButtonClicked = () => {
+        console.log('category: ', category);
+        setSelectedCategory(category);
     };
 
     const editButtons = () => {
-        return (
-            editable ? (
-                <div className={styles.categoryButtonContainer}>
-                    <button
-                        className={styles.categoryBtn}
-                        onClick={handleEditConfirm}
-                    >
-                        <AiOutlineCheckCircle
-                            className={styles.confirmIcon}
-                        />
-                    </button>
-                    <button
-                        className={styles.categoryBtn}
-                        onClick={handleCancelEdit}
-                    >
-                        <AiOutlineCloseCircle
-                            className={styles.closeIcon}
-                        />
-                    </button>
-                </div>
-            ) : (
-                <div className={styles.categoryButtonContainer}>
-                    <button
-                        className={styles.categoryBtn}
-                        onClick={handleEditButtonClicked}
-                    >
-                        {editIcon({ width: '22px', height: '22px' })}
-                    </button>
-                    <button
-                        className={styles.categoryBtn}
-                        onClick={handleCategoryDelete}
-                    >
-                        {deleteIcon()}
-                    </button>
-                </div>
-            )
+        return editable ? (
+            <div className={styles.categoryButtonContainer}>
+                <button
+                    className={styles.categoryBtn}
+                    onClick={handleEditConfirm}
+                >
+                    <AiOutlineCheckCircle className={styles.confirmIcon} />
+                </button>
+                <button
+                    className={styles.categoryBtn}
+                    onClick={handleCancelEdit}
+                >
+                    <AiOutlineCloseCircle className={styles.closeIcon} />
+                </button>
+            </div>
+        ) : (
+            <div className={styles.categoryButtonContainer}>
+                <button
+                    className={styles.categoryBtn}
+                    onClick={handleEditButtonClicked}
+                >
+                    {editIcon({ width: '22px', height: '22px' })}
+                </button>
+                <button
+                    className={styles.categoryBtn}
+                    onClick={handleDeleteButtonClicked}
+                >
+                    {deleteIcon()}
+                </button>
+            </div>
         );
     };
 
@@ -110,18 +107,26 @@ function CategoryItems({ category, index, categories }) {
         <div className={categoryClass} key={category._id}>
             {editable ? (
                 <div className={styles.formIconColorInput}>
-                    <IconInput icon={categoryIcon} setIcon={setCategoryIcon} className={styles[categoryColor]}/>
+                    <IconInput
+                        icon={categoryIcon}
+                        setIcon={setCategoryIcon}
+                        className={styles[categoryColor]}
+                    />
                     <ColorSelectionInput
                         color={categoryColor}
                         setColor={setCategoryColor}
                     />
                 </div>
             ) : (
-                <div className={`${styles.categoryIcon} ${styles[category.color] }`}>
+                <div
+                    className={`${styles.categoryIcon} ${
+                        styles[category.color]
+                    }`}
+                >
                     {categoryIcon}
                 </div>
             )}
-            
+
             {editable ? (
                 <TextInput
                     content={categoryName}
@@ -131,7 +136,7 @@ function CategoryItems({ category, index, categories }) {
             ) : (
                 <div className={styles.categoryName}>{categoryName}</div>
             )}
-            
+
             {editable ? (
                 <CategoryTypeInput
                     type={categoryType}
@@ -143,6 +148,12 @@ function CategoryItems({ category, index, categories }) {
             )}
 
             {editButtons()}
+
+            <DeleteCategoryForm
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
+                hidden={!selectedCategory}
+            />
         </div>
     );
 }

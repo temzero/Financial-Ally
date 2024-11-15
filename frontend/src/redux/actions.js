@@ -169,11 +169,10 @@ export const updateWalletSuccess = (updatedWallet) => ({
     wallet: updatedWallet
 });
 
-export const deleteWallet = (walletId, closeForm) => {
+export const deleteWallet = (walletId) => {
     return async (dispatch) => {
         try {
             await axios.delete(`http://localhost:4000/wallet/${walletId}`);
-            closeForm();
             dispatch(deleteWalletSuccess(walletId));
         } catch (error) {
             console.error('Cannot delete wallet:', error);
@@ -254,11 +253,10 @@ export const updateBudgetSuccess = (updatedBudget) => ({
     budget: updatedBudget
 });
 
-export const deleteBudget = (budgetId, closeForm) => {
+export const deleteBudget = (budgetId) => {
     return async (dispatch) => {
         try {
             await axios.delete(`http://localhost:4000/budget/${budgetId}`);
-            closeForm();
             dispatch(deleteBudgetSuccess(budgetId));
         } catch (error) {
             console.error('Cannot delete budget:', error);
@@ -404,7 +402,6 @@ export const getCategoriesSuccess = (categories) => ({
     categories
 });
 
-// Fetch a single category by ID
 export const getOneCategory = (categoryId) => {
     return async (dispatch) => {
         try {
@@ -423,7 +420,6 @@ export const getOneCategorySuccess = (category) => ({
     category
 });
 
-// Add a new category
 export const addCategory = (newCategoryData) => {
     return async (dispatch) => {
         try {
@@ -448,8 +444,9 @@ export const addCategorySuccess = (category) => ({
 export const updateCategory = (categoryId, categoryUpdateData) => {
     return async (dispatch) => {
         try {
+
             const response = await axios.patch(`http://localhost:4000/category/${categoryId}`, categoryUpdateData);
-            const updatedCategory = response.data;
+            const updatedCategory = response.data.category;
             dispatch(updateCategorySuccess(updatedCategory));
             return updatedCategory;
         } catch (error) {

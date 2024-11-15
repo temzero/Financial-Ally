@@ -28,27 +28,27 @@ function Sidebar() {
         return `${styles.navBtn} ${location.pathname.startsWith(path) ? styles.active : ''}`
     }
 
-    const greeting = () => {
-        const currentHour = new Date().getHours();
-        let message = 'Hello'
+    // const greeting = () => {
+    //     const currentHour = new Date().getHours();
+    //     let message = 'Hello'
     
-        if (currentHour >= 5 && currentHour < 12) {
-            message = 'Good Morning'
-        }
-        if (currentHour >= 12 && currentHour < 17) {
-            message = 'Good Afternoon'
-        }
-        if (currentHour >= 17 && currentHour < 21) {
-            message = 'Good Evening'
-        }
+    //     if (currentHour >= 5 && currentHour < 12) {
+    //         message = 'Good Morning'
+    //     }
+    //     if (currentHour >= 12 && currentHour < 17) {
+    //         message = 'Good Afternoon'
+    //     }
+    //     if (currentHour >= 17 && currentHour < 21) {
+    //         message = 'Good Evening'
+    //     }
         
-        return <div className={styles.greeting}>{message}</div>;
-    };
+    //     return <div className={styles.greeting}>{message}</div>;
+    // };
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
-                {greeting()}
+                {/* {greeting()} */}
                 <a className={navLinkClasses(navLinks.profile)} href={navLinks.profile}>
                     {user.firstName}
                 </a>

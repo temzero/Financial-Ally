@@ -3,7 +3,6 @@
 .categoryTitle {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 12px;
 }
 
 .userCategory {
@@ -178,73 +177,4 @@
 
 .rainbow {
     color: var(--background-rainbow);
-}
-
-// Category
-.hidden {
-    display: none;
-}
-
-.formOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-}
-
-.formContainer {
-    background: white;
-    border-radius: 4px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    width: 400px;
-    max-width: 90%;
-    padding: 8px 20px;
-}
-
-.formName {
-    font-size: 2rem;
-    font-weight: 400;
-}
-
-.formIcon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100px;
-    height: 100px;
-    font-size: 2rem;
-    border: 1px solid black;
-
-}
-.formButtons {
-    width: 100%;
-    height: 28px;
-    border: 1px solid black;
-    display: flex;
-    gap: 8px;
-    justify-content: flex-end;
-    align-items: center;
-    
-    .categoryBtn {
-        background-color: transparent;
-        border: none;
-        color: #777;
-        cursor: pointer;
-    }
-}
-
-.confirmIcon {
-    font-size: 1.8rem;
-    color: var(--color-green);
-}
-
-.closeIcon {
-    font-size: 1.8rem;
-    color: var(--color-red);
 }
