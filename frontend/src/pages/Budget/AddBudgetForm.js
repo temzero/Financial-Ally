@@ -5,6 +5,7 @@ import BalanceInput from '../../components/FormInput/BalanceInput';
 import { useState, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { addBudget } from '../../redux/actions';
+import TextInput from '../../components/FormInput/TextInput';
 import WalletsInput from '../../components/FormInput/WalletsInput';
 import ColorInput from '../../components/FormInput/ColorInput';
 import TypeInput from '../../components/FormInput/TypeInput';
@@ -79,14 +80,7 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets, user }
                 <div className={styles.formContainer} ref={formRef}>
                     <form onSubmit={handleFormSubmit}>
                         <div>
-                            <input
-                                className={styles.formNameInput}
-                                type="text"
-                                placeholder="Budget Name"
-                                value={budgetName}
-                                onChange={(e) => setBudgetName(e.target.value)}
-                                required
-                            />
+                             <TextInput className={styles.formNameInput} content={budgetName} setContent={setBudgetName} placeholder="Enter budget Name" />
                         </div>
                         <div className={styles.formDivider}></div>
                         <div className={styles.formContent}>
