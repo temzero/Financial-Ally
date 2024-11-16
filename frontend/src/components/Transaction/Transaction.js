@@ -15,6 +15,7 @@ import { AiOutlineCheckCircle, AiOutlineCloseCircle } from 'react-icons/ai';
 import BalanceInput from '../FormInput/BalanceInput';
 // import CategoryInput from '../FormInput/CategoryInput';
 import NoteInput from '../FormInput/NoteInput';
+import iconItems from '../../assets/icons/iconItems';
 
 function Transaction({
     transaction,
@@ -23,14 +24,16 @@ function Transaction({
     hidden,
     className,
 }) {
+    
     let classes = `
-        ${className} 
-        ${styles.transactionForm} 
-        ${color ? styles.color : ''}
-        ${hidden ? styles.hidden : ''}
+    ${className} 
+    ${styles.transactionForm} 
+    ${color ? styles.color : ''}
+    ${hidden ? styles.hidden : ''}
     `;
     const dispatch = useDispatch();
     const budgets = useSelector((state) => state.user.budgets) || [];
+    const categories = useSelector((state) => state.category.categories) || [];
     const wallets = useSelector((state) => state.user.wallets) || [];
     const wallet =
         wallets.find((wallet) => wallet._id === transaction.walletId) || {};
@@ -199,6 +202,21 @@ function Transaction({
         setNote(transaction.note);
     };
 
+    const categoryIcon = (categoryName) => {
+        const category = categories.find((cat) => cat.name === categoryName);
+        const categoryColor = category ? category.color : 'defaultColor';
+        const categoryIconName = category ? category.icon : '?';
+    
+        // Match the icon from iconItems
+        const matchedItem = iconItems.find((item) => item.name === categoryIconName);
+    
+        return (
+            <div className={`${styles.transactionCategoryIcon} ${styles[categoryColor]}`}>
+                {matchedItem ? matchedItem.icon : ''}
+            </div>
+        );
+    };
+
     return (
         <div className={classes}>
             <div className={styles.formOverlay} onClick={handleClickOutside}>
@@ -236,7 +254,7 @@ function Transaction({
                             <div className={styles.transactionLabel}>
                                 {category}
                             </div>
-                            <div>Icon</div>
+                            {categoryIcon(category)}
                         </div>
                         <div className={styles.transactionImage}>
                             {transaction.type === 'expense' ? (

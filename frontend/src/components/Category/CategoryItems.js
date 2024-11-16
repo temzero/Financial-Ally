@@ -10,6 +10,9 @@ import ColorSelectionInput from '../FormInput/ColorSelectionInput';
 import TextInput from '../FormInput/TextInput';
 import CategoryTypeInput from '../FormInput/CategoryTypeInput';
 import DeleteCategoryForm from '../DeleteForm/DeleteCategoryForm';
+import iconItems from '../../assets/icons/iconItems';
+import { AiOutlineQuestion } from "react-icons/ai";
+
 
 function CategoryItems({ category, index, categories }) {
     const dispatch = useDispatch();
@@ -19,7 +22,7 @@ function CategoryItems({ category, index, categories }) {
 
     const [categoryName, setCategoryName] = useState(name);
     const [categoryType, setCategoryType] = useState(type);
-    const [categoryIcon, setCategoryIcon] = useState(icon);
+    const [categoryIconName, setCategoryIconName] = useState(icon);
     const [categoryColor, setCategoryColor] = useState(color);
 
     const [selectedCategory, setSelectedCategory] = useState('');
@@ -29,7 +32,7 @@ function CategoryItems({ category, index, categories }) {
             ? index === categories.filter((c) => c.type === 'Income').length - 1
             : index ===
               categories.filter((c) => c.type === 'Expense').length - 1;
-    const categoryClass = `${styles.categories} ${
+    const categoryClass = `${styles.categoryItem} ${
         isLast ? styles[`last${type}`] : ''
     }`;
 
@@ -57,7 +60,7 @@ function CategoryItems({ category, index, categories }) {
         const categoryData = {
             name: categoryName,
             type: categoryType,
-            icon: categoryIcon,
+            icon: categoryIconName,
             color: categoryColor,
         };
 
@@ -103,13 +106,15 @@ function CategoryItems({ category, index, categories }) {
         );
     };
 
+    const categoryIcon = iconItems.find(item => item.name === categoryIconName)?.icon || <AiOutlineQuestion />;
+
     return (
         <div className={categoryClass} key={category._id}>
             {editable ? (
                 <div className={styles.formIconColorInput}>
                     <IconInput
-                        icon={categoryIcon}
-                        setIcon={setCategoryIcon}
+                        icon={categoryIconName}
+                        setIcon={setCategoryIconName}
                         className={styles[categoryColor]}
                     />
                     <ColorSelectionInput
@@ -134,7 +139,9 @@ function CategoryItems({ category, index, categories }) {
                     className={styles.formNameInput}
                 />
             ) : (
-                <div className={styles.categoryName}>{categoryName}</div>
+                <div className={`${styles.categoryName} ${
+                    styles[category.color]
+                }`}>{categoryName}</div>
             )}
 
             {editable ? (

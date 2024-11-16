@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 import { deleteCategory } from '../../redux/actions'; 
 import openTrashIcon from '../../assets/images/opentrashcan.png'
 import { HiOutlineArrowRight } from "react-icons/hi";
+import iconItems from '../../assets/icons/iconItems';
+import { useSelector } from 'react-redux';
 
 function DeleteCategoryForm({
     selectedCategory,
@@ -12,9 +14,9 @@ function DeleteCategoryForm({
 }) {
     const dispatch = useDispatch();
 
+    const categories = useSelector((state) => state.category.categories) || [];
     const categoryId = selectedCategory?._id;
     const name = selectedCategory?.name || '';
-    const icon = selectedCategory?.icon || '';
     const color = selectedCategory?.color || '';
     
 
@@ -34,6 +36,21 @@ function DeleteCategoryForm({
         dispatch(deleteCategory(categoryId));
     };
 
+    const categoryIcon = (categoryName) => {
+        const category = categories.find((cat) => cat.name === categoryName);
+        const categoryColor = category ? category.color : 'defaultColor';
+        const categoryIconName = category ? category.icon : '?';
+    
+        // Match the icon from iconItems
+        const matchedItem = iconItems.find((item) => item.name === categoryIconName);
+    
+        return (
+            <div className={`${styles.formIcon} ${styles[categoryColor]}`}>
+                {matchedItem ? matchedItem.icon : ''}
+            </div>
+        );
+    };
+
     return (
         <div className={classes}>
             <div className={styles.formOverlay} onClick={handleClickOutside}>
@@ -43,7 +60,7 @@ function DeleteCategoryForm({
                     </div>
                     <div className={styles.formBody}>
                         <div className={`${styles.formIconContainer} ${styles[color]}`}>
-                            <div className={styles.formIcon}>{icon}</div>
+                            {categoryIcon(name)}
                             <div className={styles.formName}>{name}</div>
                         </div>
 

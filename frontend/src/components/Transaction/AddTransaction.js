@@ -126,7 +126,7 @@ function AddTransaction() {
                 <BalanceInput amount={amount} setAmount={setAmount} />
 
                 <div className={styles.formLabel}>Category</div>
-                <CategoryInput category={category} setCategory={setCategory} />
+                <CategoryInput categoryName={category} setCategoryName={setCategory} />
 
                 <div className={styles.formLabel}>Wallet</div>
                 <WalletInput

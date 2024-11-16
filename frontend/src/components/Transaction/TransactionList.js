@@ -4,9 +4,12 @@ import Transaction from './Transaction';
 import { useState } from 'react';
 import { IoWalletOutline } from "react-icons/io5";
 import { GoPencil } from "react-icons/go";
+import iconItems from '../../assets/icons/iconItems';
+import { useSelector } from 'react-redux';
 
 function TransactionList({wallets = [], transactions = [], currency = '$'}) {
     const [selectedTransaction, setSelectedTransaction] = useState(null);
+    const categories = useSelector((state) => state.category.categories) || [];
     
     const formatTransactionDate = (date) => {
         const transactionDate = new Date(date);
@@ -38,6 +41,26 @@ function TransactionList({wallets = [], transactions = [], currency = '$'}) {
         ) : null;
     };
 
+    const categoryIcon = (categoryName) => {
+        // Find the category color based on the category name
+        const category = categories.find(category => category.name === categoryName);
+        const categoryColor = category ? category.color : "defaultColor";
+        const categoryIconName = category ? category.icon : "?";
+        console.log('category name: ', categoryName)
+        console.log('category color: ', categoryColor)
+        console.log('category Icon name: ', categoryIconName)
+    
+        // Find the icon that matches the category name
+        const matchedItem = iconItems.find(item => item.name === categoryIconName);
+    
+        // Return the icon wrapped in the styled div
+        return (
+            <div className={`${styles.categoryIcon} ${styles[categoryColor]}`}>
+                {matchedItem ? matchedItem.icon : categoryName}
+            </div>
+        );
+    };
+
     return (
         <div className={styles.transactions}>
             {sortedTransactions.map((transaction) => {
@@ -45,7 +68,7 @@ function TransactionList({wallets = [], transactions = [], currency = '$'}) {
                 const showDivider = transactionDate !== lastDate;
                 lastDate = transactionDate;
 
-                const color = transaction.type === 'income' ? 'green' : 'red';
+                const color = transaction.type === 'income' ? 'primaryGreen' : 'primaryRed';
 
                 function renderNetBalance() {
                     // Calculate the net balance
@@ -58,9 +81,9 @@ function TransactionList({wallets = [], transactions = [], currency = '$'}) {
                 
                     // Render the appropriate result based on the net balance
                     if (netBalanceByDate > 0) {
-                        return <div className={styles.green}>(+{currency}{netBalanceByDate.toLocaleString("en-US")})</div>;
+                        return <div className={styles.primaryGreen}>(+{currency}{netBalanceByDate.toLocaleString("en-US")})</div>;
                     } else if (netBalanceByDate < 0) {
-                        return <div className={styles.red}>(-{currency}{Math.abs(netBalanceByDate).toLocaleString("en-US")})</div>;
+                        return <div className={styles.primaryRed}>(-{currency}{Math.abs(netBalanceByDate).toLocaleString("en-US")})</div>;
                     }
                     // Return null if netBalance is 0 to render nothing
                     return null;
@@ -86,7 +109,7 @@ function TransactionList({wallets = [], transactions = [], currency = '$'}) {
                             </div>
                             <div className={styles.transWallet}>{displayWallet(transaction.walletId)}</div>
                             <div className={styles.transNote}><GoPencil /> {transaction.note ? transaction.note : '---'}</div>
-                            <div className={styles.transCategory}>{transaction.category}</div>
+                            {categoryIcon(transaction.category)}
                             <Transaction 
                                 transaction={transaction} 
                                 setSelectedTransaction={setSelectedTransaction}

@@ -67,11 +67,21 @@
     cursor: pointer;
 }
 
-.categories {
+.confirmIcon {
+    color: var(--color-green);
+    font-size: 1.8rem;
+}
+
+.closeIcon {
+    color: var(--color-red);
+    font-size: 1.8rem;
+}
+
+.categoryItem {
     display: flex;
     align-items: center;
     width: 100%;
-    height: 42px;
+    height: 48px;
     border-top: 1px solid rgba(0,0,0,0.2);
     cursor: pointer;
     position: relative; /* Make the parent a positioned container for absolute positioning */
@@ -85,15 +95,20 @@
     }
 
     .categoryIcon {
-        width: 60px;
-        border: 1px solid black;
-        margin-right: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        width: 40px;
+        height: 100%;
+        // border: 1px solid black;
     }
 
     .categoryName {
         position: absolute;
-        left: 80px; 
+        left: 52px; 
         font-size: 1rem;
+        font-weight: 500;
     }
 
     .categoryInfo {

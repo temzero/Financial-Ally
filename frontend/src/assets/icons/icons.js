@@ -191,9 +191,21 @@ export const boxIcon = ({ width = "24px", height = "24px" } = {}) => ( <svg widt
 
 export const cameraIcon = ({ width = "24px", height = "24px" } = {}) => ( <svg width={width} height={height} viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="currentColor" strokeWidth="3" stroke="#000000"> <path d="M54.1,50.13H9.9a2,2,0,0,1-2-2V21.87c0-1.11.89-1,2-1h7.54a1,1,0,0,0,.76-.35l4.1-5.95a2,2,0,0,1,1.52-.7H40a2,2,0,0,1,1.51.7l4.11,5.95a1,1,0,0,0,.76.35H54.1c1.11,0,2-.11,2,1V48.13A2,2,0,0,1,54.1,50.13Z"/> <circle cx="32" cy="34" r="10.05"/> </svg> );
 
-export const canIcon = ({ width = "24px", height = "24px" } = {}) => ( <svg width={width} height={height} viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="currentColor" strokeWidth="3" stroke="#000000"> <path d="M54.1,50.13H9.9a2,2,0,0,1-2-2V21.87c0-1.11.89-1,2-1h7.54a1,1,0,0,0,.76-.35l4.1-5.95a2,2,0,0,1,1.52-.7H40a2,2,0,0,1,1.51.7l4.11,5.95a1,1,0,0,0,.76.35H54.1c1.11,0,2-.11,2,1V48.13A2,2,0,0,1,54.1,50.13Z"/> <circle cx="32" cy="34" r="10.05"/> </svg> );
+export const canIcon = ({ width = "24px", height = "24px" } = {}) => ( <svg width={width} height={height} viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="currentColor" strokeWidth="3" stroke="#000000"> 
+<path d="M54.1,50.13H9.9a2,2,0,0,1-2-2V21.87c0-1.11.89-1,2-1h7.54a1,1,0,0,0,.76-.35l4.1-5.95a2,2,0,0,1,1.52-.7H40a2,2,0,0,1,1.51.7l4.11,5.95a1,1,0,0,0,.76.35H54.1c1.11,0,2-.11,2,1V48.13A2,2,0,0,1,54.1,50.13Z"/>
+</svg> );
 
-export const carIcon = ({ width = "24px", height = "24px" } = {}) => ( <svg width={width} height={height} viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" fill="currentColor"> <g> {/* SVG paths here */} </g> </svg> );
+export const carIcon = ({ width = "24px", height = "24px" } = {}) => ( <svg width={width} height={height} viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" fill="currentColor"> <g> 
+	<path class="st0" d="M494.934,227.26h-35.293l-97.828-87.586H222.961L111.48,227.26l-91.887,17.954
+		C8.33,246.648,0,256.205,0,267.469v69.017h60.697l0.502,0.002v-0.002h0.24c0-34.884,28.264-63.146,63.146-63.146
+		c34.887,0,63.148,28.262,63.148,63.146h152.102l1.258,0.002v-0.002h0.24c0-34.884,28.264-63.146,63.146-63.146
+		c34.885,0,63.146,28.262,63.146,63.146H512v-92.16C512,234.906,504.356,227.26,494.934,227.26z M158.818,227.076l73.631-57.842
+		h88.1l0.305,0.001v58.026h-91.639L158.818,227.076z M348.16,169.233h3.211l44.576,39.936v18.09H348.16V169.233z"/>
+	<path class="st0" d="M404.48,300.647c-19.797,0-35.84,16.111-35.84,35.84c0,19.798,16.043,35.84,35.84,35.84
+		c19.73,0,35.84-16.042,35.84-35.84C440.32,316.758,424.211,300.647,404.48,300.647z"/>
+	<path class="st0" d="M124.586,300.647c-19.797,0-35.84,16.111-35.84,35.84c0,19.798,16.043,35.84,35.84,35.84
+		c19.73,0,35.84-16.042,35.84-35.84C160.426,316.758,144.316,300.647,124.586,300.647z"/>  
+ </g> </svg> );
 
 export const cardIcon = ({ width = "24px", height = "24px" } = {}) => (
   <svg width={width} height={height} viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" fill="currentColor">

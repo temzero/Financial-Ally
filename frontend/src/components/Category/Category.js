@@ -132,7 +132,7 @@ function Category({
                             ) : (
                                 categoryIcon
                             )}
-                        <div>Informations</div>
+                        <div>Information</div>
                     <div className={styles.categoryActions}>
                         {editButtons()}
                     </div>
