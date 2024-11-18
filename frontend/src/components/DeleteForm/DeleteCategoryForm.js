@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { deleteCategory } from '../../redux/actions'; 
 import openTrashIcon from '../../assets/images/opentrashcan.png'
 import { HiOutlineArrowRight } from "react-icons/hi";
-import iconItems from '../../assets/icons/iconItems';
+import iconItems from '../../assets/icons/reactIcons';
 import { useSelector } from 'react-redux';
 
 function DeleteCategoryForm({

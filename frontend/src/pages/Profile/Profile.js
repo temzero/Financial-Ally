@@ -71,6 +71,9 @@ function Profile() {
         year: 'numeric',
     });
 
+    const timeDifference = new Date() - new Date(createdAt);; // Difference in milliseconds
+    const joinDays = Math.floor(timeDifference / (1000 * 60 * 60 * 24)); // Convert to days
+
     const greeting = () => {
         const currentHour = new Date().getHours();
         let message = 'Hello';
@@ -176,7 +179,7 @@ function Profile() {
                 <Categories />
             </div>
             <div className={styles.date}>
-                Join in {formattedDate}
+                Join in {formattedDate} ({joinDays} days)
             </div>
         </div>
     );

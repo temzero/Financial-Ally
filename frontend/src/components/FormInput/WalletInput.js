@@ -1,4 +1,5 @@
 import styles from './FormInput.module.scss';
+import { IoWalletOutline } from "react-icons/io5";
 
 function WalletInput({walletId, setWalletId, wallets}) {
     return ( 
@@ -18,9 +19,9 @@ function WalletInput({walletId, setWalletId, wallets}) {
                     <option
                         key={walletItem._id}
                         value={walletItem._id}
-                        className={styles.optionItem}
+                        className={`${styles.optionItem} ${styles[`${walletItem.color}Text`]}`}
                     >
-                        {walletItem.name}
+                        <IoWalletOutline /> {walletItem.name}
                     </option>
                 ))}
             </select>

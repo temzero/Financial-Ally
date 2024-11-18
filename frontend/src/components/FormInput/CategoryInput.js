@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { getCategories } from '../../redux/actions';
 import iconItems from '../../assets/icons/iconItems';
 
-function CategoryInput({categoryName, setCategoryName, className}) {
+function CategoryInput({categoryName, setCategoryName, categoryType, className}) {
     
     const categories = useSelector((state) => state.category.categories);
     const userId = useSelector((state) => state.user.user._id);
@@ -17,6 +17,12 @@ function CategoryInput({categoryName, setCategoryName, className}) {
         }
     }, [userId, setCategoryName, categoryName, dispatch])
 
+    const categoriesByType = () => {
+        if(!categoryType) {
+            return categories
+        } else
+            return categories.filter(cat => cat.type === categoryType)
+    }
 
     const categoryIcon = (name) => {
         const category = categories.find((cat) => cat.name === name);
@@ -24,7 +30,6 @@ function CategoryInput({categoryName, setCategoryName, className}) {
         const categoryIconName = category ? category.icon : '?';
     
         const matchedItem = iconItems.find((item) => item.name === categoryIconName);
-        console.log('matchedItem', matchedItem.icon)
     
         return (
             <div className={`${styles.formIcon} ${styles[categoryColor]}`}>
@@ -41,9 +46,9 @@ function CategoryInput({categoryName, setCategoryName, className}) {
         >
             <option value="Other">Other</option>
 
-            {categories.map((cat, index) => (
-                <option key={cat.id || index} value={cat.name}>
-                     {`${categoryIcon(cat.name)} ${cat.name}`} 
+            {categoriesByType().map((cat, index) => (
+                <option key={cat.id || index} value={cat.name} className={styles[`${cat.color}Text`]}>
+                     {`${cat.name}`} 
                 </option>
                 ))}
         </select>

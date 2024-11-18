@@ -4,18 +4,20 @@ import { useState } from 'react';
 import { editIcon, deleteIcon } from '../../assets/icons/icons';
 import { updateCategory } from '../../redux/actions';
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from 'react-icons/ai';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import IconInput from '../FormInput/IconInput';
 import ColorSelectionInput from '../FormInput/ColorSelectionInput';
 import TextInput from '../FormInput/TextInput';
 import CategoryTypeInput from '../FormInput/CategoryTypeInput';
 import DeleteCategoryForm from '../DeleteForm/DeleteCategoryForm';
-import iconItems from '../../assets/icons/iconItems';
+import iconItems from '../../assets/icons/reactIcons';
 import { AiOutlineQuestion } from "react-icons/ai";
 
 
 function CategoryItems({ category, index, categories }) {
     const dispatch = useDispatch();
+    const transactions = useSelector((state) => state.transaction.transactions) || [];
+
     const [editable, setEditable] = useState(false);
 
     const { name, type, icon, color } = category;
@@ -68,7 +70,6 @@ function CategoryItems({ category, index, categories }) {
     };
 
     const handleDeleteButtonClicked = () => {
-        console.log('category: ', category);
         setSelectedCategory(category);
     };
 
@@ -107,6 +108,17 @@ function CategoryItems({ category, index, categories }) {
     };
 
     const categoryIcon = iconItems.find(item => item.name === categoryIconName)?.icon || <AiOutlineQuestion />;
+
+    const totalTransactions = () => {
+        const matchedTransactions = transactions.filter(trans => trans.category === categoryName);
+        if (matchedTransactions.length === 0) {
+            return `---`;
+        } else if (matchedTransactions.length === 1) {
+            return `1 transaction`;
+        } else {
+            return `${matchedTransactions.length} transactions`;
+        }
+    };
 
     return (
         <div className={categoryClass} key={category._id}>
@@ -151,7 +163,7 @@ function CategoryItems({ category, index, categories }) {
                     className={styles.formTypeInput}
                 />
             ) : (
-                <div className={styles.categoryInfo}>Info</div>
+                <div className={styles.categoryInfo}>{totalTransactions()}</div>
             )}
 
             {editButtons()}

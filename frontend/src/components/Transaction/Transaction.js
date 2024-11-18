@@ -15,7 +15,7 @@ import { AiOutlineCheckCircle, AiOutlineCloseCircle } from 'react-icons/ai';
 import BalanceInput from '../FormInput/BalanceInput';
 // import CategoryInput from '../FormInput/CategoryInput';
 import NoteInput from '../FormInput/NoteInput';
-import iconItems from '../../assets/icons/iconItems';
+import iconItems from '../../assets/icons/reactIcons';
 
 function Transaction({
     transaction,
@@ -23,6 +23,7 @@ function Transaction({
     color,
     hidden,
     className,
+    currency = '$',
 }) {
     
     let classes = `
@@ -50,13 +51,13 @@ function Transaction({
     };
 
     const typeIcon = () => {
-        if (transaction.type === 'income') {
+        if (transaction.type.toLowerCase() === 'income') {
             return (
                 <BiSolidPlusCircle
                     className={`${styles.transactionTypeIcon} ${styles[color]}`}
                 />
             );
-        } else if (transaction.type === 'expense') {
+        } else if (transaction.type.toLowerCase() === 'Expense') {
             return (
                 <BiSolidMinusCircle
                     className={`${styles.transactionTypeIcon} ${styles[color]}`}
@@ -236,7 +237,7 @@ function Transaction({
                                     className={styles.balanceInput}
                                 />
                             ) : (
-                                `$${amount}`
+                                `${currency}${amount.toLocaleString("en-US")}`
                             )}
                         </div>
                     </div>
@@ -257,7 +258,7 @@ function Transaction({
                             {categoryIcon(category)}
                         </div>
                         <div className={styles.transactionImage}>
-                            {transaction.type === 'expense' ? (
+                            {transaction.type === 'Expense' ? (
                                 <img 
                                 src={expenseImage} 
                                 alt="Expense" 
@@ -281,7 +282,7 @@ function Transaction({
                                 className={styles.noteInput}
                             />
                         ) : (
-                            note
+                            <span className={styles.noteText}>{note}</span>
                         )}
                     </div>
 

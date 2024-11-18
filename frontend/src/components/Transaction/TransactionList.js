@@ -4,7 +4,7 @@ import Transaction from './Transaction';
 import { useState } from 'react';
 import { IoWalletOutline } from "react-icons/io5";
 import { GoPencil } from "react-icons/go";
-import iconItems from '../../assets/icons/iconItems';
+import iconItems from '../../assets/icons/reactIcons';
 import { useSelector } from 'react-redux';
 
 function TransactionList({wallets = [], transactions = [], currency = '$'}) {
@@ -46,9 +46,6 @@ function TransactionList({wallets = [], transactions = [], currency = '$'}) {
         const category = categories.find(category => category.name === categoryName);
         const categoryColor = category ? category.color : "defaultColor";
         const categoryIconName = category ? category.icon : "?";
-        console.log('category name: ', categoryName)
-        console.log('category color: ', categoryColor)
-        console.log('category Icon name: ', categoryIconName)
     
         // Find the icon that matches the category name
         const matchedItem = iconItems.find(item => item.name === categoryIconName);
@@ -61,6 +58,7 @@ function TransactionList({wallets = [], transactions = [], currency = '$'}) {
         );
     };
 
+
     return (
         <div className={styles.transactions}>
             {sortedTransactions.map((transaction) => {
@@ -68,13 +66,13 @@ function TransactionList({wallets = [], transactions = [], currency = '$'}) {
                 const showDivider = transactionDate !== lastDate;
                 lastDate = transactionDate;
 
-                const color = transaction.type === 'income' ? 'primaryGreen' : 'primaryRed';
+                const color = transaction.type.toLowerCase() === 'income' ? 'primaryGreen' : 'primaryRed';
 
                 function renderNetBalance() {
                     // Calculate the net balance
                     const transactionsByDate = sortedTransactions.filter(sortedTransaction => sortedTransaction.date === transaction.date)
                     const netBalanceByDate = transactionsByDate.reduce((total, transaction) => {
-                        return transaction.type === 'income' 
+                        return transaction.type.toLowerCase() === 'income' 
                             ? total + transaction.amount 
                             : total - transaction.amount;
                     }, 0); // Start with 0 as the initial total
@@ -100,7 +98,7 @@ function TransactionList({wallets = [], transactions = [], currency = '$'}) {
                         <div className={styles.transaction} onClick={() => setSelectedTransaction(transaction._id)}>
                             
                             <div className={styles.transAmount}>
-                                {transaction.type === 'income' ? (
+                                {transaction.type.toLowerCase() === 'income' ? (
                                     <BiSolidPlusCircle className={`${styles.typeIcon} ${styles[color]}`} />
                                 ) : (
                                     <BiSolidMinusCircle className={`${styles.typeIcon} ${styles[color]}`} />
@@ -108,7 +106,15 @@ function TransactionList({wallets = [], transactions = [], currency = '$'}) {
                                 <span className={styles.currency}>{currency}</span>{transaction.amount.toLocaleString("en-US")}
                             </div>
                             <div className={styles.transWallet}>{displayWallet(transaction.walletId)}</div>
-                            <div className={styles.transNote}><GoPencil /> {transaction.note ? transaction.note : '---'}</div>
+                            <div className={styles.transNote}>
+                                {transaction.note ? (
+                                    <>
+                                    <span><GoPencil /></span> <span className={styles.transNoteWords}>{transaction.note}</span>
+                                    </>
+                                ) : (
+                                    '---'
+                                )}
+                            </div>
                             {categoryIcon(transaction.category)}
                             <Transaction 
                                 transaction={transaction} 

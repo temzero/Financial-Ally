@@ -122,22 +122,40 @@
     margin-right: 8px;
 }
 
-.formInputNote {
+.noteInputContainer {
     border: 2px dashed #ccc;
-    height: 6rem;
-    border-radius: 2px;
-    padding: 6px 8px;
+    position: relative; 
+    height: 100px;
     width: 100%;
-    box-sizing: border-box;
-    resize: none; 
-    margin-top: 16px;
-    margin-bottom: -8px;
+    
+    .formInputNote:focus {
+        outline: none; /* Remove the default focus outline */
+    }
+    
+    .formInputNote {
+        font-size: .9rem;
+        border: none;
+        height: 100%;
+        padding: 6px 8px;
+        width: 100%;
+        box-sizing: border-box;
+        resize: none;
+    }
+
+    .charCounter {
+        position: absolute;
+        bottom: 4px; 
+        right: 4px; 
+        font-size: .8rem; 
+        color: #888;
+    }
 }
 
 .imageUploadContainer {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 12px;
     height: 2.4rem;
 
     .formInputImage {
@@ -177,7 +195,7 @@
     justify-content: center;
     width: 36px;
     height: 36px;
-    border: 1px solid black;
+    border: 1px solid grey;
     border-radius: 50%;
     font-size: 1.4rem;
 }
@@ -244,7 +262,7 @@
     height: 36px;
     font-size: 1.3rem;
     border-radius: 50%;
-    border: 1px solid black;
+    border: 1px solid grey;
     cursor: pointer;
 }
 
@@ -300,7 +318,7 @@
 }
 
 .circleOption:hover {
-    border: 4px solid black;
+    border: 4px solid grey;
 }
 
 .formTextInput {
@@ -311,7 +329,7 @@
     border-radius: 4px;
 }
 
-// Color
+// Background Color
 .green {
     background-color: var(--background-green);
 }
@@ -338,4 +356,33 @@
 
 .rainbow {
     background: var(--background-rainbow);
+}
+
+// Text Color
+.greenText {
+    color: var(--background-green);
+}
+
+.redText {
+    color: var(--background-red);
+}
+
+.blueText {
+    color: var(--background-blue);
+}
+
+.yellowText {
+    color: var(--background-yellow);
+}
+
+.orangeText {
+    color: var(--background-orange);
+}
+
+.purpleText {
+    color: var(--background-purple);
+}
+
+.rainbowText {
+    color: var(--background-rainbow);
 }

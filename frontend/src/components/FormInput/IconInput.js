@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import styles from './FormInput.module.scss';
 import { AiOutlineQuestion } from "react-icons/ai";
-import iconItems from '../../assets/icons/iconItems';
+import iconItems from '../../assets/icons/reactIcons';
 
 function IconInput({ icon, setIcon, className }) {
     const [isOpen, setIsOpen] = useState(false);

@@ -33,6 +33,11 @@ function Categories() {
             userId,
         };
         dispatch(addCategory(categoryData));
+
+        setCategoryName('')
+        setCategoryType('')
+        setCategoryIcon('')
+        setCategoryColor('')
     };
 
     const incomeCategories = categories.filter(category => category.type === 'Income');

@@ -117,10 +117,18 @@
 .transactionNote {
     height: 110px;
     padding: 12px 0;
+    display: flex; /* Align items within the container */
 
     .noteInput {
         margin: 0;
         font-size: 1rem;
+    }
+
+    .noteText {
+        word-wrap: break-word; /* Ensure long words break */
+        overflow-wrap: break-word; /* Break words if necessary */
+        line-height: 1.5; /* Increase line spacing for better readability */
+        max-width: 100%; /* Prevent the text from overflowing its container */
     }
 }
 
@@ -243,14 +251,22 @@
         }
 
         .transNote {
-            white-space: nowrap; 
-            overflow: hidden;  
-            text-overflow: ellipsis;
-            max-width: 100%; 
-            display: flex;
-            align-items: center;
-            gap: 12px;  
+            display: inline-flex; /* Keep content in a horizontal row */
+            align-items: center; /* Vertically center the content */
+            gap: 12px; /* Space between the icon and text */
+            max-width: 100%; /* Ensure the container does not exceed its parent width */
+            white-space: nowrap; /* Prevent text wrapping */
+            overflow: hidden; /* Hide overflow text */
+            text-overflow: ellipsis; /* Add ellipsis when text overflows */
+
+            .transNoteWords {
+                display: inline-block; /* Ensures text is treated as inline-block */
+                overflow: hidden;
+                max-width: 100%; /* Limit the width of the text */
+                text-overflow: ellipsis; /* Add "..." when the text overflows */
+            }
         }
+        
 
         .transImage {
 

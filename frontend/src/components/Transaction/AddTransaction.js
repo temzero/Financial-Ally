@@ -39,7 +39,7 @@ function AddTransaction() {
         const wallet = wallets.find((wallet) => wallet._id === walletId) || {};
         let walletBalance = wallet.balance;
 
-        if (type === 'expense' && walletBalance < amount) {
+        if (type === 'Expense' && walletBalance < amount) {
             alert('Not enough money!');
             return null;
         }
@@ -65,7 +65,7 @@ function AddTransaction() {
         }
 
         // Update wallet balance based on transaction type
-        walletBalance += type === 'income' ? amount : -amount;
+        walletBalance += type === 'Income' ? amount : -amount;
 
         const walletUpdatedData = {
             balance: walletBalance,
@@ -75,7 +75,7 @@ function AddTransaction() {
         dispatch(updateWallet(walletUpdatedData, walletId));
 
         // Update relevant budgets if the transaction is an expense
-        if (type === 'expense') {
+        if (type === 'Expense') {
             budgets.forEach((budget) => {
                 const budgetWalletIds = budget.walletIds || [];
                 const isWalletInBudget = budgetWalletIds.includes(walletId);
@@ -110,15 +110,15 @@ function AddTransaction() {
             <div className={styles.plusMinusContainer}>
                 <BiSolidPlusCircle
                     className={`${styles.plusBtn} ${
-                        type === 'income' ? styles.active : ''
+                        type === 'Income' ? styles.active : ''
                     }`}
-                    onClick={() => setType('income')}
+                    onClick={() => setType('Income')}
                 />
                 <BiSolidMinusCircle
                     className={`${styles.minusBtn} ${
-                        type === 'expense' ? styles.active : ''
+                        type === 'Expense' ? styles.active : ''
                     }`}
-                    onClick={() => setType('expense')}
+                    onClick={() => setType('Expense')}
                 />
             </div>
             <div className={styles.formContent}>
@@ -126,7 +126,7 @@ function AddTransaction() {
                 <BalanceInput amount={amount} setAmount={setAmount} />
 
                 <div className={styles.formLabel}>Category</div>
-                <CategoryInput categoryName={category} setCategoryName={setCategory} />
+                <CategoryInput categoryName={category} setCategoryName={setCategory} categoryType={type}/>
 
                 <div className={styles.formLabel}>Wallet</div>
                 <WalletInput
