@@ -1,10 +1,10 @@
 import styles from './DeleteForm.module.scss';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import { deleteCategory } from '../../redux/actions'; 
 import openTrashIcon from '../../assets/images/opentrashcan.png'
 import { HiOutlineArrowRight } from "react-icons/hi";
 import iconItems from '../../assets/icons/reactIcons';
-import { useSelector } from 'react-redux';
 
 function DeleteCategoryForm({
     selectedCategory,
@@ -17,12 +17,20 @@ function DeleteCategoryForm({
     const categories = useSelector((state) => state.category.categories) || [];
     const categoryId = selectedCategory?._id;
     const name = selectedCategory?.name || '';
-    const color = selectedCategory?.color || '';
+    const [categoryColor, setCategoryColor] = useState(selectedCategory?.color || '')
+
+    useEffect(() => {
+        if (selectedCategory?.type?.toLowerCase() === 'income') {
+            setCategoryColor('primaryGreen');
+        } else if (selectedCategory?.type?.toLowerCase() === 'expense') {
+            setCategoryColor('primaryRed');
+        }
+    }, [selectedCategory]);
     
 
     let classes = `
         ${className} 
-        ${color ? styles.color : ''}
+        ${categoryColor ? styles.color : ''}
         ${hidden ? styles.hidden : ''}
     `;
 
@@ -38,7 +46,6 @@ function DeleteCategoryForm({
 
     const categoryIcon = (categoryName) => {
         const category = categories.find((cat) => cat.name === categoryName);
-        const categoryColor = category ? category.color : 'defaultColor';
         const categoryIconName = category ? category.icon : '?';
     
         // Match the icon from iconItems
@@ -59,7 +66,7 @@ function DeleteCategoryForm({
                         Do you want to delete this category?
                     </div>
                     <div className={styles.formBody}>
-                        <div className={`${styles.formIconContainer} ${styles[color]}`}>
+                        <div className={`${styles.formIconContainer} ${styles[categoryColor]}`}>
                             {categoryIcon(name)}
                             <div className={styles.formName}>{name}</div>
                         </div>

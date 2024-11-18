@@ -83,10 +83,10 @@
             margin: 1px 0;
         }
 
-        .transactionLabel {
+        .transactionCategory {
             font-size: 2rem;
             line-height: 2rem;
-            font-weight: 300;
+            font-weight: 500;
         }
     }
 
@@ -232,12 +232,17 @@
             margin-right: 2px;
         }
 
+        .categoryName,
         .categoryIcon {
             display: flex;
             align-items: center;
-            gap: 12px;  
             justify-content: flex-end;
             text-align: right;
+            font-size: 2rem;
+        }
+
+        .categoryName {
+            font-size: 1.1rem;
         }
 
         .transWallet {
@@ -342,11 +347,8 @@
 
 .transactionCategoryIcon {
     position: relative;
-    // border: 1px solid grey;
-    height: 111px;
-    width: 111px;
-
-    // justify-content: start;
+    height: 100px;
+    width: 100px;
 
     & svg {
         position: absolute; 
@@ -354,8 +356,6 @@
         left: 0; 
         width: 100%; 
         height: 100%;
-        // width: 40px; 
-        // height: 40px;
     }
 }
 

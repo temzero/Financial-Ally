@@ -24,6 +24,14 @@ function Categories() {
     const [categoryIcon, setCategoryIcon] = useState('');
     const [categoryColor, setCategoryColor] = useState('');
 
+    useEffect(() => {
+        if (categoryType.toLowerCase() === 'income') {
+            setCategoryColor('primaryGreen');
+        } else if (categoryType.toLowerCase() === 'expense') {
+            setCategoryColor('primaryRed');
+        }
+    }, [categoryType]);
+
     const handleAddCategory = () => {
         const categoryData = {
             name: categoryName,
@@ -51,7 +59,8 @@ function Categories() {
                     <Button
                         onClick={handleAddCategory}
                         className={styles.categoryButton}
-                        disabled={!categoryName || !categoryType || !categoryIcon || !categoryColor}
+                        // disabled={!categoryName || !categoryType || !categoryIcon || !categoryColor}
+                        disabled={!categoryName || !categoryType || !categoryIcon}
                     >
                         Add Category
                     </Button>
@@ -78,18 +87,19 @@ function Categories() {
                         Icon
                         <IconInput
                             className={`${styles.categoryIconInput} ${styles[categoryColor]}`}
+                            // className={`${styles.categoryIconInput} ${styles[color]}`}
                             icon={categoryIcon}
                             setIcon={setCategoryIcon}
                         />
                     </div>
-                    <div className={styles.categoryInput}>
+                    {/* <div className={styles.categoryInput}>
                         Color
                         <ColorSelectionInput
                             className={styles.categoryIconInput}
                             color={categoryColor}
                             setColor={setCategoryColor}
                         />
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <div className={styles.userCategory}>

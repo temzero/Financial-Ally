@@ -41,19 +41,30 @@ function TransactionList({wallets = [], transactions = [], currency = '$'}) {
         ) : null;
     };
 
-    const categoryIcon = (categoryName) => {
+    const categoryIcon = (categoryName, color) => {
         // Find the category color based on the category name
         const category = categories.find(category => category.name === categoryName);
         const categoryColor = category ? category.color : "defaultColor";
         const categoryIconName = category ? category.icon : "?";
+
+        const capitalizedName = (categoryName || "").charAt(0).toUpperCase() + (categoryName || "").slice(1);
     
         // Find the icon that matches the category name
         const matchedItem = iconItems.find(item => item.name === categoryIconName);
+        if(!matchedItem) {
+            return (
+                // <div className={`${styles.categoryName} ${styles[categoryColor]}`}>
+                <div className={`${styles.categoryName} ${styles[color]}`}>
+                    {capitalizedName}
+                </div>
+            );
+        }
     
         // Return the icon wrapped in the styled div
         return (
-            <div className={`${styles.categoryIcon} ${styles[categoryColor]}`}>
-                {matchedItem ? matchedItem.icon : categoryName}
+            // <div className={`${styles.categoryIcon} ${styles[categoryColor]}`}>
+            <div className={`${styles.categoryIcon} ${styles[color]}`}>
+                {matchedItem.icon}
             </div>
         );
     };
@@ -115,7 +126,7 @@ function TransactionList({wallets = [], transactions = [], currency = '$'}) {
                                     '---'
                                 )}
                             </div>
-                            {categoryIcon(transaction.category)}
+                            {categoryIcon(transaction.category, color)}
                             <Transaction 
                                 transaction={transaction} 
                                 setSelectedTransaction={setSelectedTransaction}

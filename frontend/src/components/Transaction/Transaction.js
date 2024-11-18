@@ -57,7 +57,7 @@ function Transaction({
                     className={`${styles.transactionTypeIcon} ${styles[color]}`}
                 />
             );
-        } else if (transaction.type.toLowerCase() === 'Expense') {
+        } else if (transaction.type.toLowerCase() === 'expense') {
             return (
                 <BiSolidMinusCircle
                     className={`${styles.transactionTypeIcon} ${styles[color]}`}
@@ -212,7 +212,8 @@ function Transaction({
         const matchedItem = iconItems.find((item) => item.name === categoryIconName);
     
         return (
-            <div className={`${styles.transactionCategoryIcon} ${styles[categoryColor]}`}>
+            // <div className={`${styles.transactionCategoryIcon} ${styles[categoryColor]}`}>
+            <div className={styles.transactionCategoryIcon}>
                 {matchedItem ? matchedItem.icon : ''}
             </div>
         );
@@ -244,7 +245,7 @@ function Transaction({
 
                     <div
                         className={`${styles.transactionInfo} ${
-                            styles[`border${color}`]
+                            styles[`${color}`]
                         }`}
                     >
                         <div className={styles.transactionLabelContainer}>
@@ -252,13 +253,13 @@ function Transaction({
                                 <LabelInput category={category} setCategory={setCategory} className={styles.categoryInput}/>
                             ) : (
                             )} */}
-                            <div className={styles.transactionLabel}>
+                            <div className={styles.transactionCategory}>
                                 {category}
                             </div>
                             {categoryIcon(category)}
                         </div>
                         <div className={styles.transactionImage}>
-                            {transaction.type === 'Expense' ? (
+                            {transaction.type.toLowerCase() === 'expense' ? (
                                 <img 
                                 src={expenseImage} 
                                 alt="Expense" 

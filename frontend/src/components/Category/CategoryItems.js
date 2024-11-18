@@ -1,6 +1,6 @@
 // CategoryItem.js
 import styles from './Category.module.scss';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { editIcon, deleteIcon } from '../../assets/icons/icons';
 import { updateCategory } from '../../redux/actions';
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from 'react-icons/ai';
@@ -16,6 +16,7 @@ import { AiOutlineQuestion } from "react-icons/ai";
 
 function CategoryItems({ category, index, categories }) {
     const dispatch = useDispatch();
+    const currency = '$'
     const transactions = useSelector((state) => state.transaction.transactions) || [];
 
     const [editable, setEditable] = useState(false);
@@ -24,10 +25,21 @@ function CategoryItems({ category, index, categories }) {
 
     const [categoryName, setCategoryName] = useState(name);
     const [categoryType, setCategoryType] = useState(type);
+    const [plusOrMinus, setPlusOrMinus] = useState('');
     const [categoryIconName, setCategoryIconName] = useState(icon);
     const [categoryColor, setCategoryColor] = useState(color);
 
     const [selectedCategory, setSelectedCategory] = useState('');
+
+    useEffect(() => {
+        if (categoryType.toLowerCase() === 'income') {
+            setCategoryColor('primaryGreen');
+            setPlusOrMinus('+')
+        } else if (categoryType.toLowerCase() === 'expense') {
+            setCategoryColor('primaryRed');
+            setPlusOrMinus('-')
+        }
+    }, [categoryType]);
 
     const isLast =
         type === 'Income'
@@ -63,7 +75,7 @@ function CategoryItems({ category, index, categories }) {
             name: categoryName,
             type: categoryType,
             icon: categoryIconName,
-            color: categoryColor,
+            // color: categoryColor,
         };
 
         dispatch(updateCategory(category._id, categoryData));
@@ -111,12 +123,13 @@ function CategoryItems({ category, index, categories }) {
 
     const totalTransactions = () => {
         const matchedTransactions = transactions.filter(trans => trans.category === categoryName);
+        const totalValue = matchedTransactions.reduce((sum, trans) => sum + trans.amount, 0);
         if (matchedTransactions.length === 0) {
             return `---`;
         } else if (matchedTransactions.length === 1) {
-            return `1 transaction`;
+            return `1 transaction (${plusOrMinus}${currency}${totalValue})`;
         } else {
-            return `${matchedTransactions.length} transactions`;
+            return `${matchedTransactions.length} transactions (${plusOrMinus}${currency}${totalValue})`;
         }
     };
 
@@ -129,15 +142,15 @@ function CategoryItems({ category, index, categories }) {
                         setIcon={setCategoryIconName}
                         className={styles[categoryColor]}
                     />
-                    <ColorSelectionInput
+                    {/* <ColorSelectionInput
                         color={categoryColor}
                         setColor={setCategoryColor}
-                    />
+                    /> */}
                 </div>
             ) : (
                 <div
                     className={`${styles.categoryIcon} ${
-                        styles[category.color]
+                        styles[categoryColor]
                     }`}
                 >
                     {categoryIcon}
@@ -152,7 +165,7 @@ function CategoryItems({ category, index, categories }) {
                 />
             ) : (
                 <div className={`${styles.categoryName} ${
-                    styles[category.color]
+                    styles[categoryColor]
                 }`}>{categoryName}</div>
             )}
 
