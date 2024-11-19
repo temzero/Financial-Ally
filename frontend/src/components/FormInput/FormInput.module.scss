@@ -61,7 +61,7 @@
     font-size: 1rem;
     height: 2rem;
     padding: 0 8px;
-    border: 1px solid rgba(0,0,0,0.4);
+    border: 1px solid #ccc;
     border-radius: 4px;
     display: flex;
     align-items: center;
@@ -176,7 +176,6 @@
 }
 
 .formIconInput {
-    font-size: 1.6rem;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -193,11 +192,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     border: 1px solid grey;
     border-radius: 50%;
-    font-size: 1.4rem;
+    font-size: 2rem;
 }
 
 .iconDropdown {
@@ -207,14 +206,14 @@
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 4px;
-    display: grid; /* Use grid layout */
-    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr)); /* Flexible column sizing */
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 10;
     width: 300px;
     max-height: 220px;
-    overflow-y: auto; /* Enable scrolling if icons exceed container height */
-    padding: 10px; /* Add padding for better spacing */
+    overflow-y: auto; 
+    padding: 10px; 
 }
 
 .iconItem {
@@ -226,6 +225,8 @@
     border-radius: 50px;
     cursor: pointer;
     transition: background-color 0.2s;
+    gap: 8px;
+    font-size: 1.8rem;
 
     &:hover {
         background-color: #f0f0f0;
@@ -242,11 +243,12 @@
 }
 
 .formIcon {
-    width: 100%;
+    width: 20px;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    // border: 1px solid grey;
 
     & svg {
         width: 100%;
@@ -324,9 +326,10 @@
 .formTextInput {
     font-size: 1.2rem;
     width: 100%;
-    padding: 4px;
-    border: 1px solid grey;
+    padding: 8px;
+    border: 1px solid #ccc;
     border-radius: 4px;
+    height: 36px;
 }
 
 // Background Color
@@ -388,67 +391,21 @@
 }
 
 
-// Wallet options
-.customDropdown {
-    position: relative;
-    width: 100%;
-    height: 40px;
-    
-    .dropdownHeader {
-        height: 36px;
-        background: #fff;
-        border: 1px solid #ccc;
-        padding: 10px;
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .arrow {
-        font-size: 12px;
-    }
-
-    .dropdownList {
-        position: absolute;
-        background: #fff;
-        border: 1px solid #ccc;
-        width: 100%;
-        max-height: 200px;
-        overflow-y: auto;
-        z-index: 1000;
-    }
-
-    .dropdownItem {
-        padding: 10px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        cursor: pointer;
-
-        &:hover {
-            background: #f5f5f5;
-        }
-    }
-
-    .walletIcon {
-        font-size: 16px;
-    }
-}
-
-
 // Category input
 .customDropdown {
     position: relative;
     width: 100%;
 
     .dropdownHeader {
+        height: 36px;
+        font-size: 1rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
         background: #fff;
         border: 1px solid #ccc;
-        padding: 10px;
+        border-radius: 4px;
+        padding: 8px;
         cursor: pointer;
 
         .selectedCategory {
@@ -459,13 +416,18 @@
     }
 
     .arrow {
-        font-size: 12px;
+        font-size: 1rem;
+        height: 100%;
     }
 
     .dropdownList {
         position: absolute;
         background: #fff;
         border: 1px solid #ccc;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
         width: 100%;
         max-height: 200px;
         overflow-y: auto;
@@ -473,7 +435,9 @@
     }
 
     .dropdownItem {
-        padding: 10px;
+        padding: 8px;
+        gap: 8px;
+        height: 2.4rem;
         display: flex;
         align-items: center;
         cursor: pointer;
@@ -486,7 +450,7 @@
         .iconAndName {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
     }
 

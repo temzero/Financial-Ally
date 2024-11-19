@@ -29,6 +29,7 @@
 .formLabel {
     font-size: 1rem;
     font-weight: 200;
+    margin: 8px 0;
 }
 
 .transactionHeader {
@@ -256,19 +257,18 @@
         }
 
         .transNote {
-            display: inline-flex; /* Keep content in a horizontal row */
-            align-items: center; /* Vertically center the content */
-            gap: 12px; /* Space between the icon and text */
-            max-width: 100%; /* Ensure the container does not exceed its parent width */
-            white-space: nowrap; /* Prevent text wrapping */
-            overflow: hidden; /* Hide overflow text */
-            text-overflow: ellipsis; /* Add ellipsis when text overflows */
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            max-width: 100%;
+            white-space: nowrap;
+            text-overflow: ellipsis;
 
             .transNoteWords {
-                display: inline-block; /* Ensures text is treated as inline-block */
+                display: inline-block;
                 overflow: hidden;
-                max-width: 100%; /* Limit the width of the text */
-                text-overflow: ellipsis; /* Add "..." when the text overflows */
+                max-width: 100%;
+                text-overflow: ellipsis;
             }
         }
         
@@ -284,7 +284,7 @@
 // Receipt Form
 .addTransaction {
     width: var(--addTransaction-width);
-    height: 620px; 
+    height: 630px; 
     width: 320px;
     background-color: white;
     border-radius: 2px;

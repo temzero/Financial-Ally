@@ -19,6 +19,7 @@ import coffeeIcon from './coffeeIcon';
 import coinIcon from './coinIcon';
 import controllerIcon from './controllerIcon';
 import cupIcon from './cupIcon';
+import compassIcon from './compassIcon'
 import diamondIcon from './diamondIcon';
 import diceIcon from './diceIcon';
 import dinnerIcon from './dinnerIcon';
@@ -40,6 +41,8 @@ import giftIcon from './giftIcon';
 import goldIcon from './goldIcon';
 import golfIcon from './golfIcon';
 import pokerIcon from './pokerIcon';
+import popcornIcon from './popcornIcon';
+import PartyIcon from './partyIcon'
 import receiptIcon from './receiptIcon';
 import sackDollarIcon from './sackDollarIcon';
 import screenIcon from './screenIcon';
@@ -81,13 +84,14 @@ const iconItems = [
   { name: 'Car', icon: carIcon() },
   { name: 'Car2', icon: car2Icon() },
   { name: 'Cart', icon: cartIcon() },
-
-  // D
   { name: 'Cocktail', icon: cockTailIcon() },
   { name: 'Coffee', icon: coffeeIcon() },
   { name: 'Coin', icon: coinIcon() },
   { name: 'Controller', icon: controllerIcon() },
   { name: 'Cup', icon: cupIcon() },
+  { name: 'Compass', icon: compassIcon() },
+
+  // D
   { name: 'Diamond', icon: diamondIcon() },
   { name: 'Dice', icon: diceIcon() },
   { name: 'Dinner', icon: dinnerIcon() },
@@ -119,9 +123,11 @@ const iconItems = [
   // P
   { name: 'Poker', icon: pokerIcon() },
   { name: 'Receipt', icon: receiptIcon() },
-  { name: 'SackDollar', icon: sackDollarIcon() },
-
+  { name: 'Popcorn', icon: popcornIcon() },
+  { name: 'Party', icon: PartyIcon() },
+  
   // S
+  { name: 'SackDollar', icon: sackDollarIcon() },
   { name: 'Screen', icon: screenIcon() },
   { name: 'Shirt', icon: shirtIcon() },
   { name: 'ShoppingBag', icon: shoppingBagIcon() },

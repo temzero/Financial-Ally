@@ -12,6 +12,7 @@ import CategoryTypeInput from '../FormInput/CategoryTypeInput';
 import DeleteCategoryForm from '../DeleteForm/DeleteCategoryForm';
 import iconItems from '../../assets/icons/reactIcons';
 import { AiOutlineQuestion } from "react-icons/ai";
+import usePreventClickOutside from '../ClickOutSide/usePreventClickOutside';
 
 
 function CategoryItems({ category, index, categories }) {
@@ -125,67 +126,81 @@ function CategoryItems({ category, index, categories }) {
         const matchedTransactions = transactions.filter(trans => trans.category === categoryName);
         const totalValue = matchedTransactions.reduce((sum, trans) => sum + trans.amount, 0);
         if (matchedTransactions.length === 0) {
-            return `---`;
+            return ``;
         } else if (matchedTransactions.length === 1) {
-            return `1 transaction (${plusOrMinus}${currency}${totalValue})`;
+            return `${plusOrMinus}${currency}${totalValue} - 1 transaction`;
         } else {
-            return `${matchedTransactions.length} transactions (${plusOrMinus}${currency}${totalValue})`;
+            return `${plusOrMinus}${currency}${totalValue} - ${matchedTransactions.length} transactions`;
         }
     };
 
+    const editableRef = usePreventClickOutside(() => {
+        setEditable(false)
+        setCategoryName(name)
+        setCategoryType(type)
+        setCategoryIconName(icon)
+        // setCategoryColor(color)
+    }, editable);
+
     return (
-        <div className={categoryClass} key={category._id}>
-            {editable ? (
-                <div className={styles.formIconColorInput}>
-                    <IconInput
-                        icon={categoryIconName}
-                        setIcon={setCategoryIconName}
-                        className={styles[categoryColor]}
+        <div className={categoryClass} key={category._id} ref={editableRef}>
+            <div className={styles.tableColumn1}>
+                {editable ? (
+                    <div className={styles.categoryIcon}>
+                        <IconInput
+                            icon={categoryIconName}
+                            setIcon={setCategoryIconName}
+                            className={`${styles.formIconInput} ${styles[categoryColor]}`}
+                        />
+                        {/* <ColorSelectionInput
+                            color={categoryColor}
+                            setColor={setCategoryColor}
+                        /> */}
+                    </div>
+                ) : (
+                    <div
+                        className={`${styles.categoryIcon} ${
+                            styles[categoryColor]
+                        }`}
+                    >
+                        {categoryIcon}
+                    </div>
+                )}
+
+                {editable ? (
+                    <TextInput
+                        className={styles.formNameInput}
+                        content={categoryName}
+                        setContent={setCategoryName}
                     />
-                    {/* <ColorSelectionInput
-                        color={categoryColor}
-                        setColor={setCategoryColor}
-                    /> */}
-                </div>
-            ) : (
-                <div
-                    className={`${styles.categoryIcon} ${
+                ) : (
+                    <div className={`${styles.categoryName} ${
                         styles[categoryColor]
-                    }`}
-                >
-                    {categoryIcon}
-                </div>
-            )}
+                    }`}>{categoryName}</div>
+                )}
+            </div>
 
-            {editable ? (
-                <TextInput
-                    content={categoryName}
-                    setContent={setCategoryName}
-                    className={styles.formNameInput}
+            <div className={styles.tableColumn2}>
+                {editable ? (
+                    <CategoryTypeInput
+                        type={categoryType}
+                        setType={setCategoryType}
+                        className={styles.formTypeInput}
+                    />
+                ) : (
+                    <div className={styles.categoryInfo}>{totalTransactions()}</div>
+                )}
+            </div>
+            <div className={styles.tableColumn3}>        
+                {editButtons()}
+
+                <DeleteCategoryForm
+                    selectedCategory={selectedCategory}
+                    setSelectedCategory={setSelectedCategory}
+                    hidden={!selectedCategory}
                 />
-            ) : (
-                <div className={`${styles.categoryName} ${
-                    styles[categoryColor]
-                }`}>{categoryName}</div>
-            )}
+            </div>
 
-            {editable ? (
-                <CategoryTypeInput
-                    type={categoryType}
-                    setType={setCategoryType}
-                    className={styles.formTypeInput}
-                />
-            ) : (
-                <div className={styles.categoryInfo}>{totalTransactions()}</div>
-            )}
-
-            {editButtons()}
-
-            <DeleteCategoryForm
-                selectedCategory={selectedCategory}
-                setSelectedCategory={setSelectedCategory}
-                hidden={!selectedCategory}
-            />
         </div>
     );
 }

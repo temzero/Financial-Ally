@@ -1,21 +1,50 @@
 import styles from './FormInput.module.scss';
-import { useEffect } from 'react';
+import { useState } from 'react';
+import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
+import useClickOutSide from '../ClickOutSide/useClickOutSide';
 
-function WalletTypeInput({ type, setType }) {
-    useEffect(() => {
-        setType('Personal')
-    },[type, setType])
+function WalletTypeInput({ type, setType, className }) {
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const dropdownRef = useClickOutSide(() => setIsDropdownOpen(false));
+
+    const walletTypeOptions = [
+        { value: "Personal", label: "Personal" },
+        { value: "Business", label: "Business" },
+        { value: "Savings", label: "Savings" }
+    ];
+
+    const handleOptionSelect = (value) => {
+        setType(value);
+        setIsDropdownOpen(false);
+    };
 
     return (
-        <select
-            className={styles.formInputOptions}
-            value={type}
-            onChange={(e) => setType(e.target.value)}
-        >
-            <option value="Personal">Personal</option>
-            <option value="Business">Business</option>
-            <option value="Savings">Savings</option>
-        </select>
+        <div className={`${styles.customDropdown} ${className || ''}`} ref={dropdownRef}>
+            <div
+                className={styles.dropdownHeader}
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            >
+                <div className={styles.selectedType}>
+                    {walletTypeOptions.find(option => option.value === type)?.label || "Personal"}
+                </div>
+                <span className={styles.arrow}>
+                    {isDropdownOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                </span>
+            </div>
+            {isDropdownOpen && (
+                <div className={styles.dropdownList}>
+                    {walletTypeOptions.map(option => (
+                        <div
+                            key={option.value}
+                            className={styles.dropdownItem}
+                            onClick={() => handleOptionSelect(option.value)}
+                        >
+                            {option.label}
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
     );
 }
 
