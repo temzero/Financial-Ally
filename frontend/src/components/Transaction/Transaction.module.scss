@@ -118,7 +118,8 @@
 .transactionNote {
     height: 110px;
     padding: 12px 0;
-    display: flex; /* Align items within the container */
+    display: flex;
+    font-size: 1.2rem;
 
     .noteInput {
         margin: 0;
@@ -244,6 +245,7 @@
 
         .categoryName {
             font-size: 1.1rem;
+            font-weight: 400;
         }
 
         .transWallet {
@@ -252,17 +254,23 @@
             gap: 8px;  
         }
 
-        .transDate {
+        // .transDate {
 
-        }
+        // }
 
         .transNote {
             display: inline-flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
             max-width: 100%;
             white-space: nowrap;
             text-overflow: ellipsis;
+            overflow: hidden;
+
+            .editIcon {
+                display: flex;
+                align-items: center;
+            }
 
             .transNoteWords {
                 display: inline-block;
@@ -273,9 +281,9 @@
         }
         
 
-        .transImage {
+        // .transImage {
 
-        }
+        // }
 
     }
 }

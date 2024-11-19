@@ -2,13 +2,13 @@ import styles from './WalletInfo.module.scss';
 import { useLocation } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import Button from '../../../components/Button/Button';
-import EditWalletForm from './EditWalletForm';
 import DeleteWalletForm from '../../../components/DeleteForm/DeleteWalletForm';
 import { useDispatch, useSelector } from 'react-redux';
 import TransactionList from '../../../components/Transaction/TransactionList';
 import TransferBalanceForm from '../../../components/TransferBalance/TransferBalance';
 import { getOneWallet } from '../../../redux/actions';
 import { BiTransferAlt } from "react-icons/bi";
+import EditWalletForm from '../../../components/EditForm/EditWalletForm';
 
 import noMoneyImage from '../../../assets/images/noMoney.png'
 import moneyImage from '../../../assets/images/cash.png'

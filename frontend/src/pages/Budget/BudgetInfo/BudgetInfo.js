@@ -2,7 +2,7 @@ import styles from './BudgetInfo.module.scss';
 import { useLocation } from 'react-router-dom';
 import { useState, useRef } from 'react';
 import Button from '../../../components/Button/Button';
-import EditBudgetForm from './EditBudgetForm';
+import EditBudgetForm from '../../../components/EditForm/EditBudgetForm';
 import DeleteBudgetForm from '../../../components/DeleteForm/DeleteBudgetForm';
 import { useSelector } from 'react-redux';
 import TransactionList from '../../../components/Transaction/TransactionList';
@@ -112,9 +112,16 @@ function BudgetInfo() {
                                 : 'Money Limit information unavailable'}
                         </div>
                     </div>
-                    <div
+                    {/* <div
                         className={styles.progressBar}
                         style={{ width: `${spendPercent}%` }}
+                    ></div> */}
+                    <div
+                        className={styles.progressBar}
+                        style={{
+                            width: `${spendPercent}%`,
+                            backgroundColor: spendPercent > 100 ? 'red' : '',
+                        }}
                     ></div>
                 </div>
                 <div className={styles.contentBody}>

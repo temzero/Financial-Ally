@@ -116,24 +116,27 @@ function TransactionList({wallets = [], transactions = [], currency = '$'}) {
                                 )}
                                 <span className={styles.currency}>{currency}</span>{transaction.amount.toLocaleString("en-US")}
                             </div>
+
                             <div className={styles.transWallet}>{displayWallet(transaction.walletId)}</div>
+
                             <div className={styles.transNote}>
                                 {transaction.note ? (
                                     <>
-                                    <span><GoPencil /></span> <span className={styles.transNoteWords}>{transaction.note}</span>
+                                    <span className={styles.editIcon}><GoPencil /></span> <span className={styles.transNoteWords}>{transaction.note}</span>
                                     </>
                                 ) : (
-                                    '---'
+                                    ''
                                 )}
                             </div>
                             {categoryIcon(transaction.category, color)}
-                            <Transaction 
-                                transaction={transaction} 
-                                setSelectedTransaction={setSelectedTransaction}
-                                color={color}
-                                hidden={selectedTransaction !== transaction._id}
-                            />
+                            
                         </div>
+                        <Transaction 
+                            transaction={transaction} 
+                            setSelectedTransaction={setSelectedTransaction}
+                            color={color}
+                            hidden={selectedTransaction !== transaction._id}
+                        />
                     </div>
                 );
             })}

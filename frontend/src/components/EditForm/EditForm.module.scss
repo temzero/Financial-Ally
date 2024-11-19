@@ -1,0 +1,95 @@
+// Color Variants
+$color-variants: (
+    green: var(--background-green),
+    red: var(--background-red),
+    blue: var(--background-blue),
+    yellow: var(--background-yellow),
+    orange: var(--background-orange),
+    purple: var(--background-purple),
+    rainbow: var(--background-rainbow)
+);
+
+@each $color, $value in $color-variants {
+    .#{$color} {
+        background-color: $value;
+    }
+}
+
+.rainbow {
+    background: var(--background-rainbow);
+}
+
+// Overlay Form Styles
+.formOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.formContainer {
+    background: white;
+    padding: 16px 0 8px;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    max-width: 90%;
+}
+
+.formDivider {
+    height: 1px;
+    width: 100%;
+    background-color: var(--pale-color);
+}
+
+.formContent {
+    padding: 0 28px;
+}
+
+.formNameInput,
+.formInput {
+    font-size: 1.6rem;
+    width: 100%;
+    border: none;
+    &:focus {
+        outline: none;
+    }
+}
+
+.formNameInput {
+    height: 36px;
+    padding: 1.2rem;
+}
+
+.formInput {
+    font-size: 1.4rem;
+    height: 40px;
+    border-bottom: 1px solid var(--pale-color);
+    user-select: none;
+    margin-bottom: 28px;
+    &:focus {
+        border-bottom: 3px solid var(--primary-text-color);
+    }
+}
+
+.formInputSelect {
+    font-size: 1rem;
+    color: rgb(66, 66, 66);
+}
+
+.formLabel {
+    font-size: 1rem;
+    font-weight: 200;
+    margin: 12px 0 8px;
+}
+
+.formBtnContainer {
+    display: flex;
+    justify-content: center;
+}

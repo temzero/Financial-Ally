@@ -43,7 +43,10 @@ function BudgetCard({ budgetData }) {
             </div>
             <div
                 className={styles.progressBar}
-                style={{ width: `${spendPercent}%` }} 
+                style={{
+                    width: `${spendPercent}%`,
+                    backgroundColor: spendPercent > 100 ? 'red' : '',
+                }}
             ></div>
         </div>
     );

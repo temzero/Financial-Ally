@@ -57,8 +57,7 @@
     height: 1px;
     width: 100%;
     background-color: var(--pale-color);
-    margin-top: 12px;
-    margin-bottom: 24px;
+    // margin-top: 12px;
 }
 
 .formNameInput {
@@ -102,6 +101,8 @@
 .formLabel {
     font-size: 1rem;
     font-weight: 200;
+    margin-top: 12px;
+    margin-bottom: 8px;
 }
 
 .formBtnContainer {

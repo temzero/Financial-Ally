@@ -77,9 +77,9 @@
     border-top: 1px solid rgba(0,0,0,0.2);
     // cursor: pointer;
 
-    &:hover {
-        background-color: rgba(0,0,0,0.02);
-    }
+    // &:hover {
+    //     background-color: rgba(0,0,0,0.02);
+    // }
 
     &:last-child {
         border-bottom: 1px solid rgba(0,0,0,0.2);
@@ -140,6 +140,10 @@
         align-items: center;    
         height: 100%; 
     }
+}
+
+.categoryNameInput {
+    width: 300px;
 }
 
 
