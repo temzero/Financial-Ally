@@ -6,6 +6,7 @@ import EditBudgetForm from '../../../components/EditForm/EditBudgetForm';
 import DeleteBudgetForm from '../../../components/DeleteForm/DeleteBudgetForm';
 import { useSelector } from 'react-redux';
 import TransactionList from '../../../components/Transaction/TransactionList';
+import { IoWalletOutline } from "react-icons/io5";
 
 function BudgetInfo() {
     const { state } = useLocation();
@@ -41,8 +42,22 @@ function BudgetInfo() {
     const [budgetColor, setBudgetColor] = useState(color);
     const [budgetStartDate, setBudgetStartDate] = useState(startDate);
     const [budgetFinishDate, setBudgetFinishDate] = useState(finishDate);
-    const [budgetWallets, setBudgetWallets] = useState(walletIds);
-    console.log('budget info Budget finish date: ', budgetFinishDate)
+    const [budgetWalletIds, setBudgetWalletIds] = useState(walletIds);
+
+    const renderWallets = () => {
+        const budgetWallets = allWallets.filter(wallet => budgetWalletIds.includes(wallet._id));
+        console.log('budget wallets: ', budgetWallets);
+    
+        // If no budget wallets are found, return 'All wallets'
+        if (budgetWallets.length === 0) {
+            return <div>All wallets</div>;
+        }
+    
+        return budgetWallets.map(wallet => {
+            return <div key={wallet._id}>{wallet.name}</div>;
+        });
+    }
+
     const formRef = useRef(null);
 
     // Convert startDate and finishDate to readable date format
@@ -112,10 +127,6 @@ function BudgetInfo() {
                                 : 'Money Limit information unavailable'}
                         </div>
                     </div>
-                    {/* <div
-                        className={styles.progressBar}
-                        style={{ width: `${spendPercent}%` }}
-                    ></div> */}
                     <div
                         className={styles.progressBar}
                         style={{
@@ -185,11 +196,9 @@ function BudgetInfo() {
                     </div>
 
                     <div className={styles.contentAnalysis}>
-                        <div>
                             <div className={styles.contentSubHeader}>
-                                Analysis
+                                <IoWalletOutline/> {renderWallets()}
                             </div>
-                        </div>
                     </div>
                     
                     <div className={styles.contentTransactions}>
@@ -229,8 +238,8 @@ function BudgetInfo() {
                 budgetFinishDate={budgetFinishDate}
                 setBudgetFinishDate={setBudgetFinishDate}
 
-                budgetWallets={budgetWallets}
-                setBudgetWallets={setBudgetWallets}
+                budgetWallets={budgetWalletIds}
+                setBudgetWallets={setBudgetWalletIds}
             />
 
             <DeleteBudgetForm

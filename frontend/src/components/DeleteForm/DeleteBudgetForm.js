@@ -2,7 +2,9 @@ import styles from './DeleteForm.module.scss';
 import { useDispatch } from 'react-redux';
 import { deleteBudget } from '../../redux/actions';
 import openTrashIcon from '../../assets/images/opentrashcan.png';
-import budgetIcon from '../../assets/images/moneybag2.png';
+import budgetIcon from '../../assets/icons/reportIcon';
+// import {budgetIcon} from '../../assets/icons/icons';
+// import budgetIcon from '../../assets/icons/budgetIcon'
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { useNavigate } from 'react-router-dom';
 
@@ -39,11 +41,13 @@ function DeleteBudgetForm({ showForm, setShowForm, budget }) {
                     <div className={styles.formBody}>
                         <div className={`${styles.formIconContainer} ${styles[color]}`} onClick={(e) => e.stopPropagation()}>
                             <div className={styles.formIcon}>
-                                <img 
-                                    src={budgetIcon} 
+                                {/* <img 
+                                    src={'../../assets/icons/budgetIcon'} 
                                     alt="Budget" 
                                     className={styles.budgetIcon} 
-                                />
+                                /> */}
+                                <div className={styles[color]} >{budgetIcon()}</div>
+                                
                             </div>
                             <div className={styles.formName}>{name}</div>
                         </div>

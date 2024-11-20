@@ -8,7 +8,7 @@ import { addBudget } from '../../redux/actions';
 import TextInput from '../../components/FormInput/TextInput';
 import WalletsInput from '../../components/FormInput/WalletsInput';
 import ColorInput from '../../components/FormInput/ColorInput';
-import TypeInput from '../../components/FormInput/TypeInput';
+import BudgetTypeInput from '../../components/FormInput/BudgetTypeInput';
 
 function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets, user }) {
     const dispatch = useDispatch();
@@ -101,7 +101,7 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets, user }
                             </div>
                             <div>
                                 <h2 className={styles.formLabel}>Type</h2>
-                                <TypeInput
+                                <BudgetTypeInput
                                     type={type}
                                     setType={setType}
                                 />

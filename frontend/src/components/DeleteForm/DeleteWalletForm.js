@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { deleteWallet } from '../../redux/actions';
 import { useNavigate } from 'react-router-dom';
 import trashIcon from '../../assets/images/opentrashcan.png'
-import walletIcon from '../../assets/images/niceWallet.png'
+import walletIcon from '../../assets/icons/walletIcon';
 import { HiOutlineArrowRight } from "react-icons/hi";
 
 function DeleteWalletForm({ showForm, setShowForm, wallet }) {
@@ -36,11 +36,14 @@ function DeleteWalletForm({ showForm, setShowForm, wallet }) {
 
                     <div className={styles.formBody}>
                         <div className={`${styles.formIconContainer} ${styles[color]}`}>
-                            <div className={styles.formIcon}><img 
+                            <div className={styles.formIcon}>
+                                {/* <img 
                             src={walletIcon} 
                             alt="Wallet" 
                             className={styles.walletIcon} 
-                        /></div>
+                            /> */}
+                            {walletIcon()}
+                            </div>
                             <div className={styles.formName}>{name}</div>
                         </div>
                         <HiOutlineArrowRight className={styles.formArrow}/>

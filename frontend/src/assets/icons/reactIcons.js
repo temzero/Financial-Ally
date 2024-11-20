@@ -60,6 +60,8 @@ import waterIcon from './waterIcon';
 import wifiIcon from './wifiIcon';
 import wineIcon from './wineIcon';
 
+import {salonIcon, canIcon, cashIcon, dollarIcon, dollarCoin2Icon, dollarWastingIcon, noodleIcon, dressIcon, mugIcon} from './icons'
+
 // Structure where each icon is a function that returns an SVG or React component
 const iconItems = [
   // A
@@ -76,7 +78,6 @@ const iconItems = [
   { name: 'bike', icon: bikeIcon() },
   { name: 'book', icon: bookIcon() },
   { name: 'box', icon: boxIcon() },
-
 
   // C
   { name: 'Camera', icon: cameraIcon() },
@@ -147,7 +148,22 @@ const iconItems = [
   // W
   { name: 'Water', icon: waterIcon() },
   { name: 'WiFi', icon: wifiIcon() },
-  { name: 'Wine', icon: wineIcon() }
+  { name: 'Wine', icon: wineIcon() },
+  
+  // Extra
+  { name: 'MoneyWaste', icon: dollarWastingIcon() },
+  { name: 'Can', icon: canIcon() },
+  { name: 'Noodle', icon: noodleIcon() },
+  { name: 'CashIcon', icon: cashIcon() },
+  { name: 'DollarIcon', icon: dollarIcon() },
+  { name: 'DollarCoin2', icon: dollarCoin2Icon() },
+  { name: 'Salon', icon: salonIcon() },
+  { name: 'cashIcon', icon: cashIcon() },
+  { name: 'dress', icon: dressIcon() },
+  { name: 'mug', icon: mugIcon() },
+// import {salonIcon, canIcon, cashIcon, dollarIcon, dollarCoin2Icon, dollarWastingIcon, NoodleIcon} from './icons'
+
+  
 ];
 
 export default iconItems;

@@ -6,7 +6,7 @@ import Button from '../Button/Button'
 import ColorInput from '../FormInput/ColorInput';
 import BalanceInput from '../FormInput/BalanceInput';
 import DateInput from '../FormInput/DateInput'
-import TypeInput from '../FormInput/TypeInput';
+import BudgetTypeInput from '../FormInput/BudgetTypeInput';
 
 function EditBudgetForm({
     budgetData,
@@ -29,9 +29,6 @@ function EditBudgetForm({
     budgetColor,
     setBudgetColor,
 }) {
-
-    console.log('budgetFinishDate', budgetFinishDate)
-    console.log('FinishDate', budgetData.finishDate)
     const formattedFinishDate = budgetFinishDate ? new Date(budgetFinishDate).toISOString().split('T')[0] : '';
     const budgetId = budgetData._id;
     const dispatch = useDispatch();
@@ -111,7 +108,7 @@ function EditBudgetForm({
                             </div>
                             <div>
                                 <h2 className={styles.formLabel}>Type</h2>
-                                <TypeInput type={budgetType} setType={setBudgetType}/>
+                                <BudgetTypeInput type={budgetType} setType={setBudgetType}/>
                             </div>
                             <div>
                                 <h2 className={styles.formLabel}>Finish Date</h2>

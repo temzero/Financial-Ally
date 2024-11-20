@@ -1,8 +1,7 @@
 import styles from './Transaction.module.scss';
-import incomeImage from '../../assets/images/takeMoney.png';
-import expenseImage from '../../assets/images/moneyFlying.png';
+import incomeImage from '../../assets/images/bringmoney.jpg';
 import { BiSolidPlusCircle, BiSolidMinusCircle } from 'react-icons/bi';
-import { editIcon, deleteIcon } from '../../assets/icons/icons';
+import { editIcon, deleteIcon, dollarWastingIcon } from '../../assets/icons/icons';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -33,11 +32,10 @@ function Transaction({
     ${hidden ? styles.hidden : ''}
     `;
     const dispatch = useDispatch();
-    const budgets = useSelector((state) => state.user.budgets) || [];
+    const budgets = useSelector((state) => state.budget.budgets) || [];
     const categories = useSelector((state) => state.category.categories) || [];
-    const wallets = useSelector((state) => state.user.wallets) || [];
-    const wallet =
-        wallets.find((wallet) => wallet._id === transaction.walletId) || {};
+    const wallets = useSelector((state) => state.wallet.wallets) || [];
+    const wallet = wallets.find((wallet) => wallet._id === transaction.walletId) || {};
 
     const [editable, setEditable] = useState(false);
     const [amount, setAmount] = useState(transaction.amount);
@@ -173,8 +171,10 @@ function Transaction({
 
         const updatedWalletBalance = wallet.balance + transaction.amount;
         const updateWalletData = { balance: updatedWalletBalance };
+
         dispatch(updateTransaction(updateTransactionData, transaction._id));
         dispatch(updateWallet(updateWalletData, wallet._id));
+
 
         budgets.forEach((budget) => {
             const budgetWalletIds = budget.walletIds || [];
@@ -260,11 +260,15 @@ function Transaction({
                         </div>
                         <div className={styles.transactionImage}>
                             {transaction.type.toLowerCase() === 'expense' ? (
-                                <img 
-                                src={expenseImage} 
-                                alt="Expense" 
-                                className={styles.expenseImage} 
-                                />
+                                // <img 
+                                // src={expenseImage} 
+                                // alt="Expense" 
+                                // className={styles.expenseImage} 
+                                // />
+                                <div className={styles.expenseImage}>
+                                    {dollarWastingIcon({ width: "140px", height: "140px" })}
+                                </div>
+                                
                             ) : (
                                 <img 
                                     src={incomeImage} 

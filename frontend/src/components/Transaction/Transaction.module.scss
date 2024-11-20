@@ -105,32 +105,39 @@
 }
 
 .incomeImage {
-    width: 111px;
-    // width: 211px;
+    width: 100px;
+    opacity: .1;
     object-fit: cover;
 }
 
 .expenseImage {
+    color: black;
+    opacity: .1;
     width: 200px;
     object-fit: cover;
 }
 
 .transactionNote {
-    height: 110px;
-    padding: 12px 0;
+    height: 100px;
+    margin-top: 10px;
     display: flex;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+
+    background-image: radial-gradient(circle, #ddd 1px, transparent 1px);
+    background-size: 4px 2rem;
+    background-position: 0 12px;
+    background-clip: content-box;
 
     .noteInput {
         margin: 0;
-        font-size: 1rem;
+        padding: 0;
     }
-
+    
     .noteText {
-        word-wrap: break-word; /* Ensure long words break */
-        overflow-wrap: break-word; /* Break words if necessary */
-        line-height: 1.5; /* Increase line spacing for better readability */
-        max-width: 100%; /* Prevent the text from overflowing its container */
+        word-wrap: break-word; 
+        overflow-wrap: break-word; 
+        line-height: 2rem;
+        max-width: 100%;
     }
 }
 
