@@ -9,7 +9,7 @@ export const WalletCard = ({ walletData }) => {
     const navigate = useNavigate()
     
     const handleCardClick = () => {
-         navigate(`${walletData.name}`, { state: { walletId } })
+         navigate(`${walletData.name}`, { state: walletId })
     }
 
     const walletColorClass = styles[walletData.color];

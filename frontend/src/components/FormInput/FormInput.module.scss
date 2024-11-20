@@ -124,30 +124,41 @@
 }
 
 .noteInputContainer {
-    border: 2px dashed #ccc;
-    position: relative; 
-    height: 100px;
+    position: relative;
+    height: 100%;
     width: 100%;
-    
-    .formInputNote:focus {
-        outline: none; /* Remove the default focus outline */
-    }
-    
+    font-family: "Inter", sans-serif;
+    display: flex;
+    font-size: 1rem;
+    line-height: 2rem;
+
     .formInputNote {
-        font-size: .9rem;
-        border: none;
         height: 100%;
-        padding: 6px 8px;
         width: 100%;
+        border: none;
+        background: transparent;
+        font: inherit;
         box-sizing: border-box;
         resize: none;
+        margin: 0;
+        padding: 0;
+        outline: none;
+
+        background-image: radial-gradient(circle, #ddd 1px, transparent 1px);
+        background-size: 4px 2rem;
+        background-position: 0 12px;
+        background-clip: content-box;
+
+        &:focus {
+            outline: none;
+        }
     }
 
     .charCounter {
         position: absolute;
-        bottom: 4px; 
-        right: 4px; 
-        font-size: .8rem; 
+        bottom: 0px;
+        right: 4px;
+        font-size: 0.8rem;
         color: #888;
     }
 }

@@ -33,78 +33,6 @@ function AddTransaction() {
 
     const dispatch = useDispatch();
 
-    // const handleAddTransactionSubmit = async (event) => {
-    //     event.preventDefault();
-
-    //     const wallet = wallets.find((wallet) => wallet._id === walletId) || {};
-    //     let walletBalance = wallet.balance;
-
-    //     if (type === 'Expense' && walletBalance < amount) {
-    //         alert('Not enough money!');
-    //         return null;
-    //     }
-
-    //     const transactionData = {
-    //         type,
-    //         amount,
-    //         category,
-    //         walletId,
-    //         date,
-    //         note,
-    //         image,
-    //         userId,
-    //     };
-    //     console.log('transactionData', transactionData)
-    //     // Create the new transaction and get the transaction ID
-    //     const newTransaction = await dispatch(addTransaction(transactionData));
-    //     const newTransactionId = newTransaction?._id;
-
-    //     if (!newTransactionId) {
-    //         console.error('Failed to retrieve new transaction ID');
-    //         return;
-    //     }
-
-    //     // Update wallet balance based on transaction type
-    //     walletBalance += type === 'Income' ? amount : -amount;
-
-    //     const walletUpdatedData = {
-    //         balance: walletBalance,
-    //         transactionIds: [...wallet.transactionIds, newTransactionId],
-    //     };
-
-    //     dispatch(updateWallet(walletUpdatedData, walletId));
-
-    //     // Update relevant budgets if the transaction is an expense
-    //     if (type === 'Expense') {
-    //         budgets.forEach((budget) => {
-    //             const budgetWalletIds = budget.walletIds || [];
-    //             const isWalletInBudget = budgetWalletIds.includes(walletId);
-
-    //             if (!budgetWalletIds.length || isWalletInBudget) {
-    //                 const updatedMoneySpend = budget.moneySpend + amount;
-    //                 const budgetUpdatedData = {
-    //                     moneySpend: updatedMoneySpend,
-    //                     transactionIds: [
-    //                         ...budget.transactionIds,
-    //                         newTransactionId,
-    //                     ],
-    //                 };
-    //                 dispatch(updateBudget(budgetUpdatedData, budget._id));
-    //             }
-    //         });
-    //     }
-
-    //     // Reset form fields
-    //     setType('');
-    //     setAmount('');
-    //     setCategory('');
-    //     setWalletId('');
-    //     setDate(new Date().toISOString().split('T')[0]);
-    //     setNote('');
-    //     setImage(null);
-    //     setImagePreview(null);
-    // };
-
     const handleAddTransactionSubmit = async (event) => {
         event.preventDefault();
     
@@ -221,14 +149,15 @@ function AddTransaction() {
                 <div className={styles.formLabel}>Date</div>
                 <DateInput date={date} setDate={setDate} />
 
-                <ImageInput
+                {/* <ImageInput
                     image={image}
                     setImage={setImage}
                     imagePreview={imagePreview}
                     setImagePreview={setImagePreview}
-                />
+                    /> */}
 
-                <TextInput note={note} setNote={setNote} />
+                <div className={styles.formLabelNote}>Note</div>
+                <div className={styles.formNote}><TextInput note={note} setNote={setNote} /></div>
 
                 <div className={styles.addTransactionBtnContainer}>
                     <Button

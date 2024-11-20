@@ -151,14 +151,14 @@ function Transaction({
     const handleEditConfirm = (event) => {
         event.stopPropagation();
         setEditable(false);
-        setSelectedTransaction(null);
+        // setSelectedTransaction(null);
         updateData();
     };
 
     const handleCancelEdit = (event) => {
         event.stopPropagation();
         setEditable(false);
-        setSelectedTransaction(null);
+        // setSelectedTransaction(null);
 
         setAmount(transaction.amount);
         setCategory(transaction.category);
@@ -285,6 +285,7 @@ function Transaction({
                                 note={note}
                                 setNote={setNote}
                                 className={styles.noteInput}
+                                style={{ fontWeight: editable ? 400 : 'inherit' }}
                             />
                         ) : (
                             <span className={styles.noteText}>{note}</span>

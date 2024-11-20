@@ -26,10 +26,15 @@
     padding: 0 20px;
 }
 
-.formLabel {
+.formLabel,
+.formLabelNote {
     font-size: 1rem;
     font-weight: 200;
     margin: 8px 0;
+}
+
+.formLabelNote {
+    margin-bottom: 0;
 }
 
 .transactionHeader {
@@ -85,8 +90,8 @@
         }
 
         .transactionCategory {
-            font-size: 2rem;
-            line-height: 2rem;
+            font-size: 1.8rem;
+            line-height: 1.6rem;
             font-weight: 500;
         }
     }
@@ -117,12 +122,16 @@
     object-fit: cover;
 }
 
-.transactionNote {
-    height: 100px;
-    margin-top: 10px;
-    display: flex;
-    font-size: 1.1rem;
+.formNote {
+    height: 130px;
+}
 
+.transactionNote {
+    height: 130px;
+    margin-top: 8px;
+    display: flex;
+    font-size: 1rem;
+    line-height: 2rem;
     background-image: radial-gradient(circle, #ddd 1px, transparent 1px);
     background-size: 4px 2rem;
     background-position: 0 12px;
@@ -131,15 +140,26 @@
     .noteInput {
         margin: 0;
         padding: 0;
-    }
-    
-    .noteText {
-        word-wrap: break-word; 
-        overflow-wrap: break-word; 
-        line-height: 2rem;
+        border: none;
+        outline: none;
+        background: transparent;
+        font: inherit;
+        line-height: inherit;
         max-width: 100%;
+        background-image: none;
+    }
+
+    .noteText {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        line-height: inherit;
+        max-width: 100%;
+        min-height: inherit;
+        white-space: pre-wrap;
+        overflow: hidden;
     }
 }
+
 
 .transactionActions {
     display: flex;
@@ -362,8 +382,8 @@
 
 .transactionCategoryIcon {
     position: relative;
-    height: 100px;
-    width: 100px;
+    height: 88px;
+    width: 88px;
 
     & svg {
         position: absolute; 

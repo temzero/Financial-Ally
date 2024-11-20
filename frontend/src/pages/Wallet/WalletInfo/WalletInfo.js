@@ -16,7 +16,7 @@ import muchMoneyImage from '../../../assets/images/alotofcash.png'
 
 function WalletInfo() {
     const { state } = useLocation();
-    const walletId = state?.walletId || '';
+    const walletId = state || '';
     const dispatch = useDispatch();
     const [showTransferForm, setShowTransferForm] = useState(false);
 

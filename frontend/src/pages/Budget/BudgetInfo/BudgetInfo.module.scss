@@ -134,9 +134,23 @@
 .contentSubHeader {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 20px;
     font-size: 1.8rem;
     font-weight: 300;
+}
+
+.wallet {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 1.4rem;
+    font-weight: 400;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+        font-weight: 500;
+    }
 }
 
 // Color Variants
@@ -147,3 +161,11 @@
 .orange { background-color: var(--background-orange); }
 .purple { background-color: var(--background-purple); }
 .rainbow { background: var(--background-rainbow); }
+
+.textgreen { color: var(--background-green); }
+.textred { color: var(--background-red); }
+.textblue { color: var(--background-blue); }
+.textyellow { color: var(--background-yellow); }
+.textorange { color: var(--background-orange); }
+.textpurple { color: var(--background-purple); }
+.textrainbow { color: var(--background-rainbow); }

@@ -1,5 +1,5 @@
 import styles from './BudgetInfo.module.scss';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useRef } from 'react';
 import Button from '../../../components/Button/Button';
 import EditBudgetForm from '../../../components/EditForm/EditBudgetForm';
@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import TransactionList from '../../../components/Transaction/TransactionList';
 import { IoWalletOutline } from "react-icons/io5";
 
+
 function BudgetInfo() {
     const { state } = useLocation();
     const budgetId = state?.budgetId || '';
@@ -15,6 +16,7 @@ function BudgetInfo() {
     const allWallets = useSelector((state) => state.wallet.wallets);
     const allTransactions = useSelector((state) => state.transaction.transactions);
 
+    const navigate = useNavigate();
     const currentBudget = allBudgets.find((budget) => budget._id === budgetId);
     const {
         name,
@@ -46,15 +48,30 @@ function BudgetInfo() {
 
     const renderWallets = () => {
         const budgetWallets = allWallets.filter(wallet => budgetWalletIds.includes(wallet._id));
-        console.log('budget wallets: ', budgetWallets);
     
         // If no budget wallets are found, return 'All wallets'
         if (budgetWallets.length === 0) {
-            return <div>All wallets</div>;
+            return (
+            <div 
+                className={styles.wallet} 
+                onClick={() => navigate('/wallet')}
+                >
+                <IoWalletOutline /> All wallets
+            </div>
+            )
         }
-    
+        
         return budgetWallets.map(wallet => {
-            return <div key={wallet._id}>{wallet.name}</div>;
+            const walletColorClass = `text${wallet.color}`;
+            const handleWalletNavigate = () => {
+                navigate(`/wallet/${wallet.name}`, { state: wallet._id })
+            }
+
+            return (
+                <div key={wallet._id} className={`${styles[walletColorClass]} ${styles.wallet}`} onClick={handleWalletNavigate}>
+                  <IoWalletOutline/> {wallet.name}
+                </div>
+              );
         });
     }
 
@@ -197,7 +214,7 @@ function BudgetInfo() {
 
                     <div className={styles.contentAnalysis}>
                             <div className={styles.contentSubHeader}>
-                                <IoWalletOutline/> {renderWallets()}
+                                {renderWallets()}
                             </div>
                     </div>
                     
