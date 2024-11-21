@@ -1,11 +1,17 @@
 import styles from './FormInput.module.scss';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import useClickOutSide from '../ClickOutSide/useClickOutSide';
 
 function WalletTypeInput({ type, setType, className }) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useClickOutSide(() => setIsDropdownOpen(false));
+
+    useEffect(() => {
+        if (!type) {
+            setType('Personal')
+        }
+    },[type, setType])
 
     const walletTypeOptions = [
         { value: "Personal", label: "Personal" },

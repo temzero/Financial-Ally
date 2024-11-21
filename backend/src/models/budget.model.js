@@ -4,7 +4,6 @@ const BudgetSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        unique: true,
     },
     moneyLimit: {
         type: Number,
@@ -13,6 +12,7 @@ const BudgetSchema = new mongoose.Schema({
     moneySpend: {
         type: Number,
         default: 0,
+        min: [0, 'Money spent cannot be less than 0'], 
     },
     walletIds: [
         {

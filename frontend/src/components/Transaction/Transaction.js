@@ -168,8 +168,15 @@ function Transaction({
     const handleTransactionDelete = () => {
         console.log('Transaction Delete');
         dispatch(deleteTransaction(transaction._id));
+        console.log('Transaction Type: ', transaction.type);
 
-        const updatedWalletBalance = wallet.balance + transaction.amount;
+        let updatedWalletBalance;
+        if (transaction.type.toLowerCase() === 'income') {
+            updatedWalletBalance = wallet.balance - transaction.amount;
+        } else {
+            updatedWalletBalance = wallet.balance + transaction.amount;
+        }
+        
         const updateWalletData = { balance: updatedWalletBalance };
 
         dispatch(updateTransaction(updateTransactionData, transaction._id));

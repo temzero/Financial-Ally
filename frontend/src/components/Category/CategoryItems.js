@@ -125,13 +125,20 @@ function CategoryItems({ category, index, categories }) {
     const totalTransactions = () => {
         const matchedTransactions = transactions.filter(trans => trans.category === categoryName);
         const totalValue = matchedTransactions.reduce((sum, trans) => sum + trans.amount, 0);
-        if (matchedTransactions.length === 0) {
-            return ``;
-        } else if (matchedTransactions.length === 1) {
-            return `${plusOrMinus}${currency}${totalValue} - 1 transaction`;
-        } else {
-            return `${plusOrMinus}${currency}${totalValue} - ${matchedTransactions.length} transactions`;
-        }
+    
+        if (matchedTransactions.length === 0) return ``;
+    
+        const transactionText =
+            matchedTransactions.length === 1
+                ? `1 transaction`
+                : `${matchedTransactions.length} transactions`;
+    
+        return (
+            <div className={styles.categoryInfo}>
+                <div className={styles.categoryInfoValue}>{`${plusOrMinus}${currency}${totalValue}`}</div>
+                <div>{transactionText}</div>
+            </div>
+        );
     };
 
     const editableRef = usePreventClickOutside(() => {
@@ -188,7 +195,7 @@ function CategoryItems({ category, index, categories }) {
                         className={styles.formTypeInput}
                     />
                 ) : (
-                    <div className={styles.categoryInfo}>{totalTransactions()}</div>
+                    totalTransactions()
                 )}
             </div>
             <div className={styles.tableColumn3}>        

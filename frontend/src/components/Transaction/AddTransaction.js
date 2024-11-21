@@ -54,7 +54,6 @@ function AddTransaction() {
             image,
             userId,
         };
-        console.log('transactionData', transactionData)
         // Create the new transaction and get the transaction ID
         const newTransaction = await dispatch(addTransaction(transactionData));
         const newTransactionId = newTransaction?._id;
@@ -157,7 +156,7 @@ function AddTransaction() {
                     /> */}
 
                 <div className={styles.formLabelNote}>Note</div>
-                <div className={styles.formNote}><TextInput note={note} setNote={setNote} /></div>
+                <div className={styles.transactionNote}><TextInput note={note} setNote={setNote} /></div>
 
                 <div className={styles.addTransactionBtnContainer}>
                     <Button

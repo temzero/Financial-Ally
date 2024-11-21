@@ -1,15 +1,26 @@
-import { BiSolidPlusCircle, BiSolidMinusCircle } from 'react-icons/bi';
 import styles from './Transaction.module.scss'; 
-import Transaction from './Transaction';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { IoWalletOutline } from "react-icons/io5";
 import { GoPencil } from "react-icons/go";
+import { BiSolidPlusCircle, BiSolidMinusCircle } from 'react-icons/bi';
+import { getTransactions } from '../../redux/actions';
+import Transaction from './Transaction';
 import iconItems from '../../assets/icons/reactIcons';
-import { useSelector } from 'react-redux';
 
-function TransactionList({wallets = [], transactions = [], currency = '$'}) {
+function TransactionList({ currency = '$'}) {
+    const dispatch = useDispatch();
     const [selectedTransaction, setSelectedTransaction] = useState(null);
+    const user = useSelector((state) => state.user.user);
+    const transactions = useSelector((state) => state.transaction.transactions);
+    const wallets = useSelector((state) => state.wallet.wallets);
     const categories = useSelector((state) => state.category.categories) || [];
+
+    useEffect(() => {
+        if (user?._id) {
+            dispatch(getTransactions(user._id));
+        }
+    }, [user?._id, dispatch]);
     
     const formatTransactionDate = (date) => {
         const transactionDate = new Date(date);

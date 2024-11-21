@@ -69,6 +69,7 @@
     border-top: 3px solid;
     border-bottom: 3px solid;
     padding: 16px 0;
+    margin-bottom: 8px;
 
     &.bordergreen {
         border-color: var(--color-green);
@@ -122,33 +123,29 @@
     object-fit: cover;
 }
 
-.formNote {
-    height: 130px;
-}
-
 .transactionNote {
     height: 130px;
-    margin-top: 8px;
     display: flex;
     font-size: 1rem;
     line-height: 2rem;
+
     background-image: radial-gradient(circle, #ddd 1px, transparent 1px);
     background-size: 4px 2rem;
-    background-position: 0 12px;
+    background-position: 0 10px;
     background-clip: content-box;
 
     .noteInput {
+        font: inherit;
         margin: 0;
         padding: 0;
         border: none;
         outline: none;
         background: transparent;
-        font: inherit;
         line-height: inherit;
         max-width: 100%;
         background-image: none;
     }
-
+    
     .noteText {
         word-wrap: break-word;
         overflow-wrap: break-word;
@@ -211,6 +208,8 @@
 // Transaction List
 .transactions {
     font-weight: 200;
+    max-height: 2400px;
+    overflow: hidden;
 
     .dateDivider {
         font-size: 1.2rem;

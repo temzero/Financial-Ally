@@ -1,84 +1,39 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
 import styles from './Home.module.scss';
-import Button from '../../components/Button/Button';
-import { getBudgets, getWallets, getTransactions } from '../../redux/actions';
+import { useEffect } from 'react';
+import { getWallets, getTransactions } from '../../redux/actions';
 import TransactionList from '../../components/Transaction/TransactionList';
 import AddTransaction from '../../components/Transaction/AddTransaction';
+import CountUpEffect from '../../components/Animation/CountUpEffect';
+import Chart from '../../components/Chart/Chart';
 
 function Home() {
+    const currency = '$'
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.user);
     const wallets = useSelector((state) => state.wallet.wallets);
-    const budgets = useSelector((state) => state.budget.budgets);
-    const transactions = useSelector((state) => state.transaction.transactions);
 
-    const [activeChart, setActiveChart] = useState('1D');
-    const [displayBalance, setDisplayBalance] = useState(0); 
-
-    const totalBalance = wallets.reduce((sum, wallet) => sum + wallet.balance, 0);
-    const currency = '$'
+    const totalBalance = (wallets || []).reduce((sum, wallet) => sum + wallet.balance, 0);
 
     useEffect(() => {
-        dispatch(getWallets(user._id));
-        dispatch(getBudgets(user._id));
-        dispatch(getTransactions(user._id));
-    }, [user._id, dispatch]);
-
-    // Count-up effect for balance display
-    useEffect(() => {
-        let startBalance = 0;
-        const increment = Math.ceil(totalBalance / 100); // Adjust speed by changing the divisor
-
-        const interval = setInterval(() => {
-            startBalance += increment;
-            if (startBalance >= totalBalance) {
-                setDisplayBalance(totalBalance);
-                clearInterval(interval);
-            } else {
-                setDisplayBalance(startBalance);
-            }
-        }, 5);
-
-        return () => clearInterval(interval);
-    }, [totalBalance]);
-
-    if (!user) {
-        return null;
-    }
-
-    const handleChartButtonClick = (period) => {
-        setActiveChart(period);
-    };
+        if (user?._id) {
+            dispatch(getWallets(user._id));
+        }
+    }, [user?._id, dispatch, totalBalance]);
 
     return (
         <div className={styles.container}>
             <div className={styles.content}>
-                <div className={styles.balance}><span className={styles.currency}>{currency}</span>{displayBalance.toLocaleString()}</div>
-                <div className={styles.contentSection}>
-                    <div className={styles.chart} />
-                    <div className={styles.chartBtnContainer}>
-                        {['1D', '1W', '1M', '1Y', 'All'].map((period) => (
-                            <Button
-                                key={period}
-                                s
-                                rounded
-                                className={`${styles.chartBtn} ${activeChart === period ? styles.active : ''}`}
-                                onClick={() => handleChartButtonClick(period)}
-                            >
-                                {period}
-                            </Button>
-                        ))}
-                    </div>
-                </div>
+                <div className={styles.balance}><span className={styles.currency}>{currency}</span><CountUpEffect n={totalBalance}/> </div>
+                <Chart/>
                 <div className={styles.contentSection}>
                     <div className={styles.header}>Transactions</div>
 
-                    <TransactionList wallets={wallets} transactions={transactions}/>
+                    <TransactionList/>
 
                 </div>
             </div>
-            <AddTransaction user={user} wallets={wallets} budgets={budgets}/>
+            <AddTransaction/>
         </div>
     );
 }

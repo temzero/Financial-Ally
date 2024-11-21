@@ -40,6 +40,7 @@ function Wallet() {
                     </Button>
                 </div>
             </div>
+            {/* <div className={styles.balance}><span className={styles.currency}>{currency}</span>{totalBalance.toLocaleString()}</div> */}
             <div className={styles.balance}><span className={styles.currency}>{currency}</span>{totalBalance.toLocaleString()}</div>
 
             {/* Pass data to WalletItems */}

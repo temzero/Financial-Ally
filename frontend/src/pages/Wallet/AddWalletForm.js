@@ -46,8 +46,7 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        console.log("Form submitted!"); 
-        // Data to send
+        
         const newWallet = {
             name: walletName,
             balance,

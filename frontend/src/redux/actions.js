@@ -136,7 +136,8 @@ export const getOneWalletSuccess = (wallet) => ({
 export const addWallet = (newWalletData) => {
     return async (dispatch) => {
         try {
-            console.log('newWalletData, ', newWalletData)
+            console.log('newWalletData: ', newWalletData)
+
             const response = await axios.post('http://localhost:4000/wallet/add', newWalletData);
             const newWallet = response.data.wallet
             dispatch(addWalletSuccess(newWallet));
@@ -275,9 +276,16 @@ export const getTransactions = (userId) => {
     return async (dispatch) => {
         try {
             const response = await axios.get(`http://localhost:4000/user/${userId}/transactions`);
-            dispatch(getTransactionsSuccess(response.data));
+            
+            if (response.data.length === 0) {
+                console.log('No transactions found.');
+                dispatch(getTransactionsSuccess([])); // Dispatch empty array
+            } else {
+                dispatch(getTransactionsSuccess(response.data));
+            }
         } catch (error) {
             console.error('Error fetching transactions:', error);
+            dispatch(getTransactionsSuccess([]));
         }
     };
 };

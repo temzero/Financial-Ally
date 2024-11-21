@@ -21,46 +21,6 @@
         margin-right: 8px;
     }
 
-    .contentSection {
-        width: 100%;
-        font-weight: 400;
-        // border: 1px dashed rgba(0,0,0,0.2);
-        margin: 20px 0;
-
-        .chart {
-            height: 200px;
-            background-color: rgba(54, 254, 174, 0.066);
-            border-bottom: 3px solid rgba(0,0,0,0.2);
-        }
-
-        .chartBtnContainer {
-            display: flex;
-            justify-content: space-between;
-            padding: 20px;
-        }
-
-        .chartBtn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 1.6rem;
-            width: 3rem;
-
-            &.active {
-                background-color: black;
-                color: white;
-                border: none;
-            }
-
-            &:hover {
-                opacity: .6;
-                background-color: black;
-                color: white;
-                border: none;
-            }
-        }
-
-    }
     
     .header {
         font-size: 2rem;

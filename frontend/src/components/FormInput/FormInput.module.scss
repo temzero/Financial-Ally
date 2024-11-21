@@ -131,6 +131,7 @@
     display: flex;
     font-size: 1rem;
     line-height: 2rem;
+    background: none;
 
     .formInputNote {
         height: 100%;
@@ -144,11 +145,6 @@
         padding: 0;
         outline: none;
 
-        background-image: radial-gradient(circle, #ddd 1px, transparent 1px);
-        background-size: 4px 2rem;
-        background-position: 0 12px;
-        background-clip: content-box;
-
         &:focus {
             outline: none;
         }
@@ -156,7 +152,7 @@
 
     .charCounter {
         position: absolute;
-        bottom: 0px;
+        bottom: 4px;
         right: 4px;
         font-size: 0.8rem;
         color: #888;
