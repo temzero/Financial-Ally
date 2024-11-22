@@ -12,12 +12,14 @@ function Home() {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.user);
     const wallets = useSelector((state) => state.wallet.wallets);
+    const transactions = useSelector((state) => state.transaction.transactions);
 
     const totalBalance = (wallets || []).reduce((sum, wallet) => sum + wallet.balance, 0);
 
     useEffect(() => {
         if (user?._id) {
             dispatch(getWallets(user._id));
+            dispatch(getTransactions(user._id));
         }
     }, [user?._id, dispatch, totalBalance]);
 
@@ -25,11 +27,12 @@ function Home() {
         <div className={styles.container}>
             <div className={styles.content}>
                 <div className={styles.balance}><span className={styles.currency}>{currency}</span><CountUpEffect n={totalBalance}/> </div>
+                {/* <div className={styles.chart}><Chart/></div> */}
                 <Chart/>
                 <div className={styles.contentSection}>
                     <div className={styles.header}>Transactions</div>
 
-                    <TransactionList/>
+                    <TransactionList  transactions={transactions}/>
 
                 </div>
             </div>

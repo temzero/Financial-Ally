@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateBudget } from '../../redux/actions';
 import styles from './EditForm.module.scss';
@@ -6,7 +6,7 @@ import Button from '../Button/Button'
 import ColorInput from '../FormInput/ColorInput';
 import BalanceInput from '../FormInput/BalanceInput';
 import DateInput from '../FormInput/DateInput'
-import BudgetTypeInput from '../FormInput/BudgetTypeInput';
+import WalletsInput from '../FormInput/WalletsInput';
 
 function EditBudgetForm({
     budgetData,
@@ -20,8 +20,9 @@ function EditBudgetForm({
     budgetMoneyLimit,
     setBudgetMoneyLimit,
 
-    budgetType,
-    setBudgetType,
+    wallets,
+    budgetWallets,
+    setBudgetWallets,
 
     budgetFinishDate,
     setBudgetFinishDate,
@@ -32,22 +33,24 @@ function EditBudgetForm({
     const formattedFinishDate = budgetFinishDate ? new Date(budgetFinishDate).toISOString().split('T')[0] : '';
     const budgetId = budgetData._id;
     const dispatch = useDispatch();
+    const [selectedWallets, setSelectedWallets] = useState(budgetWallets);
 
     const closeForm = useCallback(() => {
         setBudgetName(budgetData.name);
         setBudgetMoneyLimit(budgetData.moneyLimit);
-        setBudgetType(budgetData.category);
+        setSelectedWallets(budgetWallets);
         setBudgetColor(budgetData.color);
         setBudgetFinishDate(budgetData.finishDate)
         setShowForm(false);
-    }, [budgetData, setShowForm, setBudgetName, setBudgetMoneyLimit, setBudgetType, setBudgetColor, setBudgetFinishDate]);
+    }, [budgetData, setShowForm, setBudgetName, setSelectedWallets, budgetWallets, setBudgetMoneyLimit, setBudgetColor, setBudgetFinishDate]);
 
+    
     const isDataChanged = () => {
         // Compare current form data with initial budgetData to check for changes
         return (
             budgetName !== budgetData.name ||
             budgetMoneyLimit !== budgetData.moneyLimit ||
-            budgetType !== budgetData.category ||
+            JSON.stringify(selectedWallets) !== JSON.stringify(budgetWallets) ||
             budgetFinishDate !== budgetData.finishDate ||
             budgetColor !== budgetData.color
         );
@@ -73,17 +76,21 @@ function EditBudgetForm({
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
+        
+        const selectedWalletsIds = selectedWallets.map((wallet) => wallet._id);
 
         const updatedBudgetData = {
             name: budgetName,
             amount: budgetMoneyLimit,
-            category: budgetType,
+            walletIds: selectedWalletsIds,
             finishDate: budgetFinishDate,
             color: budgetColor,
         };
 
         dispatch(updateBudget(updatedBudgetData, budgetId));
+        setBudgetWallets(selectedWallets)
         setShowForm(false);
+
     };
 
     return (
@@ -107,8 +114,12 @@ function EditBudgetForm({
                                 <BalanceInput amount={budgetMoneyLimit} setAmount={setBudgetMoneyLimit}/>
                             </div>
                             <div>
-                                <h2 className={styles.formLabel}>Type</h2>
-                                <BudgetTypeInput type={budgetType} setType={setBudgetType}/>
+                                <h2 className={styles.formLabel}>Wallets</h2>
+                                <WalletsInput
+                                    wallets={wallets}
+                                    selectedWallets={selectedWallets}
+                                    setSelectedWallets={setSelectedWallets}
+                                />
                             </div>
                             <div>
                                 <h2 className={styles.formLabel}>Finish Date</h2>

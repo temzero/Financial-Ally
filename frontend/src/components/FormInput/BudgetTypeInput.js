@@ -1,11 +1,17 @@
 import styles from './FormInput.module.scss';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import useClickOutSide from '../ClickOutSide/useClickOutSide';
 
 function BudgetTypeInput({ type, setType, className }) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useClickOutSide(() => setIsDropdownOpen(false));
+
+    useEffect(() => {
+        if(!type) {
+            setType('Expense')
+        }
+    }, [type, setType])
 
     const typeOptions = [
         // { value: "", label: "All expense & income" },
@@ -25,7 +31,7 @@ function BudgetTypeInput({ type, setType, className }) {
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
                 <div className={styles.selectedType}>
-                    {typeOptions.find(option => option.value === type)?.label || <div className={styles.placeholder}>{"Choose budget type"}</div>}
+                    {typeOptions.find(option => option.value === type)?.label || <div className={styles.placeholder}>{"Expense"}</div>}
                 </div>
                 <span className={styles.arrow}>
                     {isDropdownOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}

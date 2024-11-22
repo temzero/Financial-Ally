@@ -171,7 +171,7 @@ function Transaction({
         console.log('Transaction Type: ', transaction.type);
 
         let updatedWalletBalance;
-        if (transaction.type.toLowerCase() === 'income') {
+        if (transaction.type.toLowerCase() === 'expense') {
             updatedWalletBalance = wallet.balance - transaction.amount;
         } else {
             updatedWalletBalance = wallet.balance + transaction.amount;
@@ -185,17 +185,19 @@ function Transaction({
 
         budgets.forEach((budget) => {
             const budgetWalletIds = budget.walletIds || [];
-            const isWalletInBudget = budgetWalletIds.includes(
-                transaction.walletId
-            );
-
+            const isWalletInBudget = budgetWalletIds.includes(transaction.walletId);
+        
             if (!budgetWalletIds.length || isWalletInBudget) {
-                const updatedMoneySpend =
-                    budget.moneySpend - transaction.amount;
-                const budgetUpdatedData = {
-                    moneySpend: updatedMoneySpend,
-                };
-                dispatch(updateBudget(budgetUpdatedData, budget._id));
+                if (transaction.type.toLowerCase() === 'expense') {
+                    let updatedMoneySpend = budget.moneySpend - transaction.amount; // Use let for reassignment
+                    if (updatedMoneySpend < 0) {
+                        updatedMoneySpend = 0;
+                    }
+                    const budgetUpdatedData = {
+                        moneySpend: updatedMoneySpend,
+                    };
+                    dispatch(updateBudget(budgetUpdatedData, budget._id)); // Ensure dispatch is correct
+                }
             }
         });
     };

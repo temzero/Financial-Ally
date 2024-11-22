@@ -8,7 +8,6 @@ import { addBudget } from '../../redux/actions';
 import TextInput from '../../components/FormInput/TextInput';
 import WalletsInput from '../../components/FormInput/WalletsInput';
 import ColorInput from '../../components/FormInput/ColorInput';
-import BudgetTypeInput from '../../components/FormInput/BudgetTypeInput';
 
 function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets, user }) {
     const dispatch = useDispatch();
@@ -54,12 +53,12 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets, user }
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        const selectedWalletsId = selectedWallets.map((wallet) => wallet._id);
+        const selectedWalletsIds= selectedWallets.map((wallet) => wallet._id);
 
         const newBudget = {
             name: budgetName,
             moneyLimit,
-            walletIds: selectedWalletsId,
+            walletIds: selectedWalletsIds,
             type: type,
             startDate,
             finishDate,
@@ -97,13 +96,6 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets, user }
                                     wallets={wallets}
                                     selectedWallets={selectedWallets}
                                     setSelectedWallets={setSelectedWallets}
-                                />
-                            </div>
-                            <div>
-                                <h2 className={styles.formLabel}>Type</h2>
-                                <BudgetTypeInput
-                                    type={type}
-                                    setType={setType}
                                 />
                             </div>
                             <div>

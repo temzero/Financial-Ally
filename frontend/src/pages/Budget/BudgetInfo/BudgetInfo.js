@@ -1,20 +1,30 @@
 import styles from './BudgetInfo.module.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import Button from '../../../components/Button/Button';
 import EditBudgetForm from '../../../components/EditForm/EditBudgetForm';
 import DeleteBudgetForm from '../../../components/DeleteForm/DeleteBudgetForm';
 import { useSelector } from 'react-redux';
 import TransactionList from '../../../components/Transaction/TransactionList';
 import { IoWalletOutline } from "react-icons/io5";
-
+import { getTransactions } from '../../../redux/actions';
 
 function BudgetInfo() {
     const { state } = useLocation();
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user.user);
     const budgetId = state?.budgetId || '';
     const allBudgets = useSelector((state) => state.budget.budgets);
     const allWallets = useSelector((state) => state.wallet.wallets);
     const allTransactions = useSelector((state) => state.transaction.transactions);
+
+    console.log('all wallets, ', allWallets)
+    useEffect(() => {
+        if (user?._id) {
+            dispatch(getTransactions(user._id));
+        }
+    }, [user?._id, dispatch]);
 
     const navigate = useNavigate();
     const currentBudget = allBudgets.find((budget) => budget._id === budgetId);
@@ -22,7 +32,6 @@ function BudgetInfo() {
         name,
         moneyLimit,
         moneySpend,
-        category,
         startDate,
         finishDate,
         walletIds,
@@ -30,8 +39,11 @@ function BudgetInfo() {
         color,
     } = currentBudget;
 
-    const transactions = allTransactions.filter(transaction =>
-        transactionIds.includes(transaction._id)
+    const budgetTransactions = allTransactions.filter(transaction => transaction.type.toLowerCase() === 'expense')
+
+    const transactions = budgetTransactions.filter(
+        transaction =>
+            transactionIds.includes(transaction._id)
     );
 
     const [showEditForm, setShowEditForm] = useState(false);
@@ -40,15 +52,12 @@ function BudgetInfo() {
     // State variables for budget details
     const [budgetName, setBudgetName] = useState(name);
     const [budgetMoneyLimit, setBudgetMoneyLimit] = useState(moneyLimit);
-    const [budgetType, setBudgetType] = useState(category);
     const [budgetColor, setBudgetColor] = useState(color);
     const [budgetStartDate, setBudgetStartDate] = useState(startDate);
     const [budgetFinishDate, setBudgetFinishDate] = useState(finishDate);
-    const [budgetWalletIds, setBudgetWalletIds] = useState(walletIds);
+    const [budgetWallets, setBudgetWallets] = useState(allWallets.filter(wallet => walletIds.includes(wallet._id)));
 
-    const renderWallets = () => {
-        const budgetWallets = allWallets.filter(wallet => budgetWalletIds.includes(wallet._id));
-    
+    const renderWallets = () => {   
         // If no budget wallets are found, return 'All wallets'
         if (budgetWallets.length === 0) {
             return (
@@ -243,8 +252,9 @@ function BudgetInfo() {
                 budgetMoneyLimit={budgetMoneyLimit}
                 setBudgetMoneyLimit={setBudgetMoneyLimit}
 
-                budgetType={budgetType}
-                setBudgetType={setBudgetType}
+                wallets={allWallets}
+                budgetWallets={budgetWallets}
+                setBudgetWallets={setBudgetWallets}
 
                 budgetColor={budgetColor}
                 setBudgetColor={setBudgetColor}
@@ -254,9 +264,6 @@ function BudgetInfo() {
 
                 budgetFinishDate={budgetFinishDate}
                 setBudgetFinishDate={setBudgetFinishDate}
-
-                budgetWallets={budgetWalletIds}
-                setBudgetWallets={setBudgetWalletIds}
             />
 
             <DeleteBudgetForm

@@ -79,27 +79,18 @@ function AddTransaction() {
             const isWalletInBudget = budgetWalletIds.includes(walletId);
     
             if (!budgetWalletIds.length || isWalletInBudget) {
-                let updatedMoneySpend;
-                // If it's an 'Income' transaction, we add the amount to the budget
-                // If it's an 'Expense' transaction, we subtract the amount from the budget
-                if (type === 'Income' && budget.type === 'Income') {
-                    updatedMoneySpend = budget.moneySpend + amount;
-                } else if (type === 'Expense' && budget.type === 'Expense') {
-                    updatedMoneySpend = budget.moneySpend + amount;
-                } else {
-                    // Skip if types don't match
-                    return;
+                if(type.toLocaleLowerCase() === 'expense') {
+                    const updatedMoneySpend = budget.moneySpend + amount;
+                    const budgetUpdatedData = {
+                        moneySpend: updatedMoneySpend,
+                        transactionIds: [
+                            ...budget.transactionIds,
+                            newTransactionId,
+                        ],
+                    };
+        
+                    dispatch(updateBudget(budgetUpdatedData, budget._id));
                 }
-    
-                const budgetUpdatedData = {
-                    moneySpend: updatedMoneySpend,
-                    transactionIds: [
-                        ...budget.transactionIds,
-                        newTransactionId,
-                    ],
-                };
-    
-                dispatch(updateBudget(budgetUpdatedData, budget._id));
             }
         });
     

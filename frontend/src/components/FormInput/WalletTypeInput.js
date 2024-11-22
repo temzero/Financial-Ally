@@ -16,7 +16,7 @@ function WalletTypeInput({ type, setType, className }) {
     const walletTypeOptions = [
         { value: "Personal", label: "Personal" },
         { value: "Business", label: "Business" },
-        { value: "Savings", label: "Savings" }
+        { value: "Saving", label: "Saving" }
     ];
 
     const handleOptionSelect = (value) => {
