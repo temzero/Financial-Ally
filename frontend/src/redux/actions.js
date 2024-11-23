@@ -15,7 +15,6 @@ export const loginRequest = (loginRequestInfo, setMessage, navigate) => {
             return user;
         } catch (error) {
             console.error('Error Login Request!', error);
-            setMessage('Invalid email or password');
         }
     };
 };
@@ -284,8 +283,9 @@ export const getTransactions = (userId) => {
                 dispatch(getTransactionsSuccess(response.data));
             }
         } catch (error) {
-            console.error('Error fetching transactions:', error);
+            console.log('No transactions found.');
             dispatch(getTransactionsSuccess([]));
+            // console.error('Error fetching transactions:', error);
         }
     };
 };

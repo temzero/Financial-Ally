@@ -172,9 +172,9 @@ function Transaction({
 
         let updatedWalletBalance;
         if (transaction.type.toLowerCase() === 'expense') {
-            updatedWalletBalance = wallet.balance - transaction.amount;
-        } else {
             updatedWalletBalance = wallet.balance + transaction.amount;
+        } else {
+            updatedWalletBalance = wallet.balance - transaction.amount;
         }
         
         const updateWalletData = { balance: updatedWalletBalance };

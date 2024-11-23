@@ -16,14 +16,13 @@ function Register() {
     
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const FailMessage = 'Registration failed. Please try again.'
 
     const handleSubmit = (e) => {
         e.preventDefault();
     
         if (password !== confirmPassword) {
             console.log('Password does not match');
-            alert('Password does not match');
+            setMessage('Password does not match')
             return;
         }
     
@@ -35,6 +34,7 @@ function Register() {
         };
     
         dispatch(registerRequest(userData, setMessage, navigate));
+        // setMessage('')
     };
 
     const loginInfo = { email, password };
@@ -101,9 +101,7 @@ function Register() {
                     <Button type='submit' primary rounded className={styles.submitButton}>Sign Up</Button>
                 </div>
                 {
-                    message === FailMessage 
-                    ? <h3 className={`${styles.message} ${styles.fail}`}>{message}</h3>
-                    : <h3 className={`${styles.message} ${styles.success}`}>{message}</h3> 
+                    message ? <h3 className={`${styles.message} ${styles.fail}`}>{message}</h3>: ''
                 }
                 <h3 className={styles.link}>
                     Already have an account? 

@@ -4,12 +4,11 @@ const categoryControllers = {
   getCategories: async (req, res) => {
     try {
       const userId = req.params.id;
+  
+      // Fetch categories for the user
       const categories = await Category.find({ userId });
-
-      if (!categories.length) {
-        return res.status(404).json({ message: "No categories found!" });
-      }
-
+  
+      // Always return the result, even if it's empty
       res.status(200).json(categories);
     } catch (error) {
       console.error('Error fetching categories:', error);

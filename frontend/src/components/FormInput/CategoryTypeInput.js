@@ -14,8 +14,8 @@ function CategoryTypeInput({ type, setType, className }) {
     }, [type, setType]);
 
     const categoryOptions = [
+        { value: "Income", label: "Income" },
         { value: "Expense", label: "Expense" },
-        { value: "Income", label: "Income" }
     ];
 
     const handleOptionSelect = (value) => {

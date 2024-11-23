@@ -27,7 +27,6 @@ function Home() {
         <div className={styles.container}>
             <div className={styles.content}>
                 <div className={styles.balance}><span className={styles.currency}>{currency}</span><CountUpEffect n={totalBalance}/> </div>
-                {/* <div className={styles.chart}><Chart/></div> */}
                 <Chart/>
                 <div className={styles.contentSection}>
                     <div className={styles.header}>Transactions</div>
