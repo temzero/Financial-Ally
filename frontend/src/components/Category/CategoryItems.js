@@ -186,18 +186,18 @@ function CategoryItems({ category, index, categories }) {
                     }`}>{categoryName}</div>
                 )}
             </div>
-
             <div className={styles.tableColumn2}>
-                {editable ? (
-                    <CategoryTypeInput
-                        type={categoryType}
-                        setType={setCategoryType}
-                        className={styles.formTypeInput}
-                    />
-                ) : (
-                    totalTransactions()
-                )}
+            {editable ? (
+                <CategoryTypeInput
+                    type={categoryType}
+                    setType={setCategoryType}
+                    className={styles.formTypeInput}
+                />
+            ) : (
+                totalTransactions()
+            )}
             </div>
+
             <div className={styles.tableColumn3}>        
                 {editButtons()}
 

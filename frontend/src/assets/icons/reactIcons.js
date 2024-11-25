@@ -150,17 +150,17 @@ const iconItems = [
   { name: 'WiFi', icon: wifiIcon() },
   { name: 'Wine', icon: wineIcon() },
   
-  // Extra
-  { name: 'MoneyWaste', icon: dollarWastingIcon() },
-  { name: 'Can', icon: canIcon() },
-  { name: 'Noodle', icon: noodleIcon() },
-  { name: 'CashIcon', icon: cashIcon() },
-  { name: 'DollarIcon', icon: dollarIcon() },
-  { name: 'DollarCoin2', icon: dollarCoin2Icon() },
-  { name: 'Salon', icon: salonIcon() },
-  { name: 'cashIcon', icon: cashIcon() },
-  { name: 'dress', icon: dressIcon() },
-  { name: 'mug', icon: mugIcon() },
+  // // Extra
+  // { name: 'MoneyWaste', icon: dollarWastingIcon() },
+  // { name: 'Can', icon: canIcon() },
+  // { name: 'Noodle', icon: noodleIcon() },
+  // { name: 'CashIcon', icon: cashIcon() },
+  // { name: 'DollarIcon', icon: dollarIcon() },
+  // { name: 'DollarCoin2', icon: dollarCoin2Icon() },
+  // { name: 'Salon', icon: salonIcon() },
+  // { name: 'cashIcon', icon: cashIcon() },
+  // { name: 'dress', icon: dressIcon() },
+  // { name: 'mug', icon: mugIcon() },
 // import {salonIcon, canIcon, cashIcon, dollarIcon, dollarCoin2Icon, dollarWastingIcon, NoodleIcon} from './icons'
 
   

@@ -1,12 +1,12 @@
 import styles from './FormInput.module.scss';
+import { useEffect, useState, forwardRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
 import { getCategories } from '../../redux/actions';
 import iconItems from '../../assets/icons/reactIcons';
-import {IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import useClickOutSide from '../ClickOutSide/useClickOutSide';
 
-function CategoryInput({ categoryName, setCategoryName, categoryType, className }) {
+const CategoryInput = forwardRef(({ categoryName, setCategoryName, categoryType, className }, ref) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useClickOutSide(() => setIsDropdownOpen(false));
 
@@ -19,6 +19,18 @@ function CategoryInput({ categoryName, setCategoryName, categoryType, className 
         if (!categoryName) {
             setCategoryName('Other');
         }
+
+        const handleKeyDown = (event) => {
+            if (event.key === 'c') {
+                setIsDropdownOpen(!isDropdownOpen); 
+            } 
+        }
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
     }, [userId, setCategoryName, categoryName, dispatch]);
 
     const categoriesByType = () => {
@@ -31,15 +43,13 @@ function CategoryInput({ categoryName, setCategoryName, categoryType, className 
 
     const getCategoryIcon = (name) => {
         const category = categories.find((cat) => cat.name === name);
-        const categoryColor = category ? category.color : 'defaultColor';
         const categoryIconName = category ? category.icon : '?';
 
         const matchedItem = iconItems.find((item) => item.name === categoryIconName);
 
-        if(!matchedItem) return null;
+        if (!matchedItem) return null;
 
         return (
-            // <span className={`${styles.formIcon} ${styles[categoryColor]}`}>
             <span className={styles.formIcon}>
                 {matchedItem?.icon}
             </span>
@@ -56,7 +66,9 @@ function CategoryInput({ categoryName, setCategoryName, categoryType, className 
                     {getCategoryIcon(categoryName)}
                     {categoryName}
                 </div>
-                <span className={styles.arrow}>{isDropdownOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}</span>
+                <span className={styles.arrow}>
+                    {isDropdownOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                </span>
             </div>
             {isDropdownOpen && (
                 <div className={styles.dropdownList}>
@@ -91,6 +103,6 @@ function CategoryInput({ categoryName, setCategoryName, categoryType, className 
             )}
         </div>
     );
-}
+});
 
 export default CategoryInput;

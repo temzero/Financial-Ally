@@ -53,51 +53,54 @@ function Chart() {
         }
         return filteredTransactions;
     };
+
     const balanceLineGraphData = (transactions) => {
         let lineBalance = totalBalance;
-        
+        const sortedTransactions = [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date));
         // Map transactions to data points with timestamps and balance
-        const data = transactions.map((trans) => {
+        const data = sortedTransactions.map((trans) => {
             const transactionBalance = trans.type.toLowerCase() === 'income' ? -trans.amount :
                                        trans.type.toLowerCase() === 'expense' ? trans.amount : 0;
         
             lineBalance += transactionBalance;
         
             return {
-                x: new Date(trans.date).getTime(),  // Timestamp for the transaction
-                y: lineBalance,  // Updated balance
+                lineBalance: lineBalance,  // Updated balance
+                date: new Date(trans.date).getTime(),
+                // date: new Date(trans.date).toLocaleDateString(),
             };
         });
+
+        if (data.length === 0) {
+            data.push({
+                lineBalance: totalBalance,
+                date: new Date().getTime() - (1 * 60 * 60 * 1000), // Simulate one hour ago
+            });
+        }
     
         // Add the final point with the current time and the totalBalance
         data.push({
-            x: new Date().getTime(),
-            y: totalBalance,
+            lineBalance: totalBalance,
+            date: new Date().getTime(), //yesterday
+            // date: 'Now',
         });
     
-        // Sort data by timestamp in ascending order (oldest to newest)
-        data.sort((a, b) => a.x - b.x);
-    
-        // Return the sorted data
-        return {
-            labels: data.map((d) => new Date(d.x).toLocaleString()),  // Date labels from sorted data
-            data: data.map((d) => d.y),  // Balance values from sorted data
-        };
+        return data.sort((a, b) => a.date - b.date);
+        // return data;
     };
 
     const filteredTransactions = filterTransactionsByPeriod(transactions, chartPeriod);
     const lineData = balanceLineGraphData(filteredTransactions);
 
-    console.log('chartData: ', lineData)
-    console.log('labels: ', lineData.labels)
-    console.log('data: ', lineData.data)
+    const dateLabels = lineData.map((point) => new Date(point.date).toLocaleDateString()); // Convert timestamps to readable dates
+    const balancePoints = lineData.map((point) => point.lineBalance);
 
     const chartData = {
-        labels: lineData.labels,
+        labels: dateLabels,
         datasets: [
             {
                 label: 'Balance',
-                data: lineData.data,
+                data: balancePoints,
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.1,
@@ -115,12 +118,21 @@ function Chart() {
         maintainAspectRatio: false,  // Allows the chart to take the full height and width
         scales: {
             x: {
-                // display: false,  // Hide the x-axis labels and line
+                display: false,  // Hide the x-axis labels and line
             },
         },
         plugins: {
             legend: {
-                display: false, // Hides the label button
+                display: false, // Hides the legend
+            },
+            tooltip: {
+                enabled: true,  // Keep tooltips enabled to show balance values and dates
+            },
+        },
+        elements: {
+            point: {
+                hoverRadius: 0,  // Disable the hover effect on points (no size change)
+                hitRadius: 0,    // Prevent hover interactions on points (no event trigger)
             },
         },
     };

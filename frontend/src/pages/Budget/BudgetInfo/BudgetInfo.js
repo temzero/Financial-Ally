@@ -240,6 +240,10 @@ function BudgetInfo() {
                 </div>
             </div>
 
+            <div className={styles.date}>
+                From {formattedStartDate} to {formattedFinishDate} ({daysLeft} days left)
+            </div>
+
             <EditBudgetForm
                 budgetData={currentBudget}
                 formRef={formRef}

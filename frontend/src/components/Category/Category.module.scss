@@ -6,7 +6,7 @@
 }
 
 .userCategory {
-    margin: 20px;
+    margin-top: 20px;
     background-color: white;
     width: 1000px;
     padding: 20px 40px;
@@ -90,6 +90,10 @@
     .tableColumn3 {
         display: flex;
         align-items: center;
+    }
+    
+    .tableColumn2 {
+        justify-content: center;
     }
 
     .tableColumn3 {

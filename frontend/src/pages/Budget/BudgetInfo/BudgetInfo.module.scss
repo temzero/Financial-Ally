@@ -153,6 +153,15 @@
     }
 }
 
+.date {
+    margin-top: 24px;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: #777;
+    width: 100%;
+    text-align: center;
+}
+
 // Color Variants
 .green { background-color: var(--background-green); }
 .red { background-color: var(--background-red); }

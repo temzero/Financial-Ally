@@ -1,28 +1,45 @@
 import styles from './FormInput.module.scss';
 import { useState } from "react";
+import { useSelector } from 'react-redux';
 import { IoWalletOutline } from "react-icons/io5";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import useClickOutSide from '../ClickOutSide/useClickOutSide';
+import React, { forwardRef, useEffect } from "react";
 
-function WalletInput({ walletId, setWalletId, wallets }) {
+const WalletInput = forwardRef(({ wallet, setWallet }, ref) => {
+    const wallets = useSelector((state) => state.wallet.wallets);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useClickOutSide(() => setIsDropdownOpen(false));
 
-    const handleOptionSelect = (id) => {
-        setWalletId(id);
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.key === 'w') {
+                setIsDropdownOpen(!isDropdownOpen); 
+            } 
+        }
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
+
+    const handleOptionSelect = (wallet) => {
+        setWallet(wallet);
         setIsDropdownOpen(false);
     };
 
     return (
-        <div className={styles.customDropdown} ref={dropdownRef}>
+        <div className={styles.customDropdown} ref={ref || dropdownRef}>
             <div
                 className={styles.dropdownHeader}
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
-                {walletId ? (
+                {wallet ? (
                     <div className={styles.selectedWallet}>
                         <IoWalletOutline className={styles.walletIcon} />
-                        {wallets.find(wallet => wallet._id === walletId)?.name}
+                        {wallet.name}
                     </div>
                 ) : (
                     <div className={styles.placeholder}>
@@ -37,7 +54,7 @@ function WalletInput({ walletId, setWalletId, wallets }) {
                         <div
                             key={walletItem._id}
                             className={styles.dropdownItem}
-                            onClick={() => handleOptionSelect(walletItem._id)}
+                            onClick={() => handleOptionSelect(walletItem)}
                         >
                             <IoWalletOutline className={styles.walletIcon} />
                             {walletItem.name}
@@ -47,6 +64,6 @@ function WalletInput({ walletId, setWalletId, wallets }) {
             )}
         </div>
     );
-}
+});
 
 export default WalletInput;

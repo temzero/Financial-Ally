@@ -32,7 +32,7 @@ function TransactionList({ transactions = [], currency = '$'}) {
         }
     };
 
-    const sortedTransactions = [...transactions].reverse();
+    const sortedTransactions = [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date));
     let lastDate = '';
 
     const displayWallet = (walletId) => {
@@ -45,7 +45,6 @@ function TransactionList({ transactions = [], currency = '$'}) {
     const categoryIcon = (categoryName, color) => {
         // Find the category color based on the category name
         const category = categories.find(category => category.name === categoryName);
-        const categoryColor = category ? category.color : "defaultColor";
         const categoryIconName = category ? category.icon : "?";
 
         const capitalizedName = (categoryName || "").charAt(0).toUpperCase() + (categoryName || "").slice(1);

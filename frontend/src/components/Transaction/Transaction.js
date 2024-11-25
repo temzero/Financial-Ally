@@ -74,7 +74,22 @@ function Transaction({
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const year = date.getFullYear();
 
-        return `${dayOfWeek}, ${day}/${month}/${year}`;
+        // Day period logic
+        const period = new Date() - date;
+        const dayPeriod = Math.floor(period / (1000 * 60 * 60 * 24));
+        const dayPeriodText = () => {
+            if (dayPeriod <= 0) {
+                return '(today)';
+            }
+
+            if (dayPeriod === 1) {
+                return `(${dayPeriod} day)`;
+            }
+
+            return `(${dayPeriod.toLocaleString()} days)`;
+        };
+
+        return `${dayOfWeek}, ${day}/${month}/${year} ${dayPeriodText()}`;
     };
 
     const editButtons = () => {

@@ -32,8 +32,17 @@ function WalletInfo() {
     const [walletBalance, setWalletBalance] = useState(0);
     const [walletType, setWalletType] = useState('');
     const [walletColor, setWalletColor] = useState('');
+    const [createdAt, setCreatedAt] = useState('');
 
     const formRef = useRef(null);
+    const formattedDate = new Date(createdAt).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+    });
+
+    const timeDifference = new Date() - new Date(createdAt);; // Difference in milliseconds
+    const joinDays = Math.floor(timeDifference / (1000 * 60 * 60 * 24)); // Convert to days
 
     // Handle show form toggles
     const handleShowTransferForm = () => setShowTransferForm(!showTransferForm);
@@ -48,11 +57,12 @@ function WalletInfo() {
 
     useEffect(() => {
         if (currentWallet) {
-            const { name, balance, type, color } = currentWallet;
+            const { name, balance, type, color, createdAt } = currentWallet;
             setWalletName(name);
             setWalletBalance(balance);
             setWalletType(type);
             setWalletColor(color);
+            setCreatedAt(createdAt);
         }
     }, [currentWallet]);
 
@@ -131,6 +141,10 @@ function WalletInfo() {
                         <TransactionList transactions={transactions}/>
                     </div>
                 </div>
+            </div>
+
+            <div className={styles.date}>
+                Created at {formattedDate} ({joinDays} days)
             </div>
 
             <EditWalletForm

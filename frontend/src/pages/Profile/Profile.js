@@ -169,7 +169,7 @@ function Profile() {
                                             className={styles.textInput}
                                         />
                                     ) : (
-                                        userPassword
+                                        '*'.repeat(userPassword.length)
                                     )}
                                 </td>
                             </tr>
