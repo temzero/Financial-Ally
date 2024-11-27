@@ -23,78 +23,89 @@ function AddTransaction() {
     const [amount, setAmount] = useState('');
     const [category, setCategory] = useState('');
     const [wallet, setWallet] = useState('');
-    const [date, setDate] = useState(''); // Default to today
+    const [date, setDate] = useState(''); 
     const [note, setNote] = useState('');
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
-    console.log('wallet: ', wallet);
+    const [counter, setCounter] = useState(0)
+
+    const [isBalanceFocus, setIsBalanceFocus] = useState(false);
+    const [isCategoryDropdown, setIsCategoryDropdown] = useState(false);
+    const [isWalletDropdown, setIsWalletDropdown] = useState(false);
+    const [isDateDropdown, setIsDateDropdown] = useState(false);
+    const [isNoteFocus, setIsNoteFocus] = useState(false);
 
     const userId = user._id;
-    const balanceInputRef = useRef(null);
-    const categoryInputRef = useRef(null);
-    const walletInputRef = useRef(null);
-    const dateInputRef = useRef(null);
-    const noteInputRef = useRef(null);
-    const submitButtonRef = useRef(null);
-
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const focusBalanceInput = () => {
-            if (balanceInputRef.current) {
-                balanceInputRef.current.focus(); // Focus the input
-            }
-        };
-
         const handleKeyDown = (event) => {
             if (event.key === '+') {
-                setType('Income'); // Trigger "Income" type
-                focusBalanceInput();
+                setType('Income');
+                setCounter(0);
             } else if (event.key === '-') {
-                setType('Expense'); // Trigger "Expense" type
-                focusBalanceInput();
-            } else if (event.key === 'Enter') {
-                // Trigger form submission when Enter is pressed
-                const submitButton = document.querySelector(
-                    `.${styles.addTransactionSubmit}`
-                );
-                if (submitButton) {
-                    submitButton.click(); // Programmatically click the submit button
-                }
-            } else if (event.key === 'Tab') {
-                // Prevent default tabbing behavior to control focus manually
+                setType('Expense');
+                setCounter(0);
+            }  else if (event.key === 'Tab') {
                 event.preventDefault();
-
-                // Check which field is currently focused and move to the next input
-                if (document.activeElement === balanceInputRef.current) {
-                    categoryInputRef.current?.focus();
-                } else if (
-                    document.activeElement === categoryInputRef.current
-                ) {
-                    walletInputRef.current?.focus();
-                } else if (document.activeElement === walletInputRef.current) {
-                    dateInputRef.current?.focus();
-                } else if (document.activeElement === dateInputRef.current) {
-                    noteInputRef.current?.focus();
-                } else if (document.activeElement === noteInputRef.current) {
-                    submitButtonRef.current?.focus(); // Focus on submit button
-                }
+                setCounter((prevCounter) => (prevCounter + 1) % 5);
+            } else if (event.key === 'Enter') {
+                event.preventDefault();
+                const submitButton = document.querySelector(`.${styles.addTransactionSubmit}`);
+                if (submitButton) submitButton.click();
             }
         };
-
+    
         window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, []);
+    
 
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-        };
-    }, []); // Empty dependency array to set up the listener once
+    useEffect(() => {
+        switch (counter) {
+            case 0:
+                setIsBalanceFocus(true);
+                setIsCategoryDropdown(false);
+                setIsWalletDropdown(false);
+                setIsDateDropdown(false);
+                setIsNoteFocus(false);
+                break;
+            case 1:
+                setIsBalanceFocus(false);
+                setIsCategoryDropdown(true);
+                setIsWalletDropdown(false);
+                setIsDateDropdown(false);
+                setIsNoteFocus(false);
+                break;
+            case 2:
+                setIsBalanceFocus(false);
+                setIsCategoryDropdown(false);
+                setIsWalletDropdown(true);
+                setIsDateDropdown(false);
+                setIsNoteFocus(false);
+                break;
+            case 3:
+                setIsBalanceFocus(false);
+                setIsCategoryDropdown(false);
+                setIsWalletDropdown(false);
+                setIsDateDropdown(true);
+                setIsNoteFocus(false);
+                break;
+            case 4:
+                setIsBalanceFocus(false);
+                setIsCategoryDropdown(false);
+                setIsWalletDropdown(false);
+                setIsDateDropdown(false);
+                setIsNoteFocus(true);
+                break;
+            default:
+                break;
+        }
+    }, [counter])
 
+    
     const handleAddTransactionSubmit = async (event) => {
         event.preventDefault();
-
-        const now = new Date().toISOString();
-        const splitNow = now.split('T')[1];
-        const combinedDateTime = `${date}T${splitNow}`;
 
         let walletBalance = wallet.balance;
 
@@ -108,12 +119,13 @@ function AddTransaction() {
             amount,
             category,
             walletId: wallet._id,
-            date: combinedDateTime,
+            date,
             note,
             image,
             userId,
         };
         // Create the new transaction and get the transaction ID
+        console.log('transaction data: ', transactionData)
         const newTransaction = await dispatch(addTransaction(transactionData));
         const newTransactionId = newTransaction?._id;
 
@@ -192,7 +204,7 @@ function AddTransaction() {
                 <BalanceInput
                     amount={amount}
                     setAmount={setAmount}
-                    ref={balanceInputRef}
+                    isOutsideFocus={isBalanceFocus}
                 />
 
                 <div className={styles.formLabel}>Category</div>
@@ -200,18 +212,22 @@ function AddTransaction() {
                     categoryName={category}
                     setCategoryName={setCategory}
                     categoryType={type}
-                    ref={categoryInputRef}
+                    isDropdownOutside={isCategoryDropdown}
                 />
 
                 <div className={styles.formLabel}>Wallet</div>
                 <WalletInput
                     wallet={wallet}
                     setWallet={setWallet}
-                    ref={walletInputRef}
+                    isDropdownOutside={isWalletDropdown}
                 />
 
                 <div className={styles.formLabel}>Date</div>
-                <DateInput date={date} setDate={setDate} ref={dateInputRef} />
+                <DateInput 
+                    date={date} 
+                    setDate={setDate} 
+                    isDropdownOutside={isDateDropdown}
+                />
 
                 {/* <ImageInput
                     image={image}
@@ -225,7 +241,8 @@ function AddTransaction() {
                     <TextInput
                         note={note}
                         setNote={setNote}
-                        ref={noteInputRef}
+                        isOutsideFocus={isNoteFocus}
+                        setIsOutsideFocus={setIsNoteFocus}
                     />
                 </div>
 

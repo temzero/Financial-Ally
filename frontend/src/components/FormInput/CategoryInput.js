@@ -1,66 +1,118 @@
 import styles from './FormInput.module.scss';
-import { useEffect, useState, forwardRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCategories } from '../../redux/actions';
 import iconItems from '../../assets/icons/reactIcons';
-import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
 import useClickOutSide from '../ClickOutSide/useClickOutSide';
 
-const CategoryInput = forwardRef(({ categoryName, setCategoryName, categoryType, className }, ref) => {
+const CategoryInput = ({
+    categoryName,
+    setCategoryName,
+    categoryType,
+    className,
+    isDropdownOutside,
+}) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [counter, setCounter] = useState(0);
     const dropdownRef = useClickOutSide(() => setIsDropdownOpen(false));
+    const optionRefs = useRef([]);
 
     const categories = useSelector((state) => state.category.categories);
     const userId = useSelector((state) => state.user.user._id);
     const dispatch = useDispatch();
 
+    // Fetch categories on mount
     useEffect(() => {
         dispatch(getCategories(userId));
         if (!categoryName) {
             setCategoryName('Other');
         }
+    }, [userId, dispatch, categoryName, setCategoryName]);
 
-        const handleKeyDown = (event) => {
-            if (event.key === 'c') {
-                setIsDropdownOpen(!isDropdownOpen); 
-            } 
+    // Toggle dropdown state based on external input
+    useEffect(() => {
+        setIsDropdownOpen(isDropdownOutside);
+    }, [isDropdownOutside]);
+
+    // Function to filter categories and add "Other"
+    const categoriesByType = useCallback(() => {
+        const filteredCategories = categoryType
+            ? categories.filter((cat) => cat.type === categoryType)
+            : categories;
+
+        const otherCategory = { name: 'Other', type: '', icon: 'Other' };
+        const isOtherIncluded = filteredCategories.some(
+            (cat) => cat.name === otherCategory.name
+        );
+
+        return isOtherIncluded
+            ? filteredCategories
+            : [...filteredCategories, otherCategory];
+    }, [categories, categoryType]);
+
+    // Handle keyboard navigation and selection
+    useEffect(() => {
+        if (isDropdownOpen) {
+            const handleKeyDown = (event) => {
+                const options = categoriesByType();
+                const maxCounter = options.length;
+
+                if (event.key === 'ArrowUp') {
+                    event.preventDefault();
+                    setCounter((prev) => (prev - 1 + maxCounter) % maxCounter); // Wrap-around
+                } else if (event.key === 'ArrowDown') {
+                    event.preventDefault();
+                    setCounter((prev) => (prev + 1) % maxCounter); // Wrap-around
+                } else if (event.key === 'Enter') {
+                    event.preventDefault();
+                    const selectedCategory = options[counter];
+                    if (selectedCategory) {
+                        setCategoryName(selectedCategory.name);
+                        setIsDropdownOpen(false);
+                    }
+                }
+            };
+
+            window.addEventListener('keydown', handleKeyDown);
+
+            return () => {
+                window.removeEventListener('keydown', handleKeyDown);
+            };
         }
+    }, [isDropdownOpen, counter, categoriesByType, setCategoryName]);
 
-        window.addEventListener('keydown', handleKeyDown);
-
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-        };
-    }, [userId, setCategoryName, categoryName, dispatch]);
-
-    const categoriesByType = () => {
-        if (!categoryType) {
-            return categories;
-        } else {
-            return categories.filter((cat) => cat.type === categoryType);
+    // Scroll to the currently selected option
+    useEffect(() => {
+        if (isDropdownOpen && optionRefs.current[counter]) {
+            optionRefs.current[counter].scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+            });
         }
-    };
+    }, [counter, isDropdownOpen]);
 
     const getCategoryIcon = (name) => {
         const category = categories.find((cat) => cat.name === name);
-        const categoryIconName = category ? category.icon : '?';
+        const categoryIconName = category?.icon || '?';
 
-        const matchedItem = iconItems.find((item) => item.name === categoryIconName);
-
-        if (!matchedItem) return null;
-
-        return (
-            <span className={styles.formIcon}>
-                {matchedItem?.icon}
-            </span>
+        const matchedItem = iconItems.find(
+            (item) => item.name === categoryIconName
         );
+
+        return matchedItem ? (
+            <span className={styles.formIcon}>{matchedItem.icon}</span>
+        ) : null;
     };
 
     return (
-        <div className={`${styles.customDropdown} ${className || ''}`} ref={dropdownRef}>
+        <div
+            className={`${styles.customDropdown} ${className || ''}`}
+            ref={dropdownRef}
+        >
             <div
                 className={styles.dropdownHeader}
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                onClick={() => setIsDropdownOpen((prev) => !prev)}
             >
                 <div className={styles.selectedCategory}>
                     {getCategoryIcon(categoryName)}
@@ -72,22 +124,13 @@ const CategoryInput = forwardRef(({ categoryName, setCategoryName, categoryType,
             </div>
             {isDropdownOpen && (
                 <div className={styles.dropdownList}>
-                    <div
-                        className={styles.dropdownItem}
-                        onClick={() => {
-                            setCategoryName('Other');
-                            setIsDropdownOpen(false);
-                        }}
-                    >
-                        <div className={styles.iconAndName}>
-                            {getCategoryIcon('Other')}
-                            Other
-                        </div>
-                    </div>
-                    {categoriesByType().map((cat) => (
+                    {categoriesByType().map((cat, index) => (
                         <div
                             key={cat.id || cat.name}
-                            className={styles.dropdownItem}
+                            ref={(el) => (optionRefs.current[index] = el)}
+                            className={`${styles.dropdownItem} ${
+                                index === counter ? styles.active : ''
+                            }`}
                             onClick={() => {
                                 setCategoryName(cat.name);
                                 setIsDropdownOpen(false);
@@ -103,6 +146,6 @@ const CategoryInput = forwardRef(({ categoryName, setCategoryName, categoryType,
             )}
         </div>
     );
-});
+};
 
 export default CategoryInput;

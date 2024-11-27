@@ -1,48 +1,78 @@
 import styles from './FormInput.module.scss';
-import React, { useState, useEffect, useMemo, forwardRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
+import DatePicker from 'react-datepicker';
 
-const DateInput = forwardRef(({ date, setDate }, ref) => {
-    // Calculate today, yesterday, and tomorrow just once using useMemo
-    const today = useMemo(() => new Date().toISOString().split('T')[0], []);
-    const yesterday = useMemo(() => new Date(new Date().setDate(new Date().getDate() - 1)).toISOString().split('T')[0], []);
-    const tomorrow = useMemo(() => new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split('T')[0], []);
+import 'react-datepicker/dist/react-datepicker.css';
 
-    // Set default date to today if not provided
+const DateInput = ({ date, setDate, isDropdownOutside }) => {
+    const inputRef = useRef(null);
+    
+    const formattedDate = (date) => {
+        const offsetMinutes = date.getTimezoneOffset();
+        const offsetDate = new Date(date.getTime() - offsetMinutes * 60 * 1000);
+        const formattedDate = offsetDate.toISOString().replace('Z', '+00:00');
+
+        return formattedDate;
+    }
+
+    // Memoized date strings for today, yesterday, and tomorrow
+    const today = useMemo(() => formattedDate(new Date()).split('T')[0], []);
+    const yesterday = useMemo(
+        () => formattedDate(new Date(new Date().setDate(new Date().getDate() - 1))).split('T')[0],
+        []
+    );
+    const tomorrow = useMemo(
+        () => formattedDate(new Date(new Date().setDate(new Date().getDate() + 1))).split('T')[0],
+        []
+    );
+
+    // Set the initial date if not provided
     useEffect(() => {
         if (!date) {
-            setDate(today);
+            setDate(today); // Initialize with today's date
         }
     }, [date, setDate, today]);
 
-    console.log('date: ', date);
+    // Handle dropdown focus/blur based on `isDropdownOutside`
+    useEffect(() => {
+        if (isDropdownOutside) {
+            inputRef.current?.setFocus();
+        } 
+    }, [isDropdownOutside]);
 
-    const getDateLabel = (currentDate) => {
-        if (currentDate === today) {
+    // Generate a label for the current date
+    const getDateLabel = (date) => {
+        const dateData = date.split('T')[0]
+        if (dateData === today) {
             return <span className={styles.todayLabel}>Today</span>;
-        } else if (currentDate === yesterday) {
+        } else if (dateData === yesterday) {
             return <span className={styles.todayLabel}>Yesterday</span>;
-        } else if (currentDate === tomorrow) {
+        } else if (dateData === tomorrow) {
             return <span className={styles.todayLabel}>Tomorrow</span>;
         }
-        return '';
     };
 
-    const handleDateChange = (e) => {
-        // Update the date from the input value
-        setDate(e.target.value);
+    // Handle date selection
+    const handleDateChange = (selectedDate) => {
+        if (selectedDate) {
+            setDate(formattedDate(selectedDate)); // Update state with the formatted date string
+        }
     };
 
     return (
-        <div className={styles.formInputOptions} ref={ref}>
-            {getDateLabel(date)}
-            <input
-                className={styles.formInputChildren}
-                type="date"
-                value={date} // Display only the date portion
+        <div className={styles.formInputOptions}>
+            <DatePicker
+                ref={inputRef}
+                className={styles.formDateInput}
+                selected={date}
                 onChange={handleDateChange}
+                dateFormat="dd/MM/yyyy"
             />
+            <div className={styles.formInputTrigger}>
+                {getDateLabel(date)}
+            </div>
         </div>
     );
-});
+};
 
 export default DateInput;

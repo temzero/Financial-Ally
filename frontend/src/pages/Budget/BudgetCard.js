@@ -1,5 +1,6 @@
 import styles from './Budget.module.scss';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 function BudgetCard({ budgetData }) {
     // Destructure the relevant data from budgetData
@@ -15,6 +16,14 @@ function BudgetCard({ budgetData }) {
     const leftToSpend = moneyLimit - moneySpend;
     const spendPerDay = Math.floor(leftToSpend / daysLeft);
     const spendPercent = (moneySpend / moneyLimit) * 100;
+
+    const [animatedWidth, setAnimatedWidth] = useState(0);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setAnimatedWidth(spendPercent);
+        }, 10); 
+    }, [spendPercent]);
 
     const colorClass = styles[budgetData.color];
     const classes = [colorClass, styles.budgetCard].join(' ');
@@ -44,8 +53,8 @@ function BudgetCard({ budgetData }) {
             <div
                 className={styles.progressBar}
                 style={{
-                    width: `${spendPercent}%`,
-                    backgroundColor: spendPercent > 100 ? 'red' : '',
+                    width: `${animatedWidth}%`,
+                    backgroundColor: animatedWidth > 100 ? 'red' : '',
                 }}
             ></div>
         </div>

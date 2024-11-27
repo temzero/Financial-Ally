@@ -113,6 +113,14 @@ function BudgetInfo() {
     const leftToSpend = budgetMoneyLimit - moneySpend;
     const spendPercent = Math.ceil((moneySpend / budgetMoneyLimit) * 100);
 
+    const [animatedWidth, setAnimatedWidth] = useState(0);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setAnimatedWidth(spendPercent);
+        }, 10); 
+    }, [spendPercent]);
+
     const handleShowEditForm = () => {
         setShowEditForm(!showEditForm);
     };
@@ -156,8 +164,8 @@ function BudgetInfo() {
                     <div
                         className={styles.progressBar}
                         style={{
-                            width: `${spendPercent}%`,
-                            backgroundColor: spendPercent > 100 ? 'red' : '',
+                            width: `${animatedWidth}%`,
+                            backgroundColor: animatedWidth > 100 ? 'red' : '',
                         }}
                     ></div>
                 </div>

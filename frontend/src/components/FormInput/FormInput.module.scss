@@ -113,6 +113,15 @@
     cursor: pointer;
 }
 
+.dropdownItem {
+    padding: 8px;
+    cursor: pointer;
+
+    &.active {
+        background-color: #f0f0f0; // Highlighted background
+    }
+}
+
 .checkboxLabel {
     display: flex;
     align-items: center;
@@ -430,6 +439,16 @@
     }
 }
 
+.formDateInput {
+    border: none;
+    height: 100%;
+    width: 100%;
+    font-size: 1rem;
+
+    &:focus {
+        outline: none;
+    }
+}
 
 // Background Color
 .green {

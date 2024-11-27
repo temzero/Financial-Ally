@@ -1,6 +1,6 @@
 import styles from './Chart.module.scss';
 import Button from '../Button/Button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
@@ -13,7 +13,29 @@ function Chart() {
     const wallets = useSelector((state) => state.wallet.wallets) || [];
 
     const totalBalance = (wallets || []).reduce((sum, wallet) => sum + wallet.balance, 0);
+
     const [chartPeriod, setChartPeriod] = useState('1W');
+    const [counter, setCounter] = useState(1);
+
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.key === ' ') {
+                event.preventDefault();
+                setCounter((prevCounter) => (prevCounter + 1) % 5); // Loop counter between 0 and 4
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
+
+    useEffect(() => {
+        const periods = ['1D', '1W', '1M', '1Y', 'All'];
+        setChartPeriod(periods[counter]); // Update chart period based on counter
+    }, [counter]);
 
     const handleChartButtonClick = (period) => {
         setChartPeriod(period);

@@ -1,8 +1,13 @@
 import styles from './FormInput.module.scss';
-import { useState, useEffect, forwardRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
-const BalanceInput = forwardRef(({ amount, setAmount, className, currency = '$' }, ref) => {
+const BalanceInput = ({ amount, setAmount, className, currency = '$' , isOutsideFocus}) => {
+    const balanceRef = useRef(null);
     const [displayAmount, setDisplayAmount] = useState(amount.toLocaleString("en-US"));
+
+    if (isOutsideFocus) {
+        balanceRef.current.focus();
+    }
 
     useEffect(() => {
         setDisplayAmount(amount ? amount.toLocaleString("en-US") : '');
@@ -55,10 +60,10 @@ const BalanceInput = forwardRef(({ amount, setAmount, className, currency = '$' 
                 value={formattedAmount}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                ref={ref} // Forwarding the ref here
+                ref={balanceRef}
             />
         </div>
     );
-});
+};
 
 export default BalanceInput;
