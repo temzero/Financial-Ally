@@ -9,34 +9,35 @@ import WalletInput from '../FormInput/WalletInput';
 function TransferBalanceForm({
     showForm,
     setShowForm,
-    currentWalletId,
+    walletData,
     allWallets,
 }) {
     const dispatch = useDispatch();
-    const transferWallets = allWallets.filter(wallet => wallet._id !== currentWalletId);
+    const walletId = walletData._id;
+    const transferWallets = allWallets.filter(wallet => wallet._id !== walletId);
     const [transferAmount, setTransferAmount] = useState('');
-    const [targetWalletId, setTargetWalletId] = useState('');
+    const [targetWallet, setTargetWallet] = useState('');
 
     const closeForm = useCallback(() => {
         setTransferAmount('');
-        setTargetWalletId('');
+        setTargetWallet('');
         setShowForm(false);
     }, [setShowForm]);
 
     const handleClickOutside = () => {
         setShowForm(false);
         setTransferAmount('');
-        setTargetWalletId('');
+        setTargetWallet('');
     };
 
     const handleFormSubmit = (event) => {
         event.preventDefault();
 
 
-        if (!targetWalletId || transferAmount <= 0) return;
+        if (!targetWallet || transferAmount <= 0) return;
 
         dispatch(
-            transferBalance(currentWalletId,targetWalletId,transferAmount)
+            transferBalance(walletId,targetWallet,transferAmount)
         );
         closeForm();
     };
@@ -60,8 +61,8 @@ function TransferBalanceForm({
                     <div className={styles.formSection}>
                         <h2 className={styles.formLabel}>To wallet</h2>
                         <WalletInput
-                            walletId={targetWalletId}
-                            setWalletId={setTargetWalletId}
+                            wallet={targetWallet}
+                            setWallet={setTargetWallet}
                             wallets={transferWallets}
                         />
                     </div>
@@ -70,7 +71,7 @@ function TransferBalanceForm({
                         <Button
                             type="submit"
                             simple
-                            disabled={!transferAmount || !targetWalletId}
+                            disabled={!transferAmount || !targetWallet}
                         >
                             Transfer
                         </Button>

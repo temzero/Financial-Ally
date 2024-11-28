@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import styles from './FormInput.module.scss';
 import { AiOutlineQuestion } from "react-icons/ai";
-import iconItems from '../../assets/icons/reactIcons';
+import reactIcons from '../../assets/icons/reactIcons';
 
 function IconInput({ icon, setIcon, className }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -29,7 +29,7 @@ function IconInput({ icon, setIcon, className }) {
     }, []);
 
     // Find the selected icon component based on the icon name
-    const selectedIcon = iconItems.find(item => item.name === icon)?.icon || <AiOutlineQuestion />;
+    const selectedIcon = reactIcons.find(item => item.name === icon)?.icon || <AiOutlineQuestion />;
 
     return (
         <div ref={dropdownRef} className={`${styles.formIconInput} ${className || ''}`}>
@@ -39,7 +39,7 @@ function IconInput({ icon, setIcon, className }) {
             </div>
             {isOpen && (
                 <div className={styles.iconDropdown}>
-                    {iconItems.map(item => (
+                    {reactIcons.map(item => (
                         <div 
                             key={item.name}
                             className={styles.iconItem}

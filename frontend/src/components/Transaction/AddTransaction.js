@@ -18,6 +18,7 @@ import {
 function AddTransaction() {
     const user = useSelector((state) => state.user.user);
     const budgets = useSelector((state) => state.budget.budgets);
+    const wallets = useSelector((state) => state.wallet.wallets);
 
     const [type, setType] = useState('');
     const [amount, setAmount] = useState('');
@@ -219,6 +220,7 @@ function AddTransaction() {
                 <WalletInput
                     wallet={wallet}
                     setWallet={setWallet}
+                    wallets={wallets}
                     isDropdownOutside={isWalletDropdown}
                 />
 

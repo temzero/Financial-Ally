@@ -7,24 +7,27 @@ import { useDispatch, useSelector } from 'react-redux';
 import TransactionList from '../../../components/Transaction/TransactionList';
 import TransferBalanceForm from '../../../components/TransferBalance/TransferBalance';
 import { getOneWallet } from '../../../redux/actions';
-import { BiTransferAlt } from "react-icons/bi";
+import { BiTransferAlt } from 'react-icons/bi';
 import EditWalletForm from '../../../components/EditForm/EditWalletForm';
+import CategoryChart from '../../../components/Chart/CategoryChart';
+import WalletChart from '../../../components/Chart/WalletChart';
 
-import noMoneyImage from '../../../assets/images/noMoney.png'
-import moneyImage from '../../../assets/images/cash.png'
-import muchMoneyImage from '../../../assets/images/alotofcash.png'
+import noMoneyImage from '../../../assets/images/noMoney.png';
+import moneyImage from '../../../assets/images/cash.png';
+import muchMoneyImage from '../../../assets/images/alotofcash.png';
+import CountUpEffect from '../../../components/Animation/CountUpEffect';
 
 function WalletInfo() {
     const { state } = useLocation();
-    const walletId = state || '';
+    const walletData = state || '';
     const dispatch = useDispatch();
     const [showTransferForm, setShowTransferForm] = useState(false);
 
     const allWallets = useSelector((state) => state.wallet.wallets);
-    const allTransactions = useSelector((state) => state.transaction.transactions);
+    const allTransactions = useSelector(
+        (state) => state.transaction.transactions
+    );
 
-
-    const currentWallet = allWallets.find(wallet => wallet._id === walletId);
     const [showEditForm, setShowEditForm] = useState(false);
     const [showDeleteForm, setShowDeleteForm] = useState(false);
 
@@ -41,7 +44,7 @@ function WalletInfo() {
         year: 'numeric',
     });
 
-    const timeDifference = new Date() - new Date(createdAt);; // Difference in milliseconds
+    const timeDifference = new Date() - new Date(createdAt); // Difference in milliseconds
     const joinDays = Math.floor(timeDifference / (1000 * 60 * 60 * 24)); // Convert to days
 
     // Handle show form toggles
@@ -50,28 +53,29 @@ function WalletInfo() {
     const handleShowDeleteForm = () => setShowDeleteForm(!showDeleteForm);
 
     useEffect(() => {
-        if (walletId) {
-            dispatch(getOneWallet(walletId));
-        }
-    }, [dispatch, walletId]);
-
-    useEffect(() => {
-        if (currentWallet) {
-            const { name, balance, type, color, createdAt } = currentWallet;
+        if (walletData) {
+            const { name, balance, type, color, createdAt } = walletData;
             setWalletName(name);
             setWalletBalance(balance);
             setWalletType(type);
             setWalletColor(color);
             setCreatedAt(createdAt);
         }
-    }, [currentWallet]);
+    }, [walletData]);
 
-    if (!currentWallet) {
-        return <div>Loading...</div>;  // Or any other loading state you prefer
+    if (!walletData) {
+        return <div>Loading...</div>; // Or any other loading state you prefer
     }
 
-    const transactions = allTransactions.filter(transaction =>
-        currentWallet.transactionIds.includes(transaction._id)
+    const transactions = allTransactions.filter((transaction) =>
+        walletData.transactionIds.includes(transaction._id)
+    );
+
+    const incomeTransactions = transactions.filter(
+        (transaction) => transaction.type.toLowerCase() === 'income'
+    );
+    const expenseTransactions = transactions.filter(
+        (transaction) => transaction.type.toLowerCase() === 'expense'
     );
 
     const currency = '$';
@@ -79,66 +83,107 @@ function WalletInfo() {
     const displayStatus = () => {
         if (walletBalance < 100) {
             return (
-                <img 
-                    src={noMoneyImage} 
-                    alt="noMoney" 
-                    className={styles.noMoneyImage} 
+                <img
+                    src={noMoneyImage}
+                    alt="noMoney"
+                    className={styles.noMoneyImage}
                 />
             );
         } else if (walletBalance < 10000) {
             return (
-                <img 
-                    src={moneyImage} 
-                    alt="money" 
-                    className={styles.moneyImage} 
+                <img
+                    src={moneyImage}
+                    alt="money"
+                    className={styles.moneyImage}
                 />
             );
         } else {
             return (
-                <img 
-                    src={muchMoneyImage} 
-                    alt="muchMoney" 
-                    className={styles.muchMoneyImage} 
+                <img
+                    src={muchMoneyImage}
+                    alt="muchMoney"
+                    className={styles.muchMoneyImage}
                 />
             );
         }
     };
 
-    return ( 
+    return (
         <div className={styles.container}>
             <div className={styles.header}>
                 <div className={styles.title}>Wallet</div>
                 <div className={styles.btnContainer}>
-                    <Button s className={styles.btn} onClick={handleShowTransferForm}>
+                    <Button
+                        s
+                        className={styles.btn}
+                        onClick={handleShowTransferForm}
+                    >
                         <div className={styles.transferBtn}>
                             <span>Transfer Balance</span>
-                            <BiTransferAlt/>
+                            <BiTransferAlt />
                         </div>
                     </Button>
-                    <Button s className={styles.btn} onClick={handleShowEditForm}>
+                    <Button
+                        s
+                        className={styles.btn}
+                        onClick={handleShowEditForm}
+                    >
                         Edit
                     </Button>
-                    <Button s className={styles.btn} onClick={handleShowDeleteForm}>
+                    <Button
+                        s
+                        className={styles.btn}
+                        onClick={handleShowDeleteForm}
+                    >
                         Delete
                     </Button>
                 </div>
             </div>
             <div className={styles.content}>
-                <div className={`${styles.contentHeader} ${styles[walletColor]}`}>
+                <div
+                    className={`${styles.contentHeader} ${styles[walletColor]}`}
+                >
                     <div className={styles.contentName}>{walletName}</div>
                     <div className={styles.contentSubHeader}>{walletType}</div>
                 </div>
                 <div className={styles.contentBody}>
                     <div className={styles.contentBalance}>
-                        <div><span className={styles.currency}>{currency}</span>{walletBalance.toLocaleString()}</div>
+                        <div className={styles.balanceNumber}>
+                            {currency}
+                            <CountUpEffect n={walletBalance} />
+                        </div>
                         {displayStatus()}
                     </div>
                     <div className={styles.contentAnalysis}>
                         <div className={styles.contentSubHeader}>Analysis</div>
+                        <div className={styles.contentChart}>
+                            {incomeTransactions.length ? (
+                                <div>
+                                    <CategoryChart
+                                        transactions={incomeTransactions}
+                                        displayName='+'
+                                    />
+                                </div>
+                            ) : (
+                                ''
+                            )}
+                            {expenseTransactions.length ? (
+                                <div>
+                                    <CategoryChart
+                                        transactions={expenseTransactions}
+                                        displayName='-'
+                                    />
+                                </div>
+                            ) : (
+                                ''
+                            )}
+                        </div>
                     </div>
                     <div className={styles.contentTransaction}>
-                        <div className={styles.contentSubHeader}>Transactions</div>
-                        <TransactionList transactions={transactions}/>
+                        <div className={styles.contentSubHeader}>
+                            Transactions
+                        </div>
+                        <TransactionList transactions={transactions} />
                     </div>
                 </div>
             </div>
@@ -148,7 +193,7 @@ function WalletInfo() {
             </div>
 
             <EditWalletForm
-                walletData={currentWallet}
+                walletData={walletData}
                 formRef={formRef}
                 showForm={showEditForm}
                 setShowForm={setShowEditForm}
@@ -161,17 +206,17 @@ function WalletInfo() {
                 walletColor={walletColor}
                 setWalletColor={setWalletColor}
             />
-            
+
             <DeleteWalletForm
                 showForm={showDeleteForm}
                 setShowForm={setShowDeleteForm}
-                wallet={currentWallet}
+                wallet={walletData}
             />
 
             <TransferBalanceForm
                 showForm={showTransferForm}
                 setShowForm={setShowTransferForm}
-                currentWalletId={walletId}
+                walletData={walletData}
                 allWallets={allWallets}
             />
         </div>

@@ -60,3 +60,74 @@
     }
 
 }
+
+.DoughnutChartContainer {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    .DoughnutChart {
+        width: 240px;
+        position: relative;
+    
+        .chartSymbol {
+            position: absolute;
+            top: 50%;
+            left: 50%; 
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    .DoughnutChartInfo {
+        margin-top: 16px;
+    }
+    
+    .chartCategory {
+        font-size: 1.2rem;
+        width: 100%;
+        padding: 2px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .categoryIcon{
+        display: flex;
+        align-items: center;
+    }
+}
+
+.walletSymbol {
+    font-size: 3rem;
+    color: grey;
+}
+
+.plusSymbol {
+    font-size: 4rem;
+    color: var(--color-green);
+}
+
+.minusSymbol {
+    font-size: 4rem;
+    color: var(--color-red);
+}
+
+.green { background-color: var(--background-green); }
+.red { background-color: var(--background-red); }
+.blue { background-color: var(--background-blue); }
+.yellow { background-color: var(--background-yellow); }
+.orange { background-color: var(--background-orange); }
+.purple { background-color: var(--background-purple); }
+.rainbow { background: var(--background-rainbow); }
+
+.text-green {color: var(--background-green)}
+.text-red {color: var(--background-red)}
+.text-blue {color: var(--background-blue)}
+.text-yellow {color: var(--background-yellow)}
+.text-orange {color: var(--background-orange)}
+.text-purple {color: var(--background-purple)}
+.text-rainbow {color: var(--background-rainbow)}
+

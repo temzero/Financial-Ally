@@ -2,7 +2,7 @@ import styles from './FormInput.module.scss';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCategories } from '../../redux/actions';
-import iconItems from '../../assets/icons/reactIcons';
+import reactIcons from '../../assets/icons/reactIcons';
 import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
 import useClickOutSide from '../ClickOutSide/useClickOutSide';
 
@@ -96,7 +96,7 @@ const CategoryInput = ({
         const category = categories.find((cat) => cat.name === name);
         const categoryIconName = category?.icon || '?';
 
-        const matchedItem = iconItems.find(
+        const matchedItem = reactIcons.find(
             (item) => item.name === categoryIconName
         );
 

@@ -2,7 +2,7 @@ import styles from './Budget.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-function BudgetCard({ budgetData }) {
+function BudgetCard({ budgetData, currency = '$' }) {
     // Destructure the relevant data from budgetData
     const { name, moneyLimit = 0, moneySpend, finishDate, _id } = budgetData;
     const navigate = useNavigate();
@@ -10,7 +10,7 @@ function BudgetCard({ budgetData }) {
     // Calculate days left
     const today = new Date();
     const finish = new Date(finishDate);
-    const daysLeft = Math.ceil((finish - today) / (1000 * 60 * 60 * 24)); // Difference in days
+    const daysLeft = Math.ceil((finish - today) / (1000 * 60 * 60 * 24)); 
 
     // Money left calculation (example)
     const leftToSpend = moneyLimit - moneySpend;
@@ -44,11 +44,18 @@ function BudgetCard({ budgetData }) {
                         ? `$${spendPerDay} per day`
                         : 'No data available'}
                 </div>
-                <div className={styles.budgetCardMoneyLimit}>
-                    {moneyLimit !== undefined && moneySpend !== undefined
-                        ? `$${moneySpend.toLocaleString()} / $${moneyLimit.toLocaleString()}`
-                        : 'MoneyLimit information unavailable'}
-                </div>
+                {moneyLimit !== undefined && moneySpend !== undefined ? (
+                    <div className={styles.budgetCardMoneyLimit}>
+                        <span>{currency}</span>
+                        <span>{moneySpend.toLocaleString()}</span>
+                        <span>/</span>
+                        <span>{moneyLimit.toLocaleString()}</span>
+                    </div>
+                ) : (
+                    <div className={styles.budgetCardMoneyLimit}>
+                        {'Money Limit information unavailable'}
+                    </div>
+                )}
             </div>
             <div
                 className={styles.progressBar}

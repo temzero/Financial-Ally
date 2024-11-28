@@ -59,11 +59,12 @@ import truckIcon from './truckIcon';
 import waterIcon from './waterIcon';
 import wifiIcon from './wifiIcon';
 import wineIcon from './wineIcon';
+import otherIcon from './otherIcon'
 
 import {salonIcon, canIcon, cashIcon, dollarIcon, dollarCoin2Icon, dollarWastingIcon, noodleIcon, dressIcon, mugIcon} from './icons'
 
 // Structure where each icon is a function that returns an SVG or React component
-const iconItems = [
+const reactIcons = [
   // A
   { name: 'Activity', icon: activityIcon() },
   { name: 'Attach', icon: attachIcon() },
@@ -161,9 +162,10 @@ const iconItems = [
   // { name: 'cashIcon', icon: cashIcon() },
   // { name: 'dress', icon: dressIcon() },
   // { name: 'mug', icon: mugIcon() },
-// import {salonIcon, canIcon, cashIcon, dollarIcon, dollarCoin2Icon, dollarWastingIcon, NoodleIcon} from './icons'
-
+  // import {salonIcon, canIcon, cashIcon, dollarIcon, dollarCoin2Icon, dollarWastingIcon, NoodleIcon} from './icons'
+  
+  { name: '?', icon: otherIcon() },
   
 ];
 
-export default iconItems;
+export default reactIcons;

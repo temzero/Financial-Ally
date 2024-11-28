@@ -45,7 +45,7 @@ function TransactionList({ transactions = [], currency = '$'}) {
     const categoryIcon = (categoryName, color) => {
         // Find the category color based on the category name
         const category = categories.find(category => category.name === categoryName);
-        const categoryIconName = category ? category.icon : "?";
+        const categoryIconName = category ? category.icon : '?';
 
         const capitalizedName = (categoryName || "").charAt(0).toUpperCase() + (categoryName || "").slice(1);
     

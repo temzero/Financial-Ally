@@ -7,8 +7,11 @@ import EditBudgetForm from '../../../components/EditForm/EditBudgetForm';
 import DeleteBudgetForm from '../../../components/DeleteForm/DeleteBudgetForm';
 import { useSelector } from 'react-redux';
 import TransactionList from '../../../components/Transaction/TransactionList';
-import { IoWalletOutline } from "react-icons/io5";
+import { IoWalletOutline } from 'react-icons/io5';
 import { getTransactions } from '../../../redux/actions';
+import CountUpEffect from '../../../components/Animation/CountUpEffect';
+import CategoryChart from '../../../components/Chart/CategoryChart';
+import WalletChart from '../../../components/Chart/WalletChart';
 
 function BudgetInfo() {
     const { state } = useLocation();
@@ -17,9 +20,11 @@ function BudgetInfo() {
     const budgetId = state?.budgetId || '';
     const allBudgets = useSelector((state) => state.budget.budgets);
     const allWallets = useSelector((state) => state.wallet.wallets);
-    const allTransactions = useSelector((state) => state.transaction.transactions);
+    const allTransactions = useSelector(
+        (state) => state.transaction.transactions
+    );
+    const currency = '$';
 
-    console.log('all wallets, ', allWallets)
     useEffect(() => {
         if (user?._id) {
             dispatch(getTransactions(user._id));
@@ -39,11 +44,12 @@ function BudgetInfo() {
         color,
     } = currentBudget;
 
-    const budgetTransactions = allTransactions.filter(transaction => transaction.type.toLowerCase() === 'expense')
+    const budgetTransactions = allTransactions.filter(
+        (transaction) => transaction.type.toLowerCase() === 'expense'
+    );
 
-    const transactions = budgetTransactions.filter(
-        transaction =>
-            transactionIds.includes(transaction._id)
+    const transactions = budgetTransactions.filter((transaction) =>
+        transactionIds.includes(transaction._id)
     );
 
     const [showEditForm, setShowEditForm] = useState(false);
@@ -55,48 +61,60 @@ function BudgetInfo() {
     const [budgetColor, setBudgetColor] = useState(color);
     const [budgetStartDate, setBudgetStartDate] = useState(startDate);
     const [budgetFinishDate, setBudgetFinishDate] = useState(finishDate);
-    const [budgetWallets, setBudgetWallets] = useState(allWallets.filter(wallet => walletIds.includes(wallet._id)));
+    const [budgetWallets, setBudgetWallets] = useState(
+        allWallets.filter((wallet) => walletIds.includes(wallet._id))
+    );
 
-    const renderWallets = () => {   
+    const renderWallets = () => {
         // If no budget wallets are found, return 'All wallets'
         if (budgetWallets.length === 0) {
             return (
-            <div 
-                className={styles.wallet} 
-                onClick={() => navigate('/wallet')}
+                <div
+                    className={styles.wallet}
+                    onClick={() => navigate('/wallet')}
                 >
-                <IoWalletOutline /> All wallets
-            </div>
-            )
+                    <IoWalletOutline /> All wallets
+                </div>
+            );
         }
-        
-        return budgetWallets.map(wallet => {
+
+        return budgetWallets.map((wallet) => {
             const walletColorClass = `text${wallet.color}`;
             const handleWalletNavigate = () => {
-                navigate(`/wallet/${wallet.name}`, { state: wallet._id })
-            }
+                navigate(`/wallet/${wallet.name}`, { state: wallet._id });
+            };
 
             return (
-                <div key={wallet._id} className={`${styles[walletColorClass]} ${styles.wallet}`} onClick={handleWalletNavigate}>
-                  <IoWalletOutline/> {wallet.name}
+                <div
+                    key={wallet._id}
+                    className={`${styles[walletColorClass]} ${styles.wallet}`}
+                    onClick={handleWalletNavigate}
+                >
+                    <IoWalletOutline /> {wallet.name}
                 </div>
-              );
+            );
         });
-    }
+    };
 
     const formRef = useRef(null);
 
     // Convert startDate and finishDate to readable date format
-    const formattedStartDate = new Date(budgetStartDate).toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-    });
-    const formattedFinishDate = new Date(budgetFinishDate).toLocaleDateString('en-GB', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-    });
+    const formattedStartDate = new Date(budgetStartDate).toLocaleDateString(
+        'en-GB',
+        {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+        }
+    );
+    const formattedFinishDate = new Date(budgetFinishDate).toLocaleDateString(
+        'en-GB',
+        {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+        }
+    );
 
     const start = new Date(budgetStartDate);
     const end = new Date(budgetFinishDate);
@@ -109,7 +127,7 @@ function BudgetInfo() {
 
     // Calculate the remaining days between today and finishDate
     const daysLeft = Math.ceil(Math.abs((end - now) / (1000 * 60 * 60 * 24)));
-    
+
     const leftToSpend = budgetMoneyLimit - moneySpend;
     const spendPercent = Math.ceil((moneySpend / budgetMoneyLimit) * 100);
 
@@ -118,7 +136,7 @@ function BudgetInfo() {
     useEffect(() => {
         setTimeout(() => {
             setAnimatedWidth(spendPercent);
-        }, 10); 
+        }, 10);
     }, [spendPercent]);
 
     const handleShowEditForm = () => {
@@ -128,6 +146,8 @@ function BudgetInfo() {
     const handleShowDeleteForm = () => {
         setShowDeleteForm(!showDeleteForm);
     };
+
+    console.log('money spend: ', moneySpend);
 
     return (
         <div className={styles.container}>
@@ -151,15 +171,24 @@ function BudgetInfo() {
                 </div>
             </div>
             <div className={styles.contentInfo}>
-                <div className={`${styles.contentHeader} ${styles[budgetColor]}`}>
+                <div
+                    className={`${styles.contentHeader} ${styles[budgetColor]}`}
+                >
                     <div className={styles.contentHeaderContainer}>
                         <div className={styles.contentName}>{budgetName}</div>
-                        <div className={styles.contentMoneyLimit}>
-                            {budgetMoneyLimit !== undefined &&
-                            moneySpend !== undefined
-                                ? `$${moneySpend.toLocaleString()} / $${budgetMoneyLimit.toLocaleString()}`
-                                : 'Money Limit information unavailable'}
-                        </div>
+                        {budgetMoneyLimit !== undefined &&
+                        moneySpend !== undefined ? (
+                            <div className={styles.contentMoneyLimit}>
+                                {currency}
+                                <CountUpEffect n={moneySpend} />
+                                {'/ '}
+                                {budgetMoneyLimit.toLocaleString()}
+                            </div>
+                        ) : (
+                            <div className={styles.contentMoneyLimit}>
+                                {'Money Limit information unavailable'}
+                            </div>
+                        )}
                     </div>
                     <div
                         className={styles.progressBar}
@@ -230,17 +259,28 @@ function BudgetInfo() {
                     </div>
 
                     <div className={styles.contentAnalysis}>
-                            <div className={styles.contentSubHeader}>
-                                {renderWallets()}
-                            </div>
+                        <div className={styles.contentSubHeader}>
+                            {renderWallets()}
+                        </div>
                     </div>
-                    
+
+                    <div className={styles.contentAnalysis}>
+                        <div className={styles.contentSubHeader}>Analysis</div>
+                        <div className={styles.contentChart}>
+                            <CategoryChart transactions={transactions}/>
+                            <WalletChart transactions={transactions}/>
+                        </div>
+                    </div>
+
                     <div className={styles.contentTransactions}>
                         <div className={styles.contentSubHeader}>
                             Transactions
                         </div>
 
-                        <TransactionList wallets={allWallets} transactions={transactions}/>
+                        <TransactionList
+                            wallets={allWallets}
+                            transactions={transactions}
+                        />
                         <div className={styles.contentSubHeader}>
                             {/* {budgetType} */}
                         </div>
@@ -249,7 +289,8 @@ function BudgetInfo() {
             </div>
 
             <div className={styles.date}>
-                From {formattedStartDate} to {formattedFinishDate} ({daysLeft} days left)
+                From {formattedStartDate} to {formattedFinishDate} ({daysLeft}{' '}
+                days left)
             </div>
 
             <EditBudgetForm
@@ -257,23 +298,17 @@ function BudgetInfo() {
                 formRef={formRef}
                 showForm={showEditForm}
                 setShowForm={setShowEditForm}
-
                 budgetName={budgetName}
                 setBudgetName={setBudgetName}
-
                 budgetMoneyLimit={budgetMoneyLimit}
                 setBudgetMoneyLimit={setBudgetMoneyLimit}
-
                 wallets={allWallets}
                 budgetWallets={budgetWallets}
                 setBudgetWallets={setBudgetWallets}
-
                 budgetColor={budgetColor}
                 setBudgetColor={setBudgetColor}
-
                 budgetStartDate={budgetStartDate}
                 setBudgetStartDate={setBudgetStartDate}
-
                 budgetFinishDate={budgetFinishDate}
                 setBudgetFinishDate={setBudgetFinishDate}
             />

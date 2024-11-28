@@ -52,13 +52,17 @@
 .contentName {
     font-size: 2.4rem;
     font-weight: 400;
-    // margin: 20px 0;
+}
+
+.contentMoneyLimit {
+    display: flex;
+    gap: 4px;
 }
 
 .progressBar {
     height: 6px;
     background-color: rgba(0, 0, 0, 0.2);
-    transition: width 1s ease;
+    transition: width 1.4s ease;
 }
 
 .contentBody {
@@ -71,10 +75,15 @@
 }
 
 .contentAnalysis {
-    display: flex;
     padding: 20px 28px;
     border-top: 1px solid rgba(0, 0, 0, 0.2);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+
+    .contentChart {
+        padding: 30px 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+    }
 }
 
 .contentTransactions {
