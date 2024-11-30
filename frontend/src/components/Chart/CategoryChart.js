@@ -2,73 +2,91 @@ import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import styles from './Chart.module.scss';
-import reactIcons from '../../assets/icons/reactIcons';
 import { useSelector } from 'react-redux';
 import { BiSolidPlusCircle, BiSolidMinusCircle } from 'react-icons/bi';
+import reactIcons from '../../assets/icons/reactIcons';
 
 // Register Chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 function CategoryChart({ transactions = [], displayName = '' }) {
     const categories = useSelector((state) => state.category.categories);
-    const totalTransactions = transactions.length;
 
-    // Aggregate data by category
-    const categoryCounts = transactions.reduce((acc, transaction) => {
-        const { category } = transaction;
-        if (!acc[category]) {
-            acc[category] = { count: 0, category };
+    // Aggregate data by categoryId
+    const categoryTotals = transactions.reduce((acc, transaction) => {
+        const { categoryId, amount } = transaction;
+        if (!categoryId || !amount) return acc;
+
+        if (!acc[categoryId]) {
+            acc[categoryId] = { total: 0, categoryId };
         }
-        acc[category].count += 1;
+        acc[categoryId].total += amount; // Sum up the total amount
         return acc;
     }, {});
 
-    // Chart colors
-    const chartColors = [
-        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40',
-    ];
+    // Get category details by categoryId
+    const getCategoryDetails = (categoryId) => {
+        return categories.find((cat) => cat._id === categoryId) || {};
+    };
 
-    // Function to get the icon for a category
-    const getCategoryIcon = (categoryName) => {
-        const category = categories.find((cat) => cat.name === categoryName);
-        const categoryIconName = category?.icon || '?';
+    // Function to get category color from SCSS variables
+    const getCategoryColor = (categoryId) => {
+        const category = getCategoryDetails(categoryId);
+        const colorVariable = `--background-${category.color}`; // Assuming colors are sequential
 
-        const matchedItem = reactIcons.find(
-            (item) => item.name === categoryIconName
-        );
+        // Fetch the CSS variable value dynamically
+        const style = getComputedStyle(document.documentElement);
+        const color = style.getPropertyValue(colorVariable).trim();
 
-        return matchedItem ? matchedItem.icon : null;
+        return color || '#CCCCCC'; // Default to gray if no color is defined
+    };
+
+    const getCategoryIcon = (categoryId) => {
+        const category = getCategoryDetails(categoryId);
+        const matchedItem = reactIcons.find((item) => item.name === category?.icon);
+        return matchedItem?.icon;
     };
 
     // Render categories with icons and colors
     const renderChartCategories = () => {
-        return Object.values(categoryCounts).map((cat, index) => (
-            <div
-                key={cat.category}
-                className={styles.chartCategory}
-                style={{ color: chartColors[index % chartColors.length] }} // Apply color
-            >
-                <span className={styles.categoryIcon}>
-                    {getCategoryIcon(cat.category)}
-                </span>
-                <span className={styles.categoryName}>{cat.category}</span>
-            </div>
-        ));
+        return Object.values(categoryTotals).map((cat) => {
+            const category = getCategoryDetails(cat.categoryId);
+            return (
+                <div
+                    key={cat.categoryId}
+                    className={styles.chartCategory}
+                    style={{ color: getCategoryColor(cat.categoryId) }}
+                >
+                    <span className={styles.categoryIcon}>
+                        {getCategoryIcon(category._id)}
+                    </span>
+                    <span className={styles.categoryName}>
+                        {category.name || `Category ${cat.categoryId}`}
+                    </span>
+                </div>
+            );
+        });
     };
 
     // Chart data
     const data = {
-        labels: Object.keys(categoryCounts), // Categories as labels
+        labels: Object.keys(categoryTotals).map((categoryId) => {
+            const category = getCategoryDetails(categoryId);
+            return category.name || `Category ${categoryId}`;
+        }),
         datasets: [
             {
-                label: '# of Transactions',
-                data: Object.values(categoryCounts).map((item) => item.count), // Count of transactions per category
-                backgroundColor: chartColors,
+                label: 'Total Amount',
+                data: Object.values(categoryTotals).map((item) => item.total), // Use total amounts
+                backgroundColor: Object.keys(categoryTotals).map((categoryId) =>
+                    getCategoryColor(categoryId) // Get color dynamically for each category
+                ),
                 borderWidth: 1,
             },
         ],
     };
 
+    // Tooltip modification to show total amount and percentage
     const options = {
         responsive: true,
         plugins: {
@@ -77,29 +95,35 @@ function CategoryChart({ transactions = [], displayName = '' }) {
             },
             tooltip: {
                 callbacks: {
-                    label: (context) =>
-                        `${context.label}: ${context.raw} (${(
-                            (context.raw / totalTransactions) *
+                    label: (context) => {
+                        const totalAmount = context.raw;
+                        const totalSum = Object.values(categoryTotals).reduce(
+                            (sum, item) => sum + item.total,
+                            0
+                        );
+                        return `${context.label}: $${totalAmount.toFixed(2)} (${(
+                            (totalAmount / totalSum) *
                             100
-                        ).toFixed(2)}%)`,
+                        ).toFixed(2)}%)`;
+                    },
                 },
             },
         },
     };
 
     const displaySymbol = () => {
-        if(displayName.toLocaleLowerCase() === '+' || displayName.toLocaleLowerCase() === 'income') {
-            return <BiSolidPlusCircle className={styles.plusSymbol} />
+        if (displayName.toLocaleLowerCase() === '+' || displayName.toLocaleLowerCase() === 'income') {
+            return <BiSolidPlusCircle className={styles.plusSymbol} />;
         } else {
-            return <BiSolidMinusCircle className={styles.minusSymbol} />
+            return <BiSolidMinusCircle className={styles.minusSymbol} />;
         }
-    }
+    };
 
     return (
         <div className={styles.DoughnutChartContainer}>
             <div className={styles.DoughnutChart}>
                 <div className={styles.chartSymbol}>{displaySymbol()}</div>
-                <Doughnut data={data} options={options}/>
+                <Doughnut data={data} options={options} />
             </div>
             <div className={styles.DoughnutChartInfo}>{renderChartCategories()}</div>
         </div>

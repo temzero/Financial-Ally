@@ -1,4 +1,3 @@
-// CategoryItem.js
 import styles from './Category.module.scss';
 import { useState, useEffect } from 'react';
 import { editIcon, deleteIcon } from '../../assets/icons/icons';
@@ -15,7 +14,7 @@ import { AiOutlineQuestion } from "react-icons/ai";
 import usePreventClickOutside from '../ClickOutSide/usePreventClickOutside';
 
 
-function CategoryItems({ category, index, categories }) {
+function CategoryList({ category, index, categories }) {
     const dispatch = useDispatch();
     const currency = '$'
     const transactions = useSelector((state) => state.transaction.transactions) || [];
@@ -32,15 +31,15 @@ function CategoryItems({ category, index, categories }) {
 
     const [selectedCategory, setSelectedCategory] = useState('');
 
-    useEffect(() => {
-        if (categoryType.toLowerCase() === 'income') {
-            setCategoryColor('primaryGreen');
-            setPlusOrMinus('+')
-        } else if (categoryType.toLowerCase() === 'expense') {
-            setCategoryColor('primaryRed');
-            setPlusOrMinus('-')
-        }
-    }, [categoryType]);
+    // useEffect(() => {
+    //     if (categoryType.toLowerCase() === 'income') {
+    //         setCategoryColor('primaryGreen');
+    //         setPlusOrMinus('+')
+    //     } else if (categoryType.toLowerCase() === 'expense') {
+    //         setCategoryColor('primaryRed');
+    //         setPlusOrMinus('-')
+    //     }
+    // }, [categoryType]);
 
     const isLast =
         type === 'Income'
@@ -76,7 +75,7 @@ function CategoryItems({ category, index, categories }) {
             name: categoryName,
             type: categoryType,
             icon: categoryIconName,
-            // color: categoryColor,
+            color: categoryColor,
         };
 
         dispatch(updateCategory(category._id, categoryData));
@@ -146,7 +145,7 @@ function CategoryItems({ category, index, categories }) {
         setCategoryName(name)
         setCategoryType(type)
         setCategoryIconName(icon)
-        // setCategoryColor(color)
+        setCategoryColor(color)
     }, editable);
 
     return (
@@ -159,16 +158,14 @@ function CategoryItems({ category, index, categories }) {
                             setIcon={setCategoryIconName}
                             className={`${styles.formIconInput} ${styles[categoryColor]}`}
                         />
-                        {/* <ColorSelectionInput
+                        <ColorSelectionInput
                             color={categoryColor}
                             setColor={setCategoryColor}
-                        /> */}
+                        />
                     </div>
                 ) : (
                     <div
-                        className={`${styles.categoryIcon} ${
-                            styles[categoryColor]
-                        }`}
+                        className={`${styles.categoryIcon} ${styles[categoryColor]}`}
                     >
                         {categoryIcon}
                     </div>
@@ -212,4 +209,4 @@ function CategoryItems({ category, index, categories }) {
     );
 }
 
-export default CategoryItems;
+export default CategoryList;

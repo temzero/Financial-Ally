@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import styles from './Profile.module.scss';
 import Button from '../../components/Button/Button';
 import TextInput from '../../components/FormInput/TextInput';
-import Categories from '../../components/Category/Categories';
+import Category from '../../components/Category/Category';
 import { updateUser, getUser } from '../../redux/actions';
 
 function Profile() {
@@ -176,7 +176,7 @@ function Profile() {
                         </tbody>
                     </table>
                 </div>
-                <Categories />
+                <Category />
             </div>
             <div className={styles.date}>
                 Join in {formattedDate} ({joinDays} days)

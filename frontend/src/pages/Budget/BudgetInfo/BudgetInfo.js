@@ -117,16 +117,16 @@ function BudgetInfo() {
     );
 
     const start = new Date(budgetStartDate);
-    const end = new Date(budgetFinishDate);
-    const now = new Date(); // Set `now` to the current date and time
+    const finish = new Date(budgetFinishDate);
+    const today = new Date(); // Set `today` to the current date and time
+    const daysLeft = Math.ceil((finish - today) / (1000 * 60 * 60 * 24)); 
 
     // Calculate the total period in days between startDate and finishDate
     const daysPeriod = Math.ceil(
-        Math.abs((end - start) / (1000 * 60 * 60 * 24))
+        Math.abs((finish - start) / (1000 * 60 * 60 * 24))
     );
 
     // Calculate the remaining days between today and finishDate
-    const daysLeft = Math.ceil(Math.abs((end - now) / (1000 * 60 * 60 * 24)));
 
     const leftToSpend = budgetMoneyLimit - moneySpend;
     const spendPercent = Math.ceil((moneySpend / budgetMoneyLimit) * 100);
@@ -146,8 +146,6 @@ function BudgetInfo() {
     const handleShowDeleteForm = () => {
         setShowDeleteForm(!showDeleteForm);
     };
-
-    console.log('money spend: ', moneySpend);
 
     return (
         <div className={styles.container}>
@@ -224,7 +222,7 @@ function BudgetInfo() {
                         </div>
                         <div>
                             <div className={styles.contentSummaryHeader}>
-                                Period:{' '}
+                                Period:
                             </div>
                             <div>
                                 <span className={styles.contentSummaryValue}>
@@ -237,16 +235,26 @@ function BudgetInfo() {
                         </div>
                         <div>
                             <div className={styles.contentSummaryHeader}>
-                                Time left:{' '}
+                                Time left:
                             </div>
-                            <div>
+                            {daysLeft === 0 ? (
                                 <span className={styles.contentSummaryValue}>
-                                    {daysLeft}
+                                    Final day
                                 </span>
-                                <span className={styles.contentSummaryUnit}>
-                                    days
+                            ) : daysLeft < 0 ? (
+                                <span className={styles.contentSummaryValue}>
+                                    Finished
                                 </span>
-                            </div>
+                            ) : (
+                                <div>
+                                    <span className={styles.contentSummaryValue}>
+                                        {daysLeft}
+                                    </span>
+                                    <span className={styles.contentSummaryUnit}>
+                                        days
+                                    </span>
+                                </div>
+                            )}
                         </div>
                         <div>
                             <div className={styles.contentSummaryHeader}>
@@ -289,8 +297,16 @@ function BudgetInfo() {
             </div>
 
             <div className={styles.date}>
-                From {formattedStartDate} to {formattedFinishDate} ({daysLeft}{' '}
-                days left)
+                From {formattedStartDate} to {formattedFinishDate}
+                <span>
+                    {daysLeft > 0 ? (
+                        <>
+                            ({daysLeft} days left)
+                        </>
+                    ) : (
+                        ''
+                    )}
+                </span>
             </div>
 
             <EditBudgetForm

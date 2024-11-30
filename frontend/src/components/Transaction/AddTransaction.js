@@ -22,7 +22,7 @@ function AddTransaction() {
 
     const [type, setType] = useState('');
     const [amount, setAmount] = useState('');
-    const [category, setCategory] = useState('');
+    const [categoryId, setCategoryId] = useState('');
     const [wallet, setWallet] = useState('');
     const [date, setDate] = useState(''); 
     const [note, setNote] = useState('');
@@ -118,7 +118,7 @@ function AddTransaction() {
         const transactionData = {
             type,
             amount,
-            category,
+            categoryId,
             walletId: wallet._id,
             date,
             note,
@@ -173,7 +173,7 @@ function AddTransaction() {
         // Reset form fields
         setType('');
         setAmount('');
-        setCategory('');
+        setCategoryId('');
         setWallet('');
         setDate(new Date().toISOString().split('T')[0]);
         setNote('');
@@ -210,8 +210,8 @@ function AddTransaction() {
 
                 <div className={styles.formLabel}>Category</div>
                 <CategoryInput
-                    categoryName={category}
-                    setCategoryName={setCategory}
+                    categoryId={categoryId}
+                    setCategoryId={setCategoryId}
                     categoryType={type}
                     isDropdownOutside={isCategoryDropdown}
                 />

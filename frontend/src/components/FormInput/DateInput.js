@@ -44,11 +44,11 @@ const DateInput = ({ date, setDate, isDropdownOutside }) => {
     const getDateLabel = (date) => {
         const dateData = date.split('T')[0]
         if (dateData === today) {
-            return <span className={styles.todayLabel}>Today</span>;
+            return <span className={styles.dateLabel}>Today</span>;
         } else if (dateData === yesterday) {
-            return <span className={styles.todayLabel}>Yesterday</span>;
+            return <span className={styles.dateLabel}>Yesterday</span>;
         } else if (dateData === tomorrow) {
-            return <span className={styles.todayLabel}>Tomorrow</span>;
+            return <span className={styles.dateLabel}>Tomorrow</span>;
         }
     };
 
@@ -68,9 +68,9 @@ const DateInput = ({ date, setDate, isDropdownOutside }) => {
                 onChange={handleDateChange}
                 dateFormat="dd/MM/yyyy"
             />
-            <div className={styles.formInputTrigger}>
-                {getDateLabel(date)}
-            </div>
+            {getDateLabel(date)}
+            {/* <div className={styles.formInputTrigger}>
+            </div> */}
         </div>
     );
 };

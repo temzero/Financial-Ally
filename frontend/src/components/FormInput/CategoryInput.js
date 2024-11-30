@@ -7,8 +7,8 @@ import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
 import useClickOutSide from '../ClickOutSide/useClickOutSide';
 
 const CategoryInput = ({
-    categoryName,
-    setCategoryName,
+    categoryId = '', // Expect categoryId instead of category name
+    setCategoryId, // This should now set categoryId
     categoryType,
     className,
     isDropdownOutside,
@@ -22,13 +22,14 @@ const CategoryInput = ({
     const userId = useSelector((state) => state.user.user._id);
     const dispatch = useDispatch();
 
+    const category = categories.find((cat) => cat._id === categoryId) || {};
+    console.log('categoryId: ', categoryId);
+    console.log('category: ', category);
+
     // Fetch categories on mount
     useEffect(() => {
         dispatch(getCategories(userId));
-        if (!categoryName) {
-            setCategoryName('Other');
-        }
-    }, [userId, dispatch, categoryName, setCategoryName]);
+    }, [userId, dispatch, categoryId, ]);
 
     // Toggle dropdown state based on external input
     useEffect(() => {
@@ -68,7 +69,7 @@ const CategoryInput = ({
                     event.preventDefault();
                     const selectedCategory = options[counter];
                     if (selectedCategory) {
-                        setCategoryName(selectedCategory.name);
+                        setCategoryId(selectedCategory._id); // Set the categoryId instead of name
                         setIsDropdownOpen(false);
                     }
                 }
@@ -80,7 +81,7 @@ const CategoryInput = ({
                 window.removeEventListener('keydown', handleKeyDown);
             };
         }
-    }, [isDropdownOpen, counter, categoriesByType, setCategoryName]);
+    }, [isDropdownOpen, counter, categoriesByType, setCategoryId]);
 
     // Scroll to the currently selected option
     useEffect(() => {
@@ -92,8 +93,8 @@ const CategoryInput = ({
         }
     }, [counter, isDropdownOpen]);
 
-    const getCategoryIcon = (name) => {
-        const category = categories.find((cat) => cat.name === name);
+    const getCategoryIcon = (categoryId) => {
+        const category = categories.find((cat) => cat._id === categoryId);
         const categoryIconName = category?.icon || '?';
 
         const matchedItem = reactIcons.find(
@@ -115,8 +116,8 @@ const CategoryInput = ({
                 onClick={() => setIsDropdownOpen((prev) => !prev)}
             >
                 <div className={styles.selectedCategory}>
-                    {getCategoryIcon(categoryName)}
-                    {categoryName}
+                    {getCategoryIcon(categoryId)}
+                    {!categoryId ? 'Other' : category.name}
                 </div>
                 <span className={styles.arrow}>
                     {isDropdownOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
@@ -132,12 +133,12 @@ const CategoryInput = ({
                                 index === counter ? styles.active : ''
                             }`}
                             onClick={() => {
-                                setCategoryName(cat.name);
+                                setCategoryId(cat._id); // Set categoryId on select
                                 setIsDropdownOpen(false);
                             }}
                         >
                             <div className={styles.iconAndName}>
-                                {getCategoryIcon(cat.name)}
+                                {getCategoryIcon(cat._id)}
                                 {cat.name}
                             </div>
                         </div>

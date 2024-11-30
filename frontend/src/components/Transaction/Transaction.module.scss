@@ -68,40 +68,62 @@
     justify-content: space-between;
     border-top: 3px solid;
     border-bottom: 3px solid;
-    padding: 16px 0;
+    padding: 10px 0;
     margin-bottom: 8px;
-
+    
     &.bordergreen {
         border-color: var(--color-green);
     }
-
+    
     &.borderred {
         border-color: var(--color-red);
     }
-
-    .transactionLabelContainer {
+    
+    .transactionCategory {
+        // border: 1px solid black;
         flex: 1;
+        max-width: 100%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        overflow: hidden; /* Prevents content from overflowing */
+        text-overflow: ellipsis; /* Adds an ellipsis if text overflows */
         
-        .labelInput {
-            font-size: 1.2rem;
-            margin: 1px 0;
-        }
-
-        .transactionCategory {
-            font-size: 1.8rem;
+        .categoryName {
+            font-size: 1.6rem;
             line-height: 1.6rem;
             font-weight: 500;
+            padding-bottom: 6px;
+            padding-left: 6px;
+
+            word-wrap: break-word; 
+            overflow-wrap: break-word;
+            white-space: normal;
+        }
+    
+        .categoryIcon {
+            padding-top: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 74px;
+            height: 74px;
+            box-sizing: border-box; 
+            
+            
+            & svg {
+                box-sizing: border-box; 
+                width: 120%;
+                height: 120%;
+            }
         }
     }
 
 
     .transactionImage {
         border-radius: 4px;
-        width: 160px;
-        height: 160px;
+        width: 150px;
+        height: 150px;
         margin-left: 10px;
         display: flex;
         align-items: center;
@@ -379,20 +401,6 @@
     }
 }
 
-.transactionCategoryIcon {
-    position: relative;
-    height: 88px;
-    width: 88px;
-
-    & svg {
-        position: absolute; 
-        bottom: 0; 
-        left: 0; 
-        width: 100%; 
-        height: 100%;
-    }
-}
-
 // Color
 .primaryGreen { 
     color: var(--color-green);
@@ -428,4 +436,8 @@
 
 .rainbow {
     color: var(--background-rainbow);
+}
+
+.defaultColor {
+    color: var(--default-color);
 }

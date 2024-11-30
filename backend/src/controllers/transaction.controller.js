@@ -38,7 +38,7 @@ const transactionControllers = {
       const transactionData = {
         type: req.body.type,
         amount: req.body.amount,
-        category: req.body.category,
+        categoryId: req.body.categoryId,
         walletId: req.body.walletId,
         date: req.body.date,
         note: req.body.note,
@@ -57,9 +57,9 @@ const transactionControllers = {
 
   updateTransaction: async (req, res) => {
     try {
-      const { type, amount, category, walletId, date, note, image } = req.body;
+      const { type, amount, categoryId, walletId, date, note, image } = req.body;
       const transactionId = req.params.transactionId;
-      const transactionUpdateData = { type, amount, category, walletId, date, note, image };
+      const transactionUpdateData = { type, amount, categoryId, walletId, date, note, image };
 
       const updatedTransaction = await Transaction.findByIdAndUpdate(transactionId, transactionUpdateData, { new: true });
 

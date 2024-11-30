@@ -14,7 +14,6 @@ function ColorSelectionInput({ color, setColor, className }) {
         { id: 'yellow', color: 'yellow' },
         { id: 'orange', color: 'orange' },
         { id: 'purple', color: 'purple' },
-        { id: 'rainbow', color: 'rainbow' },
     ];
 
     const handleColorSelect = (selectedColor) => {

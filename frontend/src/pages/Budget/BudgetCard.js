@@ -14,7 +14,11 @@ function BudgetCard({ budgetData, currency = '$' }) {
 
     // Money left calculation (example)
     const leftToSpend = moneyLimit - moneySpend;
-    const spendPerDay = Math.floor(leftToSpend / daysLeft);
+    let spendPerDay = Math.floor(leftToSpend / daysLeft);
+    if (spendPerDay === -Infinity || spendPerDay === Infinity) {
+        spendPerDay = leftToSpend
+        console.log('spend per day: ', spendPerDay)
+    }
     const spendPercent = (moneySpend / moneyLimit) * 100;
 
     const [animatedWidth, setAnimatedWidth] = useState(0);
@@ -37,12 +41,18 @@ function BudgetCard({ budgetData, currency = '$' }) {
             <div className={styles.budgetCardContent}>
                 <div className={styles.budgetCardHeader}>{name}</div>
                 <div className={styles.budgetCardDay}>
-                    {daysLeft > 0 ? daysLeft : 0} days left
+                {daysLeft === 0 ? (
+                    "Final day"
+                ) : daysLeft < 0 ? (
+                    "Finished"
+                ) : (
+                    `${daysLeft} days`
+                )}
                 </div>
                 <div className={styles.budgetCardDay}>
-                    {spendPerDay !== undefined
-                        ? `$${spendPerDay} per day`
-                        : 'No data available'}
+                    {spendPerDay !== undefined && spendPerDay !== -Infinity
+                        ? `${currency}${spendPerDay} per day`
+                        : ''}
                 </div>
                 {moneyLimit !== undefined && moneySpend !== undefined ? (
                     <div className={styles.budgetCardMoneyLimit}>

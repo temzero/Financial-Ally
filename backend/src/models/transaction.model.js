@@ -10,7 +10,7 @@ const transactionSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    category: {
+    categoryId: {
       type: String,
       required: true,
     },

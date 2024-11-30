@@ -71,7 +71,13 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets, user }
         closeForm();
     };
     
-    const isFormComplete = budgetName && moneyLimit && startDate && finishDate && budgetColor;
+    const isFormComplete =
+        budgetName &&
+        moneyLimit &&
+        startDate &&
+        finishDate &&
+        budgetColor &&
+        new Date(finishDate) > new Date(startDate);
 
     return (
         showForm && (

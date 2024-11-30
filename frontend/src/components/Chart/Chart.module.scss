@@ -88,13 +88,19 @@
     .chartCategory {
         font-size: 1.2rem;
         width: 100%;
-        padding: 2px;
         display: flex;
         align-items: center;
-        gap: 8px;
+        padding: 4px;
+        gap: 10px;
+        border-bottom: 1px solid rgba(0,0,0,0.2);
+
+        &:last-child {
+            border-bottom: none;
+        }
     }
     
     .categoryIcon{
+        font-size: 1.6rem;
         display: flex;
         align-items: center;
     }
