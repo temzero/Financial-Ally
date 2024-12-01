@@ -23,8 +23,6 @@ const CategoryInput = ({
     const dispatch = useDispatch();
 
     const category = categories.find((cat) => cat._id === categoryId) || {};
-    console.log('categoryId: ', categoryId);
-    console.log('category: ', category);
 
     // Fetch categories on mount
     useEffect(() => {
@@ -115,10 +113,9 @@ const CategoryInput = ({
                 className={styles.dropdownHeader}
                 onClick={() => setIsDropdownOpen((prev) => !prev)}
             >
-                <div className={styles.selectedCategory}>
-                    {getCategoryIcon(categoryId)}
-                    {!categoryId ? 'Other' : category.name}
-                </div>
+
+            {!categoryId ? (<div className={`${styles.selectedCategory} ${styles.placeholder}`}>Select category</div>) : (<div className={styles.selectedCategory}>{getCategoryIcon(categoryId)} {category.name}</div>)}
+
                 <span className={styles.arrow}>
                     {isDropdownOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
                 </span>

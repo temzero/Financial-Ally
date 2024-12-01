@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 import { BiSolidPlusCircle, BiSolidMinusCircle } from 'react-icons/bi';
 import reactIcons from '../../assets/icons/reactIcons';
 
-// Register Chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 function CategoryChart({ transactions = [], displayName = '' }) {

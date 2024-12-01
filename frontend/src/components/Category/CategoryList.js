@@ -31,15 +31,9 @@ function CategoryList({ category, index, categories }) {
 
     const [selectedCategory, setSelectedCategory] = useState('');
 
-    // useEffect(() => {
-    //     if (categoryType.toLowerCase() === 'income') {
-    //         setCategoryColor('primaryGreen');
-    //         setPlusOrMinus('+')
-    //     } else if (categoryType.toLowerCase() === 'expense') {
-    //         setCategoryColor('primaryRed');
-    //         setPlusOrMinus('-')
-    //     }
-    // }, [categoryType]);
+    useEffect(() => {
+        setPlusOrMinus(categoryType.toLowerCase() === 'income' ? '+' : '-');
+    }, [categoryType]);
 
     const isLast =
         type === 'Income'

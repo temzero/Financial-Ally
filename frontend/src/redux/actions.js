@@ -1,11 +1,14 @@
 import axios from 'axios';
-import { Types } from "./types";
+import { Types } from './types';
 
 // Authentication
 export const loginRequest = (loginRequestInfo, setMessage, navigate) => {
     return async (dispatch) => {
         try {
-            const response = await axios.post('http://localhost:4000/login', loginRequestInfo);
+            const response = await axios.post(
+                'http://localhost:4000/login',
+                loginRequestInfo
+            );
             const user = response.data;
 
             dispatch(loginSuccess(user));
@@ -15,6 +18,8 @@ export const loginRequest = (loginRequestInfo, setMessage, navigate) => {
             return user;
         } catch (error) {
             console.error('Error Login Request!', error);
+            setMessage('Incorrect email or password');
+
         }
     };
 };
@@ -22,7 +27,10 @@ export const loginRequest = (loginRequestInfo, setMessage, navigate) => {
 export const registerRequest = (registerRequestInfo, setMessage, navigate) => {
     return async (dispatch) => {
         try {
-            const response = await axios.post('http://localhost:4000/register', registerRequestInfo);
+            const response = await axios.post(
+                'http://localhost:4000/register',
+                registerRequestInfo
+            );
             const newUser = response.data;
 
             dispatch(loginSuccess(newUser));
@@ -39,7 +47,7 @@ export const registerRequest = (registerRequestInfo, setMessage, navigate) => {
 
 export const loginSuccess = (user) => ({
     type: Types.loginSuccess,
-    user: user
+    user: user,
 });
 
 export const logout = () => ({
@@ -51,12 +59,14 @@ export const getUser = (userId) => {
     return async (dispatch) => {
         try {
             if (!userId) {
-                console.error("Error: User ID is undefined");
+                console.error('Error: User ID is undefined');
                 return;
             }
-            const response = await axios.get(`http://localhost:4000/user/${userId}`);
+            const response = await axios.get(
+                `http://localhost:4000/user/${userId}`
+            );
             const user = response.data;
-            if(user) {
+            if (user) {
                 dispatch(getUserSuccess(user));
             }
         } catch (error) {
@@ -67,16 +77,19 @@ export const getUser = (userId) => {
 
 export const getUserSuccess = (user) => ({
     type: Types.getUserSuccess,
-    user: user
+    user: user,
 });
 
 export const updateUser = (userId, userUpdateData) => {
     return async (dispatch) => {
         try {
             // Send the update request to the backend
-            const response = await axios.patch(`http://localhost:4000/user/${userId}`, userUpdateData);
+            const response = await axios.patch(
+                `http://localhost:4000/user/${userId}`,
+                userUpdateData
+            );
             const updatedUser = response.data;
-            console.log('UpdatedUser: ', updatedUser)
+            console.log('UpdatedUser: ', updatedUser);
 
             // Dispatch the action to update user in the store
             dispatch(updateUserSuccess(updatedUser));
@@ -91,18 +104,20 @@ export const updateUser = (userId, userUpdateData) => {
 
 export const updateUserSuccess = (updatedUser) => ({
     type: Types.updateUserSuccess,
-    user: updatedUser
+    user: updatedUser,
 });
 
 // Wallet Actions
 export const getWallets = (userId) => {
     return async (dispatch) => {
         try {
-            const response = await axios.get(`http://localhost:4000/user/${userId}/wallets`);
+            const response = await axios.get(
+                `http://localhost:4000/user/${userId}/wallets`
+            );
             const wallets = response.data;
-            if(wallets) {
+            if (wallets) {
                 dispatch(getWalletsSuccess(wallets));
-                return wallets
+                return wallets;
             }
         } catch (error) {
             console.error('Error fetching wallets:', error);
@@ -112,13 +127,15 @@ export const getWallets = (userId) => {
 
 export const getWalletsSuccess = (wallets) => ({
     type: Types.getWalletsSuccess,
-    wallets
+    wallets,
 });
 
 export const getOneWallet = (walletId) => {
     return async (dispatch) => {
         try {
-            const response = await axios.get(`http://localhost:4000/wallet/${walletId}`);
+            const response = await axios.get(
+                `http://localhost:4000/wallet/${walletId}`
+            );
             dispatch(getOneWalletSuccess(response.data));
             return response.data;
         } catch (error) {
@@ -129,16 +146,19 @@ export const getOneWallet = (walletId) => {
 
 export const getOneWalletSuccess = (wallet) => ({
     type: Types.getOneWalletSuccess,
-    wallet
+    wallet,
 });
 
 export const addWallet = (newWalletData) => {
     return async (dispatch) => {
         try {
-            console.log('newWalletData: ', newWalletData)
+            console.log('newWalletData: ', newWalletData);
 
-            const response = await axios.post('http://localhost:4000/wallet/add', newWalletData);
-            const newWallet = response.data.wallet
+            const response = await axios.post(
+                'http://localhost:4000/wallet/add',
+                newWalletData
+            );
+            const newWallet = response.data.wallet;
             dispatch(addWalletSuccess(newWallet));
             return newWallet;
         } catch (error) {
@@ -149,13 +169,16 @@ export const addWallet = (newWalletData) => {
 
 export const addWalletSuccess = (wallet) => ({
     type: Types.addWalletSuccess,
-    wallet
+    wallet,
 });
 
 export const updateWallet = (walletUpdateData, walletId) => {
     return async (dispatch) => {
         try {
-            const response = await axios.patch(`http://localhost:4000/wallet/${walletId}`, walletUpdateData);
+            const response = await axios.patch(
+                `http://localhost:4000/wallet/${walletId}`,
+                walletUpdateData
+            );
             dispatch(updateWalletSuccess(response.data.wallet));
             return response.data.wallet;
         } catch (error) {
@@ -166,7 +189,7 @@ export const updateWallet = (walletUpdateData, walletId) => {
 
 export const updateWalletSuccess = (updatedWallet) => ({
     type: Types.updateWalletSuccess,
-    wallet: updatedWallet
+    wallet: updatedWallet,
 });
 
 export const deleteWallet = (walletId) => {
@@ -182,47 +205,54 @@ export const deleteWallet = (walletId) => {
 
 export const deleteWalletSuccess = (walletId) => ({
     type: Types.deleteWalletSuccess,
-    walletId
+    walletId,
 });
 
 export const getWalletTransactions = (walletId) => {
     return async (dispatch) => {
         try {
-            const response = await axios.get(`http://localhost:4000/wallet/${walletId}/transactions`);
+            const response = await axios.get(
+                `http://localhost:4000/wallet/${walletId}/transactions`
+            );
             // dispatch(getWalletTransactionsSuccess(response.data));
             return response.data;
         } catch (error) {
             console.error('Error fetching wallet transactions:', error);
         }
     };
-}
+};
 
 // Budget Actions
 export const getBudgets = (userId) => {
     return async (dispatch) => {
         try {
-            const response = await axios.get(`http://localhost:4000/user/${userId}/budgets`);
+            const response = await axios.get(
+                `http://localhost:4000/user/${userId}/budgets`
+            );
             const budgets = response.data;
             dispatch(getBudgetsSuccess(budgets));
             return budgets;
         } catch (error) {
             console.error('Error fetching budgets:', error);
             // Handle any errors from the request
-            return "An error occurred while fetching budgets.";
+            return 'An error occurred while fetching budgets.';
         }
     };
 };
 
 export const getBudgetsSuccess = (budgets) => ({
     type: Types.getBudgetsSuccess,
-    budgets
+    budgets,
 });
 
 export const addBudget = (newBudgetData) => {
     return async (dispatch) => {
         try {
-            const response = await axios.post('http://localhost:4000/budget/add', newBudgetData);
-            const newBudget = response.data.budget
+            const response = await axios.post(
+                'http://localhost:4000/budget/add',
+                newBudgetData
+            );
+            const newBudget = response.data.budget;
             dispatch(addBudgetSuccess(newBudget));
             return newBudget;
         } catch (error) {
@@ -233,13 +263,16 @@ export const addBudget = (newBudgetData) => {
 
 export const addBudgetSuccess = (budget) => ({
     type: Types.addBudgetSuccess,
-    budget
+    budget,
 });
 
 export const updateBudget = (budgetUpdateData, budgetId) => {
     return async (dispatch) => {
         try {
-            const response = await axios.patch(`http://localhost:4000/budget/${budgetId}`, budgetUpdateData);
+            const response = await axios.patch(
+                `http://localhost:4000/budget/${budgetId}`,
+                budgetUpdateData
+            );
             dispatch(updateBudgetSuccess(response.data.budget));
             return response.data.budget;
         } catch (error) {
@@ -250,7 +283,7 @@ export const updateBudget = (budgetUpdateData, budgetId) => {
 
 export const updateBudgetSuccess = (updatedBudget) => ({
     type: Types.updateBudgetSuccess,
-    budget: updatedBudget
+    budget: updatedBudget,
 });
 
 export const deleteBudget = (budgetId) => {
@@ -266,39 +299,38 @@ export const deleteBudget = (budgetId) => {
 
 export const deleteBudgetSuccess = (budgetId) => ({
     type: Types.deleteBudgetSuccess,
-    budgetId
+    budgetId,
 });
-
 
 // Transaction Actions
 export const getTransactions = (userId) => {
     return async (dispatch) => {
-        try {
-            const response = await axios.get(`http://localhost:4000/user/${userId}/transactions`);
-            
-            if (response.data.length === 0) {
-                console.log('No transactions found.');
-                dispatch(getTransactionsSuccess([])); // Dispatch empty array
-            } else {
-                dispatch(getTransactionsSuccess(response.data));
-            }
-        } catch (error) {
-            console.log('No transactions found.');
-            dispatch(getTransactionsSuccess([]));
-            // console.error('Error fetching transactions:', error);
+      try {
+        const response = await axios.get(`http://localhost:4000/user/${userId}/transactions`);
+  
+        const transactions = response.data.length ? response.data : [];
+        if (!transactions.length) {
+          console.log('No transactions found.');
         }
+        dispatch(getTransactionsSuccess(transactions));
+      } catch (error) {
+        console.log('No transactions found.');
+        dispatch(getTransactionsSuccess([]));
+      }
     };
-};
+  };
 
 export const getTransactionsSuccess = (transactions) => ({
     type: Types.getTransactionsSuccess,
-    transactions
+    transactions,
 });
 
 export const getOneTransaction = (transactionId) => {
     return async (dispatch) => {
         try {
-            const response = await axios.get(`http://localhost:4000/transaction/${transactionId}`);
+            const response = await axios.get(
+                `http://localhost:4000/transaction/${transactionId}`
+            );
             dispatch(getOneTransactionSuccess(response.data));
             return response.data;
         } catch (error) {
@@ -309,13 +341,16 @@ export const getOneTransaction = (transactionId) => {
 
 export const getOneTransactionSuccess = (transaction) => ({
     type: Types.getOneTransactionSuccess,
-    transaction
+    transaction,
 });
 
 export const addTransaction = (transactionData) => {
     return async (dispatch) => {
         try {
-            const response = await axios.post('http://localhost:4000/transaction/add', transactionData);
+            const response = await axios.post(
+                'http://localhost:4000/transaction/add',
+                transactionData
+            );
             const newTransaction = response.data.transaction;
 
             dispatch(addTransactionSuccess(newTransaction));
@@ -328,13 +363,16 @@ export const addTransaction = (transactionData) => {
 
 export const addTransactionSuccess = (transaction) => ({
     type: Types.addTransactionSuccess,
-    transaction
+    transaction,
 });
 
 export const updateTransaction = (transactionUpdateData, transactionId) => {
     return async (dispatch) => {
         try {
-            const response = await axios.patch(`http://localhost:4000/transaction/${transactionId}`, transactionUpdateData);
+            const response = await axios.patch(
+                `http://localhost:4000/transaction/${transactionId}`,
+                transactionUpdateData
+            );
             dispatch(updateTransactionSuccess(response.data.transaction));
             return response.data.transaction;
         } catch (error) {
@@ -345,13 +383,15 @@ export const updateTransaction = (transactionUpdateData, transactionId) => {
 
 export const updateTransactionSuccess = (updatedTransaction) => ({
     type: Types.updateTransactionSuccess,
-    transaction: updatedTransaction
+    transaction: updatedTransaction,
 });
 
 export const deleteTransaction = (transactionId) => {
     return async (dispatch) => {
         try {
-            await axios.delete(`http://localhost:4000/transaction/${transactionId}`);
+            await axios.delete(
+                `http://localhost:4000/transaction/${transactionId}`
+            );
             dispatch(deleteTransactionSuccess(transactionId));
         } catch (error) {
             console.error('Cannot delete transaction:', error);
@@ -361,19 +401,22 @@ export const deleteTransaction = (transactionId) => {
 
 export const deleteTransactionSuccess = (transactionId) => ({
     type: Types.deleteTransactionSuccess,
-    transactionId
+    transactionId,
 });
 
 // Transfer balance
 export const transferBalance = (fromWalletId, toWalletId, amount) => {
     return async (dispatch) => {
         try {
-            const response = await axios.post(`http://localhost:4000/wallet/transfer`, {
-                fromWalletId,
-                toWalletId,
-                amount
-            });
-            
+            const response = await axios.post(
+                `http://localhost:4000/wallet/transfer`,
+                {
+                    fromWalletId,
+                    toWalletId,
+                    amount,
+                }
+            );
+
             // Assuming the response contains the updated wallets after transfer
             const { updatedFromWallet, updatedToWallet } = response.data;
 
@@ -388,14 +431,15 @@ export const transferBalance = (fromWalletId, toWalletId, amount) => {
     };
 };
 
-
 // Category actions
 export const getCategories = (userId) => {
     return async (dispatch) => {
         try {
-            const response = await axios.get(`http://localhost:4000/user/${userId}/categories`);
+            const response = await axios.get(
+                `http://localhost:4000/user/${userId}/categories`
+            );
             const categories = response.data;
-            if(categories) {
+            if (categories) {
                 dispatch(getCategoriesSuccess(categories));
                 return categories;
             }
@@ -407,13 +451,15 @@ export const getCategories = (userId) => {
 
 export const getCategoriesSuccess = (categories) => ({
     type: Types.getCategoriesSuccess,
-    categories
+    categories,
 });
 
 export const getOneCategory = (categoryId) => {
     return async (dispatch) => {
         try {
-            const response = await axios.get(`http://localhost:4000/category/${categoryId}`);
+            const response = await axios.get(
+                `http://localhost:4000/category/${categoryId}`
+            );
             const category = response.data;
             dispatch(getOneCategorySuccess(category));
             return category;
@@ -425,16 +471,19 @@ export const getOneCategory = (categoryId) => {
 
 export const getOneCategorySuccess = (category) => ({
     type: Types.getOneCategorySuccess,
-    category
+    category,
 });
 
 export const addCategory = (newCategoryData) => {
     return async (dispatch) => {
         try {
-            console.log('newcategorydata: ', newCategoryData)
-            const response = await axios.post('http://localhost:4000/category/add', newCategoryData);
+            console.log('newcategorydata: ', newCategoryData);
+            const response = await axios.post(
+                'http://localhost:4000/category/add',
+                newCategoryData
+            );
             const newCategory = response.data.category;
-            console.log('newcategory: ', newCategory)
+            console.log('newcategory: ', newCategory);
             dispatch(addCategorySuccess(newCategory));
             return newCategory;
         } catch (error) {
@@ -445,15 +494,17 @@ export const addCategory = (newCategoryData) => {
 
 export const addCategorySuccess = (category) => ({
     type: Types.addCategorySuccess,
-    category
+    category,
 });
 
 // Update a category by ID
 export const updateCategory = (categoryId, categoryUpdateData) => {
     return async (dispatch) => {
         try {
-
-            const response = await axios.patch(`http://localhost:4000/category/${categoryId}`, categoryUpdateData);
+            const response = await axios.patch(
+                `http://localhost:4000/category/${categoryId}`,
+                categoryUpdateData
+            );
             const updatedCategory = response.data.category;
             dispatch(updateCategorySuccess(updatedCategory));
             return updatedCategory;
@@ -465,7 +516,7 @@ export const updateCategory = (categoryId, categoryUpdateData) => {
 
 export const updateCategorySuccess = (updatedCategory) => ({
     type: Types.updateCategorySuccess,
-    category: updatedCategory
+    category: updatedCategory,
 });
 
 // Delete a category by ID
@@ -482,5 +533,5 @@ export const deleteCategory = (categoryId) => {
 
 export const deleteCategorySuccess = (categoryId) => ({
     type: Types.deleteCategorySuccess,
-    categoryId
+    categoryId,
 });

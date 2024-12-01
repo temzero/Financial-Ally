@@ -30,8 +30,9 @@ function TransactionList({ transactions = [], currency = '$' }) {
         return transactionDate.toLocaleDateString('en-GB');
     };
 
-    const sortedTransactions = [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date));
-    let lastDate = '';
+    const sortedTransactions = [...transactions].sort((a, b) => 
+        Date.parse(b.date) - Date.parse(a.date)
+    );
 
     const displayWallet = (walletId) => {
         const wallet = wallets.find(wallet => wallet._id === walletId);
@@ -83,6 +84,7 @@ function TransactionList({ transactions = [], currency = '$' }) {
         return null;
     };
 
+    let lastDate = '';
     return (
         <div className={styles.transactions}>
             {sortedTransactions.map((transaction) => {

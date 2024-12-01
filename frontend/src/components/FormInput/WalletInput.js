@@ -72,7 +72,7 @@ const WalletInput = ({ wallet, setWallet, wallets = [], isDropdownOutside }) => 
                     </div>
                 ) : (
                     <div className={styles.placeholder}>
-                        {wallets.length === 0 ? "No wallets available" : "Select a wallet"}
+                        {wallets.length === 0 ? "No wallets available" : "Select wallet"}
                     </div>
                 )}
                 <span className={styles.arrow}>

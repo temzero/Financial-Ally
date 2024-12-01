@@ -102,9 +102,10 @@ function AddTransaction() {
             default:
                 break;
         }
-    }, [counter])
+    }, [counter]);
 
-    
+    console.log('date: ', date)
+
     const handleAddTransactionSubmit = async (event) => {
         event.preventDefault();
 
@@ -175,7 +176,7 @@ function AddTransaction() {
         setAmount('');
         setCategoryId('');
         setWallet('');
-        setDate(new Date().toISOString().split('T')[0]);
+        setDate(new Date().toISOString());
         setNote('');
         setImage(null);
         setImagePreview(null);

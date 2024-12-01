@@ -1,32 +1,29 @@
 import styles from './WalletInfo.module.scss';
 import { useLocation } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { BiTransferAlt } from 'react-icons/bi';
 import Button from '../../../components/Button/Button';
 import DeleteWalletForm from '../../../components/DeleteForm/DeleteWalletForm';
-import { useDispatch, useSelector } from 'react-redux';
 import TransactionList from '../../../components/Transaction/TransactionList';
 import TransferBalanceForm from '../../../components/TransferBalance/TransferBalance';
-import { getOneWallet } from '../../../redux/actions';
-import { BiTransferAlt } from 'react-icons/bi';
 import EditWalletForm from '../../../components/EditForm/EditWalletForm';
 import CategoryChart from '../../../components/Chart/CategoryChart';
-import WalletChart from '../../../components/Chart/WalletChart';
 
 import noMoneyImage from '../../../assets/images/noMoney.png';
 import moneyImage from '../../../assets/images/cash.png';
 import muchMoneyImage from '../../../assets/images/alotofcash.png';
+import landscapeImage from '../../../assets/images/landscape.png';
 import CountUpEffect from '../../../components/Animation/CountUpEffect';
 
 function WalletInfo() {
     const { state } = useLocation();
     const walletData = state || '';
-    const dispatch = useDispatch();
     const [showTransferForm, setShowTransferForm] = useState(false);
 
     const allWallets = useSelector((state) => state.wallet.wallets);
-    const allTransactions = useSelector(
-        (state) => state.transaction.transactions
-    );
+    const allTransactions =
+        useSelector((state) => state.transaction.transactions) || [];
 
     const [showEditForm, setShowEditForm] = useState(false);
     const [showDeleteForm, setShowDeleteForm] = useState(false);
@@ -154,37 +151,56 @@ function WalletInfo() {
                         </div>
                         {displayStatus()}
                     </div>
-                    <div className={styles.contentAnalysis}>
-                        <div className={styles.contentSubHeader}>Analysis</div>
-                        <div className={styles.contentChart}>
-                            {incomeTransactions.length ? (
-                                <div>
-                                    <CategoryChart
-                                        transactions={incomeTransactions}
-                                        displayName='+'
-                                    />
-                                </div>
-                            ) : (
-                                ''
-                            )}
-                            {expenseTransactions.length ? (
-                                <div>
-                                    <CategoryChart
-                                        transactions={expenseTransactions}
-                                        displayName='-'
-                                    />
-                                </div>
-                            ) : (
-                                ''
-                            )}
+
+                    {!transactions.length ? (
+                        <div className={styles.landscapeImageContainer}>
+                            <div>No transactions</div>
+                            <img
+                                src={landscapeImage}
+                                alt="noMoney"
+                                className={styles.landscapeImage}
+                            />
                         </div>
-                    </div>
-                    <div className={styles.contentTransaction}>
-                        <div className={styles.contentSubHeader}>
-                            Transactions
+                    ) : (
+                        <div>
+                            <div className={styles.contentAnalysis}>
+                                <div className={styles.contentSubHeader}>
+                                    Analysis
+                                </div>
+                                {(incomeTransactions.length > 0 ||
+                                    expenseTransactions.length > 0) && (
+                                    <div className={styles.contentChart}>
+                                        {incomeTransactions.length > 0 && (
+                                            <div>
+                                                <CategoryChart
+                                                    transactions={
+                                                        incomeTransactions
+                                                    }
+                                                    displayName="+"
+                                                />
+                                            </div>
+                                        )}
+                                        {expenseTransactions.length > 0 && (
+                                            <div>
+                                                <CategoryChart
+                                                    transactions={
+                                                        expenseTransactions
+                                                    }
+                                                    displayName="-"
+                                                />
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                            <div className={styles.contentTransaction}>
+                                <div className={styles.contentSubHeader}>
+                                    Transactions
+                                </div>
+                                <TransactionList transactions={transactions} />
+                            </div>
                         </div>
-                        <TransactionList transactions={transactions} />
-                    </div>
+                    )}
                 </div>
             </div>
 

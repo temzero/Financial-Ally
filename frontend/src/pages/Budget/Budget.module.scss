@@ -161,12 +161,17 @@
 
 .budgetCardContent {  
     display: grid;
-    grid-template-columns: 1.2fr .5fr .5fr 1fr; 
-    // justify-content: space-between;
+    grid-template-columns: 1fr 1fr 1fr;
     width: 100%;
     align-items: center;
     padding: 6px;
     color:rgba(0, 0, 0, 0.7);
+
+    .budgetCardInfo {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+    }
 
     .budgetCardHeader {
         font-size: 2rem;
@@ -180,6 +185,13 @@
         display: flex;
         justify-content: right;
         gap: 4px;
+    }
+}
+
+.finished {
+    opacity: .6;
+    &:hover {
+        opacity: .9;
     }
 }
 

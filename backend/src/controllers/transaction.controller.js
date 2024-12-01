@@ -3,16 +3,10 @@ const Transaction = require("../models/transaction.model");
 const transactionControllers = {
   getTransactions: async (req, res) => {
     try {
-      const userId = req.params.id;
-      const transactions = await Transaction.find({ userId });
-
-      if (!transactions.length) {
-        return res.status(404).json({ message: "No transactions found!" });
-      }
-
-      res.status(200).json(transactions);
+      const transactions = await Transaction.find({ userId: req.params.id });
+      res.status(200).send(transactions.length ? transactions : "");
     } catch (error) {
-      console.error('Error fetching transactions:', error);
+      console.error("Error fetching transactions:", error.message);
       res.status(500).json({ message: error.message });
     }
   },
@@ -28,7 +22,7 @@ const transactionControllers = {
 
       res.status(200).json(transaction);
     } catch (error) {
-      console.error('Error fetching transaction:', error);
+      console.error("Error fetching transaction:", error);
       res.status(500).json({ message: error.message });
     }
   },
@@ -44,32 +38,55 @@ const transactionControllers = {
         note: req.body.note,
         image: req.file ? req.file.path : null, // Save file path
         userId: req.body.userId,
-    };
+      };
 
       const addedTransaction = await Transaction.create(transactionData);
 
-      res.status(201).json({ message: "Transaction added successfully", transaction: addedTransaction });
+      res
+        .status(201)
+        .json({
+          message: "Transaction added successfully",
+          transaction: addedTransaction,
+        });
     } catch (error) {
-      console.error('Error adding transaction:', error);
+      console.error("Error adding transaction:", error);
       res.status(500).json({ message: "Failed to add transaction", error });
     }
   },
 
   updateTransaction: async (req, res) => {
     try {
-      const { type, amount, categoryId, walletId, date, note, image } = req.body;
+      const { type, amount, categoryId, walletId, date, note, image } =
+        req.body;
       const transactionId = req.params.transactionId;
-      const transactionUpdateData = { type, amount, categoryId, walletId, date, note, image };
+      const transactionUpdateData = {
+        type,
+        amount,
+        categoryId,
+        walletId,
+        date,
+        note,
+        image,
+      };
 
-      const updatedTransaction = await Transaction.findByIdAndUpdate(transactionId, transactionUpdateData, { new: true });
+      const updatedTransaction = await Transaction.findByIdAndUpdate(
+        transactionId,
+        transactionUpdateData,
+        { new: true }
+      );
 
       if (!updatedTransaction) {
         return res.status(404).json({ message: "Transaction not found!" });
       }
 
-      res.status(200).json({ message: "Transaction updated", transaction: updatedTransaction });
+      res
+        .status(200)
+        .json({
+          message: "Transaction updated",
+          transaction: updatedTransaction,
+        });
     } catch (error) {
-      console.error('Error updating transaction:', error);
+      console.error("Error updating transaction:", error);
       res.status(500).json({ message: "Failed to update transaction", error });
     }
   },
@@ -78,7 +95,9 @@ const transactionControllers = {
     try {
       const transactionId = req.params.transactionId;
 
-      const deletedTransaction = await Transaction.deleteOne({ _id: transactionId });
+      const deletedTransaction = await Transaction.deleteOne({
+        _id: transactionId,
+      });
 
       if (deletedTransaction.deletedCount > 0) {
         res.status(200).json({ message: "Transaction deleted" });
@@ -86,7 +105,7 @@ const transactionControllers = {
         res.status(404).json({ message: "Transaction not found" });
       }
     } catch (error) {
-      console.error('Error deleting transaction:', error);
+      console.error("Error deleting transaction:", error);
       res.status(500).json({ message: "Failed to delete transaction", error });
     }
   },

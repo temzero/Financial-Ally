@@ -45,12 +45,10 @@
 
 .contentBody {
     width: var(--item-width);
-    min-height: 90vh;
     background-color: white;
-    
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
-    padding-bottom: 20px;
+    padding-bottom: 8px;
 }
 
 .contentName {
@@ -141,6 +139,26 @@
 }
 .muchMoneyImage {
     width: 80px;
+}
+
+.landscapeImageContainer {
+    width: 100%;
+    flex: 1;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 60px;
+    padding-bottom: 20px;
+    align-items: center;
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    color: rgba(0, 0, 0, 0.4);
+    font-weight: 400;
+
+
+    .landscapeImage {
+        width: 80%;
+    }
 }
 
 .green { background-color: var(--background-green); }

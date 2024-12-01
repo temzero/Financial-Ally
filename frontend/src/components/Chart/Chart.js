@@ -19,9 +19,12 @@ function Chart() {
 
     useEffect(() => {
         const handleKeyDown = (event) => {
-            if (event.key === ' ') {
+            if (event.key === 'ArrowRight') {
                 event.preventDefault();
-                setCounter((prevCounter) => (prevCounter + 1) % 5); // Loop counter between 0 and 4
+                setCounter((prevCounter) => (prevCounter + 1) % 5);
+            } else if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                setCounter((prevCounter) => (prevCounter - 1) % 5);
             }
         };
 

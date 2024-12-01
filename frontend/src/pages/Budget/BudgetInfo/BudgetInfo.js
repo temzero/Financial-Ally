@@ -1,17 +1,17 @@
 import styles from './BudgetInfo.module.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTransactions } from '../../../redux/actions';
+import { IoWalletOutline } from 'react-icons/io5';
 import Button from '../../../components/Button/Button';
 import EditBudgetForm from '../../../components/EditForm/EditBudgetForm';
 import DeleteBudgetForm from '../../../components/DeleteForm/DeleteBudgetForm';
-import { useSelector } from 'react-redux';
 import TransactionList from '../../../components/Transaction/TransactionList';
-import { IoWalletOutline } from 'react-icons/io5';
-import { getTransactions } from '../../../redux/actions';
 import CountUpEffect from '../../../components/Animation/CountUpEffect';
 import CategoryChart from '../../../components/Chart/CategoryChart';
 import WalletChart from '../../../components/Chart/WalletChart';
+import landscapeImage from '../../../assets/images/landscape.png';
 
 function BudgetInfo() {
     const { state } = useLocation();
@@ -20,9 +20,8 @@ function BudgetInfo() {
     const budgetId = state?.budgetId || '';
     const allBudgets = useSelector((state) => state.budget.budgets);
     const allWallets = useSelector((state) => state.wallet.wallets);
-    const allTransactions = useSelector(
-        (state) => state.transaction.transactions
-    );
+    const allTransactions =
+        useSelector((state) => state.transaction.transactions) || [];
     const currency = '$';
 
     useEffect(() => {
@@ -48,9 +47,10 @@ function BudgetInfo() {
         (transaction) => transaction.type.toLowerCase() === 'expense'
     );
 
-    const transactions = budgetTransactions.filter((transaction) =>
-        transactionIds.includes(transaction._id)
-    );
+    const transactions =
+        budgetTransactions.filter((transaction) =>
+            transactionIds.includes(transaction._id)
+        ) || [];
 
     const [showEditForm, setShowEditForm] = useState(false);
     const [showDeleteForm, setShowDeleteForm] = useState(false);
@@ -81,7 +81,7 @@ function BudgetInfo() {
         return budgetWallets.map((wallet) => {
             const walletColorClass = `text${wallet.color}`;
             const handleWalletNavigate = () => {
-                navigate(`/wallet/${wallet.name}`, { state: wallet._id });
+                navigate(`/wallet/${wallet.name}`, { state: wallet });
             };
 
             return (
@@ -119,7 +119,7 @@ function BudgetInfo() {
     const start = new Date(budgetStartDate);
     const finish = new Date(budgetFinishDate);
     const today = new Date(); // Set `today` to the current date and time
-    const daysLeft = Math.ceil((finish - today) / (1000 * 60 * 60 * 24)); 
+    const daysLeft = Math.ceil((finish - today) / (1000 * 60 * 60 * 24));
 
     // Calculate the total period in days between startDate and finishDate
     const daysPeriod = Math.ceil(
@@ -247,7 +247,9 @@ function BudgetInfo() {
                                 </span>
                             ) : (
                                 <div>
-                                    <span className={styles.contentSummaryValue}>
+                                    <span
+                                        className={styles.contentSummaryValue}
+                                    >
                                         {daysLeft}
                                     </span>
                                     <span className={styles.contentSummaryUnit}>
@@ -272,41 +274,54 @@ function BudgetInfo() {
                         </div>
                     </div>
 
-                    <div className={styles.contentAnalysis}>
-                        <div className={styles.contentSubHeader}>Analysis</div>
-                        <div className={styles.contentChart}>
-                            <CategoryChart transactions={transactions}/>
-                            <WalletChart transactions={transactions}/>
+                    {!transactions.length ? (
+                        <div className={styles.landscapeImageContainer}>
+                            <div>No transactions</div>
+                            <img
+                                src={landscapeImage}
+                                alt="noMoney"
+                                className={styles.landscapeImage}
+                            />
                         </div>
-                    </div>
+                    ) : (
+                        <div>
+                            <div className={styles.contentAnalysis}>
+                                <div className={styles.contentSubHeader}>
+                                    Analysis
+                                </div>
+                                {transactions.length ? (
+                                    <div className={styles.contentChart}>
+                                        <CategoryChart
+                                            transactions={transactions}
+                                        />
+                                        <WalletChart
+                                            transactions={transactions}
+                                        />
+                                    </div>
+                                ) : (
+                                    ''
+                                )}
+                            </div>
 
-                    <div className={styles.contentTransactions}>
-                        <div className={styles.contentSubHeader}>
-                            Transactions
-                        </div>
+                            <div className={styles.contentTransactions}>
+                                <div className={styles.contentSubHeader}>
+                                    Transactions
+                                </div>
 
-                        <TransactionList
-                            wallets={allWallets}
-                            transactions={transactions}
-                        />
-                        <div className={styles.contentSubHeader}>
-                            {/* {budgetType} */}
+                                <TransactionList
+                                    wallets={allWallets}
+                                    transactions={transactions}
+                                />
+                            </div>
                         </div>
-                    </div>
+                    )}
+
                 </div>
             </div>
 
             <div className={styles.date}>
                 From {formattedStartDate} to {formattedFinishDate}
-                <span>
-                    {daysLeft > 0 ? (
-                        <>
-                            ({daysLeft} days left)
-                        </>
-                    ) : (
-                        ''
-                    )}
-                </span>
+                <span>{daysLeft > 0 ? <>({daysLeft} days left)</> : ''}</span>
             </div>
 
             <EditBudgetForm

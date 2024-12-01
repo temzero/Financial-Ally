@@ -1,12 +1,10 @@
+import styles from './Chart.module.scss';
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import styles from './Chart.module.scss';
 import { useSelector } from 'react-redux';
-import reactIcons from '../../assets/icons/reactIcons';
 import { IoWallet, IoWalletOutline  } from "react-icons/io5";
 
-// Register Chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 function WalletChart({ transactions = [] }) {

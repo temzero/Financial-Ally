@@ -351,10 +351,6 @@
     height: 36px;
 }
 
-.placeholder {
-    opacity: .6;
-}
-
 // Category input
 .customDropdown {
     position: relative;
@@ -444,6 +440,11 @@
     &:focus {
         outline: none;
     }
+}
+
+.placeholder {
+    font-size: 1rem;
+    color: rgba(0, 0, 0, 0.5);
 }
 
 // Background Color

@@ -10,14 +10,26 @@ function BudgetCard({ budgetData, currency = '$' }) {
     // Calculate days left
     const today = new Date();
     const finish = new Date(finishDate);
-    const daysLeft = Math.ceil((finish - today) / (1000 * 60 * 60 * 24)); 
+    const daysLeft = Math.ceil((finish - today) / (1000 * 60 * 60 * 24));
+    console.log(`daysLeft`, daysLeft);
 
     // Money left calculation (example)
     const leftToSpend = moneyLimit - moneySpend;
+
+    console.log('left to spend: ', leftToSpend);
+
     let spendPerDay = Math.floor(leftToSpend / daysLeft);
+    if (daysLeft > 0) {
+        spendPerDay = Math.floor(leftToSpend / daysLeft);
+    } else if (daysLeft === 0) {
+        spendPerDay = leftToSpend;
+    } else if (daysLeft < 0) {
+        spendPerDay = leftToSpend;
+    }
+
     if (spendPerDay === -Infinity || spendPerDay === Infinity) {
-        spendPerDay = leftToSpend
-        console.log('spend per day: ', spendPerDay)
+        spendPerDay = leftToSpend;
+        console.log('spend per day: ', spendPerDay);
     }
     const spendPercent = (moneySpend / moneyLimit) * 100;
 
@@ -26,11 +38,15 @@ function BudgetCard({ budgetData, currency = '$' }) {
     useEffect(() => {
         setTimeout(() => {
             setAnimatedWidth(spendPercent);
-        }, 10); 
+        }, 10);
     }, [spendPercent]);
 
     const colorClass = styles[budgetData.color];
-    const classes = [colorClass, styles.budgetCard].join(' ');
+    const classes = [
+        colorClass, 
+        styles.budgetCard, 
+        daysLeft < 0 ? styles.finished : ''
+    ].join(' ').trim();
 
     const handleCardClick = () => {
         navigate(name, { state: { budgetId: _id } });
@@ -40,20 +56,25 @@ function BudgetCard({ budgetData, currency = '$' }) {
         <div key={_id} className={classes} onClick={handleCardClick}>
             <div className={styles.budgetCardContent}>
                 <div className={styles.budgetCardHeader}>{name}</div>
-                <div className={styles.budgetCardDay}>
-                {daysLeft === 0 ? (
-                    "Final day"
-                ) : daysLeft < 0 ? (
-                    "Finished"
+                {daysLeft > 0 ? (
+                    <div className={styles.budgetCardInfo}>
+                        <div className={styles.budgetCardDay}>
+                            {daysLeft} days left
+                        </div>
+                        <div
+                            className={styles.budgetCardDay}
+                        >{`${currency}${spendPerDay} per day`}</div>
+                    </div>
+                ) : daysLeft === 0 ? (
+                    <div className={styles.budgetCardInfo}>
+                        <div className={styles.budgetCardDay}>Final day</div>
+                        <div
+                            className={styles.budgetCardDay}
+                        >{`${currency}${spendPerDay} per day`}</div>
+                    </div>
                 ) : (
-                    `${daysLeft} days`
+                    <div className={styles.budgetCardInfo}>Finished</div>
                 )}
-                </div>
-                <div className={styles.budgetCardDay}>
-                    {spendPerDay !== undefined && spendPerDay !== -Infinity
-                        ? `${currency}${spendPerDay} per day`
-                        : ''}
-                </div>
                 {moneyLimit !== undefined && moneySpend !== undefined ? (
                     <div className={styles.budgetCardMoneyLimit}>
                         <span>{currency}</span>
