@@ -18,13 +18,14 @@ import CountUpEffect from '../../../components/Animation/CountUpEffect';
 
 function WalletInfo() {
     const { state } = useLocation();
-    const walletData = state || '';
-    const [showTransferForm, setShowTransferForm] = useState(false);
-
+    const walletId = state?._id || '';
+    const currency = '$';
+    
     const allWallets = useSelector((state) => state.wallet.wallets);
-    const allTransactions =
-        useSelector((state) => state.transaction.transactions) || [];
-
+    const walletData = allWallets.find(wallet => wallet._id === walletId)
+    const allTransactions = useSelector((state) => state.transaction.transactions) || [];
+    
+    const [showTransferForm, setShowTransferForm] = useState(false);
     const [showEditForm, setShowEditForm] = useState(false);
     const [showDeleteForm, setShowDeleteForm] = useState(false);
 
@@ -49,6 +50,7 @@ function WalletInfo() {
     const handleShowEditForm = () => setShowEditForm(!showEditForm);
     const handleShowDeleteForm = () => setShowDeleteForm(!showDeleteForm);
 
+    // Initialize wallet data from location state
     useEffect(() => {
         if (walletData) {
             const { name, balance, type, color, createdAt } = walletData;
@@ -59,6 +61,18 @@ function WalletInfo() {
             setCreatedAt(createdAt);
         }
     }, [walletData]);
+
+    // Update wallet balance if allWallets change
+    useEffect(() => {
+        if (walletData && allWallets.length > 0) {
+            const updatedWallet = allWallets.find(
+                (wallet) => wallet._id === walletData._id
+            );
+            if (updatedWallet) {
+                setWalletBalance(updatedWallet.balance);
+            }
+        }
+    }, [allWallets, walletData]);
 
     if (!walletData) {
         return <div>Loading...</div>; // Or any other loading state you prefer
@@ -74,8 +88,6 @@ function WalletInfo() {
     const expenseTransactions = transactions.filter(
         (transaction) => transaction.type.toLowerCase() === 'expense'
     );
-
-    const currency = '$';
 
     const displayStatus = () => {
         if (walletBalance < 100) {
@@ -176,7 +188,7 @@ function WalletInfo() {
                                                     transactions={
                                                         incomeTransactions
                                                     }
-                                                    displayName="+"
+                                                    type="+"
                                                 />
                                             </div>
                                         )}
@@ -186,7 +198,7 @@ function WalletInfo() {
                                                     transactions={
                                                         expenseTransactions
                                                     }
-                                                    displayName="-"
+                                                    type="-"
                                                 />
                                             </div>
                                         )}
@@ -213,12 +225,16 @@ function WalletInfo() {
                 formRef={formRef}
                 showForm={showEditForm}
                 setShowForm={setShowEditForm}
+
                 walletName={walletName}
                 setWalletName={setWalletName}
+
                 walletBalance={walletBalance}
                 setWalletBalance={setWalletBalance}
+
                 walletType={walletType}
                 setWalletType={setWalletType}
+
                 walletColor={walletColor}
                 setWalletColor={setWalletColor}
             />

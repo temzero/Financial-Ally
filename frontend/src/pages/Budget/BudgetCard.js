@@ -11,12 +11,9 @@ function BudgetCard({ budgetData, currency = '$' }) {
     const today = new Date();
     const finish = new Date(finishDate);
     const daysLeft = Math.ceil((finish - today) / (1000 * 60 * 60 * 24));
-    console.log(`daysLeft`, daysLeft);
 
     // Money left calculation (example)
     const leftToSpend = moneyLimit - moneySpend;
-
-    console.log('left to spend: ', leftToSpend);
 
     let spendPerDay = Math.floor(leftToSpend / daysLeft);
     if (daysLeft > 0) {

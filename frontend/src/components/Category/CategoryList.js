@@ -14,15 +14,14 @@ import { AiOutlineQuestion } from "react-icons/ai";
 import usePreventClickOutside from '../ClickOutSide/usePreventClickOutside';
 
 
-function CategoryList({ category, index, categories }) {
+function CategoryList({ category, index, categories, currency = '$' }) {
     const dispatch = useDispatch();
-    const currency = '$'
     const transactions = useSelector((state) => state.transaction.transactions) || [];
 
+    const {_id, name, type, icon, color } = category;
+    
     const [editable, setEditable] = useState(false);
-
-    const { name, type, icon, color } = category;
-
+    const [categoryId, setCategoryId] = useState(_id);
     const [categoryName, setCategoryName] = useState(name);
     const [categoryType, setCategoryType] = useState(type);
     const [plusOrMinus, setPlusOrMinus] = useState('');
@@ -116,7 +115,7 @@ function CategoryList({ category, index, categories }) {
     const categoryIcon = iconItems.find(item => item.name === categoryIconName)?.icon || <AiOutlineQuestion />;
 
     const totalTransactions = () => {
-        const matchedTransactions = transactions.filter(trans => trans.category === categoryName);
+        const matchedTransactions = transactions.filter(trans => trans.categoryId === categoryId);
         const totalValue = matchedTransactions.reduce((sum, trans) => sum + trans.amount, 0);
     
         if (matchedTransactions.length === 0) return ``;

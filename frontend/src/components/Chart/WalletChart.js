@@ -7,7 +7,7 @@ import { IoWallet, IoWalletOutline  } from "react-icons/io5";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function WalletChart({ transactions = [] }) {
+function WalletChart({ transactions = [], type = '' }) {
     const wallets = useSelector((state) => state.wallet.wallets);
 
     // Aggregate data by walletId
@@ -104,10 +104,16 @@ function WalletChart({ transactions = [] }) {
         },
     };
 
+    const symbolClasses = `
+        ${styles.chartSymbol} 
+        ${styles.walletSymbol} 
+        ${type === '+' ? styles.primaryGreen : type === '-' ? styles.primaryRed : ''}
+    `.trim();
+    
     return (
         <div className={styles.DoughnutChartContainer}>
             <div className={styles.DoughnutChart}>
-                <div className={`${styles.chartSymbol} ${styles.walletSymbol}`}><IoWallet /></div>
+                <div className={symbolClasses}><IoWallet /></div>
                 <Doughnut data={data} options={options} />
             </div>
             <div className={styles.DoughnutChartInfo}>{renderChartWallets()}</div>

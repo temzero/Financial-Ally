@@ -40,12 +40,20 @@
 
 .button {
         display: flex;
+        flex-direction: column;
+        align-items: center;
         justify-content: center;  
+        padding: 8px;
+
+        .submitButton {
+            margin: 16px;
+        }
 }
 
-.submitButton {
-    padding: 8px 24px;
-    margin: 2rem;
+.message {
+    font-size: .8rem;
+    font-weight: 400;
+    font-style: italic;
 }
 
 .link {
@@ -65,12 +73,6 @@
       }
     }
   }
-
-.message {
-    font-size: .8rem;
-    font-weight: 400;
-    font-style: italic;
-}
 
 .success {
     color: rgb(0, 213, 0);

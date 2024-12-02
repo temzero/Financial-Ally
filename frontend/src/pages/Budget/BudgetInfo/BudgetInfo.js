@@ -1,8 +1,7 @@
 import styles from './BudgetInfo.module.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getTransactions } from '../../../redux/actions';
+import { useSelector } from 'react-redux';
 import { IoWalletOutline } from 'react-icons/io5';
 import Button from '../../../components/Button/Button';
 import EditBudgetForm from '../../../components/EditForm/EditBudgetForm';
@@ -15,20 +14,12 @@ import landscapeImage from '../../../assets/images/landscape.png';
 
 function BudgetInfo() {
     const { state } = useLocation();
-    const dispatch = useDispatch();
-    const user = useSelector((state) => state.user.user);
     const budgetId = state?.budgetId || '';
-    const allBudgets = useSelector((state) => state.budget.budgets);
-    const allWallets = useSelector((state) => state.wallet.wallets);
-    const allTransactions =
-        useSelector((state) => state.transaction.transactions) || [];
     const currency = '$';
 
-    useEffect(() => {
-        if (user?._id) {
-            dispatch(getTransactions(user._id));
-        }
-    }, [user?._id, dispatch]);
+    const allBudgets = useSelector((state) => state.budget.budgets) || [];
+    const allWallets = useSelector((state) => state.wallet.wallets) || [];
+    const allTransactions = useSelector((state) => state.transaction.transactions) || [];
 
     const navigate = useNavigate();
     const currentBudget = allBudgets.find((budget) => budget._id === budgetId);
@@ -329,16 +320,22 @@ function BudgetInfo() {
                 formRef={formRef}
                 showForm={showEditForm}
                 setShowForm={setShowEditForm}
+
                 budgetName={budgetName}
                 setBudgetName={setBudgetName}
+
                 budgetMoneyLimit={budgetMoneyLimit}
                 setBudgetMoneyLimit={setBudgetMoneyLimit}
+
                 wallets={allWallets}
                 budgetWallets={budgetWallets}
+
                 setBudgetWallets={setBudgetWallets}
                 budgetColor={budgetColor}
+
                 setBudgetColor={setBudgetColor}
                 budgetStartDate={budgetStartDate}
+
                 setBudgetStartDate={setBudgetStartDate}
                 budgetFinishDate={budgetFinishDate}
                 setBudgetFinishDate={setBudgetFinishDate}

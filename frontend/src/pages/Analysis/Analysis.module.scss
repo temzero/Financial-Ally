@@ -1,7 +1,3 @@
-.container {
-
-}
-
 .header {
     display: flex;
     justify-content: space-between;
@@ -11,13 +7,39 @@
 
 .body {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-}
+    
+    .section {
+        width: 70%;
+        margin-bottom: 32px;
+        // border: 1px solid grey;
 
-.buttonContainer {
-    display: flex;
-    gap: 8px;
+        .balance {
+            display: flex;
+            align-items: center;
+            font-size: 2rem;
+            line-height: 4rem;
+            font-weight: 200;
+        }
+        
+
+        .sectionHeader {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 1.8rem;
+            font-weight: 300;
+        }  
+        
+        .chartRow {
+            display:  grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 120px;
+            margin-bottom: 40px;
+        }
+    }
 }
 
 .title {
@@ -38,8 +60,22 @@
     margin-bottom: 20px;
 }
 
+.empty {
+    border: 1px solid red;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-.analysisImage {
-    margin-top: 100px;
-    width: 500px;
+    span {
+        font-size: 2rem;
+        font-weight: 400;
+        color: rgba(0, 0, 0, 0.6);
+    }
+
+    .emptyImg {
+        margin-top: 90px;
+        margin-bottom: 10px;
+        width: 500px;
+    }
 }

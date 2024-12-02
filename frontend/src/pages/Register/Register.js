@@ -34,11 +34,11 @@ function Register() {
         };
     
         dispatch(registerRequest(userData, setMessage, navigate));
-        // setMessage('')
+
+        const loginInfo = { email, password };
+        dispatch(loginRequest(loginInfo, navigate));
     };
 
-    const loginInfo = { email, password };
-        dispatch(loginRequest(loginInfo, setMessage, navigate));
 
     return (
         <div>
@@ -99,13 +99,11 @@ function Register() {
                 </div>
                 <div className={styles.button}>
                     <Button type='submit' primary rounded className={styles.submitButton}>Sign Up</Button>
+                    { message ? <h3 className={`${styles.message} ${styles.fail}`}>{message}</h3>: '' }
                 </div>
-                {
-                    message ? <h3 className={`${styles.message} ${styles.fail}`}>{message}</h3>: ''
-                }
                 <h3 className={styles.link}>
                     Already have an account? 
-                    <a href='/login'>Login now!</a>
+                    <a href='/login'>Login here!</a>
                 </h3>
             </form>
         </div>

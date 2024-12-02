@@ -8,7 +8,7 @@ import reactIcons from '../../assets/icons/reactIcons';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function CategoryChart({ transactions = [], displayName = '' }) {
+function CategoryChart({ transactions = [], type = '' }) {
     const categories = useSelector((state) => state.category.categories);
 
     // Aggregate data by categoryId
@@ -111,10 +111,10 @@ function CategoryChart({ transactions = [], displayName = '' }) {
     };
 
     const displaySymbol = () => {
-        if (displayName.toLocaleLowerCase() === '+' || displayName.toLocaleLowerCase() === 'income') {
-            return <BiSolidPlusCircle className={styles.plusSymbol} />;
+        if (type.toLocaleLowerCase() === '+' || type.toLocaleLowerCase() === 'income') {
+            return <BiSolidPlusCircle className={`${styles.symbol} ${styles.primaryGreen}`} />;
         } else {
-            return <BiSolidMinusCircle className={styles.minusSymbol} />;
+            return <BiSolidMinusCircle className={`${styles.symbol} ${styles.primaryRed}`} />;
         }
     };
 

@@ -12,12 +12,16 @@ function EditWalletForm({
     formRef,
     showForm,
     setShowForm,
+
     walletName,
     setWalletName,
+
     walletBalance,
     setWalletBalance,
+
     walletType,
     setWalletType,
+
     walletColor,
     setWalletColor,
 }) {
@@ -64,7 +68,11 @@ function EditWalletForm({
         };
 
         dispatch(updateWallet(updateWalletData, walletId));
-        closeForm();
+        // setWalletName(walletName)
+        // setWalletBalance(walletBalance)
+        // setWalletType(walletType)
+        // setWalletColor(walletColor)
+        setShowForm(false);
     };
 
     return (
