@@ -43,8 +43,7 @@ const walletControllers = {
         color,
         userId,
       }
-
-      console.log('walletData', walletData)
+      console.log('New wallet created', walletData)
 
       const addedWallet = await Wallet.create(walletData);
 
@@ -62,6 +61,7 @@ const walletControllers = {
       const { name, balance, type, color, transactionIds } = req.body;
       const walletId = req.params.walletId;
       const walletUpdateData = { name, balance, type, color, transactionIds }
+      console.log('walletUpdateData from backend: ', walletUpdateData)
 
       const updatedWallet = await Wallet.findByIdAndUpdate(walletId, walletUpdateData, { new: true });
 

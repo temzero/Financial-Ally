@@ -1,4 +1,4 @@
-.container {
+.chart, .chartMultiple {
     width: 100%;
     height: 240px;
     font-weight: 400;
@@ -6,59 +6,63 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    // border: 1px solid gray;
+    // border: 1px solid gray;   
+}
 
-    .graph {
-        color: var(--background-color);
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        // border: 2px solid rgba(54, 254, 174, 0.8);
+.chartMultiple {
+    height: 280px;
+
+}
+
+.graph {
+    color: var(--background-color);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // border: 2px solid rgba(54, 254, 174, 0.8);
+}
+
+.timeLine {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    border-bottom: 3px solid rgba(0,0,0,0.2);
+
+}
+
+.chartBtnContainer {
+    height: 80px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    display: flex;
+
+}
+
+.chartBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 1.6rem;
+    line-height: 1rem;
+    width: 2.8rem;
+    text-align: center;
+    font-size: 1rem;
+    background-color: rgba(0,0,0,0.1);
+    color: var(--primary-text-color);
+    border: none;
+
+    &.active {
+        background-color: black;
+        color: white;
     }
 
-    .timeLine {
-        display: flex;
-        justify-content: space-between;
-        font-size: 1rem;
-        border-bottom: 3px solid rgba(0,0,0,0.2);
-
+    &:hover {
+        background-color: var(--primary-color);
+        color: white;
     }
-    
-    .chartBtnContainer {
-        height: 80px;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        display: flex;
-
-    }
-    
-    .chartBtn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 1.6rem;
-        line-height: 1rem;
-        width: 2.8rem;
-        text-align: center;
-        font-size: 1rem;
-        background-color: rgba(0,0,0,0.1);
-        color: var(--primary-text-color);
-        border: none;
-
-        &.active {
-            background-color: black;
-            color: white;
-        }
-
-        &:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
-    }
-
 }
 
 .DoughnutChartContainer {
@@ -110,10 +114,12 @@
 .walletSymbol {
     font-size: 2.4rem;
     color: grey;
+    z-index: 1;
 }
 
 .symbol {
     font-size: 3.2rem;
+    z-index: 1;
 }
 
 .primaryGreen { color: var(--color-green)}

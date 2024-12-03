@@ -68,10 +68,6 @@ function EditWalletForm({
         };
 
         dispatch(updateWallet(updateWalletData, walletId));
-        // setWalletName(walletName)
-        // setWalletBalance(walletBalance)
-        // setWalletType(walletType)
-        // setWalletColor(walletColor)
         setShowForm(false);
     };
 

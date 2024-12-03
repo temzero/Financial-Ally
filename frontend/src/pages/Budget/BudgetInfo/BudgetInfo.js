@@ -1,7 +1,8 @@
 import styles from './BudgetInfo.module.scss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateBudget } from '../../../redux/actions';
 import { IoWalletOutline } from 'react-icons/io5';
 import Button from '../../../components/Button/Button';
 import EditBudgetForm from '../../../components/EditForm/EditBudgetForm';
@@ -16,6 +17,7 @@ function BudgetInfo() {
     const { state } = useLocation();
     const budgetId = state?.budgetId || '';
     const currency = '$';
+    const dispatch = useDispatch();
 
     const allBudgets = useSelector((state) => state.budget.budgets) || [];
     const allWallets = useSelector((state) => state.wallet.wallets) || [];
@@ -42,6 +44,18 @@ function BudgetInfo() {
         budgetTransactions.filter((transaction) =>
             transactionIds.includes(transaction._id)
         ) || [];
+
+           // Remove unnecessary TransactionIds
+    useEffect(() => {
+        const budgetTransactionsIds = transactions.map(transaction => transaction._id);
+        if (!budgetTransactionsIds.length || !budgetId) return;
+
+        const updatedBudgetTransactions = {
+            transactionIds: budgetTransactionsIds,
+        };
+
+        dispatch(updateBudget(updatedBudgetTransactions, budgetId));
+    }, [budgetId]);
 
     const [showEditForm, setShowEditForm] = useState(false);
     const [showDeleteForm, setShowDeleteForm] = useState(false);

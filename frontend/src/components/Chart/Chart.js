@@ -12,8 +12,6 @@ function Chart() {
     const transactions = useSelector((state) => state.transaction.transactions) || [];
     const wallets = useSelector((state) => state.wallet.wallets) || [];
 
-    const totalBalance = (wallets || []).reduce((sum, wallet) => sum + wallet.balance, 0);
-
     const [chartPeriod, setChartPeriod] = useState('1W');
     const [counter, setCounter] = useState(1);
 
@@ -39,10 +37,6 @@ function Chart() {
         const periods = ['1D', '1W', '1M', '1Y', 'All'];
         setChartPeriod(periods[counter]); // Update chart period based on counter
     }, [counter]);
-
-    const handleChartButtonClick = (period) => {
-        setChartPeriod(period);
-    };
 
     const filterTransactionsByPeriod = (transactions, period) => {
         const now = new Date();
@@ -79,8 +73,10 @@ function Chart() {
         return filteredTransactions;
     };
 
-    const balanceLineGraphData = (transactions) => {
-        let lineBalance = totalBalance;
+    const totalBalance = (wallets || []).reduce((sum, wallet) => sum + wallet.balance, 0);
+
+    const balanceLineGraphData = (transactions, balance = totalBalance) => {
+        let lineBalance = balance;
         const sortedTransactions = [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date));
         // Map transactions to data points with timestamps and balance
         const data = sortedTransactions.map((trans) => {
@@ -90,22 +86,21 @@ function Chart() {
             lineBalance += transactionBalance;
         
             return {
-                lineBalance: lineBalance,  // Updated balance
+                lineBalance: lineBalance,
                 date: new Date(trans.date).getTime(),
-                // date: new Date(trans.date).toLocaleDateString(),
             };
         });
 
         if (data.length === 0) {
             data.push({
-                lineBalance: totalBalance,
+                lineBalance: balance,
                 date: new Date().getTime() - (1 * 60 * 60 * 1000), // Simulate one hour ago
             });
         }
     
-        // Add the final point with the current time and the totalBalance
+        // Add the final point with the current time and the balance
         data.push({
-            lineBalance: totalBalance,
+            lineBalance: balance,
             date: new Date().getTime(), //yesterday
             // date: 'Now',
         });
@@ -117,7 +112,12 @@ function Chart() {
     const filteredTransactions = filterTransactionsByPeriod(transactions, chartPeriod);
     const lineData = balanceLineGraphData(filteredTransactions);
 
-    const dateLabels = lineData.map((point) => new Date(point.date).toLocaleDateString()); // Convert timestamps to readable dates
+    const dateLabels = lineData.map((point) =>
+        new Date(point.date).toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+        })
+    );
     const balancePoints = lineData.map((point) => point.lineBalance);
 
     const chartData = {
@@ -163,7 +163,7 @@ function Chart() {
     };
 
     return (
-        <div className={styles.container}>
+        <div className={styles.chart}>
             <div className={styles.graph}>
                 <Line data={chartData} options={chartOptions} />
             </div>
@@ -173,7 +173,7 @@ function Chart() {
                         key={period}
                         rounded
                         className={`${styles.chartBtn} ${chartPeriod === period ? styles.active : ''}`}
-                        onClick={() => handleChartButtonClick(period)}
+                        onClick={() => setChartPeriod(period)}
                     >
                         {period}
                     </Button>

@@ -25,8 +25,14 @@ function Transaction({
 }) {
     const classes = `${className} ${styles.transactionForm} ${color ? styles.color : ''} ${hidden ? styles.hidden : ''}`;
     const dispatch = useDispatch();
+    const transactionId = transaction._id;
+
     const budgets = useSelector((state) => state.budget.budgets) || [];
+    const budgetsContainTransactionId = budgets.filter(budget =>
+        budget.transactionIds.includes(transactionId)
+    );
     const categories = useSelector((state) => state.category.categories) || [];
+
     const wallets = useSelector((state) => state.wallet.wallets) || [];
     const wallet = wallets.find((wallet) => wallet._id === transaction.walletId) || {};
 
@@ -66,7 +72,7 @@ function Transaction({
         const updatedWalletBalance = wallet.balance + transaction.amount - amount;
         const updateWalletData = { balance: updatedWalletBalance };
 
-        dispatch(updateTransaction(updateTransactionData, transaction._id));
+        dispatch(updateTransaction(updateTransactionData, transactionId));
         dispatch(updateWallet(updateWalletData, wallet._id));
 
         budgets.forEach((budget) => {
@@ -92,17 +98,48 @@ function Transaction({
     };
 
     const handleTransactionDelete = () => {
-        dispatch(deleteTransaction(transaction._id));
-
+        // Log the budgets containing the transaction
+        console.log('budgetsContainTransactionId: ', budgetsContainTransactionId);
+    
+        // Delete the transaction from the database
+        dispatch(deleteTransaction(transactionId));
+    
+        // Calculate the updated wallet balance after deleting the transaction
         const updatedWalletBalance = transaction.type.toLowerCase() === 'expense'
             ? wallet.balance + transaction.amount
             : wallet.balance - transaction.amount;
-
-        const updateWalletData = { balance: updatedWalletBalance };
+    
+        // Remove the transaction ID from the wallet's transactionIds
+        const updatedWalletTransactionIds = wallet.transactionIds.filter(
+            (id) => id !== transactionId
+        );
+    
+        // Prepare the wallet update data
+        const updateWalletData = {
+            balance: updatedWalletBalance,
+            transactionIds: updatedWalletTransactionIds,
+        };
+    
+        // Dispatch the wallet update
         dispatch(updateWallet(updateWalletData, wallet._id));
-
-        budgets.forEach((budget) => {
-            if (budget.walletIds?.includes(transaction.walletId) && transaction.type.toLowerCase() === 'expense') {
+    
+        // Iterate over the budgets that contain this transaction and update them
+        budgetsContainTransactionId.forEach((budget) => {
+            // Remove the transaction ID from the budget's transactionIds
+            const updatedBudgetTransactionIds = budget.transactionIds.filter(
+                (id) => id !== transactionId
+            );
+    
+            // Prepare the budget update data
+            const updateBudgetData = {
+                transactionIds: updatedBudgetTransactionIds,
+            };
+    
+            // Dispatch the budget update
+            dispatch(updateBudget(updateBudgetData, budget._id));
+    
+            // If the transaction is an expense, update the budget's moneySpend
+            if (transaction.type.toLowerCase() === 'expense') {
                 const updatedMoneySpend = Math.max(0, budget.moneySpend - transaction.amount);
                 dispatch(updateBudget({ moneySpend: updatedMoneySpend }, budget._id));
             }

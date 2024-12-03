@@ -28,7 +28,7 @@ function AddTransaction() {
     const [note, setNote] = useState('');
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
-    const [counter, setCounter] = useState(0)
+    const [counter, setCounter] = useState(0);
 
     const [isBalanceFocus, setIsBalanceFocus] = useState(false);
     const [isCategoryDropdown, setIsCategoryDropdown] = useState(false);
@@ -104,8 +104,6 @@ function AddTransaction() {
         }
     }, [counter]);
 
-    console.log('date: ', date)
-
     const handleAddTransactionSubmit = async (event) => {
         event.preventDefault();
 
@@ -127,7 +125,6 @@ function AddTransaction() {
             userId,
         };
         // Create the new transaction and get the transaction ID
-        console.log('transaction data: ', transactionData)
         const newTransaction = await dispatch(addTransaction(transactionData));
         const newTransactionId = newTransaction?._id;
 
@@ -153,7 +150,7 @@ function AddTransaction() {
         // Update relevant budgets based on transaction type
         budgets.forEach((budget) => {
             const budgetWalletIds = budget.walletIds || [];
-            const isWalletInBudget = budgetWalletIds.includes(wallet);
+            const isWalletInBudget = budgetWalletIds.includes(wallet._id);
 
             if (!budgetWalletIds.length || isWalletInBudget) {
                 if (type.toLocaleLowerCase() === 'expense') {
@@ -203,34 +200,42 @@ function AddTransaction() {
             </div>
             <div className={styles.formContent}>
                 <div className={styles.formLabel}>Amount</div>
-                <BalanceInput
-                    amount={amount}
-                    setAmount={setAmount}
-                    isOutsideFocus={isBalanceFocus}
-                />
+                <div className={styles.input} onClick={() => setCounter(0)}>
+                    <BalanceInput
+                        amount={amount}
+                        setAmount={setAmount}
+                        isOutsideFocus={isBalanceFocus}
+                    />
+                </div>
 
                 <div className={styles.formLabel}>Category</div>
-                <CategoryInput
-                    categoryId={categoryId}
-                    setCategoryId={setCategoryId}
-                    categoryType={type}
-                    isDropdownOutside={isCategoryDropdown}
-                />
+                <div className={styles.input} onClick={() => setCounter(1)}>
+                    <CategoryInput
+                        categoryId={categoryId}
+                        setCategoryId={setCategoryId}
+                        categoryType={type}
+                        isDropdownOutside={isCategoryDropdown}
+                    />
+                </div>
 
                 <div className={styles.formLabel}>Wallet</div>
-                <WalletInput
-                    wallet={wallet}
-                    setWallet={setWallet}
-                    wallets={wallets}
-                    isDropdownOutside={isWalletDropdown}
-                />
+                <div className={styles.input} onClick={() => setCounter(2)}>
+                    <WalletInput
+                        wallet={wallet}
+                        setWallet={setWallet}
+                        wallets={wallets}
+                        isDropdownOutside={isWalletDropdown}
+                    />
+                </div>
 
                 <div className={styles.formLabel}>Date</div>
-                <DateInput 
-                    date={date} 
-                    setDate={setDate} 
-                    isDropdownOutside={isDateDropdown}
-                />
+                <div className={styles.input} onClick={() => setCounter(3)}>
+                    <DateInput 
+                        date={date} 
+                        setDate={setDate} 
+                        isDropdownOutside={isDateDropdown}
+                    />
+                </div>
 
                 {/* <ImageInput
                     image={image}
@@ -240,7 +245,7 @@ function AddTransaction() {
                     /> */}
 
                 <div className={styles.formLabelNote}>Note</div>
-                <div className={styles.transactionNote}>
+                <div className={styles.transactionNote} onClick={() => setCounter(4)}>
                     <TextInput
                         note={note}
                         setNote={setNote}

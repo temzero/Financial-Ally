@@ -179,6 +179,8 @@ export const updateWallet = (walletUpdateData, walletId) => {
                 `http://localhost:4000/wallet/${walletId}`,
                 walletUpdateData
             );
+            const updatedWalletData = response.data.wallet
+            console.log(`updatedWalletData`, updatedWalletData)
             dispatch(updateWalletSuccess(response.data.wallet));
             return response.data.wallet;
         } catch (error) {
