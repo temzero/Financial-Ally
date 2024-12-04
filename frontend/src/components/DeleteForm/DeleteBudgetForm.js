@@ -41,13 +41,7 @@ function DeleteBudgetForm({ showForm, setShowForm, budget }) {
                     <div className={styles.formBody}>
                         <div className={`${styles.formIconContainer} ${styles[color]}`} onClick={(e) => e.stopPropagation()}>
                             <div className={styles.formIcon}>
-                                {/* <img 
-                                    src={'../../assets/icons/budgetIcon'} 
-                                    alt="Budget" 
-                                    className={styles.budgetIcon} 
-                                /> */}
-                                <div className={styles[color]} >{budgetIcon()}</div>
-                                
+                                <div className={styles.budgetIcon} >{budgetIcon()}</div>
                             </div>
                             <div className={styles.formName}>{name}</div>
                         </div>

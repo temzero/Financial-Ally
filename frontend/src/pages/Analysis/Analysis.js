@@ -2,13 +2,11 @@ import styles from './Analysis.module.scss';
 import { useSelector } from 'react-redux';
 import TransactionList from '../../components/Transaction/TransactionList';
 import walletImage from '../../assets/images/wallet.png';
-import CountUpEffect from '../../components/Animation/CountUpEffect';
 import ChartMultiple from '../../components/Chart/ChartMultiple';
 import CategoryChart from '../../components/Chart/CategoryChart';
 import WalletChart from '../../components/Chart/WalletChart';
 
 function Analysis() {
-    const currency = '$';
     const wallets = useSelector((state) => state.wallet.wallets) || [];
     const transactions =
         useSelector((state) => state.transaction.transactions) || [];
@@ -17,11 +15,6 @@ function Analysis() {
     );
     const expenseTransactions = transactions.filter(
         (transaction) => transaction.type.toLowerCase() === 'expense'
-    );
-
-    const totalBalance = (wallets || []).reduce(
-        (sum, wallet) => sum + wallet.balance,
-        0
     );
 
     return (
@@ -33,10 +26,6 @@ function Analysis() {
             {transactions.length ? (
                 <div className={styles.body}>
                     <div className={styles.section}>
-                        <div className={styles.balance}>
-                            Total Balance: {currency}{' '}
-                            <CountUpEffect n={totalBalance} />{' '}
-                        </div>
                         <ChartMultiple />
                         
                     </div>

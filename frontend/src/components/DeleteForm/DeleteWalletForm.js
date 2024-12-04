@@ -2,9 +2,10 @@ import styles from './DeleteForm.module.scss';
 import { useDispatch } from 'react-redux';
 import { deleteWallet } from '../../redux/actions';
 import { useNavigate } from 'react-router-dom';
-import trashIcon from '../../assets/images/opentrashcan.png'
-import walletIcon from '../../assets/icons/walletIcon';
+import trashIcon from '../../assets/images/opentrashcan.png';
 import { HiOutlineArrowRight } from "react-icons/hi";
+import { IoWallet } from "react-icons/io5";
+
 
 function DeleteWalletForm({ showForm, setShowForm, wallet }) {
     const walletId = wallet?._id;
@@ -37,12 +38,7 @@ function DeleteWalletForm({ showForm, setShowForm, wallet }) {
                     <div className={styles.formBody}>
                         <div className={`${styles.formIconContainer} ${styles[color]}`}>
                             <div className={styles.formIcon}>
-                                {/* <img 
-                            src={walletIcon} 
-                            alt="Wallet" 
-                            className={styles.walletIcon} 
-                            /> */}
-                            {walletIcon()}
+                                <IoWallet className={styles.walletIcon}/>
                             </div>
                             <div className={styles.formName}>{name}</div>
                         </div>

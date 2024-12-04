@@ -2,15 +2,18 @@ import styles from './Chart.module.scss';
 import Button from '../Button/Button';
 import { useState, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { IoWalletOutline } from "react-icons/io5";
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 
 // Register necessary components in Chart.js
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-function Chart() {
+function Chart({currency = '$'}) {
     const transactions = useSelector((state) => state.transaction.transactions) || [];
     const wallets = useSelector((state) => state.wallet.wallets) || [];
+    const [chartWalletId, setChartWalletId] = useState('')
+    // console.log('transactions: ', transactions)
 
     const [chartPeriod, setChartPeriod] = useState('1W');
     const [counter, setCounter] = useState(1);
@@ -22,7 +25,10 @@ function Chart() {
                 setCounter((prevCounter) => (prevCounter + 1) % 5);
             } else if (event.key === 'ArrowLeft') {
                 event.preventDefault();
-                setCounter((prevCounter) => (prevCounter - 1 + 5) % 5);
+                setCounter((prevCounter) => {
+                    const newCounter = (prevCounter - 1) % 5;
+                    return newCounter < 0 ? 4 : newCounter;
+                });
             }
         };
 
@@ -104,46 +110,103 @@ function Chart() {
         return data.sort((a, b) => a.date - b.date);
     };
 
-    const datasets = useMemo(() => {
-        return wallets.map((wallet) => {
-            const walletTransactions = transactions.filter((tran) => wallet.transactionIds.includes(tran._id));
-            const filteredTransactions = filterTransactionsByPeriod(walletTransactions, chartPeriod);
-            const lineData = balanceLineGraphData(filteredTransactions, wallet.balance);
-
-            const dateLabels = lineData.map((point) =>
-                new Date(point.date).toLocaleDateString('en-GB', {
-                    day: '2-digit',
-                    month: '2-digit',
-                })
-            );
-            const balancePoints = lineData.map((point) => point.lineBalance);
-
-            const rootStyles = getComputedStyle(document.documentElement);
-            const walletColor = rootStyles.getPropertyValue(`--background-${wallet.color}`).trim();
-
-            return {
-                label: wallet.name,
-                data: balancePoints,
-                fill: false,
-                borderColor: walletColor,
-                tension: 0.1,
-                pointBackgroundColor: walletColor,
-                pointBorderColor: walletColor,
-                pointRadius: 4,
-                pointHoverRadius: 8,
-                customLabels: dateLabels,
+    const walletElements = () => {
+        // If no budget wallets are found, return 'No wallet available!'
+        if (wallets.length === 0) {
+            return <div>No wallet available!</div>;
+        }
+    
+        // Create a list of wallet elements, including 'All wallets'
+        const walletElements = wallets.map((wallet) => {
+            const handleWalletClick = () => {
+                setChartWalletId(wallet._id);
             };
+    
+            return (
+                <div
+                    key={wallet._id}
+                    className={`${styles[`walletItem-${wallet.color}`]} ${styles.walletItem} ${chartWalletId === wallet._id ? styles.active : ''}`}
+                    onClick={handleWalletClick}
+                >
+                    <IoWalletOutline /> {wallet.name}
+                </div>
+            );
         });
-    }, [wallets, transactions, chartPeriod]);
+    
+        // Add 'All wallets' to the list
+        walletElements.push(
+            <div
+                key="all-wallets"
+                className={`${styles.walletItem} ${!chartWalletId ? styles.active : ''}`}
+                onClick={() => setChartWalletId('')}
+            >
+                <IoWalletOutline /> All Wallet
+            </div>
+        );
+    
+        return walletElements;
+    };    
 
-    const chartData = useMemo(() => {
-        const labels =
-            datasets.length > 0 ? datasets[0].customLabels : ['No Data']; // Use the first dataset's labels
+    const totalBalance = (wallets || []).reduce((sum, wallet) => sum + wallet.balance, 0);
+    let walletBalance;
+    let walletName;
+
+    // Create a reusable function
+    const createChartData = (walletId) => {
+        const wallet = wallets.find(wallet => wallet._id === walletId);
+
+        let walletTransactions;
+        let walletColor;
+
+        if (wallet) {
+            walletTransactions = transactions.filter(transaction =>
+                wallet.transactionIds.includes(transaction._id)
+            );
+            walletBalance = wallet.balance;
+            walletName = wallet.name
+            walletColor = getComputedStyle(document.documentElement)
+                .getPropertyValue(`--background-${wallet.color}`)
+                .trim();
+        } else {
+            walletTransactions = transactions;
+            walletBalance = totalBalance;
+            walletName = 'All wallet'
+            walletColor = `rgba(0, 0, 0, 0.4)`;
+        }
+
+        const filteredTransactions = filterTransactionsByPeriod(walletTransactions, chartPeriod);
+        const lineData = balanceLineGraphData(filteredTransactions, walletBalance);
+
+        const dateLabels = lineData.map((point) =>
+            new Date(point.date).toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: '2-digit',
+            })
+        );
+        const balancePoints = lineData.map((point) => point.lineBalance);
+
         return {
-            labels,
-            datasets,
+            labels: dateLabels,
+            datasets: [
+                {
+                    label: 'Balance',
+                    data: balancePoints,
+                    fill: false,
+                    borderColor: walletColor,
+                    tension: 0.1,
+                    pointBackgroundColor: walletColor,
+                    pointBorderColor: walletColor,
+                    pointBorderWidth: 0,
+                    pointRadius: 4,
+                    pointHoverRadius: 8,
+                },
+            ],
         };
-    }, [datasets]);
+    };
+
+    const chartData = createChartData(chartWalletId)
+
+    console.log('chartData: ', chartData);
 
     const chartOptions = {
         responsive: true,
@@ -151,44 +214,40 @@ function Chart() {
         
         plugins: {
             legend: {
-                position: 'top',
-                labels: {
-                    usePointStyle: true,
-                    padding: 20,
-                    font: {
-                        size: 14,
-                    },
-                },
+                display: false, // Disable the legend
             },
-            tooltip: {
-                callbacks: {
-                    label: (context) => {
-                        const label = context.dataset.label || '';
-                        const balance = context.raw;
-                        const date = context.label;
-                        return `${label}: ${balance} (${date})`;
-                    },
-                },
-            },
+        
         },
     };
 
     return (
-        <div className={styles.chartMultiple}>
-            <div className={styles.graph}>
-                <Line data={chartData} options={chartOptions} />
+        <div className={styles.chart}>
+            <div className={styles.walletInfo}>
+                <div className={styles.walletName}>{walletName}</div>
+                <div className={styles.walletBalance}>
+                    <span>{currency}</span>
+                    <span>{walletBalance?.toLocaleString?.() || '0'}</span>
+                </div>
             </div>
-            <div className={styles.chartBtnContainer}>
-                {['1D', '1W', '1M', '1Y', 'All'].map((period) => (
-                    <Button
-                        key={period}
-                        rounded
-                        className={`${styles.chartBtn} ${chartPeriod === period ? styles.active : ''}`}
-                        onClick={() => setChartPeriod(period)}
-                    >
-                        {period}
-                    </Button>
-                ))}
+            <div className={styles.chartContainer}>
+                <div className={styles.walletSelection}>
+                    {walletElements()}
+                </div>
+                <div className={styles.graph}>
+                    <Line data={chartData} options={chartOptions} />
+                </div>
+                <div className={styles.chartBtnContainer}>
+                    {['1D', '1W', '1M', '1Y', 'All'].map((period) => (
+                        <Button
+                            key={period}
+                            rounded
+                            className={`${styles.chartBtn} ${chartPeriod === period ? styles.active : ''}`}
+                            onClick={() => setChartPeriod(period)}
+                        >
+                            {period}
+                        </Button>
+                    ))}
+                </div>
             </div>
         </div>
     );

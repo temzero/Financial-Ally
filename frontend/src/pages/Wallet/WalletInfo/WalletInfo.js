@@ -413,16 +413,16 @@ function WalletInfo() {
             <div className={styles.header}>
                 <div className={styles.title}>Wallet</div>
                 <div className={styles.btnContainer}>
-                    <Button className={styles.btn} onClick={() => setShowTransferForm(!showTransferForm)}>
+                    <Button s className={styles.btn} onClick={() => setShowTransferForm(!showTransferForm)}>
                         <div className={styles.transferBtn}>
                             <span>Transfer Balance</span>
                             <BiTransferAlt />
                         </div>
                     </Button>
-                    <Button className={styles.btn} onClick={() => setShowEditForm(!showEditForm)}>
+                    <Button s className={styles.btn} onClick={() => setShowEditForm(!showEditForm)}>
                         Edit
                     </Button>
-                    <Button className={styles.btn} onClick={() => setShowDeleteForm(!showDeleteForm)}>
+                    <Button s className={styles.btn} onClick={() => setShowDeleteForm(!showDeleteForm)}>
                         Delete
                     </Button>
                 </div>

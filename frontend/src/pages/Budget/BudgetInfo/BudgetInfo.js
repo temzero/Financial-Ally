@@ -70,7 +70,7 @@ function BudgetInfo() {
         allWallets.filter((wallet) => walletIds.includes(wallet._id))
     );
 
-    const renderWallets = () => {
+    const walletElements = () => {
         // If no budget wallets are found, return 'All wallets'
         if (budgetWallets.length === 0) {
             return (
@@ -275,7 +275,7 @@ function BudgetInfo() {
 
                     <div className={styles.contentAnalysis}>
                         <div className={styles.contentSubHeader}>
-                            {renderWallets()}
+                            {walletElements()}
                         </div>
                     </div>
 

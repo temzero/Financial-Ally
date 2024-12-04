@@ -1,6 +1,5 @@
-.chart, .chartMultiple {
+.chart {
     width: 100%;
-    height: 240px;
     font-weight: 400;
     margin: 20px 0;
     display: flex;
@@ -9,19 +8,21 @@
     // border: 1px solid gray;   
 }
 
-.chartMultiple {
-    height: 280px;
-
-}
-
 .graph {
     color: var(--background-color);
     width: 100%;
-    height: 100%;
+    height: 200px;
     display: flex;
     justify-content: center;
     align-items: center;
     // border: 2px solid rgba(54, 254, 174, 0.8);
+}
+
+.chartContainer {
+    padding: 20px;
+    // border: 1px solid grey;
+    border-radius: 4px;
+    background-color: white;
 }
 
 .timeLine {
@@ -33,7 +34,7 @@
 }
 
 .chartBtnContainer {
-    height: 80px;
+    padding-top: 20px;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -122,6 +123,91 @@
     z-index: 1;
 }
 
+.walletSelection {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 20px;
+}
+
+.walletInfo {
+    margin-bottom: 16px;
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .walletName {
+        font-size: 1.6rem;
+        line-height: 1.6rem;
+    }
+    
+    .walletBalance {
+        font-size: 2.4rem;
+        line-height: 2.4rem;
+        font-weight: 200;
+        display: flex;
+        gap: 6px;
+    }
+}
+
+.walletItem {
+    display: flex;
+    padding: 2px 8px;
+    border-radius: 4px;
+    gap: 6px;
+    align-items: center;
+    font-size: 1rem;
+    cursor: pointer;
+    border: 1px solid rgba(0,0,0,0.4);
+    color: rgba(0,0,0,0.8);
+
+    &:hover {
+        opacity: 0.8;
+    }
+
+    &.active, &:hover {
+        color: white;
+        background-color: black;
+        border-color: transparent;
+    }
+}
+
+@mixin walletItemStyles($color-var) {
+    &.active, &:hover {
+        background-color: var(--#{$color-var});
+    }
+}
+
+.walletItem-green {
+    @include walletItemStyles(background-green);
+}
+
+.walletItem-red {
+    @include walletItemStyles(background-red);
+}
+
+.walletItem-blue {
+    @include walletItemStyles(background-blue);
+}
+
+.walletItem-yellow {
+    @include walletItemStyles(background-yellow);
+}
+
+.walletItem-orange {
+    @include walletItemStyles(background-orange);
+}
+
+.walletItem-purple {
+    @include walletItemStyles(background-purple);
+}
+
+.walletItem-rainbow {
+    @include walletItemStyles(background-rainbow);
+}
+
+
 .primaryGreen { color: var(--color-green)}
 .primaryRed { color: var(--color-red)}
 
@@ -140,4 +226,3 @@
 .text-orange {color: var(--background-orange)}
 .text-purple {color: var(--background-purple)}
 .text-rainbow {color: var(--background-rainbow)}
-

@@ -14,6 +14,7 @@ function Chart() {
 
     const [chartPeriod, setChartPeriod] = useState('1W');
     const [counter, setCounter] = useState(1);
+    console.log('counter: ', counter)
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -22,7 +23,10 @@ function Chart() {
                 setCounter((prevCounter) => (prevCounter + 1) % 5);
             } else if (event.key === 'ArrowLeft') {
                 event.preventDefault();
-                setCounter((prevCounter) => (prevCounter - 1) % 5);
+                setCounter((prevCounter) => {
+                    const newCounter = (prevCounter - 1) % 5;
+                    return newCounter < 0 ? 4 : newCounter;
+                });
             }
         };
 
@@ -111,7 +115,6 @@ function Chart() {
 
     const filteredTransactions = filterTransactionsByPeriod(transactions, chartPeriod);
     const lineData = balanceLineGraphData(filteredTransactions);
-
     const dateLabels = lineData.map((point) =>
         new Date(point.date).toLocaleDateString('en-GB', {
             day: '2-digit',
