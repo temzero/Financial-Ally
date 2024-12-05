@@ -1,3 +1,9 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -10,28 +16,30 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    flex: 1; // Allows the body to grow and take available space
+    overflow-y: auto; // Ensures scrollability if content overflows
     
     .section {
         width: 70%;
         margin-bottom: 32px;
-        // border: 1px solid grey;
-
-        .balance {
-            display: flex;
-            align-items: center;
-            font-size: 2rem;
-            line-height: 4rem;
-            font-weight: 200;
-        }
-        
 
         .sectionHeader {
             display: flex;
             align-items: center;
             gap: 20px;
             font-size: 1.8rem;
-            font-weight: 300;
+            line-height: 1.8rem;
         }  
+
+        .walletBalance {
+            font-size: 3rem;
+            line-height: 3rem;
+            font-weight: 200;
+            display: flex;
+            gap: 6px;
+            margin-top: 8px;
+        }
         
         .chartRow {
             display:  grid;
@@ -61,7 +69,6 @@
 }
 
 .empty {
-    border: 1px solid red;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -72,10 +79,186 @@
         font-weight: 400;
         color: rgba(0, 0, 0, 0.6);
     }
-
+    
     .emptyImg {
         margin-top: 90px;
         margin-bottom: 10px;
         width: 500px;
     }
+    
 }
+
+.emptyText {
+    font-size: 1.4rem;
+    color: rgba(0, 0, 0, 0.4);
+    font-style: italic;
+}
+
+.AnalysisOptions {
+    display: flex;
+    padding: 16px 40px;
+    gap: 40px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index:999;
+    padding-left: 0;
+    width: calc(100% - var(--sidebar-width));
+    margin-left: var(--sidebar-width);
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(8px); 
+
+    .chartBtnContainer {
+        display: flex;
+        gap: 8px;
+        justify-content: space-around;
+        align-items: center;
+        display: flex;
+
+        .chartBtn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 1.6rem;
+            line-height: 1rem;
+            width: 2.8rem;
+            text-align: center;
+            font-size: 1rem;
+            background-color: rgba(0,0,0,0.8);
+            background-color: var(--background-color);
+            color: var(--primary-text-color);
+            border: none;
+        
+            &.active {
+                background-color: black;
+                color: white;
+            }
+        
+            &:hover {
+                font-weight: 600;
+                opacity: 1;
+            }
+        }
+    }
+}
+
+.walletSelections {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    // border: 1px solid grey;
+    padding: 0 40px;
+
+    overflow-x: auto; /* Enable horizontal scrolling */
+    overflow-y: hidden; /* Prevent vertical scrolling */
+    white-space: nowrap; /* Prevent line breaks, keeping items in a single line */
+    scrollbar-width: none;
+
+    mask-image: linear-gradient(to right, 
+                  rgba(0, 0, 0, 0) 0%, 
+                  rgba(0, 0, 0, 1) 5%, 
+                  rgba(0, 0, 0, 1) 95%, 
+                  rgba(0, 0, 0, 0) 100%);
+}
+
+.walletItem {
+    display: flex;
+    gap: 6px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    align-items: center;
+    font-size: 1rem;
+    cursor: pointer;
+    color: rgba(0,0,0,0.8);
+    background-color: var(--background-color);
+    max-height: 32px;
+
+    &:hover {
+        opacity: 0.8;
+    }
+
+    &.active, &:hover {
+        color: white;
+        background-color: black;
+        border-color: transparent;
+    }
+}
+
+
+.doughnutChart {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    
+    .chartRow {
+        display:  grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 120px;
+    }
+}
+
+.lineGraph {
+    color: var(--background-color);
+    width: 100%;
+    height: 200px;
+    margin: 24px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // border: 2px solid rgba(54, 254, 174, 0.8);
+}
+
+@mixin walletItemStyles($color-var) {
+    &.active, &:hover {
+        background-color: var(--#{$color-var});
+    }
+}
+
+.walletItem-green {
+    @include walletItemStyles(background-green);
+}
+
+.walletItem-red {
+    @include walletItemStyles(background-red);
+}
+
+.walletItem-blue {
+    @include walletItemStyles(background-blue);
+}
+
+.walletItem-yellow {
+    @include walletItemStyles(background-yellow);
+}
+
+.walletItem-orange {
+    @include walletItemStyles(background-orange);
+}
+
+.walletItem-purple {
+    @include walletItemStyles(background-purple);
+}
+
+.walletItem-rainbow {
+    @include walletItemStyles(background-rainbow);
+}
+
+.primaryGreen { color: var(--color-green)}
+.primaryRed { color: var(--color-red)}
+
+.green { background-color: var(--background-green); }
+.red { background-color: var(--background-red); }
+.blue { background-color: var(--background-blue); }
+.yellow { background-color: var(--background-yellow); }
+.orange { background-color: var(--background-orange); }
+.purple { background-color: var(--background-purple); }
+.rainbow { background: var(--background-rainbow); }
+
+.text-green {color: var(--background-green)}
+.text-red {color: var(--background-red)}
+.text-blue {color: var(--background-blue)}
+.text-yellow {color: var(--background-yellow)}
+.text-orange {color: var(--background-orange)}
+.text-purple {color: var(--background-purple)}
+.text-rainbow {color: var(--background-rainbow)}

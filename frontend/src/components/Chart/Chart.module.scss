@@ -39,7 +39,19 @@
     justify-content: space-around;
     align-items: center;
     display: flex;
+}
 
+.doughnutChart {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding-top: 60px;
+    
+    .chartRow {
+        display:  grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 120px;
+    }
 }
 
 .chartBtn {
@@ -123,28 +135,22 @@
     z-index: 1;
 }
 
-.walletSelection {
-    display: flex;
-    justify-content: center;
-    gap: 24px;
-    margin-bottom: 20px;
-}
-
 .walletInfo {
-    margin-bottom: 16px;
+    margin-bottom: 30px;
     height: 70px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
     .walletName {
-        font-size: 1.6rem;
-        line-height: 1.6rem;
+        font-size: 2rem;
+        line-height: 1.4rem;
+        margin-bottom: 12px;
     }
     
     .walletBalance {
-        font-size: 2.4rem;
-        line-height: 2.4rem;
+        font-size: 3rem;
+        line-height: 3rem;
         font-weight: 200;
         display: flex;
         gap: 6px;

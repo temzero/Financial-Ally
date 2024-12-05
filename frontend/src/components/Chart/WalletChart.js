@@ -113,7 +113,7 @@ function WalletChart({ transactions = [], type = '' }) {
     return (
         <div className={styles.DoughnutChartContainer}>
             <div className={styles.DoughnutChart}>
-                <div className={symbolClasses}><IoWallet /></div>
+                {transactions.length ? <div className={symbolClasses}><IoWallet /></div> : ''}
                 <Doughnut data={data} options={options} />
             </div>
             <div className={styles.DoughnutChartInfo}>{renderChartWallets()}</div>

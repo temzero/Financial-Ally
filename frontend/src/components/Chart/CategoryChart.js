@@ -121,7 +121,7 @@ function CategoryChart({ transactions = [], type = '' }) {
     return (
         <div className={styles.DoughnutChartContainer}>
             <div className={styles.DoughnutChart}>
-                <div className={styles.chartSymbol}>{displaySymbol()}</div>
+                {transactions.length ? <div className={styles.chartSymbol}>{displaySymbol()}</div> : ''}
                 <Doughnut data={data} options={options} />
             </div>
             <div className={styles.DoughnutChartInfo}>{renderChartCategories()}</div>
