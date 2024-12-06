@@ -6,6 +6,7 @@ import { getWallets } from '../../redux/actions';
 import AddWalletForm from './AddWalletForm';
 import { AiOutlinePlus } from "react-icons/ai";
 import { WalletCard } from './WalletCard';
+import { FaPlus } from "react-icons/fa6";
 
 function Wallet() {
     const [showForm, setShowForm] = useState(false);
@@ -34,11 +35,9 @@ function Wallet() {
         <div>
             <div className={styles.header}>
                 <h2 className={styles.title}>Wallet</h2>
-                <div>
-                    <Button s onClick={toggleWallet}>
-                        Add Wallet
-                    </Button>
-                </div>
+                <Button s onClick={toggleWallet}>
+                    <FaPlus className={styles.plusIcon}/> Add Wallet
+                </Button>
             </div>
 
             <div className={styles.balance}><span className={styles.currency}>{currency}</span>{totalBalance.toLocaleString()}</div>

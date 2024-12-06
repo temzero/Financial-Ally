@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState, useRef } from 'react';
 import { getBudgets, getWallets } from '../../redux/actions';
 import { AiOutlinePlus } from "react-icons/ai";
+import { FaPlus } from "react-icons/fa6";
 import AddBudgetForm from './AddBudgetForm';
 import BudgetCard from './BudgetCard';
 
@@ -34,7 +35,7 @@ function Budget() {
             <div className={styles.header}>
                 <h2 className={styles.title}>Budget</h2>
                 <Button s onClick={toggleForm}>
-                    Add Budget
+                    <FaPlus className={styles.plusIcon}/> Add Budget
                 </Button>
             </div>
 

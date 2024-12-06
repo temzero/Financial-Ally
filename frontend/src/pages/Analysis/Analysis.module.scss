@@ -22,7 +22,7 @@
     
     .section {
         width: 70%;
-        margin-bottom: 32px;
+        margin-bottom: 40px;
 
         .sectionHeader {
             display: flex;
@@ -56,6 +56,13 @@
     line-height: 1;
 }
 
+.dateTitle {
+    font-size: 1.4rem;
+    font-weight: 200;
+    line-height: 1;
+
+}
+
 .text {
     font-size: 1.4rem;
     font-weight: 200;
@@ -75,14 +82,15 @@
     justify-content: center;
 
     span {
-        font-size: 2rem;
+        margin-top: -40px;
+        font-size: 1.6rem;
         font-weight: 400;
+        font-style: italic;
         color: rgba(0, 0, 0, 0.6);
     }
     
     .emptyImg {
-        margin-top: 90px;
-        margin-bottom: 10px;
+        padding: 40px 0;
         width: 500px;
     }
     
@@ -108,37 +116,55 @@
     align-items: center;
     justify-content: space-between;
     background-color: rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(8px); 
+    backdrop-filter: blur(10px); 
 
     .chartBtnContainer {
         display: flex;
-        gap: 8px;
+        gap: 1px;
         justify-content: space-around;
         align-items: center;
         display: flex;
+
+        &:first-child, &:last-child {
+            border-top-left-radius: 50px;
+            border-bottom-left-radius: 50px;
+        }
 
         .chartBtn {
             display: flex;
             align-items: center;
             justify-content: center;
             height: 1.6rem;
-            line-height: 1rem;
-            width: 2.8rem;
+            line-height: 1.6rem;
+            width: 3.6rem;
             text-align: center;
             font-size: 1rem;
             background-color: rgba(0,0,0,0.8);
             background-color: var(--background-color);
             color: var(--primary-text-color);
             border: none;
+            border-radius: 0;
         
             &.active {
-                background-color: black;
                 color: white;
+                // background-color: var(--primary-color);
+                background-color: grey;
+                
             }
         
             &:hover {
                 font-weight: 600;
                 opacity: 1;
+            }
+
+            &:first-child {
+                border-top-left-radius: 50px;
+                border-bottom-left-radius: 50px;
+            }
+
+            &:last-child {
+                border-top-right-radius: 50px;
+                border-bottom-right-radius: 50px;
             }
         }
     }
@@ -148,7 +174,6 @@
     width: 100%;
     display: flex;
     gap: 10px;
-    // border: 1px solid grey;
     padding: 0 40px;
 
     overflow-x: auto; /* Enable horizontal scrolling */
@@ -181,7 +206,7 @@
 
     &.active, &:hover {
         color: white;
-        background-color: black;
+        background-color: grey;
         border-color: transparent;
     }
 }

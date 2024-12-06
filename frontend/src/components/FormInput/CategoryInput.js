@@ -1,38 +1,31 @@
 import styles from './FormInput.module.scss';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getCategories } from '../../redux/actions';
 import reactIcons from '../../assets/icons/reactIcons';
+import { getCategories } from '../../redux/actions';
 import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
 import useClickOutSide from '../ClickOutSide/useClickOutSide';
 
 const CategoryInput = ({
-    categoryId = '', // Expect categoryId instead of category name
-    setCategoryId, // This should now set categoryId
+    category = {}, 
+    setCategory,
     categoryType,
     className,
-    isDropdownOutside,
+    isDropdown,
+    setIsDropdown, // Pass setter for controlling dropdown
 }) => {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [counter, setCounter] = useState(0);
-    const dropdownRef = useClickOutSide(() => setIsDropdownOpen(false));
-    const optionRefs = useRef([]);
-
+    // Get categories
+    const user = useSelector((state) => state.user.user);
     const categories = useSelector((state) => state.category.categories);
-    const userId = useSelector((state) => state.user.user._id);
+    const userId = user._id;
     const dispatch = useDispatch();
-
-    const category = categories.find((cat) => cat._id === categoryId) || {};
-
-    // Fetch categories on mount
     useEffect(() => {
         dispatch(getCategories(userId));
-    }, [userId, dispatch, categoryId, ]);
+    }, [userId, dispatch]);
 
-    // Toggle dropdown state based on external input
-    useEffect(() => {
-        setIsDropdownOpen(isDropdownOutside);
-    }, [isDropdownOutside]);
+    const [counter, setCounter] = useState(0);
+    const dropdownRef = useClickOutSide(() => setIsDropdown(false));
+    const optionRefs = useRef([]);
 
     // Function to filter categories and add "Other"
     const categoriesByType = useCallback(() => {
@@ -50,25 +43,23 @@ const CategoryInput = ({
             : [...filteredCategories, otherCategory];
     }, [categories, categoryType]);
 
-    // Handle keyboard navigation and selection
     useEffect(() => {
-        if (isDropdownOpen) {
+        if (isDropdown) {
             const handleKeyDown = (event) => {
                 const options = categoriesByType();
-                const maxCounter = options.length;
 
                 if (event.key === 'ArrowUp') {
                     event.preventDefault();
-                    setCounter((prev) => (prev - 1 + maxCounter) % maxCounter); // Wrap-around
+                    setCounter((prev) => (prev - 1 + options.length) % options.length);
                 } else if (event.key === 'ArrowDown') {
                     event.preventDefault();
-                    setCounter((prev) => (prev + 1) % maxCounter); // Wrap-around
+                    setCounter((prev) => (prev + 1) % options.length);
                 } else if (event.key === 'Enter') {
                     event.preventDefault();
                     const selectedCategory = options[counter];
                     if (selectedCategory) {
-                        setCategoryId(selectedCategory._id); // Set the categoryId instead of name
-                        setIsDropdownOpen(false);
+                        setCategory(selectedCategory); 
+                        setIsDropdown(false);
                     }
                 }
             };
@@ -79,17 +70,17 @@ const CategoryInput = ({
                 window.removeEventListener('keydown', handleKeyDown);
             };
         }
-    }, [isDropdownOpen, counter, categoriesByType, setCategoryId]);
+    }, [isDropdown, counter, categoriesByType, setCategory, setIsDropdown]);
 
     // Scroll to the currently selected option
     useEffect(() => {
-        if (isDropdownOpen && optionRefs.current[counter]) {
+        if (isDropdown && optionRefs.current[counter]) {
             optionRefs.current[counter].scrollIntoView({
                 behavior: 'smooth',
                 block: 'nearest',
             });
         }
-    }, [counter, isDropdownOpen]);
+    }, [counter, isDropdown]);
 
     const getCategoryIcon = (categoryId) => {
         const category = categories.find((cat) => cat._id === categoryId);
@@ -104,35 +95,40 @@ const CategoryInput = ({
         ) : null;
     };
 
+    const handleOptionSelect = (category) => {
+        setCategory(category);
+        setIsDropdown(false);
+    };
+
     return (
-        <div
-            className={`${styles.customDropdown} ${className || ''}`}
-            ref={dropdownRef}
-        >
+        <div className={`${styles.customDropdown} ${className || ''}`} ref={dropdownRef}>
             <div
                 className={styles.dropdownHeader}
-                onClick={() => setIsDropdownOpen((prev) => !prev)}
+                onClick={() => setIsDropdown((prev) => !prev)}
             >
-
-            {!categoryId ? (<div className={`${styles.selectedCategory} ${styles.placeholder}`}>Select category</div>) : (<div className={styles.selectedCategory}>{getCategoryIcon(categoryId)} {category.name}</div>)}
-
+                {!category ? (
+                    <div className={`${styles.selectedCategory} ${styles.placeholder}`}>
+                        Select category
+                    </div>
+                ) : (
+                    <div className={styles.selectedCategory}>
+                        {getCategoryIcon(category._id)} {category.name}
+                    </div>
+                )}
                 <span className={styles.arrow}>
-                    {isDropdownOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                    {isDropdown ? <IoIosArrowUp /> : <IoIosArrowDown />}
                 </span>
             </div>
-            {isDropdownOpen && (
+            {isDropdown && categories.length > 0 && (
                 <div className={styles.dropdownList}>
                     {categoriesByType().map((cat, index) => (
                         <div
                             key={cat.id || cat.name}
                             ref={(el) => (optionRefs.current[index] = el)}
                             className={`${styles.dropdownItem} ${
-                                index === counter ? styles.active : ''
+                                counter === index ? styles.active : ''
                             }`}
-                            onClick={() => {
-                                setCategoryId(cat._id); // Set categoryId on select
-                                setIsDropdownOpen(false);
-                            }}
+                            onClick={() => handleOptionSelect(cat)}
                         >
                             <div className={styles.iconAndName}>
                                 {getCategoryIcon(cat._id)}

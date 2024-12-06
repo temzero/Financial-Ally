@@ -1,7 +1,7 @@
 import styles from './Chart.module.scss';
 import Button from '../Button/Button';
 import { filterTransactionsByPeriod, balanceLineGraphData } from './chartUtils';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
@@ -18,14 +18,13 @@ function Chart() {
 
     const [periodCounter, setPeriodCounter] = useState(1);
     const chartPeriod = periods[periodCounter]
-    console.log('periodCounter: ', periodCounter)
 
     useEffect(() => {
         const handleKeyDown = (event) => {
-            if (event.key === 'ArrowRight') {
+            if (event.key === 'Tab') {
                 event.preventDefault();
                 setPeriodCounter((prevCounter) => (prevCounter + 1) % 5);
-            } else if (event.key === 'ArrowLeft') {
+            } else if (event.key === '`') {
                 event.preventDefault();
                 setPeriodCounter((prevCounter) => {
                     const newCounter = (prevCounter - 1) % 5;
@@ -33,13 +32,11 @@ function Chart() {
                 });
             }
         };
-
+    
         window.addEventListener('keydown', handleKeyDown);
-
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-        };
+        return () => window.removeEventListener('keydown', handleKeyDown);
     }, []);
+    
 
     const filteredTransactions = filterTransactionsByPeriod(transactions, chartPeriod);
     const lineData = balanceLineGraphData(filteredTransactions, totalBalance);

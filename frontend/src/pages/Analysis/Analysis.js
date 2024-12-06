@@ -1,6 +1,7 @@
 import styles from './Analysis.module.scss';
 import { useSelector } from 'react-redux';
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Line } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -34,23 +35,42 @@ ChartJS.register(
     Legend
 );
 
-function Analysis({currency = '$'}) {
-    const transactions = useSelector((state) => state.transaction.transactions) || [];
+function Analysis({ currency = '$' }) {
+    const transactions =
+        useSelector((state) => state.transaction.transactions) || [];
     const wallets = useSelector((state) => state.wallet.wallets) || [];
-    const walletIds = [''].concat(wallets.map(wallet => wallet._id));
+    const walletIds = [''].concat(wallets.map((wallet) => wallet._id));
     const periods = ['1D', '1W', '1M', '1Y', 'All'];
 
     const [periodCounter, setPeriodCounter] = useState(2);
     const [walletCounter, setWalletCounter] = useState(0);
-    const walletId = walletIds[walletCounter]
-    const chartPeriod = periods[periodCounter]
+    const walletId = walletIds[walletCounter];
+    const chartPeriod = periods[periodCounter];
     const walletRef = useRef(null);
+    const navigate = useNavigate();
+
+    const [currentDate, setCurrentDate] = useState('');
+
+    useEffect(() => {
+        const formatDate = new Date().toLocaleDateString('en-GB', {
+            weekday: 'long',
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+        });
+        setCurrentDate(formatDate);
+    }, []);
 
     useEffect(() => {
         if (walletRef.current) {
-            const activeWallet = walletRef.current.querySelector(`.${styles.active}`);
+            const activeWallet = walletRef.current.querySelector(
+                `.${styles.active}`
+            );
             if (activeWallet) {
-                activeWallet.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+                activeWallet.scrollIntoView({
+                    behavior: 'smooth',
+                    inline: 'center',
+                });
             }
         }
     }, [walletCounter]);
@@ -61,14 +81,22 @@ function Analysis({currency = '$'}) {
         }
 
         const walletElements = wallets.map((wallet, index) => {
-
             return (
                 <div
                     key={wallet._id}
                     className={`${styles[`walletItem-${wallet.color}`]} ${
                         styles.walletItem
                     } ${walletId === wallet._id ? styles.active : ''}`}
-                    onClick={() => setWalletCounter(index + 1)}
+                    onClick={(event) => {
+                        if (event.ctrlKey) {
+                            setWalletCounter(index + 1);
+                            navigate(`/wallet/${wallet.name}`, {
+                                state: wallet,
+                            });
+                        } else {
+                            setWalletCounter(index + 1);
+                        }
+                    }}
                 >
                     <IoWalletOutline /> {wallet.name}
                 </div>
@@ -81,9 +109,16 @@ function Analysis({currency = '$'}) {
                 className={`${styles.walletItem} ${
                     !walletId ? styles.active : ''
                 }`}
-                onClick={() => setWalletCounter(0)}
+                onClick={(event) => {
+                    if (event.ctrlKey) {
+                        setWalletCounter(0);
+                        navigate('/wallet');
+                    } else {
+                        setWalletCounter(0);
+                    }
+                }}
             >
-                <IoWalletOutline /> All Wallet
+                All wallets
             </div>
         );
 
@@ -92,21 +127,27 @@ function Analysis({currency = '$'}) {
 
     useEffect(() => {
         const handleKeyDown = (event) => {
+            event.stopPropagation();
+
             const walletCount = walletIds.length;
             const periodCount = periods.length;
 
-            if (event.key === 'Tab') {
+            if (event.key === 'ArrowRight') {
                 event.preventDefault();
                 setWalletCounter((prev) => (prev + 1) % walletCount);
-            } else if (event.key === '`') {
-                event.preventDefault();
-                setWalletCounter((prev) => (prev - 1 + walletCount) % walletCount);
-            } else if (event.key === 'ArrowRight') {
-                event.preventDefault();
-                setPeriodCounter((prev) => (prev + 1) % periodCount);
             } else if (event.key === 'ArrowLeft') {
                 event.preventDefault();
-                setPeriodCounter((prev) => (prev - 1 + periodCount) % periodCount);
+                setWalletCounter(
+                    (prev) => (prev - 1 + walletCount) % walletCount
+                );
+            } else if (event.key === 'Tab') {
+                event.preventDefault();
+                setPeriodCounter((prev) => (prev + 1) % periodCount);
+            } else if (event.key === '`') {
+                event.preventDefault();
+                setPeriodCounter(
+                    (prev) => (prev - 1 + periodCount) % periodCount
+                );
             }
         };
 
@@ -143,7 +184,7 @@ function Analysis({currency = '$'}) {
             walletTransactions,
             chartPeriod
         );
-        walletTransactions = filteredTransactions
+        walletTransactions = filteredTransactions;
         const lineData = balanceLineGraphData(
             filteredTransactions,
             walletBalance
@@ -199,6 +240,7 @@ function Analysis({currency = '$'}) {
         <div className={styles.container}>
             <div className={styles.header}>
                 <div className={styles.title}>Analysis</div>
+                <div className={styles.dateTitle}>{currentDate}</div>
             </div>
 
             <div className={styles.AnalysisOptions}>
@@ -223,19 +265,19 @@ function Analysis({currency = '$'}) {
 
             {transactions.length ? (
                 <div className={styles.body}>
-
                     <div className={styles.section}>
                         <div className={styles.sectionHeader}>{walletName}</div>
                         <div className={styles.walletBalance}>
                             <span>{currency}</span>
-                            <span>{walletBalance?.toLocaleString?.() || '0'}</span>
+                            <span>
+                                {walletBalance?.toLocaleString?.() || '0'}
+                            </span>
                         </div>
                         <div className={styles.lineGraph}>
                             <Line data={chartData} options={chartOptions} />
                         </div>
                     </div>
 
-                    
                     <div className={styles.section}>
                         <div className={styles.doughnutChart}>
                             {incomeTransactions.length ? (
@@ -266,19 +308,19 @@ function Analysis({currency = '$'}) {
                     </div>
                     {incomeTransactions.length ? (
                         <div className={styles.section}>
-                            <div className={styles.sectionHeader}>
-                                Income
-                            </div>
-                            <TransactionList transactions={incomeTransactions} />
+                            <div className={styles.sectionHeader}>Income</div>
+                            <TransactionList
+                                transactions={incomeTransactions}
+                            />
                         </div>
                     ) : null}
 
                     {expenseTransactions.length ? (
                         <div className={styles.section}>
-                            <div className={styles.sectionHeader}>
-                                Expense
-                            </div>
-                            <TransactionList transactions={expenseTransactions} />
+                            <div className={styles.sectionHeader}>Expense</div>
+                            <TransactionList
+                                transactions={expenseTransactions}
+                            />
                         </div>
                     ) : null}
 
@@ -287,14 +329,20 @@ function Analysis({currency = '$'}) {
                             <div className={styles.sectionHeader}>
                                 All transactions
                             </div>
-                            <TransactionList transactions={walletTransactions} />
+                            <TransactionList
+                                transactions={walletTransactions}
+                            />
                         </div>
                     ) : (
-                        <div className={styles.emptyText}>
-                            No transactions
+                        <div className={styles.empty}>
+                            <span>No transactions to analyze</span>
+                            <img
+                                src={walletImage}
+                                alt="Nothing"
+                                className={styles.emptyImg}
+                            />
                         </div>
                     )}
-
                 </div>
             ) : (
                 <div className={styles.empty}>

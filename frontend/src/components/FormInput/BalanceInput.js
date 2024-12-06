@@ -1,11 +1,11 @@
 import styles from './FormInput.module.scss';
 import { useState, useEffect, useRef } from 'react';
 
-const BalanceInput = ({ amount, setAmount, className, currency = '$' , isOutsideFocus}) => {
+const BalanceInput = ({ amount, setAmount, className, currency = '$' , isFocus}) => {
     const balanceRef = useRef(null);
     const [displayAmount, setDisplayAmount] = useState(amount.toLocaleString("en-US"));
 
-    if (isOutsideFocus) {
+    if (isFocus) {
         balanceRef.current.focus();
     }
 

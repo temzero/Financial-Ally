@@ -18,16 +18,15 @@ import {
 function AddTransaction() {
     const user = useSelector((state) => state.user.user);
     const budgets = useSelector((state) => state.budget.budgets);
-    const wallets = useSelector((state) => state.wallet.wallets);
 
     const [type, setType] = useState('');
     const [amount, setAmount] = useState('');
-    const [categoryId, setCategoryId] = useState('');
+    const [category, setCategory] = useState('');
     const [wallet, setWallet] = useState('');
     const [date, setDate] = useState(''); 
     const [note, setNote] = useState('');
     const [image, setImage] = useState(null);
-    const [imagePreview, setImagePreview] = useState(null);
+    // const [imagePreview, setImagePreview] = useState(null);
     const [counter, setCounter] = useState(0);
 
     const [isBalanceFocus, setIsBalanceFocus] = useState(false);
@@ -35,9 +34,15 @@ function AddTransaction() {
     const [isWalletDropdown, setIsWalletDropdown] = useState(false);
     const [isDateDropdown, setIsDateDropdown] = useState(false);
     const [isNoteFocus, setIsNoteFocus] = useState(false);
+    console.log('counter: ', counter)
+    console.log('isBalanceFocus: ', isBalanceFocus)
+    console.log('isCategoryDropdown: ', isCategoryDropdown)
+    console.log('isWalletDropdown: ', isWalletDropdown)
+    console.log('isDateDropdown: ', isDateDropdown)
+    console.log('isNoteFocus: ', isNoteFocus)
 
     const userId = user._id;
-    const dispatch = useDispatch();
+    const dispatch = useDispatch();;
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -47,19 +52,34 @@ function AddTransaction() {
             } else if (event.key === '-') {
                 setType('Expense');
                 setCounter(0);
-            }  else if (event.key === 'Tab') {
+            } 
+            else if (event.key === 'Enter') {
                 event.preventDefault();
                 setCounter((prevCounter) => (prevCounter + 1) % 5);
-            } else if (event.key === 'Enter') {
+            }
+            // Check if any dropdown is active
+            if (isCategoryDropdown || isWalletDropdown || isDateDropdown) {
+                return; // Prevent further key handling if a dropdown is active
+            }
+    
+            if (event.key === 'ArrowDown') {
+                event.preventDefault();
+                setCounter((prevCounter) => (prevCounter + 1) % 5);
+            } else if (event.key === 'ArrowUp') {
+                event.preventDefault();
+                setCounter((prevCounter) => (prevCounter - 1 + 5) % 5);
+            } 
+            else if (event.key === 'Enter' && counter === 4) {
                 event.preventDefault();
                 const submitButton = document.querySelector(`.${styles.addTransactionSubmit}`);
                 if (submitButton) submitButton.click();
+                setCounter(0);
             }
         };
     
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, []);
+    }, [counter, type, isCategoryDropdown, isWalletDropdown, isDateDropdown]);
     
 
     useEffect(() => {
@@ -106,7 +126,6 @@ function AddTransaction() {
 
     const handleAddTransactionSubmit = async (event) => {
         event.preventDefault();
-
         let walletBalance = wallet.balance;
 
         if (type === 'Expense' && walletBalance < amount) {
@@ -117,7 +136,7 @@ function AddTransaction() {
         const transactionData = {
             type,
             amount,
-            categoryId,
+            categoryId: category._id,
             walletId: wallet._id,
             date,
             note,
@@ -171,13 +190,14 @@ function AddTransaction() {
         // Reset form fields
         setType('');
         setAmount('');
-        setCategoryId('');
+        setCategory('');
         setWallet('');
         setDate(new Date().toISOString());
         setNote('');
         setImage(null);
-        setImagePreview(null);
+        // setImagePreview(null);
     };
+    
 
     return (
         <form
@@ -204,17 +224,18 @@ function AddTransaction() {
                     <BalanceInput
                         amount={amount}
                         setAmount={setAmount}
-                        isOutsideFocus={isBalanceFocus}
+                        isFocus={isBalanceFocus}
                     />
                 </div>
 
                 <div className={styles.formLabel}>Category</div>
                 <div className={styles.input} onClick={() => setCounter(1)}>
                     <CategoryInput
-                        categoryId={categoryId}
-                        setCategoryId={setCategoryId}
+                        category={category}
+                        setCategory={setCategory}
                         categoryType={type}
-                        isDropdownOutside={isCategoryDropdown}
+                        isDropdown={isCategoryDropdown}
+                        setIsDropdown={setIsCategoryDropdown}
                     />
                 </div>
 
@@ -223,8 +244,9 @@ function AddTransaction() {
                     <WalletInput
                         wallet={wallet}
                         setWallet={setWallet}
-                        wallets={wallets}
-                        isDropdownOutside={isWalletDropdown}
+                        isDropdown={isWalletDropdown}
+                        setIsDropdown={setIsWalletDropdown}
+
                     />
                 </div>
 
@@ -233,7 +255,8 @@ function AddTransaction() {
                     <DateInput 
                         date={date} 
                         setDate={setDate} 
-                        isDropdownOutside={isDateDropdown}
+                        isDropdown={isDateDropdown}
+                        setIsDropdown={setIsDateDropdown}
                     />
                 </div>
 
@@ -249,8 +272,8 @@ function AddTransaction() {
                     <TextInput
                         note={note}
                         setNote={setNote}
-                        isOutsideFocus={isNoteFocus}
-                        setIsOutsideFocus={setIsNoteFocus}
+                        isFocus={isNoteFocus}
+                        setIsFocus={setIsNoteFocus}
                     />
                 </div>
 

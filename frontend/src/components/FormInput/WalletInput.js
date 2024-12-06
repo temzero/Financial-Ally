@@ -1,21 +1,22 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect,useState, useRef } from "react";
+import { useSelector } from "react-redux";
 import { IoWalletOutline } from "react-icons/io5";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import useClickOutSide from "../ClickOutSide/useClickOutSide";
 import styles from "./FormInput.module.scss";
 
-const WalletInput = ({ wallet, setWallet, wallets = [], isDropdownOutside }) => {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [counter, setCounter] = useState(0);
-    const dropdownRef = useClickOutSide(() => setIsDropdownOpen(false));
+const WalletInput = ({ wallet, setWallet, isDropdown, setIsDropdown }) => {
+    const wallets = useSelector((state) => state.wallet.wallets);
+    const dropdownRef = useClickOutSide(() => setIsDropdown(false));
     const optionRefs = useRef([]);
+    const [counter, setCounter] = useState(0);
 
     useEffect(() => {
-        setIsDropdownOpen(isDropdownOutside);
-    }, [isDropdownOutside]);
+        setIsDropdown(isDropdown);
+    }, [isDropdown, setIsDropdown]);
 
     useEffect(() => {
-        if (isDropdownOpen) {
+        if (isDropdown) {
             const handleKeyDown = (event) => {
                 if (event.key === "ArrowUp") {
                     event.preventDefault();
@@ -31,7 +32,7 @@ const WalletInput = ({ wallet, setWallet, wallets = [], isDropdownOutside }) => 
                     event.preventDefault();
                     if (wallets[counter]) {
                         setWallet(wallets[counter]);
-                        setIsDropdownOpen(false);
+                        setIsDropdown(false);
                     }
                 }
             };
@@ -42,28 +43,28 @@ const WalletInput = ({ wallet, setWallet, wallets = [], isDropdownOutside }) => 
                 window.removeEventListener("keydown", handleKeyDown);
             };
         }
-    }, [isDropdownOpen, counter, wallets, setWallet]);
+    }, [isDropdown, counter, wallets, setWallet, setIsDropdown]);
 
     // Auto-scroll to the active option
     useEffect(() => {
-        if (isDropdownOpen && optionRefs.current[counter]) {
+        if (isDropdown && optionRefs.current[counter]) {
             optionRefs.current[counter].scrollIntoView({
                 behavior: "smooth",
                 block: "nearest",
             });
         }
-    }, [counter, isDropdownOpen]);
+    }, [counter, isDropdown]);
 
-    const handleOptionSelect = (walletItem) => {
-        setWallet(walletItem);
-        setIsDropdownOpen(false);
+    const handleOptionSelect = (wallet) => {
+        setWallet(wallet);
+        setIsDropdown(false);
     };
 
     return (
         <div className={styles.customDropdown} ref={dropdownRef}>
             <div
                 className={styles.dropdownHeader}
-                onClick={() => setIsDropdownOpen((prev) => !prev)}
+                onClick={() => setIsDropdown((prev) => !prev)}
             >
                 {wallet ? (
                     <div className={styles.selectedWallet}>
@@ -72,14 +73,16 @@ const WalletInput = ({ wallet, setWallet, wallets = [], isDropdownOutside }) => 
                     </div>
                 ) : (
                     <div className={styles.placeholder}>
-                        {wallets.length === 0 ? "No wallets available" : "Select wallet"}
+                        {wallets.length === 0
+                            ? "No wallets available"
+                            : "Select wallet"}
                     </div>
                 )}
                 <span className={styles.arrow}>
-                    {isDropdownOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                    {isDropdown ? <IoIosArrowUp /> : <IoIosArrowDown />}
                 </span>
             </div>
-            {isDropdownOpen && wallets.length > 0 && (
+            {isDropdown && wallets.length > 0 && (
                 <div className={styles.dropdownList}>
                     {wallets.map((walletItem, index) => (
                         <div

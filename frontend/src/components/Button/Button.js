@@ -50,7 +50,7 @@ function Button({
 
     return (
         <Component className={classes} {...passProps}>
-            <span>{children}</span>
+            {children}
         </Component>
     );
 }

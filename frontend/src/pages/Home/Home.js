@@ -28,12 +28,8 @@ function Home() {
             <div className={styles.content}>
                 <div className={styles.balance}><span className={styles.currency}>{currency}</span><CountUpEffect n={totalBalance}/> </div>
                 <Chart/>
-                <div className={styles.contentSection}>
-                    <div className={styles.header}>Transactions</div>
-
-                    <TransactionList  transactions={transactions}/>
-
-                </div>
+                <div className={styles.header}>Transactions</div>
+                <TransactionList  transactions={transactions}/>
             </div>
             <AddTransaction/>
         </div>

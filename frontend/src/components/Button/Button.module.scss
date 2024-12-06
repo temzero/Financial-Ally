@@ -12,6 +12,9 @@
     padding: 8px 12px;
     width: auto;
     font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
     cursor: pointer;
 
     &:hover {
