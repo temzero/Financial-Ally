@@ -50,7 +50,7 @@
     color: rgb(66, 66, 66);
 }
 
-
+.formDateInput,
 .formInputOptions {
     white-space: nowrap;
     overflow: hidden;  
@@ -431,15 +431,32 @@
     }
 }
 
+// Date input
 .formDateInput {
+    position: relative;
+}
+
+.dateInput {
     border: none;
     height: 100%;
     width: 100%;
     font-size: 1rem;
+    border: 1px solid grey;
+    opacity: 0;
+    width: 0;
+
+    position: absolute;
+    left: -230px;
+    top: 160px;
 
     &:focus {
         outline: none;
     }
+}
+
+.hiddenDateInput {
+    position: absolute;
+    pointer-events: none;
 }
 
 .placeholder {

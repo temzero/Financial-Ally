@@ -1,11 +1,12 @@
 import styles from './FormInput.module.scss';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
-import useClickOutSide from '../ClickOutSide/useClickOutSide';
+import useClickOutside from '../ClickOutside/useClickOutside';
 
 function WalletTypeInput({ type, setType, className }) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const dropdownRef = useClickOutSide(() => setIsDropdownOpen(false));
+    const dropdownRef = useRef(null);
+    useClickOutside(dropdownRef, () => setIsDropdownOpen(false));
 
     useEffect(() => {
         if (!type) {

@@ -7,9 +7,6 @@ function IconInput({ icon, setIcon, className }) {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
 
-
-    
-
     const handleIconSelect = (selectedIconName) => {
         setIcon(selectedIconName);  // Update icon name in state
         setIsOpen(false);            // Close the dropdown

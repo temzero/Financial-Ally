@@ -27,19 +27,21 @@ function AddTransaction() {
     const [note, setNote] = useState('');
     const [image, setImage] = useState(null);
     // const [imagePreview, setImagePreview] = useState(null);
-    const [counter, setCounter] = useState(0);
 
+    const isSubmitAble = Boolean(type && amount && wallet && date);
+
+    const [counter, setCounter] = useState(0);
     const [isBalanceFocus, setIsBalanceFocus] = useState(false);
     const [isCategoryDropdown, setIsCategoryDropdown] = useState(false);
     const [isWalletDropdown, setIsWalletDropdown] = useState(false);
     const [isDateDropdown, setIsDateDropdown] = useState(false);
     const [isNoteFocus, setIsNoteFocus] = useState(false);
     console.log('counter: ', counter)
-    console.log('isBalanceFocus: ', isBalanceFocus)
-    console.log('isCategoryDropdown: ', isCategoryDropdown)
-    console.log('isWalletDropdown: ', isWalletDropdown)
-    console.log('isDateDropdown: ', isDateDropdown)
-    console.log('isNoteFocus: ', isNoteFocus)
+    // console.log('isBalanceFocus: ', isBalanceFocus)
+    // console.log('isCategoryDropdown: ', isCategoryDropdown)
+    // console.log('isWalletDropdown: ', isWalletDropdown)
+    // console.log('isDateDropdown: ', isDateDropdown)
+    // console.log('isNoteFocus: ', isNoteFocus)
 
     const userId = user._id;
     const dispatch = useDispatch();;
@@ -55,7 +57,13 @@ function AddTransaction() {
             } 
             else if (event.key === 'Enter') {
                 event.preventDefault();
-                setCounter((prevCounter) => (prevCounter + 1) % 5);
+                
+                if (event.shiftKey) {
+                    const submitButton = document.querySelector(`.${styles.addTransactionSubmit}`);
+                    if (submitButton) submitButton.click();
+                } else {
+                    // setCounter((prevCounter) => (prevCounter + 1) % 5);
+                }
             }
             // Check if any dropdown is active
             if (isCategoryDropdown || isWalletDropdown || isDateDropdown) {
@@ -69,12 +77,6 @@ function AddTransaction() {
                 event.preventDefault();
                 setCounter((prevCounter) => (prevCounter - 1 + 5) % 5);
             } 
-            else if (event.key === 'Enter' && counter === 4) {
-                event.preventDefault();
-                const submitButton = document.querySelector(`.${styles.addTransactionSubmit}`);
-                if (submitButton) submitButton.click();
-                setCounter(0);
-            }
         };
     
         window.addEventListener('keydown', handleKeyDown);
@@ -143,6 +145,8 @@ function AddTransaction() {
             image,
             userId,
         };
+
+        console.log('transactionData: ', transactionData)
         // Create the new transaction and get the transaction ID
         const newTransaction = await dispatch(addTransaction(transactionData));
         const newTransactionId = newTransaction?._id;
@@ -187,12 +191,12 @@ function AddTransaction() {
             }
         });
 
-        // Reset form fields
+        setCounter(0);
         setType('');
         setAmount('');
         setCategory('');
         setWallet('');
-        setDate(new Date().toISOString());
+        // setDate(new Date().toISOString());
         setNote('');
         setImage(null);
         // setImagePreview(null);
@@ -257,6 +261,9 @@ function AddTransaction() {
                         setDate={setDate} 
                         isDropdown={isDateDropdown}
                         setIsDropdown={setIsDateDropdown}
+
+                        counter={counter}
+                        setCounter={setCounter}
                     />
                 </div>
 
@@ -279,7 +286,7 @@ function AddTransaction() {
 
                 <div className={styles.addTransactionBtnContainer}>
                     <Button
-                        disabled={!type || !amount || !wallet || !date}
+                        disabled={!isSubmitAble}
                         type="submit"
                         primary
                         rounded

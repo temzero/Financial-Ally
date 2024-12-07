@@ -1,70 +1,106 @@
+import React, { useEffect, useState, useRef } from 'react';
 import styles from './FormInput.module.scss';
-import React, { useEffect, useMemo, useRef } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import useClickOutside from '../ClickOutside/useClickOutside';
 
-const DateInput = ({ date, setDate, isDropdown, setIsDropdown }) => {
-    const inputRef = useRef(null);
-    
-    useEffect(() => {
-        if (isDropdown) {
-            inputRef.current?.setFocus();
-        } else {
-            inputRef.current?.setBlur();
-        }
-    }, [isDropdown]);
+// Helper to format date as dd/mm/yyyy
+const formatDateToDDMMYYYY = (isoDate) => {
+    if (!isoDate) return '';
+    const isoJustDate = isoDate.split('T')[0]
+    const [year, month, day] = isoJustDate.split('-');
+    return `${day} / ${month} / ${year}`;
+};
 
-    const today = useMemo(() => new Date().toISOString(), [])
-    const yesterday = useMemo(() => {
-        const date = new Date();
-        date.setDate(date.getDate() - 1);
-        return date.toISOString();
-    }, []);
-    const tomorrow = useMemo(() => {
-        const date = new Date();
-        date.setDate(date.getDate() + 1); 
-        return date.toISOString();
-    }, []);
+const today = new Date().toISOString();
+const yesterday = new Date(
+    new Date().setDate(new Date().getDate() - 1)
+).toISOString();
+const tomorrow = new Date(
+    new Date().setDate(new Date().getDate() + 1)
+).toISOString();
+
+// Generate a label for the current date
+const getDateLabel = (date) => {
+    const dateData = date.split('T')[0];
+    if (dateData === today.split('T')[0]) {
+        return <span className={styles.dateLabel}>Today</span>;
+    } else if (dateData === yesterday.split('T')[0]) {
+        return <span className={styles.dateLabel}>Yesterday</span>;
+    } else if (dateData === tomorrow.split('T')[0]) {
+        return <span className={styles.dateLabel}>Tomorrow</span>;
+    }
+};
+
+const DateInput = ({ date, setDate, isDropdown, setIsDropdown, counter, setCounter }) => {
+    const [trigger, setTrigger] = useState(false)
+    const dateInputRef = useRef(null);
+    const formInputRef = useRef(null);
+
+    useClickOutside(formInputRef, () => setIsDropdown(false));
 
     useEffect(() => {
         if (!date) {
             setDate(today);
         }
-    }, [date, setDate, today]);
+    }, [date, setDate]);
 
-    // Generate a label for the current date
-    const getDateLabel = (date) => {
-        const dateData = date.split('T')[0]
-        if (dateData === today.split('T')[0]) {
-            return <span className={styles.dateLabel}>Today</span>;
-        } else if (dateData === yesterday.split('T')[0]) {
-            return <span className={styles.dateLabel}>Yesterday</span>;
-        } else if (dateData === tomorrow.split('T')[0]) {
-            return <span className={styles.dateLabel}>Tomorrow</span>;
+    useEffect(() => {
+        if (isDropdown && dateInputRef.current) {
+            try {
+                dateInputRef.current.showPicker();
+            } catch (error) {
+                console.error('showPicker is not supported:', error);
+                setIsDropdown(false);
+            }
+        }
+        if (!isDropdown) {
+            if (counter && setCounter) {
+                setCounter(counter + 1)
+            }
+        }
+    }, [isDropdown, trigger]);
+
+    const handleDateChange = (event) => {
+        const selectedDate = event.target.value;
+        const currentTime = new Date().toISOString().split('T')[1]; 
+        const isoDateWithTime = `${selectedDate}T${currentTime}`;
+        setDate(isoDateWithTime); 
+        setIsDropdown(false);
+    };
+
+    const handleOnClick = () => {
+        // setIsDropdown(!isDropdown);
+        setIsDropdown(true);
+        setTrigger(!trigger)
+    };
+
+    console.log('is date Dropdown: ', isDropdown)
+
+    const handleInputKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevent default behavior of the Enter key
+            console.log('Enter key pressed on date input!');
+            // Execute desired behavior, e.g., close the dropdown or submit data
+            setIsDropdown(false);
         }
     };
 
-    // Handle date selection
-    const handleDateChange = (selectedDate) => {
-        const formattedDate = new Date(selectedDate).toISOString().split('.')[0]; 
-        const milliseconds = today.split('.')[1];
-        const formattedDateWithMilliseconds = `${formattedDate}.${milliseconds}`;
-        setDate(formattedDateWithMilliseconds); 
-        setIsDropdown(false);
-        inputRef.current?.setBlur();
-    };
-
     return (
-        <div className={styles.formInputOptions}>
-            <DatePicker
-                ref={inputRef}
-                className={styles.formDateInput}
-                selected={date}
+        <div
+            ref={formInputRef}
+            className={styles.formDateInput}
+            onClick={handleOnClick}
+            >
+            <div>{formatDateToDDMMYYYY(date)}</div>
+            <input
+                ref={dateInputRef}
+                type="date"
+                className={styles.dateInput}
+                value={date}
                 onChange={handleDateChange}
-                dateFormat="dd/MM/yyyy"
-                onBlur={() => setIsDropdown(false)}
+                onClick={handleOnClick}
+                onKeyDown={handleInputKeyDown} 
             />
-            {getDateLabel(date)}
+            <div>{getDateLabel(date)}</div>
         </div>
     );
 };

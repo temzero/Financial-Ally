@@ -1,19 +1,32 @@
 import styles from './FormInput.module.scss';
-import { useEffect, useState } from 'react';
-import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
-import useClickOutSide from '../ClickOutSide/useClickOutSide';
+import { useEffect, useState, useRef } from 'react';
+import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
+import useClickOutside from '../ClickOutside/useClickOutside';
 
-function WalletsInput({ wallets, selectedWallets, setSelectedWallets, className }) {
+function WalletsInput({
+    wallets,
+    selectedWallets,
+    setSelectedWallets,
+    className,
+}) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [selectedWalletNames, setSelectedWalletNames] = useState([]);
-    const dropdownRef = useClickOutSide(() => setIsDropdownOpen(false));
+    const dropdownRef = useRef(null);
+    useClickOutside(dropdownRef, () => setIsDropdownOpen(false));
+
 
     const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
     const handleCheckboxChange = (wallet) => {
-        if (selectedWallets.some((selectedWallet) => selectedWallet._id === wallet._id)) {
+        if (
+            selectedWallets.some(
+                (selectedWallet) => selectedWallet._id === wallet._id
+            )
+        ) {
             setSelectedWallets(
-                selectedWallets.filter((selectedWallet) => selectedWallet._id !== wallet._id)
+                selectedWallets.filter(
+                    (selectedWallet) => selectedWallet._id !== wallet._id
+                )
             );
         } else {
             setSelectedWallets([...selectedWallets, wallet]);
@@ -33,7 +46,10 @@ function WalletsInput({ wallets, selectedWallets, setSelectedWallets, className 
     }, [selectedWallets]);
 
     const walletsDisplay = () => {
-        if (selectedWalletNames.length === 0 || selectedWalletNames.length === wallets.length) {
+        if (
+            selectedWalletNames.length === 0 ||
+            selectedWalletNames.length === wallets.length
+        ) {
             return 'All wallets';
         } else {
             return selectedWalletNames.join(', ');
@@ -41,11 +57,11 @@ function WalletsInput({ wallets, selectedWallets, setSelectedWallets, className 
     };
 
     return (
-        <div className={`${styles.customDropdown} ${className || ''}`} ref={dropdownRef}>
-            <div
-                className={styles.dropdownHeader}
-                onClick={toggleDropdown}
-            >
+        <div
+            className={`${styles.customDropdown} ${className || ''}`}
+            ref={dropdownRef}
+        >
+            <div className={styles.dropdownHeader} onClick={toggleDropdown}>
                 <div className={styles.selectedCategory}>
                     {walletsDisplay()}
                 </div>
@@ -59,7 +75,9 @@ function WalletsInput({ wallets, selectedWallets, setSelectedWallets, className 
                         <label className={styles.checkboxLabel}>
                             <input
                                 type="checkbox"
-                                checked={selectedWallets.length === wallets.length}
+                                checked={
+                                    selectedWallets.length === wallets.length
+                                }
                                 onChange={handleAllWalletsChange}
                             />
                             All Wallets
@@ -71,9 +89,12 @@ function WalletsInput({ wallets, selectedWallets, setSelectedWallets, className 
                                 <input
                                     type="checkbox"
                                     checked={selectedWallets.some(
-                                        (selectedWallet) => selectedWallet._id === wallet._id
+                                        (selectedWallet) =>
+                                            selectedWallet._id === wallet._id
                                     )}
-                                    onChange={() => handleCheckboxChange(wallet)}
+                                    onChange={() =>
+                                        handleCheckboxChange(wallet)
+                                    }
                                 />
                                 {wallet.name}
                             </label>

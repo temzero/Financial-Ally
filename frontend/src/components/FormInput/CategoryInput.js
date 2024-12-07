@@ -4,10 +4,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import reactIcons from '../../assets/icons/reactIcons';
 import { getCategories } from '../../redux/actions';
 import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
-import useClickOutSide from '../ClickOutSide/useClickOutSide';
+import useClickOutside from '../ClickOutside/useClickOutside';
 
 const CategoryInput = ({
-    category = {}, 
+    category = {},
     setCategory,
     categoryType,
     className,
@@ -24,8 +24,10 @@ const CategoryInput = ({
     }, [userId, dispatch]);
 
     const [counter, setCounter] = useState(0);
-    const dropdownRef = useClickOutSide(() => setIsDropdown(false));
+    const dropdownRef = useRef(null);
     const optionRefs = useRef([]);
+
+    useClickOutside(dropdownRef, () => setIsDropdown(false));
 
     // Function to filter categories and add "Other"
     const categoriesByType = useCallback(() => {
@@ -50,7 +52,9 @@ const CategoryInput = ({
 
                 if (event.key === 'ArrowUp') {
                     event.preventDefault();
-                    setCounter((prev) => (prev - 1 + options.length) % options.length);
+                    setCounter(
+                        (prev) => (prev - 1 + options.length) % options.length
+                    );
                 } else if (event.key === 'ArrowDown') {
                     event.preventDefault();
                     setCounter((prev) => (prev + 1) % options.length);
@@ -58,7 +62,7 @@ const CategoryInput = ({
                     event.preventDefault();
                     const selectedCategory = options[counter];
                     if (selectedCategory) {
-                        setCategory(selectedCategory); 
+                        setCategory(selectedCategory);
                         setIsDropdown(false);
                     }
                 }
@@ -101,13 +105,18 @@ const CategoryInput = ({
     };
 
     return (
-        <div className={`${styles.customDropdown} ${className || ''}`} ref={dropdownRef}>
+        <div
+            className={`${styles.customDropdown} ${className || ''}`}
+            ref={dropdownRef}
+        >
             <div
                 className={styles.dropdownHeader}
                 onClick={() => setIsDropdown((prev) => !prev)}
             >
                 {!category ? (
-                    <div className={`${styles.selectedCategory} ${styles.placeholder}`}>
+                    <div
+                        className={`${styles.selectedCategory} ${styles.placeholder}`}
+                    >
                         Select category
                     </div>
                 ) : (

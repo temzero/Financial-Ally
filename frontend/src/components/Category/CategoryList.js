@@ -11,7 +11,7 @@ import CategoryTypeInput from '../FormInput/CategoryTypeInput';
 import DeleteCategoryForm from '../DeleteForm/DeleteCategoryForm';
 import iconItems from '../../assets/icons/reactIcons';
 import { AiOutlineQuestion } from "react-icons/ai";
-import usePreventClickOutside from '../ClickOutSide/usePreventClickOutside';
+import usePreventClickOutside from '../ClickOutside/usePreventClickOutside';
 
 
 function CategoryList({ category, index, categories, currency = '$' }) {

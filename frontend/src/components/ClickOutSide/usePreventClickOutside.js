@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-function usePreventClickOutside(onOutsideClick, isActive) {
+function usePreventClickOutside(onClickOutside, isActive) {
     const ref = useRef(null);
 
     useEffect(() => {
@@ -8,7 +8,7 @@ function usePreventClickOutside(onOutsideClick, isActive) {
 
         const handleClickOutside = (event) => {
             if (ref.current && !ref.current.contains(event.target)) {
-                onOutsideClick();
+                onClickOutside();
             }
         };
 
@@ -16,7 +16,7 @@ function usePreventClickOutside(onOutsideClick, isActive) {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [onOutsideClick, isActive]);
+    }, [onClickOutside, isActive]);
 
     return ref;
 }
