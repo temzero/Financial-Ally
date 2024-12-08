@@ -397,7 +397,14 @@
         display: flex;
         justify-content: center;
         align-items: center;
+
+        &.hover {
+            border: 3px solid black;
+            box-shadow: 2px -4px 0px black;
+            font-weight: 600;
+        }
     }
+
 }
 
 // Color

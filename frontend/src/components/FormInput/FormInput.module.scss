@@ -442,12 +442,13 @@
     width: 100%;
     font-size: 1rem;
     border: 1px solid grey;
-    opacity: 0;
-    width: 0;
+    opacity: 0.4;
+    width: 20px;
+    // display: none;
 
-    position: absolute;
-    left: -230px;
-    top: 160px;
+    // position: absolute;
+    // left: -230px;
+    // top: 160px;
 
     &:focus {
         outline: none;

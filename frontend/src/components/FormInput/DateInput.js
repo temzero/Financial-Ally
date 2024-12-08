@@ -30,12 +30,22 @@ const getDateLabel = (date) => {
     }
 };
 
-const DateInput = ({ date, setDate, isDropdown, setIsDropdown, counter, setCounter }) => {
+const DateInput = ({ date, setDate, isDropdownOutside = false, setIsDropdownOutside = () => {}, counter, setCounter = () => {} }) => {
     const [trigger, setTrigger] = useState(false)
     const dateInputRef = useRef(null);
     const formInputRef = useRef(null);
+    useClickOutside(formInputRef, () => {
+        setIsDropdown(false); // Close the dropdown
+        setIsDropdownOutside(false); // Sync the external state
+    });
 
-    useClickOutside(formInputRef, () => setIsDropdown(false));
+    const [isDropdown, setIsDropdown] = useState(isDropdownOutside);
+    console.log('isDropdown', isDropdown)
+    console.log('isDropdownOutside', isDropdownOutside)
+    // Update isWalletDropdown when isDropdownOutside changes
+    useEffect(() => {
+        setIsDropdown(isDropdownOutside);
+    }, [isDropdownOutside]);
 
     useEffect(() => {
         if (!date) {
@@ -44,18 +54,16 @@ const DateInput = ({ date, setDate, isDropdown, setIsDropdown, counter, setCount
     }, [date, setDate]);
 
     useEffect(() => {
-        if (isDropdown && dateInputRef.current) {
+        if (dateInputRef.current && isDropdown) {
             try {
                 dateInputRef.current.showPicker();
+                dateInputRef.current.click();
             } catch (error) {
-                console.error('showPicker is not supported:', error);
-                setIsDropdown(false);
+                console.error('showPicker is not supported or failed:', error);
+                setIsDropdown(false); // Ensure it's set to false when showPicker fails
             }
-        }
-        if (!isDropdown) {
-            if (counter && setCounter) {
-                setCounter(counter + 1)
-            }
+        } else {
+            setIsDropdown(false); // Fallback if not showing
         }
     }, [isDropdown, trigger]);
 
@@ -65,22 +73,28 @@ const DateInput = ({ date, setDate, isDropdown, setIsDropdown, counter, setCount
         const isoDateWithTime = `${selectedDate}T${currentTime}`;
         setDate(isoDateWithTime); 
         setIsDropdown(false);
+        setIsDropdownOutside(false);
     };
 
     const handleOnClick = () => {
-        // setIsDropdown(!isDropdown);
         setIsDropdown(true);
         setTrigger(!trigger)
     };
 
-    console.log('is date Dropdown: ', isDropdown)
-
     const handleInputKeyDown = (event) => {
         if (event.key === 'Enter') {
-            event.preventDefault(); // Prevent default behavior of the Enter key
-            console.log('Enter key pressed on date input!');
-            // Execute desired behavior, e.g., close the dropdown or submit data
+            console.log('Enter Enter Enter Enter')
+            event.preventDefault(); 
             setIsDropdown(false);
+            setIsDropdownOutside(false);
+
+        }
+        if (event.key === 'Escape') {
+            console.log('Escape Escape Escape Escape')
+            event.preventDefault(); 
+            setIsDropdown(false);
+            setIsDropdownOutside(false);
+
         }
     };
 

@@ -4,14 +4,15 @@
 import styles from './FormInput.module.scss';
 import React, { useEffect, useRef } from 'react';
 
-const NoteInput = ({ note, setNote, className, isFocus = false, setIsFocus = () => {} }) => {
+const NoteInput = ({ note, setNote, className, isFocusOutside = false, setIsFocusOutside = () => {} }) => {
     const textareaRef = useRef(null);
-
     useEffect(() => {
-        if (isFocus) {
+        if (isFocusOutside) {
             textareaRef.current?.focus();
+        } else {
+            textareaRef.current?.blur();
         }
-    }, [isFocus]);
+    }, [isFocusOutside]);
 
     const maxChars = 120;
     const maxLines = 4;

@@ -11,8 +11,8 @@ const CategoryInput = ({
     setCategory,
     categoryType,
     className,
-    isDropdown,
-    setIsDropdown, // Pass setter for controlling dropdown
+    isDropdownOutside = false,
+    setIsDropdownOutside = () => {}, // Pass setter for controlling dropdown
 }) => {
     // Get categories
     const user = useSelector((state) => state.user.user);
@@ -27,7 +27,7 @@ const CategoryInput = ({
     const dropdownRef = useRef(null);
     const optionRefs = useRef([]);
 
-    useClickOutside(dropdownRef, () => setIsDropdown(false));
+    useClickOutside(dropdownRef, () => setIsDropdownOutside(false));
 
     // Function to filter categories and add "Other"
     const categoriesByType = useCallback(() => {
@@ -46,7 +46,7 @@ const CategoryInput = ({
     }, [categories, categoryType]);
 
     useEffect(() => {
-        if (isDropdown) {
+        if (isDropdownOutside) {
             const handleKeyDown = (event) => {
                 const options = categoriesByType();
 
@@ -63,7 +63,7 @@ const CategoryInput = ({
                     const selectedCategory = options[counter];
                     if (selectedCategory) {
                         setCategory(selectedCategory);
-                        setIsDropdown(false);
+                        setIsDropdownOutside(false);
                     }
                 }
             };
@@ -74,17 +74,17 @@ const CategoryInput = ({
                 window.removeEventListener('keydown', handleKeyDown);
             };
         }
-    }, [isDropdown, counter, categoriesByType, setCategory, setIsDropdown]);
+    }, [isDropdownOutside, counter, categoriesByType, setCategory, setIsDropdownOutside]);
 
     // Scroll to the currently selected option
     useEffect(() => {
-        if (isDropdown && optionRefs.current[counter]) {
+        if (isDropdownOutside && optionRefs.current[counter]) {
             optionRefs.current[counter].scrollIntoView({
                 behavior: 'smooth',
                 block: 'nearest',
             });
         }
-    }, [counter, isDropdown]);
+    }, [counter, isDropdownOutside]);
 
     const getCategoryIcon = (categoryId) => {
         const category = categories.find((cat) => cat._id === categoryId);
@@ -101,7 +101,7 @@ const CategoryInput = ({
 
     const handleOptionSelect = (category) => {
         setCategory(category);
-        setIsDropdown(false);
+        setIsDropdownOutside(false);
     };
 
     return (
@@ -111,7 +111,7 @@ const CategoryInput = ({
         >
             <div
                 className={styles.dropdownHeader}
-                onClick={() => setIsDropdown((prev) => !prev)}
+                onClick={() => setIsDropdownOutside((prev) => !prev)}
             >
                 {!category ? (
                     <div
@@ -125,10 +125,10 @@ const CategoryInput = ({
                     </div>
                 )}
                 <span className={styles.arrow}>
-                    {isDropdown ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                    {isDropdownOutside ? <IoIosArrowUp /> : <IoIosArrowDown />}
                 </span>
             </div>
-            {isDropdown && categories.length > 0 && (
+            {isDropdownOutside && categories.length > 0 && (
                 <div className={styles.dropdownList}>
                     {categoriesByType().map((cat, index) => (
                         <div

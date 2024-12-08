@@ -1,13 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BiSolidPlusCircle, BiSolidMinusCircle } from 'react-icons/bi';
+import useClickOutside from '../ClickOutside/useClickOutside';
 import styles from './Transaction.module.scss';
 import Button from '../Button/Button';
 import DateInput from '../FormInput/DateInput';
 import CategoryInput from '../FormInput/CategoryInput';
 import WalletInput from '../FormInput/WalletInput';
 import BalanceInput from '../FormInput/BalanceInput';
-import TextInput from '../FormInput/NoteInput';
+import NoteInput from '../FormInput/NoteInput';
 import ImageInput from '../FormInput/ImageInput';
 import {
     addTransaction,
@@ -18,6 +19,8 @@ import {
 function AddTransaction() {
     const user = useSelector((state) => state.user.user);
     const budgets = useSelector((state) => state.budget.budgets);
+    const addTransactionRef = useRef(null)
+    // useClickOutside(addTransactionRef, () => setCounter(null));
 
     const [type, setType] = useState('');
     const [amount, setAmount] = useState('');
@@ -37,51 +40,138 @@ function AddTransaction() {
     const [isDateDropdown, setIsDateDropdown] = useState(false);
     const [isNoteFocus, setIsNoteFocus] = useState(false);
     console.log('counter: ', counter)
-    // console.log('isBalanceFocus: ', isBalanceFocus)
-    // console.log('isCategoryDropdown: ', isCategoryDropdown)
-    // console.log('isWalletDropdown: ', isWalletDropdown)
-    // console.log('isDateDropdown: ', isDateDropdown)
-    // console.log('isNoteFocus: ', isNoteFocus)
-
     const userId = user._id;
     const dispatch = useDispatch();;
 
+    // useEffect(() => {
+    //     const handleKeyDown = (event) => {
+
+    //         // Disable arrow keys when dropdowns are active
+    //         if (isCategoryDropdown || isWalletDropdown || isDateDropdown) {
+    //             if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+    //                 event.preventDefault();
+    //                 return; // Exit the handler to prevent further action
+    //             }
+    //         }
+            
+    //         if (!isNoteFocus) {
+    //             if (event.key === '+') {
+    //                 setType('Income');
+    //                 setCounter(0);
+    //             } else if (event.key === '-') {
+    //                 setType('Expense');
+    //                 setCounter(0);
+    //             } 
+    //             else if (event.key === 'Enter') {
+    //                 event.preventDefault();
+    //                 // setCounter((prevCounter) => (prevCounter + 1) % 6);
+    //             }
+    //         } 
+
+    //         if (event.key === 'Enter') {
+    //             if (event.shiftKey || counter === 5) {
+    //                 const submitButton = document.querySelector(`.${styles.addTransactionSubmit}`);
+    //                 if (submitButton) submitButton.click();
+    //             } 
+    //         }
+    //         console.log('isCategoryDropdown', isCategoryDropdown)
+    //         console.log('isWalletDropdown', isWalletDropdown)
+    //         console.log('isDateDropdown', isDateDropdown)
+    //         console.log('-----------------------------------')
+
+    //         // Enable navigation with arrow keys only when no dropdown is active
+    //         if (!isCategoryDropdown && !isWalletDropdown && !isDateDropdown) {
+    //             if (event.key === 'ArrowDown') {
+    //                 event.preventDefault();
+    //                 setCounter((prevCounter) => (prevCounter + 1) % 6);
+    //                 setIsNoteFocus(false);
+    //             } else if (event.key === 'ArrowUp') {
+    //                 event.preventDefault();
+    //                 setCounter((prevCounter) => (prevCounter - 1 + 6) % 6);
+    //                 setIsNoteFocus(false);
+    //             }
+    //         }
+    //     };
+    
+    //     window.addEventListener('keydown', handleKeyDown);
+    //     return () => window.removeEventListener('keydown', handleKeyDown);
+    // }, [counter, type, isCategoryDropdown, isWalletDropdown, isDateDropdown, isNoteFocus]);
+
     useEffect(() => {
         const handleKeyDown = (event) => {
-            if (event.key === '+') {
-                setType('Income');
-                setCounter(0);
-            } else if (event.key === '-') {
-                setType('Expense');
-                setCounter(0);
-            } 
-            else if (event.key === 'Enter') {
-                event.preventDefault();
-                
-                if (event.shiftKey) {
-                    const submitButton = document.querySelector(`.${styles.addTransactionSubmit}`);
-                    if (submitButton) submitButton.click();
-                } else {
-                    // setCounter((prevCounter) => (prevCounter + 1) % 5);
+            // Prevent arrow keys when dropdowns are active
+            if (isCategoryDropdown || isWalletDropdown || isDateDropdown) {
+                if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+                    event.preventDefault();
+                    console.log('Arrow keys disabled due to active dropdown');
+                    console.log('isCategoryDropdown', isCategoryDropdown)
+                    console.log('isWalletDropdown', isWalletDropdown)
+                    console.log('isDateDropdown', isDateDropdown)
+                    console.log('-----------------------------------')
+                    return; // Exit early
                 }
             }
-            // Check if any dropdown is active
-            if (isCategoryDropdown || isWalletDropdown || isDateDropdown) {
-                return; // Prevent further key handling if a dropdown is active
+    
+            // Handle '+' and '-' keys to set type and reset counter
+            if (!isNoteFocus) {
+                if (event.key === '+') {
+                    setType('Income');
+                    setCounter(0);
+                } else if (event.key === '-') {
+                    setType('Expense');
+                    setCounter(0);
+                }
             }
     
-            if (event.key === 'ArrowDown') {
+            // Handle 'Enter' key
+            if (event.key === 'Enter') {
                 event.preventDefault();
-                setCounter((prevCounter) => (prevCounter + 1) % 5);
-            } else if (event.key === 'ArrowUp') {
-                event.preventDefault();
-                setCounter((prevCounter) => (prevCounter - 1 + 5) % 5);
-            } 
+                if (event.shiftKey || counter === 5) {
+                    const submitButton = document.querySelector(`.${styles.addTransactionSubmit}`);
+                    if (submitButton) {
+                        console.log('Submitting form via Enter key');
+                        submitButton.click();
+                    }
+                    return;
+                }
+            }
+    
+            // Enable navigation with arrow keys if no dropdown is active
+            if (!isCategoryDropdown && !isWalletDropdown && !isDateDropdown) {
+                if (event.key === 'ArrowDown') {
+                    event.preventDefault();
+                    setCounter((prevCounter) => {
+                        const newCounter = (prevCounter + 1) % 6;
+                        console.log('ArrowDown pressed, new counter:', newCounter);
+                        return newCounter;
+                    });
+                    setIsNoteFocus(false);
+                } else if (event.key === 'ArrowUp') {
+                    event.preventDefault();
+                    setCounter((prevCounter) => {
+                        const newCounter = (prevCounter - 1 + 6) % 6;
+                        console.log('ArrowUp pressed, new counter:', newCounter);
+                        return newCounter;
+                    });
+                    setIsNoteFocus(false);
+                }
+            }
         };
     
+        // Attach event listener
         window.addEventListener('keydown', handleKeyDown);
+    
+        // Cleanup on unmount
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [counter, type, isCategoryDropdown, isWalletDropdown, isDateDropdown]);
+    }, [
+        counter,            // Update when counter changes
+        type,               // Track Income/Expense type
+        isCategoryDropdown, // Disable keys when category dropdown is active
+        isWalletDropdown,   // Disable keys when wallet dropdown is active
+        isDateDropdown,     // Disable keys when date dropdown is active
+        isNoteFocus         // Handle note focus
+    ]);
+    
     
 
     useEffect(() => {
@@ -120,6 +210,13 @@ function AddTransaction() {
                 setIsWalletDropdown(false);
                 setIsDateDropdown(false);
                 setIsNoteFocus(true);
+                break;
+            case 5:
+                setIsBalanceFocus(false);
+                setIsCategoryDropdown(false);
+                setIsWalletDropdown(false);
+                setIsDateDropdown(false);
+                setIsNoteFocus(false);
                 break;
             default:
                 break;
@@ -207,6 +304,7 @@ function AddTransaction() {
         <form
             className={styles.addTransaction}
             onSubmit={handleAddTransactionSubmit}
+            ref={addTransactionRef}
         >
             <div className={styles.plusMinusContainer}>
                 <BiSolidPlusCircle
@@ -238,8 +336,8 @@ function AddTransaction() {
                         category={category}
                         setCategory={setCategory}
                         categoryType={type}
-                        isDropdown={isCategoryDropdown}
-                        setIsDropdown={setIsCategoryDropdown}
+                        isDropdownOutside={isCategoryDropdown}
+                        setIsDropdownOutside={setIsCategoryDropdown}
                     />
                 </div>
 
@@ -248,8 +346,8 @@ function AddTransaction() {
                     <WalletInput
                         wallet={wallet}
                         setWallet={setWallet}
-                        isDropdown={isWalletDropdown}
-                        setIsDropdown={setIsWalletDropdown}
+                        isDropdownOutside={isWalletDropdown}
+                        setIsDropdownOutside={setIsWalletDropdown}
 
                     />
                 </div>
@@ -259,8 +357,8 @@ function AddTransaction() {
                     <DateInput 
                         date={date} 
                         setDate={setDate} 
-                        isDropdown={isDateDropdown}
-                        setIsDropdown={setIsDateDropdown}
+                        isDropdownOutside={isDateDropdown}
+                        setIsDropdownOutside={setIsDateDropdown}
 
                         counter={counter}
                         setCounter={setCounter}
@@ -276,11 +374,11 @@ function AddTransaction() {
 
                 <div className={styles.formLabelNote}>Note</div>
                 <div className={styles.transactionNote} onClick={() => setCounter(4)}>
-                    <TextInput
+                    <NoteInput
                         note={note}
                         setNote={setNote}
-                        isFocus={isNoteFocus}
-                        setIsFocus={setIsNoteFocus}
+                        isFocusOutside={isNoteFocus}
+                        setIsFocusOutside={setIsNoteFocus}
                     />
                 </div>
 
@@ -290,7 +388,7 @@ function AddTransaction() {
                         type="submit"
                         primary
                         rounded
-                        className={styles.addTransactionSubmit}
+                        className={`${styles.addTransactionSubmit} ${counter === 5 ? styles.hover : ''}`}
                     >
                         Add
                     </Button>

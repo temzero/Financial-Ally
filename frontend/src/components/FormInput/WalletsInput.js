@@ -14,7 +14,6 @@ function WalletsInput({
     const dropdownRef = useRef(null);
     useClickOutside(dropdownRef, () => setIsDropdownOpen(false));
 
-
     const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
     const handleCheckboxChange = (wallet) => {
