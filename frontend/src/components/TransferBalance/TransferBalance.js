@@ -10,11 +10,11 @@ function TransferBalanceForm({
     showForm,
     setShowForm,
     walletData,
-    allWallets,
 }) {
     const dispatch = useDispatch();
     const walletId = walletData._id;
-    const transferWallets = allWallets.filter(wallet => wallet._id !== walletId);
+    const wallets = useSelector((state) => state.wallet.wallets);
+    const transferWallets = wallets.filter(wallet => wallet._id !== walletId);
     const [transferAmount, setTransferAmount] = useState('');
     const [targetWallet, setTargetWallet] = useState('');
 

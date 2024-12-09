@@ -8,10 +8,13 @@ import styles from './FormInput.module.scss';
 const WalletInput = ({
     wallet,
     setWallet,
+    wallets,
     isDropdownOutside = false,
     setIsDropdownOutside = () => {},
 }) => {
-    const wallets = useSelector((state) => state.wallet.wallets);
+    const allWallets = useSelector((state) => state.wallet.wallets) || [];
+    const resolvedWallets = wallets || allWallets;
+
     const dropdownRef = useRef(null);
     const optionRefs = useRef([]);
     const [counter, setCounter] = useState(0);
@@ -22,10 +25,13 @@ const WalletInput = ({
         setIsDropdown(isDropdownOutside);
     }, [isDropdownOutside]);
 
+    useEffect(() => {
+        setIsDropdownOutside(isDropdown);
+    }, [isDropdown, setIsDropdownOutside]);
+
     // Close dropdown on click outside
     useClickOutside(dropdownRef, () => {
         setIsDropdown(false);
-        setIsDropdownOutside(false);
     });
 
     // Handle keyboard navigation when dropdown is open
@@ -34,16 +40,15 @@ const WalletInput = ({
             const handleKeyDown = (event) => {
                 if (event.key === 'ArrowUp') {
                     event.preventDefault();
-                    setCounter((prevCounter) => (prevCounter - 1 + wallets.length) % wallets.length);
+                    setCounter((prevCounter) => (prevCounter - 1 + resolvedWallets.length) % resolvedWallets.length);
                 } else if (event.key === 'ArrowDown') {
                     event.preventDefault();
-                    setCounter((prevCounter) => (prevCounter + 1) % wallets.length);
+                    setCounter((prevCounter) => (prevCounter + 1) % resolvedWallets.length);
                 } else if (event.key === 'Enter') {
                     event.preventDefault();
-                    if (wallets[counter]) {
-                        setWallet(wallets[counter]);
+                    if (resolvedWallets[counter]) {
+                        setWallet(resolvedWallets[counter]);
                         setIsDropdown(false);
-                        setIsDropdownOutside(false);
                     }
                 }
             };
@@ -51,7 +56,7 @@ const WalletInput = ({
             window.addEventListener('keydown', handleKeyDown);
             return () => window.removeEventListener('keydown', handleKeyDown);
         }
-    }, [isDropdown, counter, wallets, setWallet, setIsDropdownOutside]);
+    }, [isDropdown, counter, resolvedWallets, setWallet]);
 
     // Scroll to the active option when counter changes
     useEffect(() => {
@@ -66,13 +71,11 @@ const WalletInput = ({
     const toggleDropdown = () => {
         const newDropdownState = !isDropdown;
         setIsDropdown(newDropdownState);
-        setIsDropdownOutside(newDropdownState);
     };
 
     const handleOptionSelect = (wallet) => {
         setWallet(wallet);
         setIsDropdown(false);
-        setIsDropdownOutside(false);
     };
 
     return (
@@ -85,16 +88,16 @@ const WalletInput = ({
                     </div>
                 ) : (
                     <div className={styles.placeholder}>
-                        {wallets.length === 0 ? 'No wallets available' : 'Select wallet'}
+                        {resolvedWallets.length === 0 ? 'No wallets available' : 'Select wallet'}
                     </div>
                 )}
                 <span className={styles.arrow}>
                     {isDropdown ? <IoIosArrowUp /> : <IoIosArrowDown />}
                 </span>
             </div>
-            {isDropdown && wallets.length > 0 && (
+            {isDropdown && resolvedWallets.length > 0 && (
                 <div className={styles.dropdownList}>
-                    {wallets.map((walletItem, index) => (
+                    {resolvedWallets.map((walletItem, index) => (
                         <div
                             key={walletItem._id}
                             ref={(el) => (optionRefs.current[index] = el)}

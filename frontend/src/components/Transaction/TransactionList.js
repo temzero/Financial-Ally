@@ -37,9 +37,10 @@ function TransactionList({ transactions = [], currency = '$' }) {
     const displayWallet = (walletId) => {
         const wallet = wallets.find(wallet => wallet._id === walletId);
         return wallet ? (
-            <>
-                <IoWalletOutline />{wallet.name}
-            </>
+            <span className={styles.transElement}>
+                <span className={styles.transIcon}><IoWalletOutline /></span>
+                <span className={styles.transText}>{wallet.name}</span>
+            </span>
         ) : null;
     };
 
@@ -116,20 +117,15 @@ function TransactionList({ transactions = [], currency = '$' }) {
                                 {transaction.amount.toLocaleString("en-US")}
                             </div>
 
-                            <div className={styles.transWallet}>
+                            <div className={styles.transColumn}>
                                 {displayWallet(transaction.walletId)}
                             </div>
-
-                            <div className={styles.transNote}>
+                            <div className={styles.transColumn}>
                                 {transaction.note && (
-                                    <>
-                                        <span className={styles.editIcon}>
-                                            <GoPencil />
-                                        </span>
-                                        <span className={styles.transNoteWords}>
-                                            {transaction.note}
-                                        </span>
-                                    </>
+                                    <span className={styles.transElement}>
+                                        <span className={styles.transIcon}><GoPencil /></span>
+                                        <span className={styles.transText}>{transaction.note}</span>
+                                    </span>
                                 )}
                             </div>
                             {categoryIcon(transaction.categoryId)}

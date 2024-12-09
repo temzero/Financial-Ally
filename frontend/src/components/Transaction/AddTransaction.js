@@ -4,7 +4,8 @@ import { BiSolidPlusCircle, BiSolidMinusCircle } from 'react-icons/bi';
 import useClickOutside from '../ClickOutside/useClickOutside';
 import styles from './Transaction.module.scss';
 import Button from '../Button/Button';
-import DateInput from '../FormInput/DateInput';
+// import DateInput from '../FormInput/DateInput';
+import DateInput from '../FormInput/PickADateInput';
 import CategoryInput from '../FormInput/CategoryInput';
 import WalletInput from '../FormInput/WalletInput';
 import BalanceInput from '../FormInput/BalanceInput';
@@ -43,60 +44,6 @@ function AddTransaction() {
     const userId = user._id;
     const dispatch = useDispatch();;
 
-    // useEffect(() => {
-    //     const handleKeyDown = (event) => {
-
-    //         // Disable arrow keys when dropdowns are active
-    //         if (isCategoryDropdown || isWalletDropdown || isDateDropdown) {
-    //             if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-    //                 event.preventDefault();
-    //                 return; // Exit the handler to prevent further action
-    //             }
-    //         }
-            
-    //         if (!isNoteFocus) {
-    //             if (event.key === '+') {
-    //                 setType('Income');
-    //                 setCounter(0);
-    //             } else if (event.key === '-') {
-    //                 setType('Expense');
-    //                 setCounter(0);
-    //             } 
-    //             else if (event.key === 'Enter') {
-    //                 event.preventDefault();
-    //                 // setCounter((prevCounter) => (prevCounter + 1) % 6);
-    //             }
-    //         } 
-
-    //         if (event.key === 'Enter') {
-    //             if (event.shiftKey || counter === 5) {
-    //                 const submitButton = document.querySelector(`.${styles.addTransactionSubmit}`);
-    //                 if (submitButton) submitButton.click();
-    //             } 
-    //         }
-    //         console.log('isCategoryDropdown', isCategoryDropdown)
-    //         console.log('isWalletDropdown', isWalletDropdown)
-    //         console.log('isDateDropdown', isDateDropdown)
-    //         console.log('-----------------------------------')
-
-    //         // Enable navigation with arrow keys only when no dropdown is active
-    //         if (!isCategoryDropdown && !isWalletDropdown && !isDateDropdown) {
-    //             if (event.key === 'ArrowDown') {
-    //                 event.preventDefault();
-    //                 setCounter((prevCounter) => (prevCounter + 1) % 6);
-    //                 setIsNoteFocus(false);
-    //             } else if (event.key === 'ArrowUp') {
-    //                 event.preventDefault();
-    //                 setCounter((prevCounter) => (prevCounter - 1 + 6) % 6);
-    //                 setIsNoteFocus(false);
-    //             }
-    //         }
-    //     };
-    
-    //     window.addEventListener('keydown', handleKeyDown);
-    //     return () => window.removeEventListener('keydown', handleKeyDown);
-    // }, [counter, type, isCategoryDropdown, isWalletDropdown, isDateDropdown, isNoteFocus]);
-
     useEffect(() => {
         const handleKeyDown = (event) => {
             // Prevent arrow keys when dropdowns are active
@@ -108,11 +55,11 @@ function AddTransaction() {
                     console.log('isWalletDropdown', isWalletDropdown)
                     console.log('isDateDropdown', isDateDropdown)
                     console.log('-----------------------------------')
-                    return; // Exit early
+                    return;
                 }
             }
     
-            // Handle '+' and '-' keys to set type and reset counter
+
             if (!isNoteFocus) {
                 if (event.key === '+') {
                     setType('Income');
@@ -122,10 +69,8 @@ function AddTransaction() {
                     setCounter(0);
                 }
             }
-    
-            // Handle 'Enter' key
+
             if (event.key === 'Enter') {
-                event.preventDefault();
                 if (event.shiftKey || counter === 5) {
                     const submitButton = document.querySelector(`.${styles.addTransactionSubmit}`);
                     if (submitButton) {
@@ -134,6 +79,12 @@ function AddTransaction() {
                     }
                     return;
                 }
+            }
+
+            if (event.key === 'Escape') {
+                setIsCategoryDropdown(false)
+                setIsWalletDropdown(false)
+                setIsDateDropdown(false)
             }
     
             // Enable navigation with arrow keys if no dropdown is active

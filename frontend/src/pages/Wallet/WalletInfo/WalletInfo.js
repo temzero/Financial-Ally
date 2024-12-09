@@ -217,7 +217,6 @@ function WalletInfo() {
                 showForm={showTransferForm}
                 setShowForm={setShowTransferForm}
                 walletData={walletData}
-                allWallets={allWallets}
             />
         </div>
     );

@@ -30,7 +30,7 @@ const getDateLabel = (date) => {
     }
 };
 
-const DateInput = ({ date, setDate, isDropdownOutside = false, setIsDropdownOutside = () => {}, counter, setCounter = () => {} }) => {
+const DateInput = ({ date, setDate, isDropdownOutside = false, setIsDropdownOutside = () => {}}) => {
     const [trigger, setTrigger] = useState(false)
     const dateInputRef = useRef(null);
     const formInputRef = useRef(null);
@@ -57,7 +57,6 @@ const DateInput = ({ date, setDate, isDropdownOutside = false, setIsDropdownOuts
         if (dateInputRef.current && isDropdown) {
             try {
                 dateInputRef.current.showPicker();
-                dateInputRef.current.click();
             } catch (error) {
                 console.error('showPicker is not supported or failed:', error);
                 setIsDropdown(false); // Ensure it's set to false when showPicker fails

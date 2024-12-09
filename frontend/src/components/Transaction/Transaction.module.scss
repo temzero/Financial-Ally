@@ -295,37 +295,37 @@
             font-weight: 400;
         }
 
-        .transWallet {
+        .transColumn {
             display: flex;
             align-items: center;
-            gap: 8px;  
-        }
-
-        // .transDate {
-
-        // }
-
-        .transNote {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
             max-width: 100%;
-            white-space: nowrap;
-            text-overflow: ellipsis;
             overflow: hidden;
-
-            .editIcon {
+            
+            .transElement {
                 display: flex;
-                align-items: center;
-            }
-
-            .transNoteWords {
-                display: inline-block;
+                align-items: center; 
+                gap: 8px;
+                max-width: 100%; 
                 overflow: hidden;
-                max-width: 100%;
+            }
+            
+            .transIcon {
+                flex-shrink: 0; /* Prevents the icon from shrinking */
+                display: flex; /* Keeps the icon centered vertically */
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .transText {
+                overflow: hidden;
                 text-overflow: ellipsis;
+                white-space: nowrap;
+                max-width: 100%;
+                flex-grow: 1;
+                display: inline-block;
             }
         }
+        
         
 
         // .transImage {
@@ -401,7 +401,9 @@
         &.hover {
             border: 3px solid black;
             box-shadow: 2px -4px 0px black;
-            font-weight: 600;
+            font-weight: 500;
+            transform: translate(-2px, 4px);
+            transition: transform 0.04s linear; 
         }
     }
 
