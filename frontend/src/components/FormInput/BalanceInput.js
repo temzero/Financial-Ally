@@ -1,17 +1,23 @@
 import styles from './FormInput.module.scss';
 import { useState, useEffect, useRef } from 'react';
 
-const BalanceInput = ({ amount, setAmount, className, currency = '$' , isFocus = false}) => {
+const BalanceInput = ({ amount, setAmount, className, currency = '$', isFocusOutside = false }) => {
     const balanceRef = useRef(null);
     const [displayAmount, setDisplayAmount] = useState(amount.toLocaleString("en-US"));
 
-    if (isFocus) {
-        balanceRef.current.focus();
-    }
-
+    // Update amount display when amount changes
     useEffect(() => {
         setDisplayAmount(amount ? amount.toLocaleString("en-US") : '');
     }, [amount]);
+
+    // Handle blur logic based on isFocusOutside
+    useEffect(() => {
+        if (isFocusOutside === false) {
+            balanceRef.current?.blur();
+        } else if (isFocusOutside === true) {
+            balanceRef.current?.focus();
+        }
+    }, [isFocusOutside]);
 
     const handleChange = (event) => {
         let inputValue = event.target.value;
@@ -55,12 +61,12 @@ const BalanceInput = ({ amount, setAmount, className, currency = '$' , isFocus =
         <div className={`${styles.formInputAmount} ${className || ''}`}>
             <span className={styles.currency}>{currency}</span>
             <input
-                className={styles.formAmountInput}
+                ref={balanceRef}
                 type="text"
+                className={styles.formAmountInput}
                 value={formattedAmount}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                ref={balanceRef}
             />
         </div>
     );

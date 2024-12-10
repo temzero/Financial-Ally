@@ -9,8 +9,8 @@ const WalletInput = ({
     wallet,
     setWallet,
     wallets,
-    isDropdownOutside = false,
-    setIsDropdownOutside = () => {},
+    isFocusOutside = false,
+    setIsFocusOutside = () => {},
 }) => {
     const allWallets = useSelector((state) => state.wallet.wallets) || [];
     const resolvedWallets = wallets || allWallets;
@@ -18,21 +18,18 @@ const WalletInput = ({
     const dropdownRef = useRef(null);
     const optionRefs = useRef([]);
     const [counter, setCounter] = useState(0);
-    const [isDropdown, setIsDropdown] = useState(isDropdownOutside);
+    const [isDropdown, setIsDropdown] = useState(isFocusOutside);
 
-    // Synchronize isDropdown with isDropdownOutside
+    // Synchronize isDropdown with isFocusOutside
     useEffect(() => {
-        setIsDropdown(isDropdownOutside);
-    }, [isDropdownOutside]);
-
+        setIsDropdown(isFocusOutside);
+    }, [isFocusOutside]);
     useEffect(() => {
-        setIsDropdownOutside(isDropdown);
-    }, [isDropdown, setIsDropdownOutside]);
+        setIsFocusOutside(isDropdown);
+    }, [isDropdown, setIsFocusOutside]);
 
     // Close dropdown on click outside
-    useClickOutside(dropdownRef, () => {
-        setIsDropdown(false);
-    });
+    useClickOutside(dropdownRef, () => {setIsDropdown(false)});
 
     // Handle keyboard navigation when dropdown is open
     useEffect(() => {
@@ -68,11 +65,6 @@ const WalletInput = ({
         }
     }, [counter, isDropdown]);
 
-    const toggleDropdown = () => {
-        const newDropdownState = !isDropdown;
-        setIsDropdown(newDropdownState);
-    };
-
     const handleOptionSelect = (wallet) => {
         setWallet(wallet);
         setIsDropdown(false);
@@ -80,9 +72,9 @@ const WalletInput = ({
 
     return (
         <div className={styles.customDropdown} ref={dropdownRef}>
-            <div className={styles.dropdownHeader} onClick={toggleDropdown}>
+            <div className={styles.dropdownHeader} onClick={() => setIsDropdown(!isDropdown)}>
                 {wallet ? (
-                    <div className={styles.selectedWallet}>
+                    <div className={styles.selectedElement}>
                         <IoWalletOutline className={styles.walletIcon} />
                         {wallet.name}
                     </div>

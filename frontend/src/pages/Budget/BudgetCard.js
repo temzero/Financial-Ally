@@ -1,6 +1,8 @@
 import styles from './Budget.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { LuCalendarCheck } from "react-icons/lu";
+
 
 function BudgetCard({ budgetData, currency = '$' }) {
     // Destructure the relevant data from budgetData
@@ -70,7 +72,7 @@ function BudgetCard({ budgetData, currency = '$' }) {
                         >{`${currency}${spendPerDay} per day`}</div>
                     </div>
                 ) : (
-                    <div className={styles.budgetCardInfo}>Finished</div>
+                    <div className={styles.budgetCardInfo}><div className={styles.finishStatus}>Finished<LuCalendarCheck  className={styles.finishIcon}/></div></div>
                 )}
                 {moneyLimit !== undefined && moneySpend !== undefined ? (
                     <div className={styles.budgetCardMoneyLimit}>

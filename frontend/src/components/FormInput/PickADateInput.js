@@ -3,13 +3,13 @@ import Pikaday from 'pikaday';
 import 'pikaday/css/pikaday.css'; // Import Pikaday's default styles
 import styles from './FormInput.module.scss';
 
-// Helper to format date as DD / MM / YYYY
 const formatDateToDDMMYYYY = (isoDate) => {
     if (!isoDate) return '';
     const isoJustDate = isoDate.split('T')[0];
     const [year, month, day] = isoJustDate.split('-');
     return `${day} / ${month} / ${year}`;
 };
+
 
 const today = new Date().toISOString();
 const yesterday = new Date(
@@ -19,6 +19,7 @@ const tomorrow = new Date(
     new Date().setDate(new Date().getDate() + 1)
 ).toISOString();
 
+// Generate a label for the current date
 const getDateLabel = (date) => {
     const dateData = date.split('T')[0];
     if (dateData === today.split('T')[0]) {
@@ -30,27 +31,32 @@ const getDateLabel = (date) => {
     }
 };
 
-const DateInput = ({
-    date,
-    setDate,
-    isDropdownOutside = false,
-    setIsDropdownOutside = () => {},
-}) => {
+const DateInput = ({ date, setDate, isFocusOutside, setIsFocusOutside = () => {} }) => {
     const dateInputRef = useRef(null);
     const pikadayRef = useRef(null);
 
-    const [isDropdown, setIsDropdown] = useState(isDropdownOutside);
-    // Two-way synchronization between `isDropdown` and `isDropdownOutside`
+    const [isDropdown, setIsDropdown] = useState(isFocusOutside);
+
     useEffect(() => {
-        setIsDropdown(isDropdownOutside);
-    }, [isDropdownOutside]);
-    
+        setIsDropdown(isFocusOutside);
+    }, [isFocusOutside]);
+
     useEffect(() => {
-        setIsDropdownOutside(isDropdown);
-    }, [isDropdown, setIsDropdownOutside]);
-    
-    console.log('isDropdown', isDropdown)
-    console.log('isDropdownOutside', isDropdownOutside)
+        setIsFocusOutside(isDropdown);
+    }, [isDropdown, setIsFocusOutside]);
+
+    useEffect(() => {
+        if(isDropdown) {
+            dateInputRef.current.focus();
+        } 
+    }, [isDropdown]);
+
+    useEffect(() => {
+        if (!date) {
+            setDate(today); 
+        }
+    }, [date, setDate]);
+
     // Initialize Pikaday
     useEffect(() => {
         pikadayRef.current = new Pikaday({
@@ -67,18 +73,17 @@ const DateInput = ({
                 return new Date(year, month - 1, day);
             },
             onSelect: (selectedDate) => {
-                const isoDate = selectedDate.toISOString(); // Convert to ISO for storage
-                setDate(isoDate); // Update parent state with ISO format
+                const isoDate = selectedDate.toISOString();
+                setDate(isoDate); 
             },
             onOpen: () => {
-                setIsDropdown(true); // Show dropdown when the picker opens
+                setIsDropdown(true);
             },
             onClose: () => {
-                setIsDropdown(false); // Hide dropdown when the picker closes
+                setIsDropdown(false); 
             },
         });
 
-        // Cleanup on component unmount
         return () => {
             if (pikadayRef.current) {
                 pikadayRef.current.destroy();
@@ -86,12 +91,31 @@ const DateInput = ({
         };
     }, [setDate]);
 
-    // Set default date if none is provided
     useEffect(() => {
-        if (!date) {
-            setDate(today); // Set default date to today
-        }
-    }, [date, setDate]);
+        const handleKeyDown = (event) => {
+            if (document.activeElement === dateInputRef.current) {
+                if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+                    event.preventDefault();
+                }
+            }
+        };
+
+        const handleWheel = (event) => {
+            if (document.activeElement === dateInputRef.current) {
+                event.preventDefault(); // Prevent scroll
+            }
+        };
+
+        // Listen for keydown events
+        document.addEventListener('keydown', handleKeyDown);
+        // Listen for wheel (scroll) events
+        document.addEventListener('wheel', handleWheel, { passive: false });
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener('wheel', handleWheel);
+        };
+    }, []);
 
     return (
         <div className={styles.formDateInput}>
@@ -100,10 +124,12 @@ const DateInput = ({
                 type="text"
                 className={styles.dateInput}
                 value={date ? formatDateToDDMMYYYY(date) : ''}
-                readOnly // Prevent manual input (handled by Pikaday)
-                onFocus={() => setIsDropdown(true)} // Show dropdown on focus
+                onFocus={() => setIsDropdown(true)} 
+                onBlur={() => setIsDropdown(false)} 
+                onClick={() => setIsDropdown(!isDropdown)} 
+                readOnly
             />
-            <div>{getDateLabel(date)}</div>
+            {getDateLabel(date)}
         </div>
     );
 };

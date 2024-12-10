@@ -1,12 +1,13 @@
-import { useEffect, useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateBudget } from '../../redux/actions';
 import styles from './EditForm.module.scss';
 import Button from '../Button/Button'
 import ColorInput from '../FormInput/ColorInput';
 import BalanceInput from '../FormInput/BalanceInput';
-import DateInput from '../FormInput/DateInput'
+import DateInput from '../FormInput/PickADateInput'
 import WalletsInput from '../FormInput/WalletsInput';
+import useClickOutside from '../ClickOutside/useClickOutside';
 
 function EditBudgetForm({
     budgetData,
@@ -44,6 +45,7 @@ function EditBudgetForm({
         setShowForm(false);
     }, [budgetData, setShowForm, setBudgetName, setSelectedWallets, budgetWallets, setBudgetMoneyLimit, setBudgetColor, setBudgetFinishDate]);
 
+    useClickOutside(formRef, () => closeForm());
     
     const isDataChanged = () => {
         // Compare current form data with initial budgetData to check for changes
@@ -56,23 +58,7 @@ function EditBudgetForm({
         );
     };
 
-    useEffect(() => {
-        const handleClickOutside = (e) => {
-            if (formRef.current && !formRef.current.contains(e.target)) {
-                closeForm();
-            }
-        };
 
-        if (showForm) {
-            document.addEventListener('mousedown', handleClickOutside);
-        } else {
-            document.removeEventListener('mousedown', handleClickOutside);
-        }
-
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [showForm, closeForm, formRef]);
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
@@ -98,7 +84,7 @@ function EditBudgetForm({
             <div className={styles.formOverlay}>
                 <div className={styles.formContainer} ref={formRef}>
                     <form onSubmit={handleFormSubmit}>
-                        <div>
+                        <div className={`${styles.namePlate} ${styles[budgetColor]}`}>
                             <input
                                 className={styles.formNameInput}
                                 type="text"

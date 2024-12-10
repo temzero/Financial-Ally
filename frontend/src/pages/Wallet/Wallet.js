@@ -22,12 +22,31 @@ function Wallet() {
             dispatch(getWallets(userId));
     }, [userId, dispatch]);
 
+    // Handle keydown event to toggle add wallet form
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.key === '=' || event.key === '+' || event.key === 'Backspace') {
+                event.preventDefault()
+                toggleForm(); // Toggle the form visibility when '=' or '+' is pressed
+            }
+        };
+
+        // Add event listener on mount
+        window.addEventListener('keydown', handleKeyDown);
+
+        // Cleanup event listener on unmount
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [userId]);
+    
+
     // Calculate total balance
     const totalBalance = wallets.reduce((sum, wallet) => sum + wallet.balance, 0);
     const currency = '$'
 
     // State for form values
-    const toggleWallet = () => {
+    const toggleForm = () => {
         setShowForm(!showForm);
     };
 
@@ -35,7 +54,7 @@ function Wallet() {
         <div>
             <div className={styles.header}>
                 <h2 className={styles.title}>Wallet</h2>
-                <Button s onClick={toggleWallet}>
+                <Button s onClick={toggleForm}>
                     <FaPlus className={styles.plusIcon}/> Add Wallet
                 </Button>
             </div>
@@ -44,7 +63,7 @@ function Wallet() {
 
             <div className={styles.bodyContainer}>
                 {wallets.length === 0 ? (
-                    <div className={styles.addWalletCard} onClick={toggleWallet}>
+                    <div className={styles.addWalletCard} onClick={toggleForm}>
                         <AiOutlinePlus className={styles.addWalletCardIcon}/>
                     </div>
                 ) : (

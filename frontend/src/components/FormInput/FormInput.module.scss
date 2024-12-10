@@ -229,10 +229,21 @@
     padding: 10px; 
 }
 
-.selectedWallet {
+.selectedElement {
     display: flex;
     align-items: center;
     gap: 8px;
+}
+
+.selectedElements {
+    display: inline-block;
+    align-items: center;
+    gap: 8px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-grow: 1;
 }
 
 .iconItem {
@@ -367,12 +378,6 @@
         border-radius: 4px;
         padding: 8px;
         cursor: pointer;
-
-        .selectedCategory {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
     }
 
     .arrow {
@@ -433,7 +438,6 @@
 
 // Date input
 .formDateInput {
-    // position: relative;
     display: flex;
     justify-content: space-between;
 
@@ -443,13 +447,6 @@
         width: 100%;
         font-size: 1rem;
         border: none;
-        // opacity: 0.4;
-        // width: 20px;
-        // display: none;
-    
-        // position: absolute;
-        // left: -230px;
-        // top: 160px;
     
         &:focus {
             outline: none;
@@ -457,6 +454,9 @@
     }
 }
 
+:global(.pika-single) {
+    transform: translateX(-9px);
+}
 
 .hiddenDateInput {
     position: absolute;

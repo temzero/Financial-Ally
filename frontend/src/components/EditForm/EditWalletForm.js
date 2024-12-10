@@ -76,7 +76,7 @@ function EditWalletForm({
             <div className={styles.formOverlay}>
                 <div className={styles.formContainer} ref={formRef}>
                     <form onSubmit={handleFormSubmit}>
-                        <div>
+                        <div className={`${styles.namePlate} ${styles[walletColor]}`}>
                             <input
                                 className={styles.formNameInput}
                                 type="text"

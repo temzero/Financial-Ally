@@ -7,6 +7,7 @@ import BalanceInput from '../../components/FormInput/BalanceInput';
 import WalletTypeInput from '../../components/FormInput/WalletTypeInput';
 import ColorInput from '../../components/FormInput/ColorInput';
 import Button from '../../components/Button/Button';
+import useClickOutside from '../../components/ClickOutside/useClickOutside';
 
 function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
 
@@ -24,25 +25,7 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
         setShowForm(false);
     }, [setShowForm]);
     
-    // Clear Form data when the form is closed
-    useEffect(() => {
-        const handleClickOutside = (e) => {
-            if (formRef.current && !formRef.current.contains(e.target)) {
-                closeForm();
-            }
-        };
-
-        if (showForm) {
-            document.addEventListener('mousedown', handleClickOutside);
-        } else {
-            document.removeEventListener('mousedown', handleClickOutside);
-        }
-
-        return () => {
-            // Cleanup event listener on unmount
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [showForm, closeForm, formRef]);
+    useClickOutside(formRef, () => closeForm());
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
@@ -66,10 +49,9 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId}) {
             <div className={styles.formOverlay}>
                 <div className={styles.formContainer} ref={formRef}>
                     <form onSubmit={handleFormSubmit}>
-                        <div>
-                            <TextInput className={styles.formNameInput} content={walletName} setContent={setWalletName} placeholder="Enter wallet Name" />
+                        <div className={`${styles.namePlate} ${styles[walletColor]}`}>
+                            <TextInput className={styles.formNameInput} content={walletName} setContent={setWalletName} isFocusOutside={true} placeholder="Enter wallet Name" />
                         </div>
-                        <div className={styles.formDivider}></div>
                         <div className={styles.formContent}>
                             <div>
                                 <h2 className={styles.formLabel}>Amount</h2>

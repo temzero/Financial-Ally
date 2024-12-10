@@ -274,7 +274,7 @@ function BudgetInfo() {
                     </div>
 
                     <div className={styles.contentAnalysis}>
-                        <div className={styles.contentSubHeader}>
+                        <div className={styles.budgetWallets}>
                             {walletElements()}
                         </div>
                     </div>

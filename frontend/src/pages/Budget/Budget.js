@@ -23,8 +23,25 @@ function Budget() {
     useEffect(() => {
         dispatch(getBudgets(userId));
         dispatch(getWallets(userId));
-
     }, [userId, dispatch]);
+
+    // Handle keydown event to toggle add wallet form
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.key === '=' || event.key === '+' || event.key === 'Backspace') {
+                event.preventDefault()
+                toggleForm(); // Toggle the form visibility when '=' or '+' is pressed
+            }
+        };
+
+        // Add event listener on mount
+        window.addEventListener('keydown', handleKeyDown);
+
+        // Cleanup event listener on unmount
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [userId]);
 
     const toggleForm = () => {
         setShowForm(!showForm);
