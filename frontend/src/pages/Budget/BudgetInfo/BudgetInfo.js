@@ -60,6 +60,28 @@ function BudgetInfo() {
     const [showEditForm, setShowEditForm] = useState(false);
     const [showDeleteForm, setShowDeleteForm] = useState(false);
 
+    
+    // Handle keydown event to toggle add wallet form
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.key === 'Delete') {
+                event.preventDefault()
+                setShowDeleteForm(true);
+            } else if (event.key === 'e' || event.key === '+' || event.key === '=') {
+                event.preventDefault()
+                setShowEditForm(true); 
+            } 
+        };
+
+        // Add event listener on mount
+        window.addEventListener('keydown', handleKeyDown);
+
+        // Cleanup event listener on unmount
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
+
     // State variables for budget details
     const [budgetName, setBudgetName] = useState(name);
     const [budgetMoneyLimit, setBudgetMoneyLimit] = useState(moneyLimit);

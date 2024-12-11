@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 const useClickOutside = (ref, callback) => {
     useEffect(() => {
         const handleClickOutside = (event) => {
+
             const isInsidePikaday = event.target.closest('.pika-single');
             const isPikadayButton = event.target.classList.contains('pika-button');
             if (

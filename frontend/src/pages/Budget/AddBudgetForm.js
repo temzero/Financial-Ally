@@ -29,7 +29,16 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets }) {
     const [isWalletsFocus, setIsWalletsFocus] = useState(false);
     const [isStartDateFocus, setIsStartDateFocus] = useState(false);
     const [isFinishDateFocus, setIsFinishDateFocus] = useState(false);
-    console.log('BudgerForm counter: ', counter);
+    const [isColorFocus, setIsColorFocus] = useState(false);
+    const [isSubmitFocus, setIsSubmitFocus] = useState(false);
+
+    const isFormComplete =
+    budgetName &&
+    moneyLimit &&
+    startDate &&
+    finishDate &&
+    budgetColor &&
+    new Date(finishDate) > new Date(startDate);
 
     const closeForm = useCallback(() => {
         setBudgetName('');
@@ -43,7 +52,14 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets }) {
         setCounter(0);
     }, [setShowForm, wallets]);
 
-    useClickOutside(formRef, () => closeForm());
+    useClickOutside(
+        formRef,
+        () => {
+            if (!isWalletsFocus && !isStartDateFocus && !isFinishDateFocus) {
+                closeForm();
+            }
+        }
+    );
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -56,15 +72,14 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets }) {
 
             if (event.key === 'ArrowDown') {
                 event.preventDefault();
-                setCounter((prevCounter) => (prevCounter + 1) % 5);
+                setCounter((prevCounter) => (prevCounter + 1) % 7);
             } else if (event.key === 'ArrowUp') {
                 event.preventDefault();
-                setCounter((prevCounter) => (prevCounter - 1 + 5) % 5);
+                setCounter((prevCounter) => (prevCounter - 1 + 7) % 7);
             } else if (event.key === 'Enter') {
-                if (counter === 4) {
-                    const submitButton = document.querySelector(
-                        `.${styles.formBtnContainer} button`
-                    );
+                console.log('Enter: ', event.key)
+                if (isSubmitFocus && isFormComplete) {
+                    const submitButton = document.querySelector(`.${styles.submitButton}`);
                     if (submitButton) submitButton.click();
                 }
             }
@@ -72,15 +87,17 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets }) {
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [counter, isWalletsFocus, isStartDateFocus, isFinishDateFocus]);
+    }, [counter, isBudgetNameFocus, isMoneyLimitFocus, isWalletsFocus, isStartDateFocus, isFinishDateFocus, isColorFocus]);
 
     useEffect(() => {
         const focusStates = {
-            0: [true, false, false, false, false],
-            1: [false, true, false, false, false],
-            2: [false, false, true, false, false],
-            3: [false, false, false, true, false],
-            4: [false, false, false, false, true],
+            0: [true, false, false, false, false, false, false],
+            1: [false, true, false, false, false, false, false],
+            2: [false, false, true, false, false, false, false],
+            3: [false, false, false, true, false, false, false],
+            4: [false, false, false, false, true, false, false],
+            5: [false, false, false, false, false, true, false],
+            6: [false, false, false, false, false, false, true],
         };
 
         const [
@@ -89,12 +106,16 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets }) {
             walletsFocus,
             startDateFocus,
             finishDateFocus,
+            colorFocus,
+            submitFocus,
         ] = focusStates[counter] || [];
         setIsBudgetNameFocus(budgetNameFocus);
         setIsMoneyLimitFocus(moneyLimitFocus);
         setIsWalletsFocus(walletsFocus);
         setIsStartDateFocus(startDateFocus);
         setIsFinishDateFocus(finishDateFocus);
+        setIsColorFocus(colorFocus);
+        setIsSubmitFocus(submitFocus);
     }, [counter]);
 
     const handleFormSubmit = (e) => {
@@ -115,14 +136,6 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets }) {
         dispatch(addBudget(newBudget));
         closeForm();
     };
-
-    const isFormComplete =
-        budgetName &&
-        moneyLimit &&
-        startDate &&
-        finishDate &&
-        budgetColor &&
-        new Date(finishDate) > new Date(startDate);
 
     return (
         showForm && (
@@ -168,6 +181,8 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets }) {
                                     date={startDate}
                                     setDate={setStartDate}
                                     isFocusOutside={isStartDateFocus}
+                                    setIsFocusOutside={setIsStartDateFocus}
+
                                 />
                             </div>
                             <div onClick={() => setCounter(4)}>
@@ -178,19 +193,23 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets }) {
                                     date={finishDate}
                                     setDate={setFinishDate}
                                     isFocusOutside={isFinishDateFocus}
+                                    setIsFocusOutside={setIsFinishDateFocus}
                                 />
                             </div>
-                            <div>
+                            <div  onClick={() => setCounter(5)}>
                                 <ColorInput
-                                    color={budgetColor}
                                     setColor={setBudgetColor}
+                                    isFocusOutside={isColorFocus}
+                                    setIsFocusOutside={setIsColorFocus}
                                 />
                             </div>
-                            <div className={styles.formBtnContainer}>
+                            <div className={styles.formBtnContainer}  onClick={() => setCounter(0)}>
                                 <Button
                                     type="submit"
                                     simple
                                     disabled={!isFormComplete}
+                                    className={`${styles.submitButton} ${counter === 6 ? styles.clickable : ''}`}
+
                                 >
                                     Add Budget
                                 </Button>

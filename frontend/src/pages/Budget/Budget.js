@@ -28,9 +28,11 @@ function Budget() {
     // Handle keydown event to toggle add wallet form
     useEffect(() => {
         const handleKeyDown = (event) => {
-            if (event.key === '=' || event.key === '+' || event.key === 'Backspace') {
+            if (event.key === '=' || event.key === '+') {
                 event.preventDefault()
-                toggleForm(); // Toggle the form visibility when '=' or '+' is pressed
+                toggleForm();
+            } else if (event.key === 'Backspace') {
+                toggleForm(); 
             }
         };
 

@@ -94,11 +94,6 @@
     margin-bottom: 8px;
 }
 
-.formBtnContainer {
-    display: flex;
-    justify-content: center;
-}
-
 .colorOptions {
     display: flex;
     justify-content: space-between;
@@ -214,6 +209,20 @@
     border-radius: 4px;
     transition: width 1s ease;
 }
+
+.formBtnContainer {
+    display: flex;
+    justify-content: center;
+
+    .submitButton {
+        background-color: transparent;
+    
+        &.clickable {
+            text-shadow: 2px 2px 10px black;
+        }
+    }
+}
+
 
 .plusIcon {
     font-size: 0.8rem; 

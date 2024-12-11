@@ -34,11 +34,7 @@ const DateInput = ({ date, setDate, isDropdownOutside = false, setIsDropdownOuts
     const [trigger, setTrigger] = useState(false)
     const dateInputRef = useRef(null);
     const formInputRef = useRef(null);
-    useClickOutside(formInputRef, () => {
-        setIsDropdown(false); // Close the dropdown
-        setIsDropdownOutside(false); // Sync the external state
-    });
-
+    
     const [isDropdown, setIsDropdown] = useState(isDropdownOutside);
     console.log('isDropdown', isDropdown)
     console.log('isDropdownOutside', isDropdownOutside)
@@ -46,6 +42,17 @@ const DateInput = ({ date, setDate, isDropdownOutside = false, setIsDropdownOuts
     useEffect(() => {
         setIsDropdown(isDropdownOutside);
     }, [isDropdownOutside]);
+    
+    // Synchronize isDropdown with isFocusOutside
+    useEffect(() => {
+        setIsDropdown(isDropdownOutside);
+    }, [isDropdownOutside]);
+    useEffect(() => {
+        setIsDropdownOutside(isDropdown);
+    }, [isDropdown, isDropdownOutside]);
+    
+    // Close dropdown on click outside
+    useClickOutside(formInputRef, () => setIsDropdown(false));
 
     useEffect(() => {
         if (!date) {
@@ -72,7 +79,6 @@ const DateInput = ({ date, setDate, isDropdownOutside = false, setIsDropdownOuts
         const isoDateWithTime = `${selectedDate}T${currentTime}`;
         setDate(isoDateWithTime); 
         setIsDropdown(false);
-        setIsDropdownOutside(false);
     };
 
     const handleOnClick = () => {
@@ -85,15 +91,11 @@ const DateInput = ({ date, setDate, isDropdownOutside = false, setIsDropdownOuts
             console.log('Enter Enter Enter Enter')
             event.preventDefault(); 
             setIsDropdown(false);
-            setIsDropdownOutside(false);
-
         }
         if (event.key === 'Escape') {
             console.log('Escape Escape Escape Escape')
             event.preventDefault(); 
             setIsDropdown(false);
-            setIsDropdownOutside(false);
-
         }
     };
 

@@ -1,10 +1,12 @@
 import styles from './TransferBalance.module.scss';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { transferBalance } from '../../redux/actions';
 import Button from '../Button/Button';
 import BalanceInput from '../FormInput/BalanceInput';
 import WalletInput from '../FormInput/WalletInput';
+import { FaRegPaperPlane } from "react-icons/fa6";
+import useClickOutside from '../ClickOutside/useClickOutside';
 
 function TransferBalanceForm({
     showForm,
@@ -17,6 +19,7 @@ function TransferBalanceForm({
     const transferWallets = wallets.filter(wallet => wallet._id !== walletId);
     const [transferAmount, setTransferAmount] = useState('');
     const [targetWallet, setTargetWallet] = useState('');
+    const formRef = useRef(null);
 
     const closeForm = useCallback(() => {
         setTransferAmount('');
@@ -24,11 +27,14 @@ function TransferBalanceForm({
         setShowForm(false);
     }, [setShowForm]);
 
-    const handleClickOutside = () => {
-        setShowForm(false);
-        setTransferAmount('');
-        setTargetWallet('');
-    };
+    useClickOutside(
+        formRef,
+        () => {
+            // if (!isTypeFocus) {
+                closeForm();
+            // }
+        }
+    );
 
     const handleFormSubmit = (event) => {
         event.preventDefault();
@@ -44,13 +50,14 @@ function TransferBalanceForm({
 
     return (
         showForm && (
-            <div className={styles.formOverlay} onClick={handleClickOutside}>
+            <div className={styles.formOverlay}>
                 <form
+                    ref={formRef}
                     onSubmit={handleFormSubmit}
                     className={styles.formContainer}
                     onClick={(e) => e.stopPropagation()} 
                 >
-                    <div>Transfer Money</div>
+                    <div className={styles.formHeader}>Transfer Balance <FaRegPaperPlane className={styles.transferIcon}/></div>
                     <div className={styles.formSection}>
                         <h2 className={styles.formLabel}>Amount</h2>
                         <BalanceInput

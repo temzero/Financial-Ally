@@ -2,7 +2,7 @@ import styles from './Transaction.module.scss';
 import incomeImage from '../../assets/images/bringmoney.jpg';
 import { BiSolidPlusCircle, BiSolidMinusCircle } from 'react-icons/bi';
 import { editIcon, deleteIcon, dollarWastingIcon } from '../../assets/icons/icons';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     deleteTransaction,
@@ -26,6 +26,7 @@ function Transaction({
     const classes = `${className} ${styles.transactionForm} ${color ? styles.color : ''} ${hidden ? styles.hidden : ''}`;
     const dispatch = useDispatch();
     const transactionId = transaction._id;
+    const formRef = useRef(null)
 
     const budgets = useSelector((state) => state.budget.budgets) || [];
     const budgetsContainTransactionId = budgets.filter(budget =>
@@ -36,10 +37,84 @@ function Transaction({
     const wallets = useSelector((state) => state.wallet.wallets) || [];
     const wallet = wallets.find((wallet) => wallet._id === transaction.walletId) || {};
 
-    const [editable, setEditable] = useState(false);
+    const [editable, setEditable] = useState();
     const [amount, setAmount] = useState(transaction.amount);
     const [categoryId, setCategoryId] = useState(transaction.categoryId);
     const [note, setNote] = useState(transaction.note);
+
+    const closeForm = () => {  
+        console.log(`closeForm trigger`)
+        if(!editable) {
+            console.log(`closeForm`)
+            setSelectedTransaction(null);setAmount(transaction.amount); setNote(transaction.note) ;setEditable(false); setCounter(0)
+        }
+    }
+
+    const [counter, setCounter] = useState(0);
+    const [isBalanceFocus, setIsBalanceFocus] = useState(false);
+    const [isNoteFocus, setIsNoteFocus] = useState(false);
+    console.log('counter: ', counter)
+
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            event.stopPropagation(); 
+            if (isNoteFocus) {
+                if (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'Enter') {
+                    event.preventDefault();
+                    return;
+                }
+            }
+
+            if (event.key === 'ArrowDown') {
+                event.preventDefault();
+                setCounter((prevCounter) => (prevCounter + 1) % 2);
+            } else if (event.key === 'ArrowUp') {
+                event.preventDefault();
+                setCounter((prevCounter) => (prevCounter - 1 + 2) % 2);
+            } else if (event.key === 'Enter') {
+                event.preventDefault();
+                handleEditConfirm()
+            } 
+
+        console.log('is editable: ', editable)
+            
+            if (editable) {
+                if (event.key === 'Escape') {
+                    event.preventDefault();
+                    setEditable(false); 
+                    setAmount(transaction.amount);
+                    setNote(transaction.note);
+                    setCounter(0)
+                    return;
+                }
+            }
+
+            if (event.key === 'Escape' && editable === false) {
+                event.preventDefault();
+                closeForm();
+                return
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [counter,editable, isBalanceFocus, isNoteFocus]);
+
+
+    useEffect(() => {
+        const focusStates = {
+            0: [true, false],
+            1: [false, true],
+        };
+
+        const [
+            balanceFocus,
+            noteFocus,
+        ] = focusStates[counter] || [];
+        setIsBalanceFocus(balanceFocus);
+        setIsNoteFocus(noteFocus);
+    }, [counter]);
+
 
     const category = categories.find((cat) => cat._id === categoryId);
 
@@ -83,14 +158,18 @@ function Transaction({
         });
     };
 
+    const handleEnableEdit = () => {
+        setEditable(true);
+    }
+
     const handleEditConfirm = (event) => {
-        event.stopPropagation();
+        event.stopPropagation(); 
         setEditable(false);
         handleTransactionUpdate();
     };
 
     const handleCancelEdit = (event) => {
-        event.stopPropagation();
+        event.stopPropagation(); 
         setEditable(false);
         setAmount(transaction.amount);
         setCategoryId(transaction.categoryId);
@@ -174,7 +253,8 @@ function Transaction({
                 </>
             ) : (
                 <>
-                    <button className={styles.transactionBtn} onClick={() => setEditable(true)}>
+                    {/* <button className={styles.transactionBtn}> */}
+                    <button className={styles.transactionBtn} onClick={handleEnableEdit}>
                         {editIcon({ width: '23px', height: '23px' })}
                     </button>
                     <button className={styles.transactionBtn} onClick={handleTransactionDelete}>
@@ -187,15 +267,15 @@ function Transaction({
 
     return (
         <div className={classes}>
-            <div className={styles.formOverlay} onClick={() => { setSelectedTransaction(null); setEditable(false); }}>
-                <div className={styles.formContainer} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.formOverlay}  onClick={closeForm}>
+                <div className={styles.formContainer} ref={formRef} onClick={(e) => e.stopPropagation()}>
                     <div className={styles.transactionHeader}>
                         <div className={styles.transactionTypeIcon}>{typeIcon()}</div>
                         <div className={styles.TransactionBalance}>
                             {editable ? (
-                                <BalanceInput amount={amount} setAmount={setAmount} className={styles.balanceInput} />
+                                <BalanceInput amount={amount} setAmount={setAmount} isFocusOutside={isBalanceFocus} setIsFocusOutside={setIsBalanceFocus} className={styles.balanceInput} />
                             ) : (
-                                `${currency}${amount.toLocaleString("en-US")}`
+                                `${currency} ${amount.toLocaleString("en-US")}`
                             )}
                         </div>
                     </div>
@@ -215,7 +295,7 @@ function Transaction({
 
                     <div className={styles.transactionNote}>
                         {editable ? (
-                            <NoteInput note={note} setNote={setNote} className={styles.noteInput} />
+                            <NoteInput note={note} setNote={setNote} isFocusOutside={isNoteFocus} setIsFocusOutside={setIsNoteFocus} className={styles.noteInput} />
                         ) : (
                             <span className={styles.noteText}>{note}</span>
                         )}

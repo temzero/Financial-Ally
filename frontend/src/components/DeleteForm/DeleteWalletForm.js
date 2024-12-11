@@ -1,24 +1,22 @@
 import styles from './DeleteForm.module.scss';
+import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteWallet } from '../../redux/actions';
 import { useNavigate } from 'react-router-dom';
 import trashIcon from '../../assets/images/opentrashcan.png';
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { IoWallet } from "react-icons/io5";
+import useClickOutside from '../ClickOutside/useClickOutside';
 
 
 function DeleteWalletForm({ showForm, setShowForm, wallet }) {
     const walletId = wallet?._id;
     const name = wallet?.name || '';
     const color = wallet?.color || '';
+    const formRef = useRef(null)
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
-    const handleClickOutside = (event) => {
-        event.stopPropagation();
-        setShowForm(false);
-    };
 
     const handleDeleteWallet = (e) => {
         e.preventDefault();
@@ -27,10 +25,12 @@ function DeleteWalletForm({ showForm, setShowForm, wallet }) {
         navigate('/wallet');
     };
 
+    useClickOutside( formRef, () => setShowForm(false));
+
     return (
         showForm && (
-            <div className={styles.formOverlay} onClick={handleClickOutside}>
-                <div className={styles.formContainer} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.formOverlay}>
+                <div className={styles.formContainer} ref={formRef}>
                     <div className={styles.formTitle}>
                         Do you want to delete this wallet?
                     </div>
@@ -54,7 +54,7 @@ function DeleteWalletForm({ showForm, setShowForm, wallet }) {
                             <span onClick={handleDeleteWallet}>Delete</span>
                         </div>
                         <div className={styles.cancelButton}>
-                            <span onClick={handleClickOutside}>Cancel</span>
+                            <span onClick={() => setShowForm(false)}>Cancel</span>
                         </div>
                     </div>
                 </div>

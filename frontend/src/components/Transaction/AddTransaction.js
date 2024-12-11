@@ -236,10 +236,10 @@ function AddTransaction() {
 
                 <div className={styles.addTransactionBtnContainer}>
                     <Button
-                        disabled={!isSubmitAble}
                         type="submit"
                         primary
                         rounded
+                        disabled={!isSubmitAble}
                         className={`${styles.addTransactionSubmit} ${counter === 5 ? styles.hover : ''}`}
                     >
                         Add

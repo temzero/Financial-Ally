@@ -3,7 +3,9 @@ import { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { BiTransferAlt } from 'react-icons/bi';
 import { updateWallet } from '../../../redux/actions';
+import { FaRegPaperPlane } from "react-icons/fa6";
 import Button from '../../../components/Button/Button';
+
 import DeleteWalletForm from '../../../components/DeleteForm/DeleteWalletForm';
 import TransactionList from '../../../components/Transaction/TransactionList';
 import TransferBalanceForm from '../../../components/TransferBalance/TransferBalance';
@@ -93,6 +95,31 @@ function WalletInfo() {
         dispatch(updateWallet(updatedWalletTransactions, walletId));
     }, [walletId]);
 
+    // Handle keydown event to toggle add wallet form
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.key === 'Delete') {
+                event.preventDefault()
+                setShowDeleteForm(true);
+            } else if (event.key === 'e' || event.key === '+' || event.key === '=') {
+                event.preventDefault()
+                setShowEditForm(true); 
+            } else if (event.key === 't') {
+                event.preventDefault()
+                setShowTransferForm(true); 
+            }
+        };
+
+        // Add event listener on mount
+        window.addEventListener('keydown', handleKeyDown);
+
+        // Cleanup event listener on unmount
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
+        
+
     const incomeTransactions = transactions.filter(
         (transaction) => transaction.type.toLowerCase() === 'income'
     );
@@ -138,8 +165,8 @@ function WalletInfo() {
                 <div className={styles.title}>Wallet</div>
                 <div className={styles.btnContainer}>
                     <Button s onClick={() => setShowTransferForm(!showTransferForm)}>
-                        <BiTransferAlt />
                         Transfer Balance
+                        <FaRegPaperPlane className={styles.planeIcon}/>
                     </Button>
                     <Button s onClick={() => setShowEditForm(!showEditForm)}>
                         Edit

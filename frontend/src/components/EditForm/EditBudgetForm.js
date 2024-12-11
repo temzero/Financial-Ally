@@ -6,6 +6,7 @@ import Button from '../Button/Button'
 import ColorInput from '../FormInput/ColorInput';
 import BalanceInput from '../FormInput/BalanceInput';
 import DateInput from '../FormInput/PickADateInput'
+import TextInput from '../FormInput/TextInput';
 import WalletsInput from '../FormInput/WalletsInput';
 import useClickOutside from '../ClickOutside/useClickOutside';
 
@@ -58,8 +59,6 @@ function EditBudgetForm({
         );
     };
 
-
-
     const handleFormSubmit = (e) => {
         e.preventDefault();
         
@@ -85,13 +84,7 @@ function EditBudgetForm({
                 <div className={styles.formContainer} ref={formRef}>
                     <form onSubmit={handleFormSubmit}>
                         <div className={`${styles.namePlate} ${styles[budgetColor]}`}>
-                            <input
-                                className={styles.formNameInput}
-                                type="text"
-                                placeholder="Budget Name"
-                                value={budgetName}
-                                onChange={(e) => setBudgetName(e.target.value)}
-                            />
+                            <TextInput  className={styles.formNameInput} content={budgetName} setContent={setBudgetName} isFocusOutside={true}/>
                         </div>
                         <div className={styles.formDivider}></div>
                         <div className={styles.formContent}>

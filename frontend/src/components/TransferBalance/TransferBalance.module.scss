@@ -14,16 +14,33 @@
 
 .formContainer {
     background: white;
-    padding: 16px 30px;
     border-radius: 4px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     width: 400px;
     max-width: 90%;
+    padding-bottom: 12px;
+}
+
+.formHeader {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.8rem;
+    font-weight: 300;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--pale-color);
+
+    .transferIcon {
+        font-size: 1.2rem;
+    }
 }
 
 .formSection {
     margin-top: 16px;
     margin-bottom: 30px;
+    padding: 0 30px;
 }
 
 .formLabel {

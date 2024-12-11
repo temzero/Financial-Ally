@@ -2,6 +2,7 @@ import styles from './FormInput.module.scss';
 import { useEffect, useState, useRef } from 'react';
 import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
 import useClickOutside from '../ClickOutside/useClickOutside';
+import usePreventClickOutside from '../ClickOutside/usePreventClickOutside';
 
 function WalletsInput({
     wallets,
@@ -41,6 +42,10 @@ function WalletsInput({
                     event.preventDefault();
                     const selectedWallet = wallets[counter];
                     handleCheckboxChange(selectedWallet); // Select or deselect on Enter
+                } else if (event.key === 'Escape') {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    setIsDropdown(false)
                 }
             };
 

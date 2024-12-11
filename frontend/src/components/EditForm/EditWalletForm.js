@@ -6,6 +6,8 @@ import Button from '../Button/Button';
 import BalanceInput from '../FormInput/BalanceInput';
 import WalletTypeInput from '../FormInput/WalletTypeInput';
 import ColorInput from '../FormInput/ColorInput';
+import TextInput from '../FormInput/TextInput';
+import useClickOutside from '../ClickOutside/useClickOutside';
 
 function EditWalletForm({
     walletData,
@@ -37,25 +39,14 @@ function EditWalletForm({
         setShowForm(false);
     }, [walletData, setShowForm, setWalletName, setWalletBalance, setWalletType, setWalletColor]);
 
-    // Clear Form data when the form is closed
-    useEffect(() => {
-        const handleClickOutside = (e) => {
-            if (formRef.current && !formRef.current.contains(e.target)) {
+    useClickOutside(
+        formRef,
+        () => {
+            // if (!isTypeFocus) {
                 closeForm();
-            }
-        };
-
-        if (showForm) {
-            document.addEventListener('mousedown', handleClickOutside);
-        } else {
-            document.removeEventListener('mousedown', handleClickOutside);
+            // }
         }
-
-        return () => {
-            // Cleanup event listener on unmount
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [showForm, closeForm, formRef]);
+    );
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
@@ -77,13 +68,7 @@ function EditWalletForm({
                 <div className={styles.formContainer} ref={formRef}>
                     <form onSubmit={handleFormSubmit}>
                         <div className={`${styles.namePlate} ${styles[walletColor]}`}>
-                            <input
-                                className={styles.formNameInput}
-                                type="text"
-                                placeholder="Wallet Name"
-                                value={walletName}
-                                onChange={(e) => setWalletName(e.target.value)}
-                            />
+                            <TextInput  className={styles.formNameInput} content={walletName} setContent={setWalletName} isFocusOutside={true}/>
                         </div>
                         <div className={styles.formDivider}></div>
                         <div className={styles.formContent}>

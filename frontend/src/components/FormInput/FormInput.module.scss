@@ -338,20 +338,31 @@
     justify-content: space-between;
     margin-top: 30px;
     margin-bottom: 20px;
+
+    &:focus {
+        outline: none;
+        padding-bottom: 4px;
+        border-bottom: 1px solid grey;
+    }
+
+    .circleOption {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        // border: 4px solid transparent;
+        transition: border-color 1s;
+        cursor: pointer;
+
+        &:hover {
+            border: 4px solid grey;
+        }
+
+        &.active {
+            border: 4px solid grey;
+        }
+    }
 }
 
-.circleOption {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 4px solid transparent; /* To show selection when clicked */
-    transition: border-color 1s;
-}
-
-.circleOption:hover {
-    border: 4px solid grey;
-}
 
 .formTextInput {
     font-size: 1.2rem;
@@ -360,6 +371,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     height: 36px;
+    background-color: transparent;
 }
 
 // Category input
