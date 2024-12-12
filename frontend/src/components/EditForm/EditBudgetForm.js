@@ -1,6 +1,7 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateBudget } from '../../redux/actions';
+import { setOverlay } from '../../redux/actions';
 import styles from './EditForm.module.scss';
 import Button from '../Button/Button'
 import ColorInput from '../FormInput/ColorInput';
@@ -37,6 +38,8 @@ function EditBudgetForm({
     const dispatch = useDispatch();
     const [selectedWallets, setSelectedWallets] = useState(budgetWallets);
 
+    useEffect(() => {dispatch(setOverlay(true))}, [])
+
     const closeForm = useCallback(() => {
         setBudgetName(budgetData.name);
         setBudgetMoneyLimit(budgetData.moneyLimit);
@@ -44,6 +47,7 @@ function EditBudgetForm({
         setBudgetColor(budgetData.color);
         setBudgetFinishDate(budgetData.finishDate)
         setShowForm(false);
+        dispatch(setOverlay(false))
     }, [budgetData, setShowForm, setBudgetName, setSelectedWallets, budgetWallets, setBudgetMoneyLimit, setBudgetColor, setBudgetFinishDate]);
 
     useClickOutside(formRef, () => closeForm());
@@ -74,8 +78,9 @@ function EditBudgetForm({
 
         dispatch(updateBudget(updatedBudgetData, budgetId));
         setBudgetWallets(selectedWallets)
+        
         setShowForm(false);
-
+        dispatch(setOverlay(false))
     };
 
     return (

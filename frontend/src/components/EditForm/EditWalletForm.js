@@ -2,6 +2,7 @@ import styles from './EditForm.module.scss';
 import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateWallet } from '../../redux/actions';
+import { setOverlay } from '../../redux/actions';
 import Button from '../Button/Button';
 import BalanceInput from '../FormInput/BalanceInput';
 import WalletTypeInput from '../FormInput/WalletTypeInput';
@@ -30,6 +31,7 @@ function EditWalletForm({
 
     const walletId = walletData._id;
     const dispatch = useDispatch(); 
+    useEffect(() => {dispatch(setOverlay(true))}, [])
 
     const closeForm = useCallback(() => {
         setWalletName(walletData.name);
@@ -37,16 +39,10 @@ function EditWalletForm({
         setWalletType(walletData.type);
         setWalletColor(walletData.color);
         setShowForm(false);
+        dispatch(setOverlay(false))
     }, [walletData, setShowForm, setWalletName, setWalletBalance, setWalletType, setWalletColor]);
 
-    useClickOutside(
-        formRef,
-        () => {
-            // if (!isTypeFocus) {
-                closeForm();
-            // }
-        }
-    );
+    useClickOutside(formRef, () => closeForm());
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
@@ -60,6 +56,7 @@ function EditWalletForm({
 
         dispatch(updateWallet(updateWalletData, walletId));
         setShowForm(false);
+        dispatch(setOverlay(false))
     };
 
     return (

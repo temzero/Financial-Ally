@@ -2,7 +2,7 @@ import styles from './Transaction.module.scss';
 import incomeImage from '../../assets/images/bringmoney.jpg';
 import { BiSolidPlusCircle, BiSolidMinusCircle } from 'react-icons/bi';
 import { editIcon, deleteIcon, dollarWastingIcon } from '../../assets/icons/icons';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     deleteTransaction,
@@ -11,6 +11,7 @@ import {
     updateTransaction,
 } from '../../redux/actions';
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from 'react-icons/ai';
+import { setOverlay } from '../../redux/actions';
 import BalanceInput from '../FormInput/BalanceInput';
 import NoteInput from '../FormInput/NoteInput';
 import reactIcons from '../../assets/icons/reactIcons';
@@ -26,7 +27,9 @@ function Transaction({
     const classes = `${className} ${styles.transactionForm} ${color ? styles.color : ''} ${hidden ? styles.hidden : ''}`;
     const dispatch = useDispatch();
     const transactionId = transaction._id;
-    const formRef = useRef(null)
+    useEffect(() => {
+        dispatch(setOverlay(true))
+    }, [])
 
     const budgets = useSelector((state) => state.budget.budgets) || [];
     const budgetsContainTransactionId = budgets.filter(budget =>
@@ -37,68 +40,65 @@ function Transaction({
     const wallets = useSelector((state) => state.wallet.wallets) || [];
     const wallet = wallets.find((wallet) => wallet._id === transaction.walletId) || {};
 
-    const [editable, setEditable] = useState();
+    // const [isOverlay, setIsOverlay] = useState(true);
+    const [editable, setEditable] = useState(false);
+    
     const [amount, setAmount] = useState(transaction.amount);
     const [categoryId, setCategoryId] = useState(transaction.categoryId);
     const [note, setNote] = useState(transaction.note);
-
-    const closeForm = () => {  
-        console.log(`closeForm trigger`)
-        if(!editable) {
-            console.log(`closeForm`)
-            setSelectedTransaction(null);setAmount(transaction.amount); setNote(transaction.note) ;setEditable(false); setCounter(0)
+    
+    const closeForm = () => {
+        if (!editable) {
+            setSelectedTransaction(null);
+            setAmount(transaction.amount);
+            setNote(transaction.note);
+            setEditable(false);
+            setCounter(0);
+            dispatch(setOverlay(false))
         }
-    }
+    };
 
     const [counter, setCounter] = useState(0);
     const [isBalanceFocus, setIsBalanceFocus] = useState(false);
     const [isNoteFocus, setIsNoteFocus] = useState(false);
-    console.log('counter: ', counter)
 
     useEffect(() => {
         const handleKeyDown = (event) => {
-            event.stopPropagation(); 
-            if (isNoteFocus) {
-                if (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'Enter') {
-                    event.preventDefault();
-                    return;
-                }
+            event.stopPropagation();
+            if (isNoteFocus && ['ArrowDown', 'ArrowUp', 'Enter'].includes(event.key)) {
+                event.preventDefault();
+                return;
             }
-
-            if (event.key === 'ArrowDown') {
-                event.preventDefault();
-                setCounter((prevCounter) => (prevCounter + 1) % 2);
-            } else if (event.key === 'ArrowUp') {
-                event.preventDefault();
-                setCounter((prevCounter) => (prevCounter - 1 + 2) % 2);
-            } else if (event.key === 'Enter') {
-                event.preventDefault();
-                handleEditConfirm()
-            } 
-
-        console.log('is editable: ', editable)
-            
-            if (editable) {
-                if (event.key === 'Escape') {
+    
+            switch (event.key) {
+                case 'ArrowDown':
                     event.preventDefault();
-                    setEditable(false); 
-                    setAmount(transaction.amount);
-                    setNote(transaction.note);
+                    setCounter(prev => (prev + 1) % 2);
+                    break;
+                case 'ArrowUp':
+                    event.preventDefault();
+                    setCounter(prev => (prev - 1 + 2) % 2);
+                    break;
+                case 'Enter':
+                    event.preventDefault();
+                    handleEditConfirm();
+                    break;
+                case 'Escape':
+                    event.preventDefault();
+                    editable ? handleCancelEdit() : closeForm();
+                    break;
+                case 'e':
                     setCounter(0)
-                    return;
-                }
-            }
-
-            if (event.key === 'Escape' && editable === false) {
-                event.preventDefault();
-                closeForm();
-                return
+                    setEditable(true)
+                    break;
+                default:
+                    break;
             }
         };
-
+    
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [counter,editable, isBalanceFocus, isNoteFocus]);
+    }, [counter, editable, isNoteFocus]);
 
 
     useEffect(() => {
@@ -145,10 +145,9 @@ function Transaction({
 
     const handleTransactionUpdate = () => {
         const updatedWalletBalance = wallet.balance + transaction.amount - amount;
-        const updateWalletData = { balance: updatedWalletBalance };
 
         dispatch(updateTransaction(updateTransactionData, transactionId));
-        dispatch(updateWallet(updateWalletData, wallet._id));
+        dispatch(updateWallet({ balance: updatedWalletBalance }, wallet._id));
 
         budgets.forEach((budget) => {
             if (budget.walletIds?.includes(transaction.walletId)) {
@@ -158,18 +157,12 @@ function Transaction({
         });
     };
 
-    const handleEnableEdit = () => {
-        setEditable(true);
-    }
-
-    const handleEditConfirm = (event) => {
-        event.stopPropagation(); 
+    const handleEditConfirm = (event) => { 
         setEditable(false);
         handleTransactionUpdate();
     };
 
     const handleCancelEdit = (event) => {
-        event.stopPropagation(); 
         setEditable(false);
         setAmount(transaction.amount);
         setCategoryId(transaction.categoryId);
@@ -177,53 +170,44 @@ function Transaction({
     };
 
     const handleTransactionDelete = () => {
-        // Log the budgets containing the transaction
-        console.log('budgetsContainTransactionId: ', budgetsContainTransactionId);
+        console.log('budgetsContainTransactionId:', budgetsContainTransactionId);
     
         // Delete the transaction from the database
         dispatch(deleteTransaction(transactionId));
     
-        // Calculate the updated wallet balance after deleting the transaction
-        const updatedWalletBalance = transaction.type.toLowerCase() === 'expense'
+        // Calculate updated wallet details
+        const isExpense = transaction.type.toLowerCase() === 'expense';
+        const updatedWalletBalance = isExpense
             ? wallet.balance + transaction.amount
             : wallet.balance - transaction.amount;
     
-        // Remove the transaction ID from the wallet's transactionIds
         const updatedWalletTransactionIds = wallet.transactionIds.filter(
             (id) => id !== transactionId
         );
     
-        // Prepare the wallet update data
-        const updateWalletData = {
-            balance: updatedWalletBalance,
-            transactionIds: updatedWalletTransactionIds,
-        };
-    
         // Dispatch the wallet update
-        dispatch(updateWallet(updateWalletData, wallet._id));
+        dispatch(updateWallet(
+            { balance: updatedWalletBalance, transactionIds: updatedWalletTransactionIds },
+            wallet._id
+        ));
     
-        // Iterate over the budgets that contain this transaction and update them
+        // Update budgets containing this transaction
         budgetsContainTransactionId.forEach((budget) => {
-            // Remove the transaction ID from the budget's transactionIds
             const updatedBudgetTransactionIds = budget.transactionIds.filter(
                 (id) => id !== transactionId
             );
     
-            // Prepare the budget update data
-            const updateBudgetData = {
-                transactionIds: updatedBudgetTransactionIds,
-            };
-    
-            // Dispatch the budget update
-            dispatch(updateBudget(updateBudgetData, budget._id));
+            const budgetUpdates = { transactionIds: updatedBudgetTransactionIds };
     
             // If the transaction is an expense, update the budget's moneySpend
-            if (transaction.type.toLowerCase() === 'expense') {
-                const updatedMoneySpend = Math.max(0, budget.moneySpend - transaction.amount);
-                dispatch(updateBudget({ moneySpend: updatedMoneySpend }, budget._id));
+            if (isExpense) {
+                budgetUpdates.moneySpend = Math.max(0, budget.moneySpend - transaction.amount);
             }
+    
+            dispatch(updateBudget(budgetUpdates, budget._id));
         });
     };
+    
 
     const categoryDisplay = () => {
         const categoryColor = category?.color || 'defaultColor';
@@ -254,7 +238,7 @@ function Transaction({
             ) : (
                 <>
                     {/* <button className={styles.transactionBtn}> */}
-                    <button className={styles.transactionBtn} onClick={handleEnableEdit}>
+                    <button className={styles.transactionBtn} onClick={() => setEditable(true)}>
                         {editIcon({ width: '23px', height: '23px' })}
                     </button>
                     <button className={styles.transactionBtn} onClick={handleTransactionDelete}>
@@ -268,7 +252,7 @@ function Transaction({
     return (
         <div className={classes}>
             <div className={styles.formOverlay}  onClick={closeForm}>
-                <div className={styles.formContainer} ref={formRef} onClick={(e) => e.stopPropagation()}>
+                <div className={styles.formContainer} onClick={(e) => e.stopPropagation()}>
                     <div className={styles.transactionHeader}>
                         <div className={styles.transactionTypeIcon}>{typeIcon()}</div>
                         <div className={styles.TransactionBalance}>

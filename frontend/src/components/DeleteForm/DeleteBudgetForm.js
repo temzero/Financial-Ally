@@ -1,12 +1,13 @@
 import styles from './DeleteForm.module.scss';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteBudget } from '../../redux/actions';
 import { useNavigate } from 'react-router-dom';
-import trashIcon from '../../assets/images/opentrashcan.png';
 import { HiOutlineArrowRight } from "react-icons/hi";
+import { setOverlay } from '../../redux/actions';
+import trashIcon from '../../assets/images/opentrashcan.png';
 import useClickOutside from '../ClickOutside/useClickOutside';
-import budgetIcon from '../../assets/icons/reportIcon'; // Ensure this path is correct
+import budgetIcon from '../../assets/icons/reportIcon'; 
 
 function DeleteBudgetForm({ showForm, setShowForm, budget }) {
     const budgetId = budget?._id;
@@ -17,14 +18,21 @@ function DeleteBudgetForm({ showForm, setShowForm, budget }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    useEffect(() => {dispatch(setOverlay(true))}, [])
+
+    const closeForm = () => {
+        setShowForm(false);
+        dispatch(setOverlay(false))
+    }
+
     const handleDeleteBudget = (e) => {
         e.preventDefault();
         dispatch(deleteBudget(budgetId));
-        setShowForm(false);
+        closeForm()
         navigate('/budget');
     };
 
-    useClickOutside(formRef, () => setShowForm(false));
+    useClickOutside(formRef, () => closeForm());
 
     return (
         showForm && (
@@ -53,7 +61,7 @@ function DeleteBudgetForm({ showForm, setShowForm, budget }) {
                             <span onClick={handleDeleteBudget}>Delete</span>
                         </div>
                         <div className={styles.cancelButton}>
-                            <span onClick={() => setShowForm(false)}>Cancel</span>
+                            <span onClick={closeForm}>Cancel</span>
                         </div>
                     </div>
                 </div>

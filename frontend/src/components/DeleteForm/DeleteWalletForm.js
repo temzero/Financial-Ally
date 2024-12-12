@@ -1,11 +1,11 @@
 import styles from './DeleteForm.module.scss';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteWallet } from '../../redux/actions';
+import { deleteWallet, setOverlay } from '../../redux/actions';
 import { useNavigate } from 'react-router-dom';
-import trashIcon from '../../assets/images/opentrashcan.png';
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { IoWallet } from "react-icons/io5";
+import trashIcon from '../../assets/images/opentrashcan.png';
 import useClickOutside from '../ClickOutside/useClickOutside';
 
 
@@ -15,17 +15,23 @@ function DeleteWalletForm({ showForm, setShowForm, wallet }) {
     const color = wallet?.color || '';
     const formRef = useRef(null)
 
+    useEffect(() => {dispatch(setOverlay(true))}, [])
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const closeForm = () => {
+        setShowForm(false);
+        dispatch(setOverlay(false))
+    }
 
     const handleDeleteWallet = (e) => {
         e.preventDefault();
         dispatch(deleteWallet(walletId));
-        setShowForm(false);
+        closeForm()
         navigate('/wallet');
     };
 
-    useClickOutside( formRef, () => setShowForm(false));
+    useClickOutside( formRef, () => closeForm());
 
     return (
         showForm && (
@@ -54,7 +60,7 @@ function DeleteWalletForm({ showForm, setShowForm, wallet }) {
                             <span onClick={handleDeleteWallet}>Delete</span>
                         </div>
                         <div className={styles.cancelButton}>
-                            <span onClick={() => setShowForm(false)}>Cancel</span>
+                            <span onClick={closeForm}>Cancel</span>
                         </div>
                     </div>
                 </div>

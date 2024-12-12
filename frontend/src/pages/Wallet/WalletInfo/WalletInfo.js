@@ -1,26 +1,23 @@
+import styles from './WalletInfo.module.scss';
 import { useLocation } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { BiTransferAlt } from 'react-icons/bi';
 import { updateWallet } from '../../../redux/actions';
 import { FaRegPaperPlane } from "react-icons/fa6";
+import { setOverlay } from '../../../redux/actions';
 import Button from '../../../components/Button/Button';
-
 import DeleteWalletForm from '../../../components/DeleteForm/DeleteWalletForm';
 import TransactionList from '../../../components/Transaction/TransactionList';
 import TransferBalanceForm from '../../../components/TransferBalance/TransferBalance';
 import EditWalletForm from '../../../components/EditForm/EditWalletForm';
 import CategoryChart from '../../../components/Chart/CategoryChart';
 import CountUpEffect from '../../../components/Animation/CountUpEffect';
-
 import noMoneyImage from '../../../assets/images/noMoney.png';
 import moneyImage from '../../../assets/images/cash.png';
 import muchMoneyImage from '../../../assets/images/alotofcash.png';
 import landscapeImage from '../../../assets/images/landscape.png';
 
-import styles from './WalletInfo.module.scss';
 
-// Move `useEffect` above the component definition
 function initializeWalletData(walletData, setWalletName, setWalletBalance, setWalletType, setWalletColor, setCreatedAt) {
     if (walletData) {
         const { name, balance, type, color, createdAt } = walletData;
@@ -37,6 +34,9 @@ function WalletInfo() {
     const walletId = state?._id || '';
     const currency = '$';
     const dispatch = useDispatch();
+    
+    const Overlay = useSelector((state) => state.state.isOverlay);
+    useEffect(() => {dispatch(setOverlay(false))}, [])
 
     const allWallets = useSelector((state) => state.wallet.wallets);
     const walletData = allWallets.find(wallet => wallet._id === walletId);
@@ -98,15 +98,19 @@ function WalletInfo() {
     // Handle keydown event to toggle add wallet form
     useEffect(() => {
         const handleKeyDown = (event) => {
-            if (event.key === 'Delete') {
-                event.preventDefault()
-                setShowDeleteForm(true);
-            } else if (event.key === 'e' || event.key === '+' || event.key === '=') {
-                event.preventDefault()
-                setShowEditForm(true); 
-            } else if (event.key === 't') {
-                event.preventDefault()
-                setShowTransferForm(true); 
+            if(Overlay) return;
+
+            if(!showTransferForm && !showEditForm && !showDeleteForm) {
+                if (event.key === 'Delete') {
+                    event.preventDefault()
+                    setShowDeleteForm(true);
+                } else if (event.key === 'e' || event.key === '+' || event.key === '=') {
+                    event.preventDefault()
+                    setShowEditForm(true); 
+                } else if (event.key === 't') {
+                    event.preventDefault()
+                    setShowTransferForm(true); 
+                }
             }
         };
 
@@ -117,7 +121,7 @@ function WalletInfo() {
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, []);
+    }, [showTransferForm, showEditForm, showDeleteForm, Overlay]);
         
 
     const incomeTransactions = transactions.filter(
@@ -223,28 +227,34 @@ function WalletInfo() {
                 Created at {formattedDate} ({joinDays} days)
             </div>
 
-            <EditWalletForm
-                walletData={walletData}
-                formRef={formRef}
-                showForm={showEditForm}
-                setShowForm={setShowEditForm}
-                walletName={walletName}
-                setWalletName={setWalletName}
-                walletBalance={walletBalance}
-                setWalletBalance={setWalletBalance}
-                walletType={walletType}
-                setWalletType={setWalletType}
-                walletColor={walletColor}
-                setWalletColor={setWalletColor}
-            />
+            {showEditForm && (
+                <EditWalletForm
+                    walletData={walletData}
+                    formRef={formRef}
+                    showForm={showEditForm}
+                    setShowForm={setShowEditForm}
+                    walletName={walletName}
+                    setWalletName={setWalletName}
+                    walletBalance={walletBalance}
+                    setWalletBalance={setWalletBalance}
+                    walletType={walletType}
+                    setWalletType={setWalletType}
+                    walletColor={walletColor}
+                    setWalletColor={setWalletColor}
+                />
+            )}
 
-            <DeleteWalletForm showForm={showDeleteForm} setShowForm={setShowDeleteForm} wallet={walletData} />
-
-            <TransferBalanceForm
-                showForm={showTransferForm}
-                setShowForm={setShowTransferForm}
-                walletData={walletData}
-            />
+            {showDeleteForm && (
+                <DeleteWalletForm showForm={showDeleteForm} setShowForm={setShowDeleteForm} wallet={walletData} />
+            )}
+            
+            {showTransferForm && (
+                <TransferBalanceForm
+                    showForm={showTransferForm}
+                    setShowForm={setShowTransferForm}
+                    walletData={walletData}
+                />
+            )}
         </div>
     );
 }

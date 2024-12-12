@@ -4,6 +4,7 @@ import walletReducer from './walletReducer';
 import budgetReducer from './budgetReducer';
 import transactionReducer from './transactionReducer';
 import categoryReducer from './categoryReducer';
+import stateReducer from './stateReducer';
 
 // const initState = {
 //     user: {
@@ -30,6 +31,7 @@ const reducer = combineReducers({
     budget: budgetReducer,
     transaction: transactionReducer,
     category: categoryReducer,
+    state: stateReducer,
 });
 
 export default reducer;

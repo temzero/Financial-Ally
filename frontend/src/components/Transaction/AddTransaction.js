@@ -17,6 +17,7 @@ import {
 function AddTransaction() {
     const user = useSelector((state) => state.user.user);
     const budgets = useSelector((state) => state.budget.budgets);
+    const Overlay = useSelector((state) => state.state.isOverlay);
     const addTransactionRef = useRef(null);
 
     const [type, setType] = useState('');
@@ -39,47 +40,49 @@ function AddTransaction() {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        if (Overlay) return; 
+    
         const handleKeyDown = (event) => {
-            if (isCategoryFocus || isWalletFocus || isDateFocus) {
-                if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-                    event.preventDefault();
-                    return;
-                }
+            const { key, shiftKey } = event;
+    
+            // Prevent Arrow keys when focus is on certain fields
+            if (['ArrowDown', 'ArrowUp'].includes(key) && (isCategoryFocus || isWalletFocus || isDateFocus)) {
+                event.preventDefault();
+                return;
             }
-
+    
+            // Handle type selection
             if (!isNoteFocus) {
-                if (event.key === '+') {
+                if (key === '+') {
                     setType('Income');
                     setCounter(0);
-                } else if (event.key === '-') {
+                } else if (key === '-') {
                     setType('Expense');
                     setCounter(0);
                 }
             }
-
-            if (event.key === 'Enter') {
-                if (event.shiftKey || counter === 5) {
-                    const submitButton = document.querySelector(`.${styles.addTransactionSubmit}`);
-                    if (submitButton) {
-                        submitButton.click();
-                    }
-                    return;
-                }
+    
+            // Handle Enter key with Shift or max counter
+            if (key === 'Enter' && (shiftKey || counter === 5)) {
+                const submitButton = document.querySelector(`.${styles.addTransactionSubmit}`);
+                submitButton?.click();
+                return;
             }
-
+    
+            // Handle ArrowDown and ArrowUp for counter changes
             if (!isCategoryFocus && !isWalletFocus && !isDateFocus) {
-                if (event.key === 'ArrowDown') {
+                if (key === 'ArrowDown') {
                     event.preventDefault();
                     setCounter((prevCounter) => (prevCounter + 1) % 6);
                     setIsNoteFocus(false);
-                } else if (event.key === 'ArrowUp') {
+                } else if (key === 'ArrowUp') {
                     event.preventDefault();
                     setCounter((prevCounter) => (prevCounter - 1 + 6) % 6);
                     setIsNoteFocus(false);
                 }
             }
         };
-
+    
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [
@@ -89,6 +92,7 @@ function AddTransaction() {
         isWalletFocus,
         isDateFocus,
         isNoteFocus,
+        Overlay
     ]);
 
     useEffect(() => {

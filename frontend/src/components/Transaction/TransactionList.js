@@ -130,12 +130,13 @@ function TransactionList({ transactions = [], currency = '$' }) {
                             </div>
                             {categoryIcon(transaction.categoryId)}
                         </div>
-                        <Transaction
-                            transaction={transaction}
-                            setSelectedTransaction={setSelectedTransaction}
-                            color={color}
-                            hidden={selectedTransaction !== transaction._id}
-                        />
+                        {selectedTransaction === transaction._id && (
+                            <Transaction
+                                transaction={transaction}
+                                setSelectedTransaction={setSelectedTransaction}
+                                color={color}
+                            />
+                        )}
                     </div>
                 );
             })}

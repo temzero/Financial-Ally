@@ -1,11 +1,11 @@
 import styles from './TransferBalance.module.scss';
-import { useCallback, useState, useRef } from 'react';
+import { useCallback, useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { transferBalance } from '../../redux/actions';
+import { transferBalance, setOverlay } from '../../redux/actions';
+import { FaRegPaperPlane } from "react-icons/fa6";
 import Button from '../Button/Button';
 import BalanceInput from '../FormInput/BalanceInput';
 import WalletInput from '../FormInput/WalletInput';
-import { FaRegPaperPlane } from "react-icons/fa6";
 import useClickOutside from '../ClickOutside/useClickOutside';
 
 function TransferBalanceForm({
@@ -21,10 +21,13 @@ function TransferBalanceForm({
     const [targetWallet, setTargetWallet] = useState('');
     const formRef = useRef(null);
 
+    useEffect(() => {dispatch(setOverlay(true))}, [])
+
     const closeForm = useCallback(() => {
         setTransferAmount('');
         setTargetWallet('');
         setShowForm(false);
+        dispatch(setOverlay(false))
     }, [setShowForm]);
 
     useClickOutside(

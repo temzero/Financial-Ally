@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateBudget } from '../../../redux/actions';
 import { IoWalletOutline } from 'react-icons/io5';
+import { setOverlay } from '../../../redux/actions';
 import Button from '../../../components/Button/Button';
 import EditBudgetForm from '../../../components/EditForm/EditBudgetForm';
 import DeleteBudgetForm from '../../../components/DeleteForm/DeleteBudgetForm';
@@ -17,6 +18,8 @@ function BudgetInfo() {
     const { state } = useLocation();
     const budgetId = state?.budgetId || '';
     const currency = '$';
+    const Overlay = useSelector((state) => state.state.isOverlay);
+    useEffect(() => {dispatch(setOverlay(false))}, [])
     const dispatch = useDispatch();
 
     const allBudgets = useSelector((state) => state.budget.budgets) || [];
@@ -59,28 +62,31 @@ function BudgetInfo() {
 
     const [showEditForm, setShowEditForm] = useState(false);
     const [showDeleteForm, setShowDeleteForm] = useState(false);
-
     
     // Handle keydown event to toggle add wallet form
     useEffect(() => {
-        const handleKeyDown = (event) => {
-            if (event.key === 'Delete') {
-                event.preventDefault()
-                setShowDeleteForm(true);
-            } else if (event.key === 'e' || event.key === '+' || event.key === '=') {
-                event.preventDefault()
-                setShowEditForm(true); 
-            } 
-        };
+        if(Overlay) return;
 
+        const handleKeyDown = (event) => {
+            if(!showEditForm && !showDeleteForm) {
+                if (event.key === 'Delete') {
+                    event.preventDefault();
+                    setShowDeleteForm(true);
+                } else if (event.key === 'e' || event.key === '+' || event.key === '=') {
+                    event.preventDefault();
+                    setShowEditForm(true);
+                }
+            }
+        };
+    
         // Add event listener on mount
         window.addEventListener('keydown', handleKeyDown);
-
+    
         // Cleanup event listener on unmount
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, []);
+    }, [showEditForm, showDeleteForm, Overlay]);
 
     // State variables for budget details
     const [budgetName, setBudgetName] = useState(name);
@@ -351,38 +357,42 @@ function BudgetInfo() {
                 <span>{daysLeft > 0 ? <>({daysLeft} days left)</> : ''}</span>
             </div>
 
-            <EditBudgetForm
-                budgetData={currentBudget}
-                formRef={formRef}
-                showForm={showEditForm}
-                setShowForm={setShowEditForm}
+            {showEditForm && (
+                <EditBudgetForm
+                    budgetData={currentBudget}
+                    formRef={formRef}
+                    showForm={showEditForm}
+                    setShowForm={setShowEditForm}
+    
+                    budgetName={budgetName}
+                    setBudgetName={setBudgetName}
+    
+                    budgetMoneyLimit={budgetMoneyLimit}
+                    setBudgetMoneyLimit={setBudgetMoneyLimit}
+    
+                    wallets={allWallets}
+                    budgetWallets={budgetWallets}
+    
+                    setBudgetWallets={setBudgetWallets}
+                    budgetColor={budgetColor}
+    
+                    setBudgetColor={setBudgetColor}
+                    budgetStartDate={budgetStartDate}
+    
+                    setBudgetStartDate={setBudgetStartDate}
+                    budgetFinishDate={budgetFinishDate}
+                    setBudgetFinishDate={setBudgetFinishDate}
+                />
+            )}
 
-                budgetName={budgetName}
-                setBudgetName={setBudgetName}
-
-                budgetMoneyLimit={budgetMoneyLimit}
-                setBudgetMoneyLimit={setBudgetMoneyLimit}
-
-                wallets={allWallets}
-                budgetWallets={budgetWallets}
-
-                setBudgetWallets={setBudgetWallets}
-                budgetColor={budgetColor}
-
-                setBudgetColor={setBudgetColor}
-                budgetStartDate={budgetStartDate}
-
-                setBudgetStartDate={setBudgetStartDate}
-                budgetFinishDate={budgetFinishDate}
-                setBudgetFinishDate={setBudgetFinishDate}
-            />
-
-            <DeleteBudgetForm
-                budget={currentBudget}
-                formRef={formRef}
-                showForm={showDeleteForm}
-                setShowForm={setShowDeleteForm}
-            />
+            {showDeleteForm && (
+                <DeleteBudgetForm
+                    budget={currentBudget}
+                    formRef={formRef}
+                    showForm={showDeleteForm}
+                    setShowForm={setShowDeleteForm}
+                />
+            )}
         </div>
     );
 }

@@ -40,6 +40,9 @@ function Analysis({ currency = '$' }) {
         useSelector((state) => state.transaction.transactions) || [];
     const wallets = useSelector((state) => state.wallet.wallets) || [];
     const walletIds = [''].concat(wallets.map((wallet) => wallet._id));
+    const Overlay = useSelector((state) => state.state.isOverlay);
+    console.log('Overlay', Overlay)
+
     const periods = ['1D', '1W', '1M', '1Y', 'All'];
 
     const [periodCounter, setPeriodCounter] = useState(2);
@@ -126,6 +129,7 @@ function Analysis({ currency = '$' }) {
     };
 
     useEffect(() => {
+        if (Overlay) return;
         const handleKeyDown = (event) => {
             event.stopPropagation();
 

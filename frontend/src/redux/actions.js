@@ -537,3 +537,8 @@ export const deleteCategorySuccess = (categoryId) => ({
     type: Types.deleteCategorySuccess,
     categoryId,
 });
+
+export const setOverlay = (isOverlay) => ({
+    type: Types.setOverlay,
+    isOverlay,
+});

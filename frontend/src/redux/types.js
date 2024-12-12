@@ -59,4 +59,7 @@ export const Types = {
     updateCategorySuccess: 'UPDATE  CATEGORY SUCCESS',
     deleteCategory: 'DELETE CATEGORY',
     deleteCategorySuccess: 'DELETE CATEGORY SUCCESS',
+
+    // Update state
+    setOverlay: 'SET IS OVERLAY OR NOT'
 };

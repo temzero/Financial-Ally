@@ -3,10 +3,10 @@ import Button from '../../components/Button/Button';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState, useRef } from 'react';
 import { getWallets } from '../../redux/actions';
-import AddWalletForm from './AddWalletForm';
 import { AiOutlinePlus } from "react-icons/ai";
 import { WalletCard } from './WalletCard';
 import { FaPlus } from "react-icons/fa6";
+import AddWalletForm from './AddWalletForm';
 
 function Wallet() {
     const [showForm, setShowForm] = useState(false);
