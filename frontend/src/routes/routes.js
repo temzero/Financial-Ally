@@ -2,6 +2,7 @@ import {LoginRegisterLayout, LandingPageLayout } from '../components/layouts/lay
 
 import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
+import ForgotPassword from '../pages/Service/ForgotPassword';
 import LandingPage from '../pages/LandingPage/LandingPage';
 
 import Home from '../pages/Home/Home';
@@ -20,6 +21,7 @@ const publicRoutes = [
     { path: '/', component: LandingPage, layout: LandingPageLayout },
     { path: '/login', component: Login, layout: LoginRegisterLayout },
     { path: '/register', component: Register, layout: LoginRegisterLayout },
+    { path: '/forgot-password', component: ForgotPassword, layout: LoginRegisterLayout },
 ];
 
 const privateRoutes = [

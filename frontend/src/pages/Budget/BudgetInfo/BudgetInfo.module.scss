@@ -10,6 +10,24 @@
     margin-bottom: 20px;
 }
 
+.smallHeader {
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    height: 100%;
+    padding-right: 4px;
+}
+
+.allWallets {
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: 500;
+    &:hover {
+        text-decoration: underline;
+        opacity: .8;
+    }
+}
+
 .title {
     font-size: 2.6rem;
     font-weight: 300;
@@ -151,23 +169,28 @@
 .budgetWallets {
     display: flex;
     flex-wrap: wrap; 
-    gap: 20px;
+    gap: 8px;
     width: 100%;
 }
 
-.wallet {
+.walletItem {
     display: flex;
-    align-items: center;
     gap: 6px;
-    font-size: 1.2rem;
-    font-weight: 400;
-    text-decoration: none;
+    padding: 2px 8px;
+    border-radius: 4px;
+    align-items: center;
+    font-size: 1rem;
     cursor: pointer;
+    color: rgba(0,0,0,0.8);
+    background-color: rgba(0, 0, 0, 0.1);
+    max-height: 32px;
 
     &:hover {
-        font-weight: 500;
+        opacity: 0.8;
+        font-weight: 400;
     }
 }
+
 
 .date {
     width: 100%;
@@ -217,3 +240,37 @@
 .textorange { color: var(--background-orange); }
 .textpurple { color: var(--background-purple); }
 .textrainbow { color: var(--background-rainbow); }
+
+@mixin walletItemStyles($color-var) {
+    &:hover {
+        background-color: var(--#{$color-var});
+    }
+}
+
+.walletItem-green {
+    @include walletItemStyles(background-green);
+}
+
+.walletItem-red {
+    @include walletItemStyles(background-red);
+}
+
+.walletItem-blue {
+    @include walletItemStyles(background-blue);
+}
+
+.walletItem-yellow {
+    @include walletItemStyles(background-yellow);
+}
+
+.walletItem-orange {
+    @include walletItemStyles(background-orange);
+}
+
+.walletItem-purple {
+    @include walletItemStyles(background-purple);
+}
+
+.walletItem-rainbow {
+    @include walletItemStyles(background-rainbow);
+}

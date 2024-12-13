@@ -41,7 +41,6 @@ function Analysis({ currency = '$' }) {
     const wallets = useSelector((state) => state.wallet.wallets) || [];
     const walletIds = [''].concat(wallets.map((wallet) => wallet._id));
     const Overlay = useSelector((state) => state.state.isOverlay);
-    console.log('Overlay', Overlay)
 
     const periods = ['1D', '1W', '1M', '1Y', 'All'];
 
@@ -251,7 +250,7 @@ function Analysis({ currency = '$' }) {
                 <div className={styles.walletSelections} ref={walletRef}>
                     {walletElements()}
                 </div>
-                <div className={styles.chartBtnContainer}>
+                {wallets.length ? (<div className={styles.chartBtnContainer}>
                     {periods.map((period, index) => (
                         <Button
                             key={period}
@@ -264,7 +263,7 @@ function Analysis({ currency = '$' }) {
                             {period}
                         </Button>
                     ))}
-                </div>
+                </div>) : 'wall'}
             </div>
 
             {transactions.length ? (

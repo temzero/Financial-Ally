@@ -101,7 +101,7 @@ function WalletsInput({
                     {walletsDisplay()}
                 </div>
                 <span className={styles.arrow}>
-                    {isDropdown ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                    {wallets.length === 0 ? '' : isDropdown ? <IoIosArrowUp /> : <IoIosArrowDown />}
                 </span>
             </div>
             {isDropdown && (

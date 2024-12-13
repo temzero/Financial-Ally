@@ -103,10 +103,10 @@ function BudgetInfo() {
         if (budgetWallets.length === 0) {
             return (
                 <div
-                    className={styles.wallet}
+                    className={styles.allWallets}
                     onClick={() => navigate('/wallet')}
                 >
-                    <IoWalletOutline /> All wallets
+                    All wallets
                 </div>
             );
         }
@@ -120,7 +120,10 @@ function BudgetInfo() {
             return (
                 <div
                     key={wallet._id}
-                    className={`${styles[walletColorClass]} ${styles.wallet}`}
+                    // className={`${styles[walletColorClass]} ${styles.walletItem}`}
+                    className={`${styles[`walletItem-${wallet.color}`]} ${
+                        styles.walletItem
+                    }`}
                     onClick={handleWalletNavigate}
                 >
                     <IoWalletOutline /> {wallet.name}
@@ -303,6 +306,7 @@ function BudgetInfo() {
 
                     <div className={styles.contentAnalysis}>
                         <div className={styles.budgetWallets}>
+                            <div className={styles.smallHeader}>Wallets:</div>
                             {walletElements()}
                         </div>
                     </div>

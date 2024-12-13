@@ -17,12 +17,11 @@ function Register() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
     
         if (password !== confirmPassword) {
-            console.log('Password does not match');
-            setMessage('Password does not match')
+            setMessage('Password does not match');
             return;
         }
     
@@ -33,10 +32,16 @@ function Register() {
             password,
         };
     
-        dispatch(registerRequest(userData, setMessage, navigate));
-
-        const loginInfo = { email, password };
-        dispatch(loginRequest(loginInfo, navigate));
+        try {
+            // Dispatch register request and wait for completion
+            await dispatch(registerRequest(userData, setMessage, navigate));
+    
+            // Dispatch login request after successful registration
+            const loginInfo = { email, password };
+            await dispatch(loginRequest(loginInfo, setMessage, navigate));
+        } catch (error) {
+            console.error('Error during registration or login:', error);
+        }
     };
 
 

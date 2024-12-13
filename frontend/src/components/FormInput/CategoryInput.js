@@ -17,6 +17,7 @@ const CategoryInput = ({
     // Get categories
     const user = useSelector((state) => state.user.user);
     const categories = useSelector((state) => state.category.categories);
+    const Overlay = useSelector((state) => state.state.isOverlay);
     const userId = user._id;
     const dispatch = useDispatch();
     useEffect(() => {
@@ -47,6 +48,7 @@ const CategoryInput = ({
 
     useEffect(() => {
         if (isFocusOutside) {
+            if (Overlay) return; 
             const handleKeyDown = (event) => {
                 const options = categoriesByType();
 
@@ -114,10 +116,8 @@ const CategoryInput = ({
                 onClick={() => setIsFocusOutside((prev) => !prev)}
             >
                 {!category ? (
-                    <div
-                        className={`${styles.selectedElement} ${styles.placeholder}`}
-                    >
-                        Select category
+                    <div className={`${styles.selectedElement} ${styles.placeholder}`}>
+                        {categories.length === 0 ? 'No categories available' : 'Select category'}
                     </div>
                 ) : (
                     <div className={styles.selectedElement}>
@@ -125,7 +125,8 @@ const CategoryInput = ({
                     </div>
                 )}
                 <span className={styles.arrow}>
-                    {isFocusOutside ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                    {categories.length === 0 ? '' : isFocusOutside ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                    
                 </span>
             </div>
             {isFocusOutside && categories.length > 0 && (

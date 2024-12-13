@@ -13,6 +13,7 @@ const WalletInput = ({
     setIsFocusOutside = () => {},
 }) => {
     const allWallets = useSelector((state) => state.wallet.wallets) || [];
+    const Overlay = useSelector((state) => state.state.isOverlay);
     const resolvedWallets = wallets || allWallets;
 
     const dropdownRef = useRef(null);
@@ -33,6 +34,7 @@ const WalletInput = ({
 
     // Handle keyboard navigation when dropdown is open
     useEffect(() => {
+        if(Overlay) return;
         if (isDropdown) {
             const handleKeyDown = (event) => {
                 if (event.key === 'ArrowUp') {
@@ -84,7 +86,7 @@ const WalletInput = ({
                     </div>
                 )}
                 <span className={styles.arrow}>
-                    {isDropdown ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                    {resolvedWallets.length === 0 ? '' : isDropdown ? <IoIosArrowUp /> : <IoIosArrowDown />}
                 </span>
             </div>
             {isDropdown && resolvedWallets.length > 0 && (

@@ -1,7 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './Home.module.scss';
 import { useEffect } from 'react';
-import { setOverlay } from '../../redux/actions';
 import { getWallets, getTransactions } from '../../redux/actions';
 import TransactionList from '../../components/Transaction/TransactionList';
 import AddTransaction from '../../components/Transaction/AddTransaction';
@@ -14,7 +13,7 @@ function Home() {
     const user = useSelector((state) => state.user.user);
     const wallets = useSelector((state) => state.wallet.wallets);
     const transactions = useSelector((state) => state.transaction.transactions);
-    useEffect(() => {dispatch(setOverlay(false))}, [])
+
     
 
     const totalBalance = (wallets || []).reduce(

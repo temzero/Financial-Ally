@@ -8,6 +8,8 @@ import CategoryInput from '../FormInput/CategoryInput';
 import WalletInput from '../FormInput/WalletInput';
 import BalanceInput from '../FormInput/BalanceInput';
 import NoteInput from '../FormInput/NoteInput';
+import { setOverlay } from '../../redux/actions';
+import useClickOnlyOutside from '../ClickOutside/useClickOnlyOutside';
 import {
     addTransaction,
     updateBudget,
@@ -18,6 +20,7 @@ function AddTransaction() {
     const user = useSelector((state) => state.user.user);
     const budgets = useSelector((state) => state.budget.budgets);
     const Overlay = useSelector((state) => state.state.isOverlay);
+    useEffect(() => {dispatch(setOverlay(false))}, [])
     const addTransactionRef = useRef(null);
 
     const [type, setType] = useState('');
@@ -37,6 +40,8 @@ function AddTransaction() {
     const [isDateFocus, setIsDateFocus] = useState(false);
     const [isNoteFocus, setIsNoteFocus] = useState(false);
 
+    useClickOnlyOutside(addTransactionRef, () => setCounter(-1));
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -44,6 +49,10 @@ function AddTransaction() {
     
         const handleKeyDown = (event) => {
             const { key, shiftKey } = event;
+
+            if (key === 'Escape') {
+                event.preventDefault();
+            }
     
             // Prevent Arrow keys when focus is on certain fields
             if (['ArrowDown', 'ArrowUp'].includes(key) && (isCategoryFocus || isWalletFocus || isDateFocus)) {
@@ -111,7 +120,7 @@ function AddTransaction() {
         setIsWalletFocus(wallet);
         setIsDateFocus(date);
         setIsNoteFocus(note);
-    }, [counter]);
+    }, [counter, Overlay, type]);
 
     const handleAddTransactionSubmit = async (event) => {
         event.preventDefault();
