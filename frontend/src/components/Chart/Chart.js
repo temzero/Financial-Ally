@@ -1,7 +1,7 @@
 import styles from './Chart.module.scss';
 import Button from '../Button/Button';
 import { filterTransactionsByPeriod, balanceLineGraphData } from './chartUtils';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';

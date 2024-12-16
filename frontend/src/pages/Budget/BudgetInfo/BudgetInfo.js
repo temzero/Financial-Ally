@@ -112,7 +112,7 @@ function BudgetInfo() {
         }
 
         return budgetWallets.map((wallet) => {
-            const walletColorClass = `text${wallet.color}`;
+
             const handleWalletNavigate = () => {
                 navigate(`/wallet/${wallet.name}`, { state: wallet });
             };
@@ -120,10 +120,7 @@ function BudgetInfo() {
             return (
                 <div
                     key={wallet._id}
-                    // className={`${styles[walletColorClass]} ${styles.walletItem}`}
-                    className={`${styles[`walletItem-${wallet.color}`]} ${
-                        styles.walletItem
-                    }`}
+                    className={`wallet-item wallet-item-${wallet.color} background-defaultColor`}
                     onClick={handleWalletNavigate}
                 >
                     <IoWalletOutline /> {wallet.name}
@@ -206,7 +203,7 @@ function BudgetInfo() {
             </div>
             <div className={styles.contentInfo}>
                 <div
-                    className={`${styles.contentHeader} ${styles[budgetColor]}`}
+                    className={`${styles.contentHeader} background-${budgetColor}`}
                 >
                     <div className={styles.contentHeaderContainer}>
                         <div className={styles.contentName}>{budgetName}</div>
@@ -323,7 +320,7 @@ function BudgetInfo() {
                     ) : (
                         <div>
                             <div className={styles.contentAnalysis}>
-                                <div className={styles.contentSubHeader}>
+                                <div className={'section-header'}>
                                     Analysis
                                 </div>
                                 {transactions.length ? (
@@ -341,7 +338,7 @@ function BudgetInfo() {
                             </div>
 
                             <div className={styles.contentTransactions}>
-                                <div className={styles.contentSubHeader}>
+                                <div className={'section-header'}>
                                     Transactions
                                 </div>
 

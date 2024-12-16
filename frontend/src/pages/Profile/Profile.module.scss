@@ -2,23 +2,11 @@
     min-height: calc(var(--content-min-height) - 2*var(--side-padding));
 }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 20px;
-}
-
 .buttonContainer {
     display: flex;
     gap: 8px;
 }
 
-.title {
-    font-size: 2.6rem;
-    font-weight: 300;
-    line-height: 1;
-}
 
 .text {
     font-size: 1.4rem;

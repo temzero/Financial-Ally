@@ -90,7 +90,7 @@ function Category() {
                     <div className={styles.categoryInput}>
                         Icon
                         <IconInput
-                            className={`${styles.categoryIconInput} ${styles[categoryColor]}`}
+                            className={`${styles.categoryIconInput} text-${categoryColor}`}
                             icon={categoryIcon}
                             setIcon={setCategoryIcon}
                         />

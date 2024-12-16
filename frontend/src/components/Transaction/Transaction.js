@@ -19,12 +19,12 @@ import reactIcons from '../../assets/icons/reactIcons';
 function Transaction({
     transaction,
     setSelectedTransaction,
-    color,
+    typeColor,
     hidden,
     className,
     currency = '$',
 }) {
-    const classes = `${className} ${styles.transactionForm} ${color ? styles.color : ''} ${hidden ? styles.hidden : ''}`;
+    const classes = `${className} ${styles.transactionForm} ${typeColor ? styles.color : ''} ${hidden ? styles.hidden : ''}`;
     const dispatch = useDispatch();
     const transactionId = transaction._id;
     useEffect(() => {
@@ -121,7 +121,7 @@ function Transaction({
     const updateTransactionData = { amount, categoryId, note };
 
     const typeIcon = () => {
-        const iconProps = { className: `${styles.transactionTypeIcon} ${styles[color]}` };
+        const iconProps = { className: `${styles.transactionTypeIcon} ${typeColor}` };
         return transaction.type.toLowerCase() === 'income' 
             ? <BiSolidPlusCircle {...iconProps} />
             : transaction.type.toLowerCase() === 'expense'
@@ -213,7 +213,7 @@ function Transaction({
         const categoryColor = category?.color || 'defaultColor';
         const matchedItem = reactIcons.find((item) => item.name === category?.icon);
         return (
-            <div className={`${styles.transactionCategory} ${categoryColor ? styles[categoryColor] : ''}`}>
+            <div className={`${styles.transactionCategory} text-${categoryColor}`}>
                 <div className={styles.categoryIcon}>
                     {matchedItem?.icon || ''}
                 </div>
@@ -229,10 +229,10 @@ function Transaction({
             {editable ? (
                 <>
                     <button className={styles.transactionBtn} onClick={handleEditConfirm}>
-                        <AiOutlineCheckCircle className={styles.confirmIcon} />
+                        <AiOutlineCheckCircle className={`${styles.actionIcon} primary-green`} />
                     </button>
                     <button className={styles.transactionBtn} onClick={handleCancelEdit}>
-                        <AiOutlineCloseCircle className={styles.closeIcon} />
+                        <AiOutlineCloseCircle className={`${styles.actionIcon} primary-red`} />
                     </button>
                 </>
             ) : (
@@ -264,7 +264,7 @@ function Transaction({
                         </div>
                     </div>
 
-                    <div className={`${styles.transactionInfo} ${styles[color]}`}>
+                    <div className={`${styles.transactionInfo} ${typeColor}`}>
                         {categoryDisplay()}
                         <div className={styles.transactionImage}>
                             {transaction.type.toLowerCase() === 'expense' ? (

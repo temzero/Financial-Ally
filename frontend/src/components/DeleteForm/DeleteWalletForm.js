@@ -31,18 +31,18 @@ function DeleteWalletForm({ showForm, setShowForm, wallet }) {
         navigate('/wallet');
     };
 
-    useClickOutside( formRef, () => closeForm());
+    useClickOutside( formRef, closeForm);
 
     return (
         showForm && (
-            <div className={styles.formOverlay}>
-                <div className={styles.formContainer} ref={formRef}>
+            <div className='overlay'>
+                <div className='formContainer' ref={formRef}>
                     <div className={styles.formTitle}>
                         Do you want to delete this wallet?
                     </div>
 
                     <div className={styles.formBody}>
-                        <div className={`${styles.formIconContainer} ${styles[color]}`}>
+                        <div className={`${styles.formIconContainer} text-${color}`}>
                             <div className={styles.formIcon}>
                                 <IoWallet className={styles.walletIcon}/>
                             </div>
@@ -56,12 +56,8 @@ function DeleteWalletForm({ showForm, setShowForm, wallet }) {
                         />
                     </div>
                     <div className={styles.formDeleteButtons}>
-                        <div className={styles.deleteButton}>
-                            <span onClick={handleDeleteWallet}>Delete</span>
-                        </div>
-                        <div className={styles.cancelButton}>
-                            <span onClick={closeForm}>Cancel</span>
-                        </div>
+                        <div className={`${styles.deleteButton} primary-red`} onClick={handleDeleteWallet}>Delete</div>
+                        <div className={styles.cancelButton} onClick={closeForm}>Cancel</div>
                     </div>
                 </div>
             </div>

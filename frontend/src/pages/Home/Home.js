@@ -36,7 +36,8 @@ function Home() {
                     <CountUpEffect n={totalBalance} />{' '}
                 </div>
                 <Chart />
-                <div className={styles.header}>Transactions</div>
+                <div className='spacer-medium'></div>
+                <div className='section-header'>Transactions</div>
                 <TransactionList transactions={transactions} />
             </div>
             <AddTransaction/>

@@ -34,16 +34,13 @@ function ColorSelectionInput({ color, setColor, className }) {
         };
     }, []);
 
-    // Dynamically set the class based on selected color
-    const colorClass = color ? styles[color] : ''; // Example: styles.green, styles.red, etc.
-
     return (
         <div ref={dropdownRef} className={`${styles.formColorSelectionInput} ${className || ''}`}>
             <div onClick={() => setIsOpen(!isOpen)} className={styles.colorSelector}>
                 {/* Show selected color or default color icon */}
                 {color ? (
                     <div
-                        className={`${styles.colorIndicator} ${colorClass}`} // Apply dynamic color class
+                        className={`${styles.colorIndicator} background-${color}`} 
                     />
                 ) : (
                     <VscSymbolColor size={20} /> // Display the color icon if no color is selected
@@ -52,13 +49,10 @@ function ColorSelectionInput({ color, setColor, className }) {
             {isOpen && (
                 <div className={styles.colorDropdown}>
                     {colorOptions.map(option => {
-                        // Dynamically assign class based on the color
-                        const colorClass = styles[option.color] || ''; // e.g., styles.green, styles.red
-
                         return (
                             <div
                                 key={option.id}
-                                className={`${styles.colorOption} ${colorClass}`}
+                                className={`${styles.colorOption} background-${option.color || 'grey'}`}
                                 onClick={() => handleColorSelect(option.color)}
                             />
                         );

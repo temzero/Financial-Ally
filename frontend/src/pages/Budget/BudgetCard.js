@@ -40,9 +40,8 @@ function BudgetCard({ budgetData, currency = '$' }) {
         }, 10);
     }, [spendPercent]);
 
-    const colorClass = styles[budgetData.color];
     const classes = [
-        colorClass, 
+        `background-${budgetData.color}`, 
         styles.budgetCard, 
         daysLeft < 0 ? styles.finished : ''
     ].join(' ').trim();

@@ -126,7 +126,7 @@ function AddTransaction() {
         event.preventDefault();
         let walletBalance = wallet.balance;
 
-        if (type === 'Expense' && walletBalance < amount) {
+        if (type.toLowerCase() === 'expense' && walletBalance < amount) {
             alert('Not enough money!');
             return null;
         }
@@ -188,11 +188,11 @@ function AddTransaction() {
         >
             <div className={styles.plusMinusContainer}>
                 <BiSolidPlusCircle
-                    className={`${styles.plusBtn} ${type === 'Income' ? styles.active : ''}`}
+                    className={`${styles.typeButton} ${type.toLowerCase() === 'income' ? 'primary-green' : 'text-defaultColor'}`}
                     onClick={() => setType('Income')}
                 />
                 <BiSolidMinusCircle
-                    className={`${styles.minusBtn} ${type === 'Expense' ? styles.active : ''}`}
+                    className={`${styles.typeButton} ${type.toLowerCase() === 'expense' ? 'primary-red' : 'text-defaultColor'}`}
                     onClick={() => setType('Expense')}
                 />
             </div>

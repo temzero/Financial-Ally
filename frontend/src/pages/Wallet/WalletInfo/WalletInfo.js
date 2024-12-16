@@ -36,7 +36,7 @@ function WalletInfo() {
     const dispatch = useDispatch();
     
     const Overlay = useSelector((state) => state.state.isOverlay);
-    useEffect(() => {dispatch(setOverlay(false))}, [])
+    useEffect(() => {dispatch(setOverlay(false))}, [dispatch])
 
     const allWallets = useSelector((state) => state.wallet.wallets);
     const walletData = allWallets.find(wallet => wallet._id === walletId);
@@ -51,6 +51,14 @@ function WalletInfo() {
     const [walletType, setWalletType] = useState('');
     const [walletColor, setWalletColor] = useState('');
     const [createdAt, setCreatedAt] = useState('');
+
+    const [mounted, setMounted] = useState(false)
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setMounted(true);
+        }, 100);
+        return () => clearTimeout(timeout);
+    }, []);
 
     const formRef = useRef(null);
     const formattedDate = new Date(createdAt).toLocaleDateString('en-GB', {
@@ -93,7 +101,7 @@ function WalletInfo() {
         };
 
         dispatch(updateWallet(updatedWalletTransactions, walletId));
-    }, [walletId]);
+    }, [walletId, dispatch]);
 
     // Handle keydown event to toggle add wallet form
     useEffect(() => {
@@ -137,7 +145,6 @@ function WalletInfo() {
                 <img
                     src={noMoneyImage}
                     alt="noMoney"
-                    className={styles.noMoneyImage}
                 />
             );
         } else if (walletBalance < 10000) {
@@ -145,7 +152,6 @@ function WalletInfo() {
                 <img
                     src={moneyImage}
                     alt="money"
-                    className={styles.moneyImage}
                 />
             );
         } else {
@@ -153,14 +159,13 @@ function WalletInfo() {
                 <img
                     src={muchMoneyImage}
                     alt="muchMoney"
-                    className={styles.muchMoneyImage}
                 />
             );
         }
     };
 
     if (!walletData) {
-        return <div>Loading...</div>; // Or any other loading state you prefer
+        return <div>Loading...</div>;
     }
 
     return (
@@ -181,7 +186,7 @@ function WalletInfo() {
                 </div>
             </div>
             <div className={styles.content}>
-                <div className={`${styles.contentHeader} ${styles[walletColor]}`}>
+                <div className={`${styles.contentHeader} background-${walletColor}`}>
                     <div className={styles.contentName}>{walletName}</div>
                     <div className={styles.contentSubHeader}>{walletType}</div>
                 </div>
@@ -191,7 +196,9 @@ function WalletInfo() {
                             {currency}
                             <CountUpEffect n={walletBalance} />
                         </div>
-                        {displayStatus()}
+                        <div className={`${styles.displayStatus} ${ mounted ? styles.visible : ''}`}>
+                            {displayStatus()}
+                        </div>
                     </div>
 
                     {!transactions.length ? (
@@ -202,7 +209,7 @@ function WalletInfo() {
                     ) : (
                         <div>
                             <div className={styles.contentAnalysis}>
-                                <div className={styles.contentSubHeader}>Analysis</div>
+                                <div className={'section-header'}>Analysis</div>
                                 {(incomeTransactions.length > 0 || expenseTransactions.length > 0) && (
                                     <div className={styles.contentChart}>
                                         {incomeTransactions.length > 0 && (
@@ -215,7 +222,7 @@ function WalletInfo() {
                                 )}
                             </div>
                             <div className={styles.contentTransaction}>
-                                <div className={styles.contentSubHeader}>Transactions</div>
+                                <div className={'section-header'}>Transactions</div>
                                 <TransactionList transactions={transactions} />
                             </div>
                         </div>

@@ -1,7 +1,6 @@
 import styles from './Analysis.module.scss';
 import { useSelector } from 'react-redux';
-import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -15,14 +14,13 @@ import {
 } from 'chart.js';
 import TransactionList from '../../components/Transaction/TransactionList';
 import walletImage from '../../assets/images/wallet.png';
-import Button from '../../components/Button/Button';
 import WalletChart from '../../components/Chart/WalletChart';
 import CategoryChart from '../../components/Chart/CategoryChart';
-import { IoWalletOutline } from 'react-icons/io5';
 import {
     filterTransactionsByPeriod,
     balanceLineGraphData,
 } from '../../components/Chart/chartUtils';
+import AnalysisController from './AnalysisController';
 
 // Register necessary components in Chart.js
 ChartJS.register(
@@ -40,7 +38,6 @@ function Analysis({ currency = '$' }) {
         useSelector((state) => state.transaction.transactions) || [];
     const wallets = useSelector((state) => state.wallet.wallets) || [];
     const walletIds = [''].concat(wallets.map((wallet) => wallet._id));
-    const Overlay = useSelector((state) => state.state.isOverlay);
 
     const periods = ['1D', '1W', '1M', '1Y', 'All'];
 
@@ -48,9 +45,6 @@ function Analysis({ currency = '$' }) {
     const [walletCounter, setWalletCounter] = useState(0);
     const walletId = walletIds[walletCounter];
     const chartPeriod = periods[periodCounter];
-    const walletRef = useRef(null);
-    const navigate = useNavigate();
-
     const [currentDate, setCurrentDate] = useState('');
 
     useEffect(() => {
@@ -61,101 +55,6 @@ function Analysis({ currency = '$' }) {
             year: 'numeric',
         });
         setCurrentDate(formatDate);
-    }, []);
-
-    useEffect(() => {
-        if (walletRef.current) {
-            const activeWallet = walletRef.current.querySelector(
-                `.${styles.active}`
-            );
-            if (activeWallet) {
-                activeWallet.scrollIntoView({
-                    behavior: 'smooth',
-                    inline: 'center',
-                });
-            }
-        }
-    }, [walletCounter]);
-
-    const walletElements = () => {
-        if (wallets.length === 0) {
-            return <div>No wallet available!</div>;
-        }
-
-        const walletElements = wallets.map((wallet, index) => {
-            return (
-                <div
-                    key={wallet._id}
-                    className={`${styles[`walletItem-${wallet.color}`]} ${
-                        styles.walletItem
-                    } ${walletId === wallet._id ? styles.active : ''}`}
-                    onClick={(event) => {
-                        if (event.ctrlKey) {
-                            setWalletCounter(index + 1);
-                            navigate(`/wallet/${wallet.name}`, {
-                                state: wallet,
-                            });
-                        } else {
-                            setWalletCounter(index + 1);
-                        }
-                    }}
-                >
-                    <IoWalletOutline /> {wallet.name}
-                </div>
-            );
-        });
-
-        walletElements.unshift(
-            <div
-                key="all-wallets"
-                className={`${styles.walletItem} ${
-                    !walletId ? styles.active : ''
-                }`}
-                onClick={(event) => {
-                    if (event.ctrlKey) {
-                        setWalletCounter(0);
-                        navigate('/wallet');
-                    } else {
-                        setWalletCounter(0);
-                    }
-                }}
-            >
-                All wallets
-            </div>
-        );
-
-        return walletElements;
-    };
-
-    useEffect(() => {
-        if (Overlay) return;
-        const handleKeyDown = (event) => {
-            event.stopPropagation();
-
-            const walletCount = walletIds.length;
-            const periodCount = periods.length;
-
-            if (event.key === 'ArrowRight') {
-                event.preventDefault();
-                setWalletCounter((prev) => (prev + 1) % walletCount);
-            } else if (event.key === 'ArrowLeft') {
-                event.preventDefault();
-                setWalletCounter(
-                    (prev) => (prev - 1 + walletCount) % walletCount
-                );
-            } else if (event.key === 'Tab') {
-                event.preventDefault();
-                setPeriodCounter((prev) => (prev + 1) % periodCount);
-            } else if (event.key === '`') {
-                event.preventDefault();
-                setPeriodCounter(
-                    (prev) => (prev - 1 + periodCount) % periodCount
-                );
-            }
-        };
-
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
     }, []);
 
     const totalBalance = (wallets || []).reduce(
@@ -174,7 +73,7 @@ function Analysis({ currency = '$' }) {
             walletBalance = wallet.balance;
             walletName = wallet.name;
             walletColor = getComputedStyle(document.documentElement)
-                .getPropertyValue(`--background-${wallet.color}`)
+                .getPropertyValue(`--color-${wallet.color}`)
                 .trim();
         } else {
             walletTransactions = transactions;
@@ -241,30 +140,19 @@ function Analysis({ currency = '$' }) {
 
     return (
         <div className={styles.container}>
-            <div className={styles.header}>
-                <div className={styles.title}>Analysis</div>
+            <div className={'header-section'}>
+                <div className={'page-title'}>Analysis</div>
                 <div className={styles.dateTitle}>{currentDate}</div>
             </div>
 
-            <div className={styles.AnalysisOptions}>
-                <div className={styles.walletSelections} ref={walletRef}>
-                    {walletElements()}
-                </div>
-                {wallets.length ? (<div className={styles.chartBtnContainer}>
-                    {periods.map((period, index) => (
-                        <Button
-                            key={period}
-                            rounded
-                            className={`${styles.chartBtn} ${
-                                chartPeriod === period ? styles.active : ''
-                            }`}
-                            onClick={() => setPeriodCounter(index)}
-                        >
-                            {period}
-                        </Button>
-                    ))}
-                </div>) : 'wall'}
-            </div>
+            <AnalysisController
+                walletId={walletId}
+                periods={periods}
+                chartPeriod={chartPeriod}
+                setPeriodCounter={setPeriodCounter}
+                walletCounter={walletCounter}
+                setWalletCounter={setWalletCounter}
+            />
 
             {transactions.length ? (
                 <div className={styles.body}>
@@ -311,7 +199,7 @@ function Analysis({ currency = '$' }) {
                     </div>
                     {incomeTransactions.length ? (
                         <div className={styles.section}>
-                            <div className={styles.sectionHeader}>Income</div>
+                            <div className={'section-header'}>Income</div>
                             <TransactionList
                                 transactions={incomeTransactions}
                             />
@@ -320,7 +208,7 @@ function Analysis({ currency = '$' }) {
 
                     {expenseTransactions.length ? (
                         <div className={styles.section}>
-                            <div className={styles.sectionHeader}>Expense</div>
+                            <div className={'section-header'}>Expense</div>
                             <TransactionList
                                 transactions={expenseTransactions}
                             />
@@ -329,7 +217,7 @@ function Analysis({ currency = '$' }) {
 
                     {walletTransactions.length ? (
                         <div className={styles.section}>
-                            <div className={styles.sectionHeader}>
+                            <div className={'section-header'}>
                                 All transactions
                             </div>
                             <TransactionList
@@ -338,12 +226,7 @@ function Analysis({ currency = '$' }) {
                         </div>
                     ) : (
                         <div className={styles.empty}>
-                            <span>No transactions to analyze</span>
-                            <img
-                                src={walletImage}
-                                alt="Nothing"
-                                className={styles.emptyImg}
-                            />
+                            <span className={styles.emptyMessage}>No transactions to analyze</span>
                         </div>
                     )}
                 </div>
@@ -354,7 +237,7 @@ function Analysis({ currency = '$' }) {
                         alt="Nothing"
                         className={styles.emptyImg}
                     />
-                    <span>No transactions to analyze</span>
+                    <span className={styles.emptyMessage}>No transactions to analyze</span>
                 </div>
             )}
         </div>

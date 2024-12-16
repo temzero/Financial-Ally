@@ -1,69 +1,10 @@
-// Color
-.primaryGreen { 
-    color: var(--color-green);
-}
-
-.primaryRed {
-    color: var(--color-red);
-}
-
-.green {
-    color: var(--background-green);
-}
-
-.red {
-    color: var(--background-red);
-}
-
-.blue {
-    color: var(--background-blue);
-}
-
-.yellow {
-    color: var(--background-yellow);
-}
-
-.orange {
-    color: var(--background-orange);
-}
-
-.purple {
-    color: var(--background-purple);
-}
-
-.rainbow {
-    color: var(--background-rainbow);
-}
-
-// form
 .hidden {
     display: none;
 }
 
-.formOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-}
-
-.formContainer {
-    background: white;
-    border-radius: 4px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    width: 400px;
-    overflow: hidden;
-}
-
 .formTitle {
     font-size: 1.2rem;
-    padding: 20px 30px;
+    padding: 20px;
     padding-bottom: 0;
 }
 
@@ -140,16 +81,6 @@
     }
 }
 
-.confirmIcon {
-    font-size: 1.8rem;
-    color: var(--color-green);
-}
-
-.closeIcon {
-    font-size: 1.8rem;
-    color: var(--color-red);
-}
-
 .trashIcon {
     width: 80px;
     opacity: .6;
@@ -168,6 +99,7 @@
     font-size: 1.1rem;
     font-weight: 400;
     justify-content: space-around;
+    border-top: 1px solid var(--default-color);
     // border-radius: 20px;
 
     .deleteButton, .cancelButton {
@@ -175,17 +107,12 @@
         text-align: center;
         cursor: pointer;
 
+        &:hover {
+            background-color: var(--default-color);
+        }
+
         span {
-            // border: 1px solid black;
             padding: 8px 12px;
         }
-
-        span:hover {
-            font-weight: 600;
-        }
-    }
-
-    .deleteButton {
-        color: rgb(220, 10, 10);
     }
 }

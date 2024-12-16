@@ -3,21 +3,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 :root {
-// Colour
+// Color
  --primary-color: #B0AB9C;
  --secondary-color: #828282;
- --color-green: #42A168;
- --color-red: #A14242;
- --default-color: rgba(0, 0, 0, .4);
+ --primary-green: #42A168;
+ --primary-red: #A14242;
+ --default-color: rgba(0, 0, 0, .1);
 
- --background-color: #E6E2D8;
-    --background-green: #8fe4b2;
-    --background-red: #e7a4a4;
-    --background-purple: #dfa3e7;
-    --background-orange: #e3c082;
-    --background-yellow: #d6e28e;
-    --background-blue: #85cfee;
-    --background-rainbow: linear-gradient(120deg, rgb(168, 240, 255), rgb(69, 255, 255), rgb(243, 188, 255), violet);
+--background-color: #E6E2D8;
+--color-green: #8fe4b2;
+--color-red: #e7a4a4;
+--color-purple: #dfa3e7;
+--color-orange: #e3c082;
+--color-yellow: #d6e28e;
+--color-blue: #85cfee;
+--color-rainbow: linear-gradient(120deg, rgb(168, 240, 255), rgb(69, 255, 255), rgb(243, 188, 255), violet);
 
 
  --primary-text-color: #442912;
@@ -51,3 +51,272 @@ body {
     line-height: 1.5;
     user-select: none;
 }
+
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 20px;
+}
+
+.spacer-small {
+    height: 12px;
+}
+.spacer-medium {
+    height: 40px;
+}
+.spacer-large {
+    height: 80px;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-weight: 400;
+    font-size: 1.8rem;
+    line-height: 1.8rem;
+    padding-bottom: 10px;
+}  
+
+.body-section {
+    flex-wrap: wrap;
+    width: 100%;
+    display: flex;
+    padding: 20px 40px;
+}
+
+.page-title {
+    font-size: 2.6rem;
+    font-weight: 300;
+    line-height: 1;
+}
+
+// Wallet Item
+.wallet-item {
+    display: flex;
+    gap: 6px;
+    max-height: 32px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    align-items: center;
+    font-size: 1rem;
+    color: rgba(0,0,0,0.8);
+    background-color: var(--background-color);
+    cursor: pointer;
+
+    &:hover {
+        opacity: 0.8;
+    }
+
+    &.active, &:hover {
+        color: white;
+        background-color: grey;
+        border-color: transparent;
+    }
+}
+
+// Overlay Form Styles
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.formContainer {
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 380px;
+    max-width: 90%;
+    overflow: hidden;
+
+    .formDivider {
+        height: 1px;
+        width: 100%;
+        background-color: var(--pale-color);
+    }
+
+    .formContent {
+        padding: 0 28px;
+    }
+
+    .namePlate {
+        padding-top: 12px;
+        padding-bottom: 4px;
+        border-bottom: 2px solid var(--pale-color);
+    
+        .formNameInput {
+            font-size: 1.6rem;
+            width: 100%;
+            height: 36px;
+            padding: 1.2rem;
+            border: none;
+            background-color: transparent;
+            
+            &:focus {
+                border: none;
+                outline: none;
+            }
+        }
+    }
+
+    .formLabel {
+        font-size: 1rem;
+        font-weight: 200;
+        margin-top: 12px;
+        margin-bottom: 8px;
+    }
+
+    .formBtnContainer {
+        display: flex;
+        justify-content: center;
+        border-top: 1px solid var(--default-color);
+        padding: 4px;
+    
+        .submitButton {
+            background-color: transparent;
+        
+            &.clickable {
+                text-shadow: 2px 2px 10px black;
+            }
+        }
+    }
+}
+
+// Controller
+.controller {
+    display: flex;
+    padding: 16px 0px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index:999;
+    padding-left: 0;
+    width: calc(100% - var(--sidebar-width));
+    margin-left: var(--sidebar-width);
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px); 
+
+    .controller-wallets {
+        width: 100%;
+        display: flex;
+        gap: 10px;
+        padding: 0 40px;
+    
+        overflow-x: auto; /* Enable horizontal scrolling */
+        overflow-y: hidden; /* Prevent vertical scrolling */
+        white-space: nowrap; /* Prevent line breaks, keeping items in a single line */
+        scrollbar-width: none;
+    
+        mask-image: linear-gradient(to right, 
+                      rgba(0, 0, 0, 0) 0%, 
+                      rgba(0, 0, 0, 1) 5%, 
+                      rgba(0, 0, 0, 1) 95%, 
+                      rgba(0, 0, 0, 0) 100%);
+    }
+
+    .controller-periods {
+        display: flex;
+        gap: 1px;
+        justify-content: space-around;
+        align-items: center;
+        display: flex;
+        padding: 0 40px;
+
+        &:first-child, &:last-child {
+            border-top-left-radius: 50px;
+            border-bottom-left-radius: 50px;
+        }
+
+        .controller-period {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 1.6rem;
+            line-height: 1.6rem;
+            width: 3.6rem;
+            text-align: center;
+            font-size: 1rem;
+            background-color: rgba(0,0,0,0.8);
+            background-color: var(--background-color);
+            color: var(--primary-text-color);
+            border: none;
+            border-radius: 0;
+        
+            &.active {
+                color: white;
+                // background-color: var(--primary-color);
+                background-color: grey;
+                
+            }
+        
+            &:hover {
+                font-weight: 600;
+                opacity: 1;
+            }
+
+            &:first-child {
+                border-top-left-radius: 50px;
+                border-bottom-left-radius: 50px;
+            }
+
+            &:last-child {
+                border-top-right-radius: 50px;
+                border-bottom-right-radius: 50px;
+            }
+        }
+    }
+}
+
+
+
+@mixin walletItemStyles($color) {
+    &.active, &:hover {
+        background-color: var(--color-#{$color});
+    }
+}
+
+.wallet-item-red { @include walletItemStyles(red) }
+.wallet-item-green { @include walletItemStyles(green) }
+.wallet-item-blue { @include walletItemStyles(blue) }
+.wallet-item-yellow { @include walletItemStyles(yellow) }
+.wallet-item-orange { @include walletItemStyles(orange) }
+.wallet-item-purple { @include walletItemStyles(purple) }
+.wallet-item-rainbow { @include walletItemStyles(rainbow) }
+
+// COLORS
+.primary-green {color: var(--primary-green)}
+.primary-red {color: var(--primary-red)}
+.primary-default {color: var(--background-color)}
+
+// Background
+.background-green { background-color: var(--color-green) }
+.background-red { background-color: var(--color-red) }
+.background-blue { background-color: var(--color-blue) }
+.background-yellow { background-color: var(--color-yellow) }
+.background-orange { background-color: var(--color-orange) }
+.background-purple { background-color: var(--color-purple) }
+.background-rainbow { background: var(--color-rainbow) }
+.background-defaultColor { background: var(--default-color) }
+
+// Text color
+.text-green { color: var(--color-green) }
+.text-red { color: var(--color-red) }
+.text-blue { color: var(--color-blue) }
+.text-yellow { color: var(--color-yellow) }
+.text-orange { color: var(--color-orange) }
+.text-purple { color: var(--color-purple) }
+.text-rainbow { color: var(--color-rainbow) }
+.text-defaultColor { color: var(--default-color) }
+
+.icon-defaultColor { color: #aaa }

@@ -1,4 +1,3 @@
-import styles from './Budget.module.scss';
 import Button from '../../components/Button/Button';
 import DateInput from '../../components/FormInput/PickADateInput';
 import BalanceInput from '../../components/FormInput/BalanceInput';
@@ -79,7 +78,7 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets }) {
             } else if (event.key === 'Enter') {
                 console.log('Enter: ', event.key)
                 if (isSubmitFocus && isFormComplete) {
-                    const submitButton = document.querySelector(`.${styles.submitButton}`);
+                    const submitButton = document.querySelector(`submitButton`);
                     if (submitButton) submitButton.click();
                 }
             }
@@ -139,24 +138,24 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets }) {
 
     return (
         showForm && (
-            <div className={styles.formOverlay}>
-                <div className={styles.formContainer} ref={formRef}>
+            <div className='overlay'>
+                <div className='formContainer' ref={formRef}>
                     <form onSubmit={handleFormSubmit}>
                         <div
-                            className={`${styles.namePlate} ${styles[budgetColor]}`}
+                            className={`namePlate background-${budgetColor}`}
                             onClick={() => setCounter(0)}
                         >
                             <TextInput
-                                className={styles.formNameInput}
+                                className='formNameInput'
                                 content={budgetName}
                                 setContent={setBudgetName}
                                 isFocusOutside={isBudgetNameFocus}
                                 placeholder="Enter budget Name"
                             />
                         </div>
-                        <div className={styles.formContent}>
+                        <div className='formContent'>
                             <div onClick={() => setCounter(1)}>
-                                <h2 className={styles.formLabel}>
+                                <h2 className='formLabel'>
                                     Set Limit Amount
                                 </h2>
                                 <BalanceInput
@@ -166,7 +165,7 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets }) {
                                 />
                             </div>
                             <div onClick={() => setCounter(2)}>
-                                <h2 className={styles.formLabel}>Wallets</h2>
+                                <h2 className='formLabel'>Wallets</h2>
                                 <WalletsInput
                                     wallets={wallets}
                                     selectedWallets={selectedWallets}
@@ -176,7 +175,7 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets }) {
                                 />
                             </div>
                             <div onClick={() => setCounter(3)}>
-                                <h2 className={styles.formLabel}>Start Date</h2>
+                                <h2 className='formLabel'>Start Date</h2>
                                 <DateInput
                                     date={startDate}
                                     setDate={setStartDate}
@@ -186,7 +185,7 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets }) {
                                 />
                             </div>
                             <div onClick={() => setCounter(4)}>
-                                <h2 className={styles.formLabel}>
+                                <h2 className='formLabel'>
                                     Finish Date
                                 </h2>
                                 <DateInput
@@ -203,18 +202,18 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets }) {
                                     setIsFocusOutside={setIsColorFocus}
                                 />
                             </div>
-                            <div className={styles.formBtnContainer}  onClick={() => setCounter(0)}>
+                        </div>
+                            <div className='formBtnContainer'  onClick={() => setCounter(0)}>
                                 <Button
                                     type="submit"
                                     simple
                                     disabled={!isFormComplete}
-                                    className={`${styles.submitButton} ${counter === 6 ? styles.clickable : ''}`}
+                                    className={`submitButton ${counter === 6 ? 'clickable' : ''}`}
 
                                 >
                                     Add Budget
                                 </Button>
                             </div>
-                        </div>
                     </form>
                 </div>
             </div>

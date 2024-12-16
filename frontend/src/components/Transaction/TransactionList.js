@@ -1,8 +1,8 @@
-import styles from './Transaction.module.scss'; 
+import styles from './Transaction.module.scss';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { IoWalletOutline } from "react-icons/io5";
-import { GoPencil } from "react-icons/go";
+import { IoWalletOutline } from 'react-icons/io5';
+import { GoPencil } from 'react-icons/go';
 import { BiSolidPlusCircle, BiSolidMinusCircle } from 'react-icons/bi';
 import Transaction from './Transaction';
 import iconItems from '../../assets/icons/reactIcons';
@@ -30,47 +30,57 @@ function TransactionList({ transactions = [], currency = '$' }) {
         return transactionDate.toLocaleDateString('en-GB');
     };
 
-    const sortedTransactions = [...transactions].sort((a, b) => 
-        Date.parse(b.date) - Date.parse(a.date)
+    const sortedTransactions = [...transactions].sort(
+        (a, b) => Date.parse(b.date) - Date.parse(a.date)
     );
 
     const displayWallet = (walletId) => {
-        const wallet = wallets.find(wallet => wallet._id === walletId);
+        const wallet = wallets.find((wallet) => wallet._id === walletId);
         return wallet ? (
             <span className={styles.transElement}>
-                <span className={styles.transIcon}><IoWalletOutline /></span>
+                <span className={styles.transIcon}>
+                    <IoWalletOutline />
+                </span>
                 <span className={styles.transText}>{wallet.name}</span>
             </span>
         ) : null;
     };
 
     const categoryIcon = (categoryId) => {
-        const category = categories.find(category => category._id === categoryId);
+        const category = categories.find(
+            (category) => category._id === categoryId
+        );
 
         if (!category) {
             return <div className={styles.categoryName}>Unknown</div>;
         }
 
         const { icon: categoryIconName, name, color } = category;
-        const matchedItem = iconItems.find(item => item.name === categoryIconName);
+        const colorClass = `text-${color || 'defaultColor'}`;
+        console.log('colorClass:', colorClass); // Debug the generated class
+        const matchedItem = iconItems.find(
+            (item) => item.name === categoryIconName
+        );
 
         if (!matchedItem) {
             return (
-                <div className={`${styles.categoryName} ${styles[color]}`}>
+                <div className={`${styles.categoryName} ${colorClass}`}>
                     {name.charAt(0).toUpperCase() + name.slice(1)}
                 </div>
             );
         }
 
         return (
-            <div className={`${styles.categoryIcon} ${styles[color]}`}>
+            <div className={`${styles.categoryIcon} ${colorClass}`}>
                 {matchedItem.icon}
             </div>
         );
     };
 
     const renderNetBalance = (date) => {
-        const transactionsByDate = sortedTransactions.filter(trans => trans.date === date);
+        const transactionsByDate = sortedTransactions.filter(
+            (trans) => trans.date === date
+        );
         const netBalance = transactionsByDate.reduce((total, trans) => {
             return trans.type.toLowerCase() === 'income'
                 ? total + trans.amount
@@ -78,9 +88,19 @@ function TransactionList({ transactions = [], currency = '$' }) {
         }, 0);
 
         if (netBalance > 0) {
-            return <div className={styles.primaryGreen}>(+{currency}{netBalance.toLocaleString("en-US")})</div>;
+            return (
+                <div className='primary-green'>
+                    (+{currency}
+                    {netBalance.toLocaleString('en-US')})
+                </div>
+            );
         } else if (netBalance < 0) {
-            return <div className={styles.primaryRed}>(-{currency}{Math.abs(netBalance).toLocaleString("en-US")})</div>;
+            return (
+                <div className='primary-red'>
+                    (-{currency}
+                    {Math.abs(netBalance).toLocaleString('en-US')})
+                </div>
+            );
         }
         return null;
     };
@@ -93,7 +113,10 @@ function TransactionList({ transactions = [], currency = '$' }) {
                 const showDivider = transactionDate !== lastDate;
                 lastDate = transactionDate;
 
-                const color = transaction.type.toLowerCase() === 'income' ? 'primaryGreen' : 'primaryRed';
+                const typeColor =
+                    transaction.type.toLowerCase() === 'income' ? 'primary-green'
+                    : transaction.type.toLowerCase() === 'expense' ? 'primary-red'
+                    : 'primary-default';
 
                 return (
                     <div key={transaction._id}>
@@ -105,16 +128,24 @@ function TransactionList({ transactions = [], currency = '$' }) {
                         )}
                         <div
                             className={styles.transaction}
-                            onClick={() => setSelectedTransaction(transaction._id)}
+                            onClick={() =>
+                                setSelectedTransaction(transaction._id)
+                            }
                         >
                             <div className={styles.transAmount}>
                                 {transaction.type.toLowerCase() === 'income' ? (
-                                    <BiSolidPlusCircle className={`${styles.typeIcon} ${styles[color]}`} />
+                                    <BiSolidPlusCircle
+                                        className={`${styles.typeIcon} ${typeColor}`}
+                                    />
                                 ) : (
-                                    <BiSolidMinusCircle className={`${styles.typeIcon} ${styles[color]}`} />
+                                    <BiSolidMinusCircle
+                                        className={`${styles.typeIcon} ${typeColor}`}
+                                    />
                                 )}
-                                <span className={styles.currency}>{currency}</span>
-                                {transaction.amount.toLocaleString("en-US")}
+                                <span className={styles.currency}>
+                                    {currency}
+                                </span>
+                                {transaction.amount.toLocaleString('en-US')}
                             </div>
 
                             <div className={styles.transColumn}>
@@ -123,8 +154,12 @@ function TransactionList({ transactions = [], currency = '$' }) {
                             <div className={styles.transColumn}>
                                 {transaction.note && (
                                     <span className={styles.transElement}>
-                                        <span className={styles.transIcon}><GoPencil /></span>
-                                        <span className={styles.transText}>{transaction.note}</span>
+                                        <span className={styles.transIcon}>
+                                            <GoPencil />
+                                        </span>
+                                        <span className={styles.transText}>
+                                            {transaction.note}
+                                        </span>
                                     </span>
                                 )}
                             </div>
@@ -134,7 +169,7 @@ function TransactionList({ transactions = [], currency = '$' }) {
                             <Transaction
                                 transaction={transaction}
                                 setSelectedTransaction={setSelectedTransaction}
-                                color={color}
+                                typeColor={typeColor}
                             />
                         )}
                     </div>

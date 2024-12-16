@@ -1,4 +1,3 @@
-import styles from './EditForm.module.scss';
 import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateWallet } from '../../redux/actions';
@@ -61,31 +60,31 @@ function EditWalletForm({
 
     return (
         showForm && (
-            <div className={styles.formOverlay}>
-                <div className={styles.formContainer} ref={formRef}>
+            <div className='overlay'>
+                <div className='formContainer' ref={formRef}>
                     <form onSubmit={handleFormSubmit}>
-                        <div className={`${styles.namePlate} ${styles[walletColor]}`}>
-                            <TextInput  className={styles.formNameInput} content={walletName} setContent={setWalletName} isFocusOutside={true}/>
+                        <div className={`namePlate background-${walletColor}`}>
+                            <TextInput  className='formNameInput' content={walletName} setContent={setWalletName} isFocusOutside={true}/>
                         </div>
-                        <div className={styles.formDivider}></div>
-                        <div className={styles.formContent}>
+                        <div className='formDivider'></div>
+                        <div className='formContent'>
                             <div>
-                                <h2 className={styles.formLabel}>Amount</h2>
+                                <h2 className='formLabel'>Amount</h2>
                                 <BalanceInput amount={walletBalance} setAmount={setWalletBalance}/>
                             </div>
                             <div>
-                                <h2 className={styles.formLabel}>Type</h2>
+                                <h2 className='formLabel'>Type</h2>
                                 <WalletTypeInput type={walletType} setType={setWalletType}/>
                             </div>
                             <div>
                                 <ColorInput color={walletColor} setColor={setWalletColor}/>
                             </div>
-                            <div className={styles.formBtnContainer}>
+                        </div>
+                            <div className='formBtnContainer'>
                                 <Button type="submit" simple>
                                     Update
                                 </Button>
                             </div>
-                        </div>
                     </form>
                 </div>
             </div>

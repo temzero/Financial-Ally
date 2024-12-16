@@ -130,7 +130,7 @@
 
 .walletSymbol {
     font-size: 2.4rem;
-    color: grey;
+    // color: grey;
     z-index: 1;
 }
 
@@ -160,79 +160,3 @@
         gap: 6px;
     }
 }
-
-.walletItem {
-    display: flex;
-    padding: 2px 8px;
-    border-radius: 4px;
-    gap: 6px;
-    align-items: center;
-    font-size: 1rem;
-    cursor: pointer;
-    border: 1px solid rgba(0,0,0,0.4);
-    color: rgba(0,0,0,0.8);
-
-    &:hover {
-        opacity: 0.8;
-    }
-
-    &.active, &:hover {
-        color: white;
-        background-color: black;
-        border-color: transparent;
-    }
-}
-
-@mixin walletItemStyles($color-var) {
-    &.active, &:hover {
-        background-color: var(--#{$color-var});
-    }
-}
-
-.walletItem-green {
-    @include walletItemStyles(background-green);
-}
-
-.walletItem-red {
-    @include walletItemStyles(background-red);
-}
-
-.walletItem-blue {
-    @include walletItemStyles(background-blue);
-}
-
-.walletItem-yellow {
-    @include walletItemStyles(background-yellow);
-}
-
-.walletItem-orange {
-    @include walletItemStyles(background-orange);
-}
-
-.walletItem-purple {
-    @include walletItemStyles(background-purple);
-}
-
-.walletItem-rainbow {
-    @include walletItemStyles(background-rainbow);
-}
-
-
-.primaryGreen { color: var(--color-green)}
-.primaryRed { color: var(--color-red)}
-
-.green { background-color: var(--background-green); }
-.red { background-color: var(--background-red); }
-.blue { background-color: var(--background-blue); }
-.yellow { background-color: var(--background-yellow); }
-.orange { background-color: var(--background-orange); }
-.purple { background-color: var(--background-purple); }
-.rainbow { background: var(--background-rainbow); }
-
-.text-green {color: var(--background-green)}
-.text-red {color: var(--background-red)}
-.text-blue {color: var(--background-blue)}
-.text-yellow {color: var(--background-yellow)}
-.text-orange {color: var(--background-orange)}
-.text-purple {color: var(--background-purple)}
-.text-rainbow {color: var(--background-rainbow)}

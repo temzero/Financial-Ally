@@ -1,5 +1,5 @@
 import styles from './Category.module.scss';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { editIcon, deleteIcon } from '../../assets/icons/icons';
 import { updateCategory } from '../../redux/actions';
 import { AiOutlineCheckCircle, AiOutlineCloseCircle } from 'react-icons/ai';
@@ -10,13 +10,14 @@ import TextInput from '../FormInput/TextInput';
 import CategoryTypeInput from '../FormInput/CategoryTypeInput';
 import DeleteCategoryForm from '../DeleteForm/DeleteCategoryForm';
 import iconItems from '../../assets/icons/reactIcons';
+import useClickOutside from '../ClickOutside/useClickOutside';
 import { AiOutlineQuestion } from "react-icons/ai";
-import usePreventClickOutside from '../ClickOutside/usePreventClickOutside';
 
 
 function CategoryList({ category, index, categories, currency = '$' }) {
     const dispatch = useDispatch();
     const transactions = useSelector((state) => state.transaction.transactions) || [];
+    const transactionRef = useRef(null)
 
     const {_id, name, type, icon, color } = category;
     
@@ -55,12 +56,14 @@ function CategoryList({ category, index, categories, currency = '$' }) {
     };
 
     const handleCancelEdit = (event) => {
-        event.stopPropagation();
         setEditable(false);
-
         setCategoryName(name);
         setCategoryType(type);
+        setCategoryIconName(icon);
+        setCategoryColor(color);
     };
+
+    useClickOutside(transactionRef, handleCancelEdit)
 
     const updateCategoryData = () => {
         // Update category logic here
@@ -85,13 +88,13 @@ function CategoryList({ category, index, categories, currency = '$' }) {
                     className={styles.categoryBtn}
                     onClick={handleEditConfirm}
                 >
-                    <AiOutlineCheckCircle className={styles.confirmIcon} />
+                    <AiOutlineCheckCircle className={`${styles.actionIcon} primary-green`} />
                 </button>
                 <button
                     className={styles.categoryBtn}
                     onClick={handleCancelEdit}
                 >
-                    <AiOutlineCloseCircle className={styles.closeIcon} />
+                    <AiOutlineCloseCircle className={`${styles.actionIcon} primary-red`} />
                 </button>
             </div>
         ) : (
@@ -133,23 +136,15 @@ function CategoryList({ category, index, categories, currency = '$' }) {
         );
     };
 
-    const editableRef = usePreventClickOutside(() => {
-        setEditable(false)
-        setCategoryName(name)
-        setCategoryType(type)
-        setCategoryIconName(icon)
-        setCategoryColor(color)
-    }, editable);
-
     return (
-        <div className={categoryClass} key={category._id} ref={editableRef}>
+        <div className={categoryClass} key={category._id} ref={transactionRef}>
             <div className={styles.tableColumn1}>
                 {editable ? (
                     <div className={styles.categoryIcon}>
                         <IconInput
                             icon={categoryIconName}
                             setIcon={setCategoryIconName}
-                            className={`${styles.formIconInput} ${styles[categoryColor]}`}
+                            className={`${styles.formIconInput} text-${categoryColor || 'defaultColor'}`}
                         />
                         <ColorSelectionInput
                             color={categoryColor}
@@ -158,7 +153,7 @@ function CategoryList({ category, index, categories, currency = '$' }) {
                     </div>
                 ) : (
                     <div
-                        className={`${styles.categoryIcon} ${styles[categoryColor]}`}
+                        className={`${styles.categoryIcon} text-${categoryColor || 'defaultColor'}`}
                     >
                         {categoryIcon}
                     </div>
@@ -171,9 +166,9 @@ function CategoryList({ category, index, categories, currency = '$' }) {
                         setContent={setCategoryName}
                     />
                 ) : (
-                    <div className={`${styles.categoryName} ${
-                        styles[categoryColor]
-                    }`}>{categoryName}</div>
+                    <div className={`${styles.categoryName} text-${categoryColor || 'defaultColor'}`}>
+                        {categoryName}
+                    </div>
                 )}
             </div>
             <div className={styles.tableColumn2}>
@@ -190,13 +185,15 @@ function CategoryList({ category, index, categories, currency = '$' }) {
 
             <div className={styles.tableColumn3}>        
                 {editButtons()}
+            </div>
 
+            {selectedCategory && (
                 <DeleteCategoryForm
                     selectedCategory={selectedCategory}
                     setSelectedCategory={setSelectedCategory}
                     hidden={!selectedCategory}
                 />
-            </div>
+            )}
 
         </div>
     );

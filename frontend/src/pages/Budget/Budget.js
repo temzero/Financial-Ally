@@ -51,14 +51,14 @@ function Budget() {
 
     return (
         <div>
-            <div className={styles.header}>
-                <h2 className={styles.title}>Budget</h2>
+            <div className={'header-section'}>
+                <h2 className='page-title'>Budget</h2>
                 <Button s onClick={toggleForm}>
                     <FaPlus className={styles.plusIcon}/> Add Budget
                 </Button>
             </div>
 
-            <div className={styles.bodyContainer}>
+            <div className={`body-section ${styles.justifyCenter}`}>
                 {budgets.length === 0 ? (
                     <div className={styles.addBudgetCard} onClick={toggleForm}>
                         <AiOutlinePlus className={styles.addBudgetCardIcon}/>

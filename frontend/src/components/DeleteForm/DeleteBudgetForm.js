@@ -32,18 +32,18 @@ function DeleteBudgetForm({ showForm, setShowForm, budget }) {
         navigate('/budget');
     };
 
-    useClickOutside(formRef, () => closeForm());
+    useClickOutside(formRef, closeForm);
 
     return (
         showForm && (
-            <div className={styles.formOverlay}>
-                <div className={styles.formContainer} ref={formRef}>
+            <div className='overlay'>
+                <div className='formContainer' ref={formRef}>
                     <div className={styles.formTitle}>
                         Do you want to delete this budget?
                     </div>
 
                     <div className={styles.formBody}>
-                        <div className={`${styles.formIconContainer} ${styles[color]}`}>
+                        <div className={`${styles.formIconContainer} text-${color}`}>
                             <div className={styles.formIcon}>
                                 <div className={styles.budgetIcon}>{budgetIcon()}</div>
                             </div>
@@ -57,11 +57,11 @@ function DeleteBudgetForm({ showForm, setShowForm, budget }) {
                         />
                     </div>
                     <div className={styles.formDeleteButtons}>
-                        <div className={styles.deleteButton}>
-                            <span onClick={handleDeleteBudget}>Delete</span>
+                        <div className={`${styles.deleteButton} primary-red`} onClick={handleDeleteBudget}>
+                            Delete
                         </div>
-                        <div className={styles.cancelButton}>
-                            <span onClick={closeForm}>Cancel</span>
+                        <div className={styles.cancelButton} onClick={closeForm}>
+                            Cancel
                         </div>
                     </div>
                 </div>

@@ -53,23 +53,23 @@ function TransferBalanceForm({
 
     return (
         showForm && (
-            <div className={styles.formOverlay}>
+            <div className='overlay'>
                 <form
                     ref={formRef}
                     onSubmit={handleFormSubmit}
-                    className={styles.formContainer}
+                    className='formContainer'
                     onClick={(e) => e.stopPropagation()} 
                 >
                     <div className={styles.formHeader}>Transfer Balance <FaRegPaperPlane className={styles.transferIcon}/></div>
                     <div className={styles.formSection}>
-                        <h2 className={styles.formLabel}>Amount</h2>
+                        <h2 className='formLabel'>Amount</h2>
                         <BalanceInput
                             amount={transferAmount}
                             setAmount={setTransferAmount}
                         />
                     </div>
                     <div className={styles.formSection}>
-                        <h2 className={styles.formLabel}>To wallet</h2>
+                        <h2 className='formLabel'>To wallet</h2>
                         <WalletInput
                             wallet={targetWallet}
                             setWallet={setTargetWallet}
@@ -77,7 +77,7 @@ function TransferBalanceForm({
                         />
                     </div>
 
-                    <div className={styles.formBtnContainer}>
+                    <div className='formBtnContainer'>
                         <Button
                             type="submit"
                             simple

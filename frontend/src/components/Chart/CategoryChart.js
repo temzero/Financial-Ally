@@ -31,7 +31,7 @@ function CategoryChart({ transactions = [], type = '' }) {
     // Function to get category color from SCSS variables
     const getCategoryColor = (categoryId) => {
         const category = getCategoryDetails(categoryId);
-        const colorVariable = `--background-${category.color}`; // Assuming colors are sequential
+        const colorVariable = `--color-${category.color}`; // Assuming colors are sequential
 
         // Fetch the CSS variable value dynamically
         const style = getComputedStyle(document.documentElement);
@@ -112,9 +112,9 @@ function CategoryChart({ transactions = [], type = '' }) {
 
     const displaySymbol = () => {
         if (type.toLocaleLowerCase() === '+' || type.toLocaleLowerCase() === 'income') {
-            return <BiSolidPlusCircle className={`${styles.symbol} ${styles.primaryGreen}`} />;
+            return <BiSolidPlusCircle className={`${styles.symbol} primary-green`} />;
         } else {
-            return <BiSolidMinusCircle className={`${styles.symbol} ${styles.primaryRed}`} />;
+            return <BiSolidMinusCircle className={`${styles.symbol} primary-red`} />;
         }
     };
 

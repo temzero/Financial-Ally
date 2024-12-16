@@ -216,14 +216,8 @@
     align-items: center;
 }
 
-.confirmIcon {
+.actionIcon {
     font-size: 1.8rem;
-    color: var(--color-green);
-}
-
-.closeIcon {
-    font-size: 1.8rem;
-    color: var(--color-red);
 }
 
 // Transaction List
@@ -355,26 +349,12 @@
     justify-content: space-around;
     margin-bottom: 16px;
 
-    .plusBtn,
-    .minusBtn {
+    .typeButton {
         font-size: 2.8rem;
-        color: rgba(0,0,0,0.2);
         cursor: pointer;
 
         &:hover {
            opacity: .8;
-        }
-    }
-
-    .plusBtn {
-        &.active {
-            color: var(--color-green);
-        }
-    }
-
-    .minusBtn {
-        &.active {
-            color: var(--color-red);
         }
     }
 }  
@@ -407,45 +387,4 @@
         }
     }
 
-}
-
-// Color
-.primaryGreen { 
-    color: var(--color-green);
-}
-
-.primaryRed {
-    color: var(--color-red);
-}
-
-.green {
-    color: var(--background-green);
-}
-
-.red {
-    color: var(--background-red);
-}
-
-.blue {
-    color: var(--background-blue);
-}
-
-.yellow {
-    color: var(--background-yellow);
-}
-
-.orange {
-    color: var(--background-orange);
-}
-
-.purple {
-    color: var(--background-purple);
-}
-
-.rainbow {
-    color: var(--background-rainbow);
-}
-
-.defaultColor {
-    color: var(--default-color);
 }

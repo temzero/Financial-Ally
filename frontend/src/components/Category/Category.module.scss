@@ -58,13 +58,7 @@
     cursor: pointer;
 }
 
-.confirmIcon {
-    color: var(--color-green);
-    font-size: 1.8rem;
-}
-
-.closeIcon {
-    color: var(--color-red);
+.actionIcon {
     font-size: 1.8rem;
 }
 
@@ -169,42 +163,4 @@
     font-size: 1.4rem;
     padding: 12px 0;
     font-weight: 200;
-}
-
-// Color
-
-.primaryGreen {
-    color: var(--color-green);
-}
-
-.primaryRed {
-    color: var(--color-red);
-}
-
-.green {
-    color: var(--background-green);
-}
-
-.red {
-    color: var(--background-red);
-}
-
-.blue {
-    color: var(--background-blue);
-}
-
-.yellow {
-    color: var(--background-yellow);
-}
-
-.orange {
-    color: var(--background-orange);
-}
-
-.purple {
-    color: var(--background-purple);
-}
-
-.rainbow {
-    color: var(--background-rainbow);
 }

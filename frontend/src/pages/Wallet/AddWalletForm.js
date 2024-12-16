@@ -1,4 +1,3 @@
-import styles from './Wallet.module.scss';
 import { useState, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { addWallet } from '../../redux/actions';
@@ -59,7 +58,7 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId }) {
                 setCounter((prevCounter) => (prevCounter - 1 + 5) % 5);
             } else if (event.key === 'Enter') {
                 if (isSubmitFocus && isFormComplete) {
-                    const submitButton = document.querySelector(`.${styles.submitButton}`);
+                    const submitButton = document.querySelector(`submitButton`);
                     if (submitButton) submitButton.click();
                 }
             }
@@ -107,12 +106,12 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId }) {
 
     return (
         showForm && (
-            <div className={styles.formOverlay}>
-                <div className={styles.formContainer} ref={formRef}>
+            <div className='overlay'>
+                <div className='formContainer' ref={formRef}>
                     <form onSubmit={handleFormSubmit}>
-                        <div className={`${styles.namePlate} ${styles[walletColor]}`} onClick={() => setCounter(0)}>
+                        <div className={`namePlate background-${walletColor}`} onClick={() => setCounter(0)}>
                             <TextInput
-                                className={styles.formNameInput}
+                                className='formNameInput'
                                 content={walletName}
                                 setContent={setWalletName}
                                 isFocusOutside={isNameFocus}
@@ -120,9 +119,9 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId }) {
                                 placeholder="Enter wallet Name"
                             />
                         </div>
-                        <div className={styles.formContent}>
+                        <div className='formContent'>
                             <div onClick={() => setCounter(1)}>
-                                <h2 className={styles.formLabel}>Amount</h2>
+                                <h2 className='formLabel'>Amount</h2>
                                 <BalanceInput
                                     amount={balance}
                                     setAmount={setBalance}
@@ -131,7 +130,7 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId }) {
                                 />
                             </div>
                             <div onClick={() => setCounter(2)}>
-                                <h2 className={styles.formLabel}>Type</h2>
+                                <h2 className='formLabel'>Type</h2>
                                 <WalletTypeInput
                                     type={walletType}
                                     setType={setWalletType}
@@ -148,17 +147,17 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId }) {
 
                                 />
                             </div>
-                            <div className={styles.formBtnContainer} onClick={() => setCounter(4)}>
+                        </div>
+                            <div className='formBtnContainer' onClick={() => setCounter(4)}>
                                 <Button
                                     type="submit"
                                     simple
                                     disabled={!isFormComplete}
-                                    className={`${styles.submitButton} ${counter === 4 ? styles.clickable : ''}`}
+                                    className={`submitButton ${counter === 4 ? 'clickable' : ''}`}
                                 >
                                     Add Wallet
                                 </Button>
                             </div>
-                        </div>
                     </form>
                 </div>
             </div>

@@ -30,7 +30,7 @@ function WalletChart({ transactions = [], type = '' }) {
     // Function to get wallet color from SCSS variables
     const getWalletColor = (walletId) => {
         const wallet = getWalletDetails(walletId);
-        const colorVariable = `--background-${wallet.color}`;
+        const colorVariable = `--color-${wallet.color}`;
 
         // Fetch the CSS variable value dynamically
         const style = getComputedStyle(document.documentElement);
@@ -107,7 +107,7 @@ function WalletChart({ transactions = [], type = '' }) {
     const symbolClasses = `
         ${styles.chartSymbol} 
         ${styles.walletSymbol} 
-        ${type === '+' ? styles.primaryGreen : type === '-' ? styles.primaryRed : ''}
+        ${type === '+' ? 'primary-green' : type === '-' ? 'primary-red' : 'icon-defaultColor'}
     `.trim();
     
     return (

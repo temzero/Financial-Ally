@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateBudget } from '../../redux/actions';
 import { setOverlay } from '../../redux/actions';
-import styles from './EditForm.module.scss';
 import Button from '../Button/Button'
 import ColorInput from '../FormInput/ColorInput';
 import BalanceInput from '../FormInput/BalanceInput';
@@ -85,20 +84,20 @@ function EditBudgetForm({
 
     return (
         showForm && (
-            <div className={styles.formOverlay}>
-                <div className={styles.formContainer} ref={formRef}>
+            <div className='overlay'>
+                <div className='formContainer' ref={formRef}>
                     <form onSubmit={handleFormSubmit}>
-                        <div className={`${styles.namePlate} ${styles[budgetColor]}`}>
-                            <TextInput  className={styles.formNameInput} content={budgetName} setContent={setBudgetName} isFocusOutside={true}/>
+                        <div className={`namePlate background-${budgetColor}`}>
+                            <TextInput  className='formNameInput' content={budgetName} setContent={setBudgetName} isFocusOutside={true}/>
                         </div>
-                        <div className={styles.formDivider}></div>
-                        <div className={styles.formContent}>
+                        <div className='formDivider'></div>
+                        <div className='formContent'>
                             <div>
-                                <h2 className={styles.formLabel}>Set Limit Amount</h2>
+                                <h2 className='formLabel'>Set Limit Amount</h2>
                                 <BalanceInput amount={budgetMoneyLimit} setAmount={setBudgetMoneyLimit}/>
                             </div>
                             <div>
-                                <h2 className={styles.formLabel}>Wallets</h2>
+                                <h2 className='formLabel'>Wallets</h2>
                                 <WalletsInput
                                     wallets={wallets}
                                     selectedWallets={selectedWallets}
@@ -106,18 +105,18 @@ function EditBudgetForm({
                                 />
                             </div>
                             <div>
-                                <h2 className={styles.formLabel}>Finish Date</h2>
+                                <h2 className='formLabel'>Finish Date</h2>
                                 <DateInput date={formattedFinishDate} setDate={setBudgetFinishDate} />
                             </div>
                             <div>
                                 <ColorInput color={budgetColor} setColor={setBudgetColor}/>
                             </div>
-                            <div className={styles.formBtnContainer}>
+                        </div>
+                            <div className='formBtnContainer'>
                                 <Button type="submit" simple disabled={!isDataChanged()}>
                                     Update
                                 </Button>
                             </div>
-                        </div>
                     </form>
                 </div>
             </div>

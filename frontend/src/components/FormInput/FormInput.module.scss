@@ -302,7 +302,7 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background-color: transparent; /* Default transparent until color is chosen */
+    background-color: transparent;
 }
 
 .colorDropdown {
@@ -478,62 +478,4 @@
 .placeholder {
     font-size: 1rem;
     color: rgba(0, 0, 0, 0.5);
-}
-
-// Background Color
-.green {
-    background-color: var(--background-green);
-}
-
-.red {
-    background-color: var(--background-red);
-}
-
-.blue {
-    background-color: var(--background-blue);
-}
-
-.yellow {
-    background-color: var(--background-yellow);
-}
-
-.orange {
-    background-color: var(--background-orange);
-}
-
-.purple {
-    background-color: var(--background-purple);
-}
-
-.rainbow {
-    background: var(--background-rainbow);
-}
-
-// Text Color
-.greenText {
-    color: var(--background-green);
-}
-
-.redText {
-    color: var(--background-red);
-}
-
-.blueText {
-    color: var(--background-blue);
-}
-
-.yellowText {
-    color: var(--background-yellow);
-}
-
-.orangeText {
-    color: var(--background-orange);
-}
-
-.purpleText {
-    color: var(--background-purple);
-}
-
-.rainbowText {
-    color: var(--background-rainbow);
 }

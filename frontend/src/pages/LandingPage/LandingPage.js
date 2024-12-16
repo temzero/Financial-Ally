@@ -6,18 +6,33 @@ const LandingPage = function () {
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <h1 className={styles.title}>Track Your Bills,<br />Track Your Success!</h1>
+                <h1 className={styles.title}>Track Your Bills,<br/>Track Your Success!</h1>
                 <GiCoinflip className={styles.icon} />
             </div>
             <div className={styles.content}>
                 <h1 className={styles.contentTitle}>Read me!</h1>
-                <div>
-                    <h3 className={styles.description}>This is CS50 Final Project</h3>
-                    <h3 className={styles.description}>Financial Ally</h3>
-                    <h3 className={styles.description}>Designed to help people track their expenses and incomes</h3>
-                    <h3 className={styles.description}>Languages: Javascript, HTML, CSS</h3>
-                    <h3 className={styles.description}>Libraries: ReactJS, NodeJS...</h3>
-                    <h3 className={styles.description}>Database: MongoDB</h3>
+                <div className={styles.description}>
+                    <div>This is CS50 Final Project</div>
+                    <div>Financial Ally - Designed to help people track their expenses and incomes</div>
+                    <div className='spacer-small'></div>
+
+                    <div>My name is Nguyen Tran Nhan</div>
+                    <div className='spacer-small'></div>
+
+                    <div>Github: temzero</div>
+                    <div>edX: Nhan00</div>
+                    <div className='spacer-small'></div>
+
+                    <div>City: Dongha</div>
+                    <div>Country: Vietnam</div>
+                    <div className='spacer-small'></div>
+
+                    <div>Languages: Javascript, HTML, CSS</div>
+                    <div>Libraries: ReactJS, NodeJS...</div>
+                    <div>Database: MongoDB</div>
+                    <div className='spacer-small'></div>
+
+                    <div>Date recorded: December 18, 2024</div>
                 </div>
             </div>
         </div>

@@ -66,12 +66,14 @@
     padding: 20px;
     display: flex;
     align-items: center;
+    height: 100px;
+    
+    .balanceNumber {
+        display: flex;
+        gap: 8px;
+    }
 }   
 
-.balanceNumber {
-    display: flex;
-    gap: 8px;
-}
 
 .contentAnalysis {
     padding: 20px 28px;
@@ -88,11 +90,6 @@
 .contentTransaction {
     padding: 20px 28px;
     
-}
-
-.contentSubHeader {
-    font-size: 1.8rem;
-    font-weight: 300;
 }
 
 .colorOptions {
@@ -124,16 +121,6 @@
     text-align: center;
 }
 
-.noMoneyImage {
-    width: 100px;
-}
-.moneyImage {
-    width: 100px;
-}
-.muchMoneyImage {
-    width: 80px;
-}
-
 .landscapeImageContainer {
     width: 100%;
     flex: 1;
@@ -158,10 +145,22 @@
     font-size: .8rem;
 }
 
-.green { background-color: var(--background-green); }
-.red { background-color: var(--background-red); }
-.blue { background-color: var(--background-blue); }
-.yellow { background-color: var(--background-yellow); }
-.orange { background-color: var(--background-orange); }
-.purple { background-color: var(--background-purple); }
-.rainbow { background: var(--background-rainbow); }
+.displayStatus {
+    height: 100%;
+    width: auto;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 2s ease, transform 2s ease;
+    
+    &.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+}
+

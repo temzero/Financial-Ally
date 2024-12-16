@@ -1,13 +1,15 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import styles from './Profile.module.scss';
 import Button from '../../components/Button/Button';
 import TextInput from '../../components/FormInput/TextInput';
 import Category from '../../components/Category/Category';
 import { updateUser, getUser } from '../../redux/actions';
+import useClickOutside from '../../components/ClickOutside/useClickOutside';
 
 function Profile() {
     const currentUser = useSelector((state) => state.user.user);
+    const userRef =  useRef(null)
     const dispatch = useDispatch();
 
     const { firstName, lastName, email, password, createdAt } = currentUser;
@@ -65,6 +67,8 @@ function Profile() {
         alert('Profile saved!')
     };
 
+    useClickOutside(userRef, handleCancelEdit);
+
     const formattedDate = new Date(createdAt).toLocaleDateString('en-GB', {
         day: '2-digit',
         month: '2-digit',
@@ -87,12 +91,12 @@ function Profile() {
 
     return (
         <div className={styles.container}>
-            <h2 className={styles.header}>
-                <div className={styles.title}>Profile</div>
+            <h2 className='header-section'>
+                <div className='page-title'>Profile</div>
             </h2>
             <div className={styles.innerContainer}>
-                <div className={styles.userProfile}>
-                    <div className={styles.header}>
+                <div className={styles.userProfile} ref={userRef}>
+                    <div className='header-section'>
                         {greeting()}
                         {editable ? (
                             <div className={styles.buttonContainer}>

@@ -1,10 +1,11 @@
 import styles from './DeleteForm.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useRef } from 'react';
 import { deleteCategory } from '../../redux/actions'; 
 import openTrashIcon from '../../assets/images/opentrashcan.png'
 import { HiOutlineArrowRight } from "react-icons/hi";
 import iconItems from '../../assets/icons/reactIcons';
+import useClickOutside from '../ClickOutside/useClickOutside';
 
 function DeleteCategoryForm({
     selectedCategory,
@@ -13,46 +14,32 @@ function DeleteCategoryForm({
     className = '',
 }) {
     const dispatch = useDispatch();
-
-    const categories = useSelector((state) => state.category.categories) || [];
-    const categoryId = selectedCategory?._id;
-    const name = selectedCategory?.name || '';
-    const [categoryColor, setCategoryColor] = useState(selectedCategory?.color || '')
-
-    useEffect(() => {
-        if (selectedCategory?.type?.toLowerCase() === 'income') {
-            setCategoryColor('primaryGreen');
-        } else if (selectedCategory?.type?.toLowerCase() === 'expense') {
-            setCategoryColor('primaryRed');
-        }
-    }, [selectedCategory]);
+    const formRef = useRef(null)
+    const categoryColor = selectedCategory?.color || 'defaultColor'
     
-
     let classes = `
         ${className} 
         ${categoryColor ? styles.color : ''}
         ${hidden ? styles.hidden : ''}
     `;
 
-    const handleClickOutside = (event) => {
-        event.stopPropagation();
-        setSelectedCategory(null);
-    };
+    const closeForm = () => {
+        setSelectedCategory(null)
+    }
+
+    useClickOutside( formRef, closeForm);
 
     const handleCategoryDelete = () => {
         // Delete category logic here
-        dispatch(deleteCategory(categoryId));
+        dispatch(deleteCategory(selectedCategory?._id));
     };
 
-    const categoryIcon = (categoryName) => {
-        const category = categories.find((cat) => cat.name === categoryName);
-        const categoryIconName = category ? category.icon : '?';
-    
-        // Match the icon from iconItems
+    const categoryIcon = () => {
+        const categoryIconName = selectedCategory?.icon || '?';
         const matchedItem = iconItems.find((item) => item.name === categoryIconName);
     
         return (
-            <div className={`${styles.formIcon} ${styles[categoryColor]}`}>
+            <div className={styles.formIcon}>
                 {matchedItem ? matchedItem.icon : ''}
             </div>
         );
@@ -60,15 +47,15 @@ function DeleteCategoryForm({
 
     return (
         <div className={classes}>
-            <div className={styles.formOverlay} onClick={handleClickOutside}>
-                <div className={styles.formContainer} onClick={(e) => e.stopPropagation()}>
+            <div className='overlay' >
+                <div className='formContainer' ref={formRef}>
                     <div className={styles.formTitle}>
                         Do you want to delete this category?
                     </div>
                     <div className={styles.formBody}>
-                        <div className={`${styles.formIconContainer} ${styles[categoryColor]}`}>
-                            {categoryIcon(name)}
-                            <div className={styles.formName}>{name}</div>
+                        <div className={`${styles.formIconContainer} text-${categoryColor}`}>
+                            {categoryIcon()}
+                            <div className={styles.formName}>{selectedCategory?.name || ''}</div>
                         </div>
 
                         <HiOutlineArrowRight className={styles.formArrow}/>
@@ -80,8 +67,8 @@ function DeleteCategoryForm({
                         
                     </div>
                     <div className={styles.formDeleteButtons}>
-                        <div className={styles.deleteButton}><span  onClick={handleCategoryDelete}>Delete</span></div>
-                        <div className={styles.cancelButton}><span  onClick={handleClickOutside}>Cancel</span></div>
+                        <div className={`${styles.deleteButton} primary-red`} onClick={handleCategoryDelete}>Delete</div>
+                        <div className={styles.cancelButton} onClick={closeForm}>Cancel</div>
                     </div>
                 </div>
             </div>

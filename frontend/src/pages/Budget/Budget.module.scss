@@ -1,97 +1,6 @@
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 20px;
-}
-
-.title {
-    font-size: 2.6rem;
-    font-weight: 300;
-    line-height: 1;
-}
-
 .info {
     font-size: 1rem;
     font-weight: 300;
-}
-
-/* Style for the overlay form */
-.formOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-}
-
-.formContainer {
-    background: white;
-    padding-bottom: 8px;
-    border-radius: 4px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    width: 360px;
-    max-width: 90%;
-    overflow: hidden;
-}
-
-.namePlate {
-    padding-top: 12px;
-    padding-bottom: 4px;
-    border-bottom: 2px solid var(--pale-color);
-
-    .formNameInput {
-        font-size: 1.6rem;
-        width: 100%;
-        height: 36px;
-        padding: 1.2rem;
-        border: none;
-        background-color: transparent;
-        
-        &:focus {
-            border: none;
-            outline: none;
-        }
-    }
-}
-
-.formContent {
-    padding: 0 28px;
-}
-
-.formInput {
-    font-size: 1.2rem;
-    width: 100%;
-    height: 40px;
-    border: none;
-    border-bottom: 1px solid var(--pale-color);
-    user-select: none;
-    margin-bottom: 16px;
-    cursor: pointer;
-
-    
-    &:focus {
-        border: none;
-        outline: none;
-        border-bottom: 3px solid var(--primary-text-color);
-    }
-}
-
-.formInputSelect {
-    font-size: 1rem;
-    color: rgb(66, 66, 66);
-}
-
-.formLabel {
-    font-size: 1rem;
-    font-weight: 200;
-    margin-top: 12px;
-    margin-bottom: 8px;
 }
 
 .colorOptions {
@@ -114,13 +23,9 @@
     border: 4px solid black;
 }
 
-// Wallet Items
-.bodyContainer {
-    flex-wrap: wrap;
-    width: 100%;
-    display: flex;
+.justifyCenter {
     justify-content: center;
-    padding: 20px 40px;
+
 }
 
 .addBudgetCard,
@@ -226,33 +131,4 @@
 
 .plusIcon {
     font-size: 0.8rem; 
-}
-
-// Color
-.green {
-    background-color: var(--background-green);
-}
-
-.red {
-    background-color: var(--background-red);
-}
-
-.blue {
-    background-color: var(--background-blue);
-}
-
-.yellow {
-    background-color: var(--background-yellow);
-}
-
-.orange {
-    background-color: var(--background-orange);
-}
-
-.purple {
-    background-color: var(--background-purple);
-}
-
-.rainbow {
-    background: var(--background-rainbow);
 }

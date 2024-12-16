@@ -1,4 +1,5 @@
 import styles from './Wallet.module.scss';
+import '../../components/GlobalStyles/GlobalStyles';
 import Button from '../../components/Button/Button';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState, useRef } from 'react';
@@ -54,8 +55,8 @@ function Wallet() {
 
     return (
         <div>
-            <div className={styles.header}>
-                <h2 className={styles.title}>Wallet</h2>
+            <div className={'header-section'}>
+                <h2 className={'page-title'}>Wallet</h2>
                 <Button s onClick={toggleForm}>
                     <FaPlus className={styles.plusIcon}/> Add Wallet
                 </Button>
@@ -63,7 +64,7 @@ function Wallet() {
 
             <div className={styles.balance}><span className={styles.currency}>{currency}</span>{totalBalance.toLocaleString()}</div>
 
-            <div className={styles.bodyContainer}>
+            <div className='body-section'>
                 {wallets.length === 0 ? (
                     <div className={styles.addWalletCard} onClick={toggleForm}>
                         <AiOutlinePlus className={styles.addWalletCardIcon}/>

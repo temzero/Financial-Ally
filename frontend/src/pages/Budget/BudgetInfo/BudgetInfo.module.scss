@@ -173,25 +173,6 @@
     width: 100%;
 }
 
-.walletItem {
-    display: flex;
-    gap: 6px;
-    padding: 2px 8px;
-    border-radius: 4px;
-    align-items: center;
-    font-size: 1rem;
-    cursor: pointer;
-    color: rgba(0,0,0,0.8);
-    background-color: rgba(0, 0, 0, 0.1);
-    max-height: 32px;
-
-    &:hover {
-        opacity: 0.8;
-        font-weight: 400;
-    }
-}
-
-
 .date {
     width: 100%;
     margin-top: 24px;
@@ -221,56 +202,4 @@
     .landscapeImage {
         width: 80%;
     }
-}
-
-
-// Color Variants
-.green { background-color: var(--background-green); }
-.red { background-color: var(--background-red); }
-.blue { background-color: var(--background-blue); }
-.yellow { background-color: var(--background-yellow); }
-.orange { background-color: var(--background-orange); }
-.purple { background-color: var(--background-purple); }
-.rainbow { background: var(--background-rainbow); }
-
-.textgreen { color: var(--background-green); }
-.textred { color: var(--background-red); }
-.textblue { color: var(--background-blue); }
-.textyellow { color: var(--background-yellow); }
-.textorange { color: var(--background-orange); }
-.textpurple { color: var(--background-purple); }
-.textrainbow { color: var(--background-rainbow); }
-
-@mixin walletItemStyles($color-var) {
-    &:hover {
-        background-color: var(--#{$color-var});
-    }
-}
-
-.walletItem-green {
-    @include walletItemStyles(background-green);
-}
-
-.walletItem-red {
-    @include walletItemStyles(background-red);
-}
-
-.walletItem-blue {
-    @include walletItemStyles(background-blue);
-}
-
-.walletItem-yellow {
-    @include walletItemStyles(background-yellow);
-}
-
-.walletItem-orange {
-    @include walletItemStyles(background-orange);
-}
-
-.walletItem-purple {
-    @include walletItemStyles(background-purple);
-}
-
-.walletItem-rainbow {
-    @include walletItemStyles(background-rainbow);
 }

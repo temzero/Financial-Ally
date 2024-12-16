@@ -63,7 +63,7 @@ function ColorInput({ color, setColor, isFocusOutside, setIsFocusOutside = () =>
             {colors.map((loopColor, index) => (
                 <div
                     key={loopColor}
-                    className={`${styles.circleOption} ${styles[loopColor]} ${counter === index ? styles.active : ''}`}
+                    className={`${styles.circleOption} background-${loopColor} ${counter === index ? styles.active : ''}`}
                     onClick={() => {
                         setCounter(index);
                         setColor(loopColor);
