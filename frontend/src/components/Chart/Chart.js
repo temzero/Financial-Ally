@@ -57,11 +57,11 @@ function Chart() {
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.1,
-                pointBackgroundColor: 'rgb(75, 192, 192)', // Dot fill color
-                pointBorderColor: 'rgb(75, 192, 192)', // Dot fill color
-                pointBorderWidth: 0, // Outline thickness
-                pointRadius: 4, // Dot size
-                pointHoverRadius: 8, // Hover dot size
+                pointBackgroundColor: 'rgb(75, 192, 192)',
+                pointBorderColor: 'rgb(75, 192, 192)',
+                pointBorderWidth: 0, 
+                pointRadius: 4, 
+                pointHoverRadius: 8, 
             },
         ],
     };

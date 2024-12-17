@@ -34,10 +34,8 @@ function Wallet() {
             }
         };
 
-        // Add event listener on mount
         window.addEventListener('keydown', handleKeyDown);
 
-        // Cleanup event listener on unmount
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };

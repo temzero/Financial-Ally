@@ -42,6 +42,4 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// Add methods or middleware if needed
-
 module.exports = mongoose.model("users", userSchema);

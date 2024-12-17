@@ -59,7 +59,7 @@ export const balanceLineGraphData = (transactions, balance) => {
     if (data.length === 0) {
         data.push({
             lineBalance: balance,
-            date: new Date().getTime() - 60 * 60 * 1000, // Simulate one hour ago
+            date: new Date().getTime() - 60 * 60 * 1000, 
         });
     }
 

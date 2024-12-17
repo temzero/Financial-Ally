@@ -36,8 +36,8 @@ function DeleteWalletForm({ showForm, setShowForm, wallet }) {
     return (
         showForm && (
             <div className='overlay'>
-                <div className='formContainer' ref={formRef}>
-                    <div className={styles.formTitle}>
+                <div className='form-container' ref={formRef}>
+                    <div className='form-title'>
                         Do you want to delete this wallet?
                     </div>
 

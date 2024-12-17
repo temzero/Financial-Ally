@@ -75,9 +75,9 @@ function WalletsInput({
 
     const handleAllWalletsChange = () => {
         if (selectedWallets.length === wallets.length) {
-            setSelectedWallets([]); // Uncheck all
+            setSelectedWallets([]);
         } else {
-            setSelectedWallets(wallets); // Select all
+            setSelectedWallets(wallets);
         }
     };
 

@@ -21,7 +21,7 @@ const BudgetSchema = new mongoose.Schema({
     ],
     transactionIds: {
         type: [String],
-        default: [], // This sets an empty array as the default value for transactionIds
+        default: [],
     },
     startDate: {
         type: Date,

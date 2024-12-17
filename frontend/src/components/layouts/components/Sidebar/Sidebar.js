@@ -16,7 +16,6 @@ function Sidebar() {
         wallet: '/wallet',
         profile: '/profile',
         setting: '/setting',
-        // logout: '/logout',
     }
 
     const handleLogout = () => {
@@ -31,7 +30,6 @@ function Sidebar() {
     return (
         <div className={styles.wrapper}>
             <div className={styles.header}>
-                {/* {greeting()} */}
                 <a className={navLinkClasses(navLinks.profile)} href={navLinks.profile}>
                     {user.firstName}
                 </a>

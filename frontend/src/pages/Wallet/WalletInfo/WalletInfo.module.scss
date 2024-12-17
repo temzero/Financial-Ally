@@ -92,26 +92,6 @@
     
 }
 
-.colorOptions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 12px;
-    margin-bottom: 20px;
-}
-
-.circleOption {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 4px solid transparent;
-    transition: border-color 1s;
-}
-
-.circleOption:hover {
-    border: 4px solid black;
-}
-
 .date {
     margin-top: 24px;
     font-size: 1.2rem;

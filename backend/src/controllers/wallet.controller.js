@@ -2,7 +2,6 @@ const Wallet = require('../models/wallet.model')
 const Transaction = require('../models/transaction.model')
 
 const walletControllers = {
- // Wallet controllers
  getWallets: async (req, res) => {
     try {
       const userId = req.params.id;
@@ -109,12 +108,10 @@ const walletControllers = {
   transferBalance: async (req, res) => {
     const { fromWalletId, toWalletId, amount } = req.body;
     try {
-        // Ensure the amount is positive
         if (amount <= 0) {
             return res.status(400).json({ message: 'Transfer amount must be positive' });
         }
 
-        // Find both wallets
         const fromWallet = await Wallet.findById(fromWalletId);
         const toWallet = await Wallet.findById(toWalletId);
 

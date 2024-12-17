@@ -36,8 +36,7 @@ const DateInput = ({ date, setDate, isDropdownOutside = false, setIsDropdownOuts
     const formInputRef = useRef(null);
     
     const [isDropdown, setIsDropdown] = useState(isDropdownOutside);
-    console.log('isDropdown', isDropdown)
-    console.log('isDropdownOutside', isDropdownOutside)
+
     // Update isWalletDropdown when isDropdownOutside changes
     useEffect(() => {
         setIsDropdown(isDropdownOutside);
@@ -66,10 +65,10 @@ const DateInput = ({ date, setDate, isDropdownOutside = false, setIsDropdownOuts
                 dateInputRef.current.showPicker();
             } catch (error) {
                 console.error('showPicker is not supported or failed:', error);
-                setIsDropdown(false); // Ensure it's set to false when showPicker fails
+                setIsDropdown(false);
             }
         } else {
-            setIsDropdown(false); // Fallback if not showing
+            setIsDropdown(false);
         }
     }, [isDropdown, trigger]);
 
@@ -88,12 +87,10 @@ const DateInput = ({ date, setDate, isDropdownOutside = false, setIsDropdownOuts
 
     const handleInputKeyDown = (event) => {
         if (event.key === 'Enter') {
-            console.log('Enter Enter Enter Enter')
             event.preventDefault(); 
             setIsDropdown(false);
         }
         if (event.key === 'Escape') {
-            console.log('Escape Escape Escape Escape')
             event.preventDefault(); 
             setIsDropdown(false);
         }

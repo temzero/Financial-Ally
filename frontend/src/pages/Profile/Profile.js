@@ -1,10 +1,10 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState, useRef } from 'react';
+import { updateUser, getUser } from '../../redux/actions';
 import styles from './Profile.module.scss';
 import Button from '../../components/Button/Button';
 import TextInput from '../../components/FormInput/TextInput';
 import Category from '../../components/Category/Category';
-import { updateUser, getUser } from '../../redux/actions';
 import useClickOutside from '../../components/ClickOutside/useClickOutside';
 
 function Profile() {

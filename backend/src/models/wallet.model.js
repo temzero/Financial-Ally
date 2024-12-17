@@ -19,14 +19,14 @@ const WalletSchema = new mongoose.Schema({
     },
     transactionIds: {
         type: [String],
-        default: [], // This sets an empty array as the default value for transactionIds
+        default: [],
     },
     userId: {
         type: String,
         required: true
     }
 }, {
-    timestamps: true // Automatically adds `createdAt` and `updatedAt` fields
+    timestamps: true 
 });
 
 const Wallet = mongoose.model('Wallet', WalletSchema);

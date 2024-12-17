@@ -61,26 +61,26 @@ function EditWalletForm({
     return (
         showForm && (
             <div className='overlay'>
-                <div className='formContainer' ref={formRef}>
+                <div className='form-container' ref={formRef}>
                     <form onSubmit={handleFormSubmit}>
-                        <div className={`namePlate background-${walletColor}`}>
-                            <TextInput  className='formNameInput' content={walletName} setContent={setWalletName} isFocusOutside={true}/>
+                        <div className={`form-name background-${walletColor}`}>
+                            <TextInput  className='form-name-input' content={walletName} setContent={setWalletName} isFocusOutside={true}/>
                         </div>
-                        <div className='formDivider'></div>
-                        <div className='formContent'>
+                        <div className='form-divider'></div>
+                        <div className='form-content'>
                             <div>
-                                <h2 className='formLabel'>Amount</h2>
+                                <h2 className='form-label'>Amount</h2>
                                 <BalanceInput amount={walletBalance} setAmount={setWalletBalance}/>
                             </div>
                             <div>
-                                <h2 className='formLabel'>Type</h2>
+                                <h2 className='form-label'>Type</h2>
                                 <WalletTypeInput type={walletType} setType={setWalletType}/>
                             </div>
                             <div>
                                 <ColorInput color={walletColor} setColor={setWalletColor}/>
                             </div>
                         </div>
-                            <div className='formBtnContainer'>
+                            <div className='form-btn-container'>
                                 <Button type="submit" simple>
                                     Update
                                 </Button>

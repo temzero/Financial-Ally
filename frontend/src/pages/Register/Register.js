@@ -1,9 +1,8 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { loginRequest } from '../../redux/actions';
-import { registerRequest } from '../../redux/actions';
 import styles from './Register.module.scss';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { loginRequest, registerRequest } from '../../redux/actions';
 import Button from '../../components/Button/Button';
 
 function Register() {

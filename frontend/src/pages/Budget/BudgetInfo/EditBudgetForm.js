@@ -1,7 +1,6 @@
 import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateBudget } from '../../../redux/actions';
-import styles from './BudgetInfo.module.scss';
 import Button from '../../../components/Button/Button';
 import ColorInput from '../../../components/FormInput/ColorInput';
 import BalanceInput from '../../../components/FormInput/BalanceInput';
@@ -30,8 +29,6 @@ function EditBudgetForm({
     setBudgetColor,
 }) {
 
-    console.log('budgetFinishDate', budgetFinishDate)
-    console.log('FinishDate', budgetData.finishDate)
     const formattedFinishDate = budgetFinishDate ? new Date(budgetFinishDate).toISOString().split('T')[0] : '';
     const budgetId = budgetData._id;
     const dispatch = useDispatch();
@@ -91,36 +88,36 @@ function EditBudgetForm({
 
     return (
         showForm && (
-            <div className={styles.formOverlay}>
-                <div className={styles.formContainer} ref={formRef}>
+            <div className='overlay'>
+                <div className='form-container' ref={formRef}>
                     <form onSubmit={handleFormSubmit}>
                         <div>
                             <input
-                                className={styles.formNameInput}
+                                className='form-name-input'
                                 type="text"
                                 placeholder="Budget Name"
                                 value={budgetName}
                                 onChange={(e) => setBudgetName(e.target.value)}
                             />
                         </div>
-                        <div className={styles.formDivider}></div>
-                        <div className={styles.formContent}>
+                        <div className='form-divider'></div>
+                        <div className='form-content'>
                             <div>
-                                <h2 className={styles.formLabel}>Set Limit Amount</h2>
+                                <h2 className='form-label'>Set Limit Amount</h2>
                                 <BalanceInput amount={budgetMoneyLimit} setAmount={setBudgetMoneyLimit}/>
                             </div>
                             <div>
-                                <h2 className={styles.formLabel}>Type</h2>
+                                <h2 className='form-label'>Type</h2>
                                 <TypeInput type={budgetType} setType={setBudgetType}/>
                             </div>
                             <div>
-                                <h2 className={styles.formLabel}>Finish Date</h2>
+                                <h2 className='form-label'>Finish Date</h2>
                                 <DateInput date={formattedFinishDate} setDate={setBudgetFinishDate} />
                             </div>
                             <div>
                                 <ColorInput color={budgetColor} setColor={setBudgetColor}/>
                             </div>
-                            <div className={styles.formBtnContainer}>
+                            <div className='form-btn-container'>
                                 <Button type="submit" simple disabled={!isDataChanged()}>
                                     Update
                                 </Button>

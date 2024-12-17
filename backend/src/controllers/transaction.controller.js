@@ -36,7 +36,7 @@ const transactionControllers = {
         walletId: req.body.walletId,
         date: req.body.date,
         note: req.body.note,
-        image: req.file ? req.file.path : null, // Save file path
+        image: req.file ? req.file.path : null,
         userId: req.body.userId,
       };
 

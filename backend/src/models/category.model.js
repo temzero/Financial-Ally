@@ -15,14 +15,13 @@ const CategorySchema = new mongoose.Schema({
     },
     color: {
         type: String,
-        // required: true
     },
     userId: {
         type: String,
         required: true
     }
 }, {
-    timestamps: true // Automatically adds `createdAt` and `updatedAt` fields
+    timestamps: true
 });
 
 const Category = mongoose.model('Category', CategorySchema);

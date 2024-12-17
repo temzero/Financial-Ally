@@ -22,6 +22,7 @@ import stateReducer from './stateReducer';
 //     category: {
 //         categories: [],
 //     },
+//     overlay: true/false
 // };
 
 // Combine reducers

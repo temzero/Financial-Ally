@@ -10,8 +10,8 @@
     justify-content: center;
     align-items: center;
 
-    flex: 1; // Allows the body to grow and take available space
-    overflow-y: auto; // Ensures scrollability if content overflows
+    flex: 1;
+    overflow-y: auto;
     
     .section {
         width: 70%;
@@ -95,6 +95,5 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    // border: 2px solid rgba(54, 254, 174, 0.8);
 }
 

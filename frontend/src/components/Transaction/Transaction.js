@@ -40,7 +40,6 @@ function Transaction({
     const wallets = useSelector((state) => state.wallet.wallets) || [];
     const wallet = wallets.find((wallet) => wallet._id === transaction.walletId) || {};
 
-    // const [isOverlay, setIsOverlay] = useState(true);
     const [editable, setEditable] = useState(false);
     
     const [amount, setAmount] = useState(transaction.amount);
@@ -185,7 +184,6 @@ function Transaction({
             (id) => id !== transactionId
         );
     
-        // Dispatch the wallet update
         dispatch(updateWallet(
             { balance: updatedWalletBalance, transactionIds: updatedWalletTransactionIds },
             wallet._id
@@ -237,7 +235,6 @@ function Transaction({
                 </>
             ) : (
                 <>
-                    {/* <button className={styles.transactionBtn}> */}
                     <button className={styles.transactionBtn} onClick={() => setEditable(true)}>
                         {editIcon({ width: '23px', height: '23px' })}
                     </button>

@@ -46,11 +46,11 @@ const NoteInput = ({ note, setNote, className, isFocusOutside = false, setIsFocu
     return (
         <div className={styles.noteInputContainer}>
             <textarea
-                ref={textareaRef}  // Attach ref to the textarea
+                ref={textareaRef}
                 className={`${styles.formInputNote} ${className || ''}`}
                 value={note}
                 onChange={handleChange}
-                onKeyDown={handleKeyDown}  // Add the keydown handler
+                onKeyDown={handleKeyDown}
                 rows={4}
             />
             <div className={styles.charCounter}>

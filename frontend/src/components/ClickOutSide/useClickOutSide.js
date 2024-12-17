@@ -12,7 +12,7 @@ const useClickOutside = (ref, callback) => {
                 !isInsidePikaday && // Not inside Pikaday popup
                 !isPikadayButton // Not clicking a date button
             ) {
-                callback(); // Trigger close only if outside both
+                callback();
             }
         };
 

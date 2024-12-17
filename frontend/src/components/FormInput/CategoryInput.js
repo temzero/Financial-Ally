@@ -12,9 +12,8 @@ const CategoryInput = ({
     categoryType,
     className,
     isFocusOutside = false,
-    setIsFocusOutside = () => {}, // Pass setter for controlling Focus
+    setIsFocusOutside = () => {}, 
 }) => {
-    // Get categories
     const user = useSelector((state) => state.user.user);
     const categories = useSelector((state) => state.category.categories);
     const Overlay = useSelector((state) => state.state.isOverlay);

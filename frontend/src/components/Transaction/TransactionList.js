@@ -57,7 +57,6 @@ function TransactionList({ transactions = [], currency = '$' }) {
 
         const { icon: categoryIconName, name, color } = category;
         const colorClass = `text-${color || 'defaultColor'}`;
-        console.log('colorClass:', colorClass); // Debug the generated class
         const matchedItem = iconItems.find(
             (item) => item.name === categoryIconName
         );

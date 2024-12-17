@@ -30,14 +30,7 @@ function TransferBalanceForm({
         dispatch(setOverlay(false))
     }, [setShowForm]);
 
-    useClickOutside(
-        formRef,
-        () => {
-            // if (!isTypeFocus) {
-                closeForm();
-            // }
-        }
-    );
+    useClickOutside(formRef, closeForm)
 
     const handleFormSubmit = (event) => {
         event.preventDefault();
@@ -57,19 +50,19 @@ function TransferBalanceForm({
                 <form
                     ref={formRef}
                     onSubmit={handleFormSubmit}
-                    className='formContainer'
+                    className={`form-container ${styles.formContainer}`}
                     onClick={(e) => e.stopPropagation()} 
                 >
                     <div className={styles.formHeader}>Transfer Balance <FaRegPaperPlane className={styles.transferIcon}/></div>
                     <div className={styles.formSection}>
-                        <h2 className='formLabel'>Amount</h2>
+                        <h2 className='form-label'>Amount</h2>
                         <BalanceInput
                             amount={transferAmount}
                             setAmount={setTransferAmount}
                         />
                     </div>
                     <div className={styles.formSection}>
-                        <h2 className='formLabel'>To wallet</h2>
+                        <h2 className='form-label'>To wallet</h2>
                         <WalletInput
                             wallet={targetWallet}
                             setWallet={setTargetWallet}
@@ -77,7 +70,7 @@ function TransferBalanceForm({
                         />
                     </div>
 
-                    <div className='formBtnContainer'>
+                    <div className='form-btn-container'>
                         <Button
                             type="submit"
                             simple

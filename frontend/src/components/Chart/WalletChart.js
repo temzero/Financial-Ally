@@ -18,7 +18,7 @@ function WalletChart({ transactions = [], type = '' }) {
         if (!acc[walletId]) {
             acc[walletId] = { total: 0, walletId };
         }
-        acc[walletId].total += amount; // Sum up the total money for each wallet
+        acc[walletId].total += amount; 
         return acc;
     }, {});
 
@@ -36,7 +36,7 @@ function WalletChart({ transactions = [], type = '' }) {
         const style = getComputedStyle(document.documentElement);
         const color = style.getPropertyValue(colorVariable).trim();
 
-        return color || '#CCCCCC'; // Default to gray if no color is defined
+        return color || '#CCCCCC';
     };
 
     // Render wallets with icons and colors

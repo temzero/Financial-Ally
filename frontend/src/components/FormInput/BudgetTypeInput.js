@@ -15,7 +15,6 @@ function BudgetTypeInput({ type, setType, className }) {
     }, [type, setType]);
 
     const typeOptions = [
-        // { value: "", label: "All expense & income" },
         { value: 'Income', label: 'Income' },
         { value: 'Expense', label: 'Expense' },
     ];

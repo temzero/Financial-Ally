@@ -107,11 +107,11 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId }) {
     return (
         showForm && (
             <div className='overlay'>
-                <div className='formContainer' ref={formRef}>
+                <div className='form-container' ref={formRef}>
                     <form onSubmit={handleFormSubmit}>
-                        <div className={`namePlate background-${walletColor}`} onClick={() => setCounter(0)}>
+                        <div className={`form-name background-${walletColor}`} onClick={() => setCounter(0)}>
                             <TextInput
-                                className='formNameInput'
+                                className='form-name-input'
                                 content={walletName}
                                 setContent={setWalletName}
                                 isFocusOutside={isNameFocus}
@@ -119,9 +119,9 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId }) {
                                 placeholder="Enter wallet Name"
                             />
                         </div>
-                        <div className='formContent'>
+                        <div className='form-content'>
                             <div onClick={() => setCounter(1)}>
-                                <h2 className='formLabel'>Amount</h2>
+                                <h2 className='form-label'>Amount</h2>
                                 <BalanceInput
                                     amount={balance}
                                     setAmount={setBalance}
@@ -130,7 +130,7 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId }) {
                                 />
                             </div>
                             <div onClick={() => setCounter(2)}>
-                                <h2 className='formLabel'>Type</h2>
+                                <h2 className='form-label'>Type</h2>
                                 <WalletTypeInput
                                     type={walletType}
                                     setType={setWalletType}
@@ -148,12 +148,12 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId }) {
                                 />
                             </div>
                         </div>
-                            <div className='formBtnContainer' onClick={() => setCounter(4)}>
+                            <div className='form-btn-container' onClick={() => setCounter(4)}>
                                 <Button
                                     type="submit"
                                     simple
                                     disabled={!isFormComplete}
-                                    className={`submitButton ${counter === 4 ? 'clickable' : ''}`}
+                                    className={`submit-button ${counter === 4 ? 'clickable' : ''}`}
                                 >
                                     Add Wallet
                                 </Button>

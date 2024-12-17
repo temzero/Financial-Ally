@@ -5,9 +5,9 @@ import useClickOutside from '../ClickOutside/useClickOutside';
 
 function WalletTypeInput({ type, setType, isFocusOutside, setIsFocusOutside = () => {}, className }) {
     const [isDropdown, setIsDropdown] = useState(isFocusOutside);
+    const [counter, setCounter] = useState(0);
     const dropdownRef = useRef(null);
     const optionRefs = useRef([]);
-    const [counter, setCounter] = useState(0);
 
     const walletTypeOptions = [
         { value: "Personal", label: "Personal" },

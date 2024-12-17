@@ -30,7 +30,6 @@ function DeleteCategoryForm({
     useClickOutside( formRef, closeForm);
 
     const handleCategoryDelete = () => {
-        // Delete category logic here
         dispatch(deleteCategory(selectedCategory?._id));
     };
 
@@ -48,8 +47,8 @@ function DeleteCategoryForm({
     return (
         <div className={classes}>
             <div className='overlay' >
-                <div className='formContainer' ref={formRef}>
-                    <div className={styles.formTitle}>
+                <div className='form-container' ref={formRef}>
+                    <div className='form-title'>
                         Do you want to delete this category?
                     </div>
                     <div className={styles.formBody}>

@@ -29,10 +29,8 @@ const WalletInput = ({
         setIsFocusOutside(isDropdown);
     }, [isDropdown, setIsFocusOutside]);
 
-    // Close dropdown on click outside
     useClickOutside(dropdownRef, () => {setIsDropdown(false)});
 
-    // Handle keyboard navigation when dropdown is open
     useEffect(() => {
         if(Overlay) return;
         if (isDropdown) {

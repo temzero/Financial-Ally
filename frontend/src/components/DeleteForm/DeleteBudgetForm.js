@@ -1,8 +1,8 @@
 import styles from './DeleteForm.module.scss';
 import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteBudget } from '../../redux/actions';
 import { useNavigate } from 'react-router-dom';
+import { deleteBudget } from '../../redux/actions';
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { setOverlay } from '../../redux/actions';
 import trashIcon from '../../assets/images/opentrashcan.png';
@@ -37,8 +37,8 @@ function DeleteBudgetForm({ showForm, setShowForm, budget }) {
     return (
         showForm && (
             <div className='overlay'>
-                <div className='formContainer' ref={formRef}>
-                    <div className={styles.formTitle}>
+                <div className='form-container' ref={formRef}>
+                    <div className='form-title'>
                         Do you want to delete this budget?
                     </div>
 

@@ -8,7 +8,6 @@ const categoryControllers = {
       // Fetch categories for the user
       const categories = await Category.find({ userId });
   
-      // Always return the result, even if it's empty
       res.status(200).json(categories);
     } catch (error) {
       console.error('Error fetching categories:', error);

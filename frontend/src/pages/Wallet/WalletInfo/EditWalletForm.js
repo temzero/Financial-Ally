@@ -69,32 +69,32 @@ function EditWalletForm({
 
     return (
         showForm && (
-            <div className={styles.formOverlay}>
-                <div className={styles.formContainer} ref={formRef}>
+            <div className='overlay'>
+                <div className='form-container' ref={formRef}>
                     <form onSubmit={handleFormSubmit}>
                         <div>
                             <input
-                                className={styles.formNameInput}
+                                className='form-name-input'
                                 type="text"
                                 placeholder="Wallet Name"
                                 value={walletName}
                                 onChange={(e) => setWalletName(e.target.value)}
                             />
                         </div>
-                        <div className={styles.formDivider}></div>
-                        <div className={styles.formContent}>
+                        <div className='form-divider'></div>
+                        <div className='form-content'>
                             <div>
-                                <h2 className={styles.formLabel}>Amount</h2>
+                                <h2 className='form-label'>Amount</h2>
                                 <BalanceInput amount={walletBalance} setAmount={setWalletBalance}/>
                             </div>
                             <div>
-                                <h2 className={styles.formLabel}>Type</h2>
+                                <h2 className='form-label'>Type</h2>
                                 <WalletTypeInput type={walletType} setType={setWalletType}/>
                             </div>
                             <div>
                                 <ColorInput color={walletColor} setColor={setWalletColor}/>
                             </div>
-                            <div className={styles.formBtnContainer}>
+                            <div className='form-btn-container'>
                                 <Button type="submit" simple>
                                     Update
                                 </Button>

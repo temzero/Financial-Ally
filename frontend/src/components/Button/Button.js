@@ -13,7 +13,7 @@ function Button({
     l,
     className,
     children,
-    type = 'button', // Default type 'button'
+    type = 'button', 
     ...passProps
 }) {
     let Component = 'button';
@@ -29,7 +29,6 @@ function Button({
     if (s) classes += ` ${styles.s}`;
     if (l) classes += ` ${styles.l}`;
 
-    // For anchor (a) element, we need to conditionally render to or href
     if (to) {
         Component = 'a';
         passProps.to = to;
@@ -38,9 +37,8 @@ function Button({
         passProps.href = href;
     }
 
-    // For button, ensure the 'type' is passed correctly
     if (Component === 'button' && !passProps.type) {
-        passProps.type = type; // Default to 'button', or 'submit' if required
+        passProps.type = type; 
     }
 
     // Disable click handler if button is disabled

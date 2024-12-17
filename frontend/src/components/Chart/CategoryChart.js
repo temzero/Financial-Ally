@@ -31,13 +31,13 @@ function CategoryChart({ transactions = [], type = '' }) {
     // Function to get category color from SCSS variables
     const getCategoryColor = (categoryId) => {
         const category = getCategoryDetails(categoryId);
-        const colorVariable = `--color-${category.color}`; // Assuming colors are sequential
+        const colorVariable = `--color-${category.color}`; 
 
         // Fetch the CSS variable value dynamically
         const style = getComputedStyle(document.documentElement);
         const color = style.getPropertyValue(colorVariable).trim();
 
-        return color || '#CCCCCC'; // Default to gray if no color is defined
+        return color || '#CCCCCC';
     };
 
     const getCategoryIcon = (categoryId) => {
@@ -76,16 +76,16 @@ function CategoryChart({ transactions = [], type = '' }) {
         datasets: [
             {
                 label: 'Total Amount',
-                data: Object.values(categoryTotals).map((item) => item.total), // Use total amounts
+                data: Object.values(categoryTotals).map((item) => item.total),
                 backgroundColor: Object.keys(categoryTotals).map((categoryId) =>
-                    getCategoryColor(categoryId) // Get color dynamically for each category
+                    getCategoryColor(categoryId) 
                 ),
                 borderWidth: 1,
             },
         ],
     };
 
-    // Tooltip modification to show total amount and percentage
+
     const options = {
         responsive: true,
         plugins: {
