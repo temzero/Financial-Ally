@@ -8,66 +8,66 @@ This project empowers individuals and businesses to take control of their financ
 **How to Use?**
 
 Using the tool is straightforward:
-Record Transactions: Enter details like type (income or expense), amount, category, wallet, date, and optional notes.
-Customize Categories and Wallets: Create tailored categories and wallets to match your specific financial needs.
-Set Budgets: Establish spending limits for specific periods and assign them to wallets to monitor your budget adherence.
+    Record Transactions: Enter details like type (income or expense), amount, category, wallet, date, and optional notes.
+    Customize Categories and Wallets: Create tailored categories and wallets to match your specific financial needs.
+    Set Budgets: Establish spending limits for specific periods and assign them to wallets to monitor your budget adherence.
 
 Analysis and Insights:
-The Analysis tab provides comprehensive financial insights:
-Overall Financial Health: Visualize trends in your total balance over time.
-Detailed Budget and Wallet Analysis: Dive deep into specific budgets and wallets to track performance and spending patterns.
-Category-Based Insights: Understand how your spending is distributed across different categories.
+    The Analysis tab provides comprehensive financial insights:
+    Overall Financial Health: Visualize trends in your total balance over time.
+    Detailed Budget and Wallet Analysis: Dive deep into specific budgets and wallets to track performance and spending patterns.
+    Category-Based Insights: Understand how your spending is distributed across different categories.
 
 **App Functions:**
 
 The frontend features five main tabs, each offering distinct functionality:
 
 Home:
-Includes a line chart to analyze changes in the total balance over time.
-Displays all transactions across all wallets.
-Features an "Add Transaction" form conveniently located on the right side of the screen.
+    Includes a line chart to analyze changes in the total balance over time.
+    Displays all transactions across all wallets.
+    Features an "Add Transaction" form conveniently located on the right side of the screen.
 
 Analysis:
-Shows transaction data for all wallets or individual wallets.
-Includes a line chart for tracking money flow and doughnut charts for analyzing categories, wallet expenses, and income.
+    Shows transaction data for all wallets or individual wallets.
+    Includes a line chart for tracking money flow and doughnut charts for analyzing categories, wallet expenses, and income.
 
 Budget:
-Lists all your budgets and provides the option to create new ones.
-Clicking on a specific budget navigates to its detailed page, displaying transaction and budget-specific data.
+    Lists all your budgets and provides the option to create new ones.
+    Clicking on a specific budget navigates to its detailed page, displaying transaction and budget-specific data.
 
 Wallet:
-Similar to the Budget tab, this section displays all wallets and allows you to create new ones.
-Clicking on a wallet takes you to its detailed page, showing transaction and balance data for that wallet.
+    Similar to the Budget tab, this section displays all wallets and allows you to create new ones.
+    Clicking on a wallet takes you to its detailed page, showing transaction and balance data for that wallet.
 
 User Profile:
-Displays your account details and allows you to edit your profile, such as changing your password.
-The most important feature here is category management:
-Create custom categories.
-View all categories, along with their related transactions and the total value of those transactions.
+    Displays your account details and allows you to edit your profile, such as changing your password.
+    The most important feature here is category management:
+    Create custom categories.
+    View all categories, along with their related transactions and the total value of those transactions.
 
 
 **FILE STRUCTURE:**
 The project is organized into two main folders: Frontend and Backend.
 This project adopts a standard React application structure for the frontend and a well-organized backend to ensure scalability and maintainability. Below is an overview of the key directories, files, and their purposes:
 
-FRONTEND:
+*FRONTEND:*
 Languages Used: JavaScript, React.js
 
 1. node_modules
-Contains all project dependencies and their sub-dependencies, installed via npm (Node Package Manager).
-Dependency details are listed in the package.json file under the dependencies and devDependencies sections.
+    Contains all project dependencies and their sub-dependencies, installed via npm (Node Package Manager).
+    Dependency details are listed in the package.json file under the dependencies and devDependencies sections.
 2. public
-Stores static assets like HTML files, images, and other files that are directly served by the web server.
-These assets are not processed by Webpack or other build tools.
+    Stores static assets like HTML files, images, and other files that are directly served by the web server.
+    These assets are not processed by Webpack or other build tools.
 3. src
-The source folder containing the application's main codebase.
+    The source folder containing the application's main codebase.
 
 Key Files in src folder:
 
 index.js
-Entry point of the React application.
-Initializes the React app and applies global styles.
-Configures React-Redux to manage state, enabling data sharing across components.
+    Entry point of the React application.
+    Initializes the React app and applies global styles.
+    Configures React-Redux to manage state, enabling data sharing across components.
 
 App.js (Serves as the root component of the application)
         Implements two types of routing:
@@ -130,7 +130,7 @@ Redux (Manages the application's state and acts as a bridge between the frontend
                         - Prevents data loss on page reload.
 
 
-BACKEND
+*BACKEND*
 Languages Used: JavaScript, node.js
 Database: mongoDb
 
@@ -140,6 +140,7 @@ Database: mongoDb
         Contains the source code for backend logic and database interaction.
 
 Key Backend Files in src:
+
 backend.js
         - Entry point of the backend application.
         - Sets up the server, connects to the database, and starts listening for incoming requests.
