@@ -58,7 +58,7 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId }) {
                 setCounter((prevCounter) => (prevCounter - 1 + 5) % 5);
             } else if (event.key === 'Enter') {
                 if (isSubmitFocus && isFormComplete) {
-                    const submitButton = document.querySelector(`submitButton`);
+                    const submitButton = document.querySelector(`.submit-button`);
                     if (submitButton) submitButton.click();
                 }
             }
@@ -121,7 +121,7 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId }) {
                         </div>
                         <div className='form-content'>
                             <div onClick={() => setCounter(1)}>
-                                <h2 className='form-label'>Amount</h2>
+                                <h2 className={`form-label ${counter === 1 ? 'focus' : ''}`}>Amount</h2>
                                 <BalanceInput
                                     amount={balance}
                                     setAmount={setBalance}
@@ -130,7 +130,7 @@ function AddWalletForm({ showForm, setShowForm, formRef, userId }) {
                                 />
                             </div>
                             <div onClick={() => setCounter(2)}>
-                                <h2 className='form-label'>Type</h2>
+                                <h2 className={`form-label ${counter === 2 ? 'focus' : ''}`}>Type</h2>
                                 <WalletTypeInput
                                     type={walletType}
                                     setType={setWalletType}

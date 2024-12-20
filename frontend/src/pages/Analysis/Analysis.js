@@ -21,6 +21,7 @@ import {
     balanceLineGraphData,
 } from '../../components/Chart/chartUtils';
 import AnalysisController from './AnalysisController';
+import useFadeIn from '../../components/Animation/useFadeIn';
 
 // Register necessary components in Chart.js
 ChartJS.register(
@@ -38,6 +39,7 @@ function Analysis({ currency = '$' }) {
         useSelector((state) => state.transaction.transactions) || [];
     const wallets = useSelector((state) => state.wallet.wallets) || [];
     const walletIds = [''].concat(wallets.map((wallet) => wallet._id));
+    const fadeInStyle = useFadeIn()
 
     const periods = ['1D', '1W', '1M', '1Y', 'All'];
 
@@ -229,6 +231,7 @@ function Analysis({ currency = '$' }) {
                             <span className={styles.emptyMessage}>No transactions to analyze</span>
                         </div>
                     )}
+                    <div className='spacer-large'></div>
                 </div>
             ) : (
                 <div className={styles.empty}>
@@ -236,6 +239,7 @@ function Analysis({ currency = '$' }) {
                         src={walletImage}
                         alt="Nothing"
                         className={styles.emptyImg}
+                        style={fadeInStyle}
                     />
                     <span className={styles.emptyMessage}>No transactions to analyze</span>
                 </div>

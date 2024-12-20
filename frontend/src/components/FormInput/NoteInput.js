@@ -36,13 +36,6 @@ const NoteInput = ({ note, setNote, className, isFocusOutside = false, setIsFocu
         setNote(value);
     };
 
-    // Handle key down event to log "Enter"
-    const handleKeyDown = (e) => {
-        if (e.key === 'Enter') {
-            console.log('Enter');
-        }
-    };
-
     return (
         <div className={styles.noteInputContainer}>
             <textarea
@@ -50,7 +43,6 @@ const NoteInput = ({ note, setNote, className, isFocusOutside = false, setIsFocu
                 className={`${styles.formInputNote} ${className || ''}`}
                 value={note}
                 onChange={handleChange}
-                onKeyDown={handleKeyDown}
                 rows={4}
             />
             <div className={styles.charCounter}>

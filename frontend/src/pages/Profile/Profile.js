@@ -4,6 +4,8 @@ import { updateUser, getUser } from '../../redux/actions';
 import styles from './Profile.module.scss';
 import Button from '../../components/Button/Button';
 import TextInput from '../../components/FormInput/TextInput';
+import PasswordInput from '../../components/FormInput/PasswordInput';
+import EmailInput from '../../components/FormInput/EmailInput';
 import Category from '../../components/Category/Category';
 import useClickOutside from '../../components/ClickOutside/useClickOutside';
 
@@ -56,15 +58,23 @@ function Profile() {
     };
 
     const handleEditSubmit = () => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email validation regex
+    
+        if (!emailRegex.test(userEmail)) {
+            alert('Invalid email address. Please enter a valid email (name@email.com).');
+            return;
+        }
+    
         const userUpdateData = {
             firstName: userFirstName,
             lastName: userLastName,
             email: userEmail,
             password: userPassword,
         };
+    
         dispatch(updateUser(currentUser._id, userUpdateData));
         setEditable(false);
-        alert('Profile saved!')
+        alert('Profile saved!');
     };
 
     useClickOutside(userRef, handleCancelEdit);
@@ -153,7 +163,7 @@ function Profile() {
                                 <td className={styles.label}>Email:</td>
                                 <td className={styles.info}>
                                     {editable ? (
-                                        <TextInput
+                                        <EmailInput
                                             content={userEmail}
                                             setContent={setUserEmail}
                                             className={styles.textInput}
@@ -167,7 +177,7 @@ function Profile() {
                                 <td className={styles.label}>Password:</td>
                                 <td className={styles.info}>
                                     {editable ? (
-                                        <TextInput
+                                        <PasswordInput
                                             content={userPassword}
                                             setContent={setUserPassword}
                                             className={styles.textInput}

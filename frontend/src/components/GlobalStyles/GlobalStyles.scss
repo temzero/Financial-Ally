@@ -179,6 +179,10 @@ body {
         font-weight: 200;
         margin-top: 12px;
         margin-bottom: 8px;
+
+        &.focus {
+            font-weight: 400;
+        }
     }
 
     .form-btn-container {

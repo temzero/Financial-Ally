@@ -128,14 +128,6 @@
 .displayStatus {
     height: 100%;
     width: auto;
-    opacity: 0;
-    transform: translateY(-20px);
-    transition: opacity 2s ease, transform 2s ease;
-    
-    &.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
     
     img {
         max-width: 100%;

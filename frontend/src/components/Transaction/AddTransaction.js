@@ -21,6 +21,7 @@ function AddTransaction() {
     const budgets = useSelector((state) => state.budget.budgets);
     const Overlay = useSelector((state) => state.state.isOverlay);
     useEffect(() => {dispatch(setOverlay(false))}, [])
+
     const addTransactionRef = useRef(null);
 
     const [type, setType] = useState('');
@@ -52,6 +53,7 @@ function AddTransaction() {
 
             if (key === 'Escape') {
                 event.preventDefault();
+                setIsNoteFocus(false)
             }
     
             // Prevent Arrow keys when focus is on certain fields
@@ -197,7 +199,7 @@ function AddTransaction() {
                 />
             </div>
             <div className={styles.formContent}>
-                <div className={styles.formLabel}>Amount</div>
+                <div className={`${styles.formLabel} ${counter === 0 ? styles.focus : ''}`}>Amount</div>
                 <div onClick={() => setCounter(0)}>
                     <BalanceInput
                         amount={amount}
@@ -206,7 +208,7 @@ function AddTransaction() {
                     />
                 </div>
 
-                <div className={styles.formLabel}>Category</div>
+                <div className={`${styles.formLabel} ${counter === 1 ? styles.focus : ''}`}>Category</div>
                 <div onClick={() => setCounter(1)}>
                     <CategoryInput
                         category={category}
@@ -217,7 +219,7 @@ function AddTransaction() {
                     />
                 </div>
 
-                <div className={styles.formLabel}>Wallet</div>
+                <div className={`${styles.formLabel} ${counter === 2 ? styles.focus : ''}`}>Wallet</div>
                 <div onClick={() => setCounter(2)}>
                     <WalletInput
                         wallet={wallet}
@@ -227,7 +229,7 @@ function AddTransaction() {
                     />
                 </div>
 
-                <div className={styles.formLabel}>Date</div>
+                <div className={`${styles.formLabel} ${counter === 3 ? styles.focus : ''}`}>Date</div>
                 <div onClick={() => setCounter(3)}>
                     <DateInput 
                         date={date} 
@@ -237,7 +239,7 @@ function AddTransaction() {
                     />
                 </div>
 
-                <div className={styles.formLabelNote}>Note</div>
+                <div className={`${styles.formLabelNote} ${counter === 4 ? styles.focus : ''}`}>Note</div>
                 <div className={styles.transactionNote} onClick={() => setCounter(4)}>
                     <NoteInput
                         note={note}

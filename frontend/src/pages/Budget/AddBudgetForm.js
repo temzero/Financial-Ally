@@ -16,10 +16,8 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets }) {
     const [moneyLimit, setMoneyLimit] = useState('');
     const [selectedWallets, setSelectedWallets] = useState([]);
     const [type, setType] = useState('');
-    const [startDate, setStartDate] = useState(
-        new Date().toISOString().split('T')[0]
-    );
-    const [finishDate, setFinishDate] = useState('');
+    const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
+    const [finishDate, setFinishDate] = useState(new Date().toISOString().split('T')[0]);
     const [budgetColor, setBudgetColor] = useState('');
 
     const [counter, setCounter] = useState(0);
@@ -37,7 +35,7 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets }) {
     startDate &&
     finishDate &&
     budgetColor &&
-    new Date(finishDate) > new Date(startDate);
+    new Date(finishDate).toISOString().split('T')[0] > new Date(startDate).toISOString().split('T')[0];
 
     const closeForm = useCallback(() => {
         setBudgetName('');
@@ -56,6 +54,10 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets }) {
         () => {
             if (!isWalletsFocus && !isStartDateFocus && !isFinishDateFocus) {
                 closeForm();
+            } else {
+                setIsWalletsFocus(false)
+                setIsStartDateFocus(false)
+                setIsFinishDateFocus(false)
             }
         }
     );
@@ -77,8 +79,11 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets }) {
                 setCounter((prevCounter) => (prevCounter - 1 + 7) % 7);
             } else if (event.key === 'Enter') {
                 console.log('Enter: ', event.key)
+                console.log('isSubmitFocus: ', isSubmitFocus)
+                console.log('isFormComplete: ', isFormComplete)
+
                 if (isSubmitFocus && isFormComplete) {
-                    const submitButton = document.querySelector(`submitButton`);
+                    const submitButton = document.querySelector(`.submit-button`);
                     if (submitButton) submitButton.click();
                 }
             }
@@ -155,7 +160,7 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets }) {
                         </div>
                         <div className='form-content'>
                             <div onClick={() => setCounter(1)}>
-                                <h2 className='form-label'>
+                                <h2 className={`form-label ${counter === 1 ? 'focus' : ''}`}>
                                     Set Limit Amount
                                 </h2>
                                 <BalanceInput
@@ -165,7 +170,7 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets }) {
                                 />
                             </div>
                             <div onClick={() => setCounter(2)}>
-                                <h2 className='form-label'>Wallets</h2>
+                                <h2  className={`form-label ${counter === 2 ? 'focus' : ''}`}>Wallets</h2>
                                 <WalletsInput
                                     wallets={wallets}
                                     selectedWallets={selectedWallets}
@@ -175,7 +180,7 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets }) {
                                 />
                             </div>
                             <div onClick={() => setCounter(3)}>
-                                <h2 className='form-label'>Start Date</h2>
+                                <h2 className={`form-label ${counter === 3 ? 'focus' : ''}`}>Start Date</h2>
                                 <DateInput
                                     date={startDate}
                                     setDate={setStartDate}
@@ -185,7 +190,7 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets }) {
                                 />
                             </div>
                             <div onClick={() => setCounter(4)}>
-                                <h2 className='form-label'>
+                                <h2 className={`form-label ${counter === 4 ? 'focus' : ''}`}>
                                     Finish Date
                                 </h2>
                                 <DateInput
@@ -203,7 +208,7 @@ function AddBudgetForm({ showForm, setShowForm, formRef, userId, wallets }) {
                                 />
                             </div>
                         </div>
-                            <div className='form-btn-container'  onClick={() => setCounter(0)}>
+                            <div className='form-btn-container'  onClick={() => setCounter(6)}>
                                 <Button
                                     type="submit"
                                     simple

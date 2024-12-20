@@ -16,6 +16,7 @@ import noMoneyImage from '../../../assets/images/noMoney.png';
 import moneyImage from '../../../assets/images/cash.png';
 import muchMoneyImage from '../../../assets/images/alotofcash.png';
 import landscapeImage from '../../../assets/images/landscape.png';
+import useFadeIn from '../../../components/Animation/useFadeIn';
 
 
 function initializeWalletData(walletData, setWalletName, setWalletBalance, setWalletType, setWalletColor, setCreatedAt) {
@@ -52,13 +53,7 @@ function WalletInfo() {
     const [walletColor, setWalletColor] = useState('');
     const [createdAt, setCreatedAt] = useState('');
 
-    const [mounted, setMounted] = useState(false)
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            setMounted(true);
-        }, 100);
-        return () => clearTimeout(timeout);
-    }, []);
+    const fadeInStyle = useFadeIn(2000);
 
     const formRef = useRef(null);
     const formattedDate = new Date(createdAt).toLocaleDateString('en-GB', {
@@ -143,6 +138,7 @@ function WalletInfo() {
                 <img
                     src={noMoneyImage}
                     alt="noMoney"
+                    style={fadeInStyle}
                 />
             );
         } else if (walletBalance < 10000) {
@@ -150,6 +146,7 @@ function WalletInfo() {
                 <img
                     src={moneyImage}
                     alt="money"
+                    style={fadeInStyle}
                 />
             );
         } else {
@@ -157,6 +154,7 @@ function WalletInfo() {
                 <img
                     src={muchMoneyImage}
                     alt="muchMoney"
+                    style={fadeInStyle}
                 />
             );
         }
@@ -194,7 +192,7 @@ function WalletInfo() {
                             {currency}
                             <CountUpEffect n={walletBalance} />
                         </div>
-                        <div className={`${styles.displayStatus} ${ mounted ? styles.visible : ''}`}>
+                        <div className={styles.displayStatus}>
                             {displayStatus()}
                         </div>
                     </div>
@@ -202,7 +200,7 @@ function WalletInfo() {
                     {!transactions.length ? (
                         <div className={styles.landscapeImageContainer}>
                             <div>No transactions</div>
-                            <img src={landscapeImage} alt="noMoney" className={styles.landscapeImage} />
+                            <img src={landscapeImage} alt="noMoney" className={styles.landscapeImage}  style={fadeInStyle}/>
                         </div>
                     ) : (
                         <div>

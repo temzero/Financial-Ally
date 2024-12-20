@@ -6,6 +6,7 @@ import { GoPencil } from 'react-icons/go';
 import { BiSolidPlusCircle, BiSolidMinusCircle } from 'react-icons/bi';
 import Transaction from './Transaction';
 import iconItems from '../../assets/icons/reactIcons';
+import { AiOutlineQuestionCircle } from "react-icons/ai";
 
 function TransactionList({ transactions = [], currency = '$' }) {
     const [selectedTransaction, setSelectedTransaction] = useState(null);
@@ -52,7 +53,7 @@ function TransactionList({ transactions = [], currency = '$' }) {
         );
 
         if (!category) {
-            return <div className={styles.categoryName}>Unknown</div>;
+            return <div className={styles.categoryName}>Other</div>;
         }
 
         const { icon: categoryIconName, name, color } = category;

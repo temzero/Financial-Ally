@@ -6,6 +6,7 @@ import openTrashIcon from '../../assets/images/opentrashcan.png'
 import { HiOutlineArrowRight } from "react-icons/hi";
 import iconItems from '../../assets/icons/reactIcons';
 import useClickOutside from '../ClickOutside/useClickOutside';
+import useFadeIn from '../Animation/useFadeIn';
 
 function DeleteCategoryForm({
     selectedCategory,
@@ -16,6 +17,9 @@ function DeleteCategoryForm({
     const dispatch = useDispatch();
     const formRef = useRef(null)
     const categoryColor = selectedCategory?.color || 'defaultColor'
+    const fadeInStyle1s = useFadeIn();
+    const fadeInStyle3s = useFadeIn(3000);
+
     
     let classes = `
         ${className} 
@@ -57,11 +61,12 @@ function DeleteCategoryForm({
                             <div className={styles.formName}>{selectedCategory?.name || ''}</div>
                         </div>
 
-                        <HiOutlineArrowRight className={styles.formArrow}/>
+                        <HiOutlineArrowRight className={styles.formArrow} style={fadeInStyle1s}/>
                         <img 
                             src={openTrashIcon} 
                             alt="Trash Can Icon" 
                             className={styles.trashIcon} 
+                            style={fadeInStyle3s}
                         />
                         
                     </div>

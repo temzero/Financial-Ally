@@ -13,7 +13,6 @@ export const WalletCard = ({ walletData }) => {
     }
 
     const classes = `background-${walletData.color} ${styles.walletCard}`;
-    console.log('classes: ', classes)
     return (
         <div key={walletData._id} className={classes} onClick={handleCardClick}>
             <div>

@@ -7,6 +7,7 @@ import { HiOutlineArrowRight } from "react-icons/hi";
 import { IoWallet } from "react-icons/io5";
 import trashIcon from '../../assets/images/opentrashcan.png';
 import useClickOutside from '../ClickOutside/useClickOutside';
+import useFadeIn from '../Animation/useFadeIn';
 
 
 function DeleteWalletForm({ showForm, setShowForm, wallet }) {
@@ -14,6 +15,9 @@ function DeleteWalletForm({ showForm, setShowForm, wallet }) {
     const name = wallet?.name || '';
     const color = wallet?.color || '';
     const formRef = useRef(null)
+    const fadeInStyle1s = useFadeIn();
+    const fadeInStyle3s = useFadeIn(3000);
+
 
     useEffect(() => {dispatch(setOverlay(true))}, [])
     const navigate = useNavigate();
@@ -48,11 +52,12 @@ function DeleteWalletForm({ showForm, setShowForm, wallet }) {
                             </div>
                             <div className={styles.formName}>{name}</div>
                         </div>
-                        <HiOutlineArrowRight className={styles.formArrow}/>
+                        <HiOutlineArrowRight className={styles.formArrow} style={fadeInStyle1s}/>
                         <img 
                             src={trashIcon} 
                             alt="Trash Can Icon" 
                             className={styles.trashIcon} 
+                            style={fadeInStyle3s}
                         />
                     </div>
                     <div className={styles.formDeleteButtons}>

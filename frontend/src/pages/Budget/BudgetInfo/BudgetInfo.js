@@ -13,6 +13,7 @@ import CountUpEffect from '../../../components/Animation/CountUpEffect';
 import CategoryChart from '../../../components/Chart/CategoryChart';
 import WalletChart from '../../../components/Chart/WalletChart';
 import landscapeImage from '../../../assets/images/landscape.png';
+import useFadeIn from '../../../components/Animation/useFadeIn';
 
 function BudgetInfo() {
     const { state } = useLocation();
@@ -21,6 +22,7 @@ function BudgetInfo() {
     const Overlay = useSelector((state) => state.state.isOverlay);
     useEffect(() => {dispatch(setOverlay(false))}, [])
     const dispatch = useDispatch();
+    const fadeInStyle = useFadeIn(2000);
 
     const allBudgets = useSelector((state) => state.budget.budgets) || [];
     const allWallets = useSelector((state) => state.wallet.wallets) || [];
@@ -315,6 +317,7 @@ function BudgetInfo() {
                                 src={landscapeImage}
                                 alt="noMoney"
                                 className={styles.landscapeImage}
+                                style={fadeInStyle}
                             />
                         </div>
                     ) : (

@@ -16,7 +16,7 @@ const LandingPage = function () {
                     <div>Financial Ally - Designed to help people track their expenses and incomes</div>
                     <div className='spacer-small'></div>
 
-                    <div>My name is Nguyen Tran Nhan</div>
+                    <div>My name is Nhan Nguyen</div>
                     <div className='spacer-small'></div>
 
                     <div>Github: temzero</div>
@@ -32,7 +32,7 @@ const LandingPage = function () {
                     <div>Database: MongoDB</div>
                     <div className='spacer-small'></div>
 
-                    <div>Date recorded: December 18, 2024</div>
+                    <div>Date recorded: December 20, 2024</div>
                 </div>
             </div>
         </div>

@@ -8,12 +8,15 @@ import { setOverlay } from '../../redux/actions';
 import trashIcon from '../../assets/images/opentrashcan.png';
 import useClickOutside from '../ClickOutside/useClickOutside';
 import budgetIcon from '../../assets/icons/reportIcon'; 
+import useFadeIn from '../Animation/useFadeIn';
 
 function DeleteBudgetForm({ showForm, setShowForm, budget }) {
     const budgetId = budget?._id;
     const name = budget?.name || '';
     const color = budget?.color || '';
     const formRef = useRef(null);
+    const fadeInStyle1s = useFadeIn();
+    const fadeInStyle3s = useFadeIn(3000);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -49,11 +52,12 @@ function DeleteBudgetForm({ showForm, setShowForm, budget }) {
                             </div>
                             <div className={styles.formName}>{name}</div>
                         </div>
-                        <HiOutlineArrowRight className={styles.formArrow} />
+                        <HiOutlineArrowRight className={styles.formArrow} style={fadeInStyle1s}/>
                         <img 
                             src={trashIcon} 
                             alt="Trash Can Icon" 
                             className={styles.trashIcon} 
+                            style={fadeInStyle3s}
                         />
                     </div>
                     <div className={styles.formDeleteButtons}>
