@@ -1,16 +1,27 @@
 # FINANCIAL ALLY
 #### Video Demo:  <URL HERE>
+<<<<<<< HEAD
 #### Description:
 
 **PROJECT OVERVIEW**
 This project empowers individuals and businesses to take control of their finances by tracking income and expenses. 
 By simply inputting daily transactions, users gain valuable insights into their spending habits and income sources through intuitive charts and analyses. 
 This knowledge equips them to make informed financial decisions and achieve their financial goals.
+=======
+#### Description: Designed to help people track their expenses and incomes
+
+**PROJECT OVERVIEW**
+This project empowers individuals and businesses to take control of their finances by tracking income and expenses. By simply inputting daily transactions, users gain valuable insights into their spending habits and income sources through intuitive charts and analyses. This knowledge equips them to make informed financial decisions and achieve their financial goals.
+>>>>>>> 045f6165eeecf58e067104452060e6134fee06dc
 
 **How to Use?**
 
 Using the tool is straightforward:
+<<<<<<< HEAD
     Record Transactions: Enter details like type (income or expense), amount, category, wallet, date, and optional notes. (Up and Down Arrow key can use to navigate through input fields)
+=======
+    Record Transactions: Enter details like type (income or expense), amount, category, wallet, date, and optional notes.
+>>>>>>> 045f6165eeecf58e067104452060e6134fee06dc
     Customize Categories and Wallets: Create tailored categories and wallets to match your specific financial needs.
     Set Budgets: Establish spending limits for specific periods and assign them to wallets to monitor your budget adherence.
 
@@ -19,7 +30,10 @@ Analysis and Insights:
     Overall Financial Health: Visualize trends in your total balance over time.
     Detailed Budget and Wallet Analysis: Dive deep into specific budgets and wallets to track performance and spending patterns.
     Category-Based Insights: Understand how your spending is distributed across different categories.
+<<<<<<< HEAD
     (using Left and Right Arrow key to select wallet, Tab key to go through periods)
+=======
+>>>>>>> 045f6165eeecf58e067104452060e6134fee06dc
 
 **App Functions:**
 
