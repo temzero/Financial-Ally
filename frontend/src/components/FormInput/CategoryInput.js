@@ -35,7 +35,7 @@ const CategoryInput = ({
             ? categories.filter((cat) => cat.type === categoryType)
             : categories;
 
-        const otherCategory = { name: 'Other', type: '', icon: 'Other' };
+        const otherCategory = { _id: 'other', name: 'Other', type: '', icon: 'Other' };
         const isOtherIncluded = filteredCategories.some(
             (cat) => cat.name === otherCategory.name
         );

@@ -60,7 +60,7 @@ function CategoryChart({ transactions = [], type = '' }) {
                         {getCategoryIcon(category._id)}
                     </span>
                     <span className={styles.categoryName}>
-                        {category.name || `Category ${cat.categoryId}`}
+                        {category.name || `Deleted category`}
                     </span>
                 </div>
             );
@@ -71,7 +71,7 @@ function CategoryChart({ transactions = [], type = '' }) {
     const data = {
         labels: Object.keys(categoryTotals).map((categoryId) => {
             const category = getCategoryDetails(categoryId);
-            return category.name || `Category ${categoryId}`;
+            return category.name || `Deleted Category`;
         }),
         datasets: [
             {

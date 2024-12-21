@@ -6,7 +6,6 @@ import { GoPencil } from 'react-icons/go';
 import { BiSolidPlusCircle, BiSolidMinusCircle } from 'react-icons/bi';
 import Transaction from './Transaction';
 import iconItems from '../../assets/icons/reactIcons';
-import { AiOutlineQuestionCircle } from "react-icons/ai";
 
 function TransactionList({ transactions = [], currency = '$' }) {
     const [selectedTransaction, setSelectedTransaction] = useState(null);
@@ -48,12 +47,14 @@ function TransactionList({ transactions = [], currency = '$' }) {
     };
 
     const categoryIcon = (categoryId) => {
-        const category = categories.find(
-            (category) => category._id === categoryId
-        );
+        if (!categoryId) {categoryId = 'other' }
+        console.log('categoryId: ', categoryId)
+        const category = categories.find((cat) => cat._id === categoryId) || { _id: 'other', name: 'Other', type: '', icon: 'Other' };
+        console.log('category: ', category)
+        console.log('categories: ', categories)
 
         if (!category) {
-            return <div className={styles.categoryName}>Other</div>;
+            return <div className={styles.categoryName}></div>;
         }
 
         const { icon: categoryIconName, name, color } = category;

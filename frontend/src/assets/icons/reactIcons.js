@@ -164,7 +164,7 @@ const reactIcons = [
   // { name: 'mug', icon: mugIcon() },
   // import {salonIcon, canIcon, cashIcon, dollarIcon, dollarCoin2Icon, dollarWastingIcon, NoodleIcon} from './icons'
   
-  { name: '?', icon: otherIcon() },
+  { name: 'Other', icon: otherIcon() },
   
 ];
 

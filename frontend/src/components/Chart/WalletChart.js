@@ -42,7 +42,8 @@ function WalletChart({ transactions = [], type = '' }) {
     // Render wallets with icons and colors
     const renderChartWallets = () => {
         return Object.values(walletTotals).map((walletData) => {
-            const wallet = getWalletDetails(walletData.walletId);
+            const wallet = getWalletDetails(walletData.walletId) || {};
+            console.log('wallet: ', wallet)
             return (
                 <div
                     key={walletData.walletId}
@@ -53,7 +54,7 @@ function WalletChart({ transactions = [], type = '' }) {
                         <IoWalletOutline />
                     </span>
                     <span className={styles.categoryName}>
-                        {wallet.name || `Wallet ${walletData.walletId}`}
+                        {wallet.name || 'Deleted wallet'}
                     </span>
                 </div>
             );
@@ -64,7 +65,7 @@ function WalletChart({ transactions = [], type = '' }) {
     const data = {
         labels: Object.keys(walletTotals).map((walletId) => {
             const wallet = getWalletDetails(walletId);
-            return wallet.name || `Wallet ${walletId}`;
+            return wallet.name || `Deleted wallet`;
         }),
         datasets: [
             {

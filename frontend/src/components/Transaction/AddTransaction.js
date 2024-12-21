@@ -27,6 +27,7 @@ function AddTransaction() {
     const [type, setType] = useState('');
     const [amount, setAmount] = useState('');
     const [category, setCategory] = useState('');
+    console.log('category: ', category)
     const [wallet, setWallet] = useState('');
     const [date, setDate] = useState('');
     const [note, setNote] = useState('');
