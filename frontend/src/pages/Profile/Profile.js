@@ -35,7 +35,6 @@ function Profile() {
     }, [firstName, lastName, email, password]);
 
     useEffect(() => {
-        // Check if any field has changed
         setIsChanged(
             userFirstName !== firstName ||
             userLastName !== lastName ||
