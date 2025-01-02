@@ -31,7 +31,7 @@ function Sidebar() {
         <div className={styles.wrapper}>
             <div className={styles.header}>
                 <a className={navLinkClasses(navLinks.profile)} href={navLinks.profile}>
-                    {user.firstName}
+                    {user.firstName || 'Profile'}
                 </a>
             </div>
             <div className={styles.nav}>

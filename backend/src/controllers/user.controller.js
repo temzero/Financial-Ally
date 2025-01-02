@@ -1,5 +1,5 @@
 const User = require("../models/user.model");
-const Wallet = require("../models/wallet.model");
+const bcrypt = require("bcrypt");
 
 const userControllers = {
   getHome: async (req, res) => {
@@ -9,6 +9,7 @@ const userControllers = {
       res.status(500).json({ message: error.message });
     }
   },
+
   getRegister: async (req, res) => {
     try {
       res.send("Register: Username - Password");
@@ -16,14 +17,39 @@ const userControllers = {
       res.status(500).json({ message: error.message });
     }
   },
+
+  // postRegister: async (req, res) => {
+  //   try {
+  //     const user = await User.create(req.body);
+  //     res.status(200).json(user);
+  //   } catch (error) {
+  //     res.status(500).json({ message: error.message });
+  //   }
+  // },
+
   postRegister: async (req, res) => {
     try {
-      const user = await User.create(req.body);
-      res.status(200).json(user);
+      const { firstName, lastName, email, password } = req.body;
+
+      if (!firstName || !lastName || !email || !password) {
+        return res.status(400).json({ message: "All fields are required!" });
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const user = await User.create({
+        firstName,
+        lastName,
+        email,
+        password: hashedPassword,
+      });
+
+      res.status(201).json(user);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
   },
+
   getLogin: async (req, res) => {
     try {
       res.send("Login: Username - Password");
@@ -31,21 +57,49 @@ const userControllers = {
       res.status(500).json({ message: error.message });
     }
   },
+
+  // postLogin: async (req, res) => {
+  //   try {
+  //     const loginEmail = req.body.email;
+  //     const loginPassword = req.body.password;
+
+  //     const matchedUser = await User.findOne({ email: loginEmail });
+
+  //     if (loginPassword !== matchedUser.password) {
+  //       return res.status(401).json("Invalid email or password!");
+  //     }
+  //     res.status(200).json(matchedUser);
+  //   } catch (error) {
+  //     res.status(500).json({ message: error.message });
+  //   }
+  // },
+
   postLogin: async (req, res) => {
     try {
-      const loginEmail = req.body.email;
-      const loginPassword = req.body.password;
+      const { email, password } = req.body;
 
-      const matchedUser = await User.findOne({ email: loginEmail });
-
-      if (loginPassword !== matchedUser.password) {
-        return res.status(401).json("Invalid email or password!");
+      if (!email || !password) {
+        return res.status(400).json({ message: "Email and password required!" });
       }
+
+      const matchedUser = await User.findOne({ email });
+
+      if (!matchedUser) {
+        return res.status(401).json({ message: "Invalid email or password!" });
+      }
+
+      const isPasswordMatch = await bcrypt.compare(password, matchedUser.password);
+
+      if (!isPasswordMatch) {
+        return res.status(401).json({ message: "Invalid email or password!" });
+      }
+
       res.status(200).json(matchedUser);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
   },
+
   getUser: async (req, res) => {
     try {
       const userID = req.params.id;
@@ -55,6 +109,7 @@ const userControllers = {
       res.status(500).json({ message: error.message });
     }
   },
+
   updateUser: async (req, res) => {
     try {
       const userID = req.params.id;
@@ -71,6 +126,7 @@ const userControllers = {
       res.status(500).json({ message: error.message });
     }
   },
+
   deleteUser: async (req, res) => {
     try {
       const userID = req.params.id;

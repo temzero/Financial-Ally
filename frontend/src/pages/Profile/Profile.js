@@ -28,7 +28,6 @@ function Profile() {
     }, [currentUser._id, dispatch]);
 
     useEffect(() => {
-        // Sync initial data when first rendered or user changes
         setUserFirstName(firstName);
         setUserLastName(lastName);
         setUserEmail(email);

@@ -1,39 +1,19 @@
 # FINANCIAL ALLY
-#### Video Demo:  <URL HERE>
-<<<<<<< HEAD
+#### Video Demo:  https://youtu.be/GCeSdPQkqgY
 #### Description:
 
 **PROJECT OVERVIEW**
-This project empowers individuals and businesses to take control of their finances by tracking income and expenses. 
-By simply inputting daily transactions, users gain valuable insights into their spending habits and income sources through intuitive charts and analyses. 
-This knowledge equips them to make informed financial decisions and achieve their financial goals.
-=======
-#### Description: Designed to help people track their expenses and incomes
-
-**PROJECT OVERVIEW**
-This project empowers individuals and businesses to take control of their finances by tracking income and expenses. By simply inputting daily transactions, users gain valuable insights into their spending habits and income sources through intuitive charts and analyses. This knowledge equips them to make informed financial decisions and achieve their financial goals.
->>>>>>> 045f6165eeecf58e067104452060e6134fee06dc
+This project empowers individuals and businesses to take control of their finances by tracking income and expenses. Users can input daily transactions and gain valuable insights into spending habits and income sources through intuitive charts and analyses. This knowledge enables informed financial decisions and helps achieve financial goals.
 
 **How to Use?**
+1. Record Transactions:
+Enter details such as type (income or expense), amount, category, wallet, date, and optional notes. Use the Up/Down Arrow keys to navigate input fields.
 
-Using the tool is straightforward:
-<<<<<<< HEAD
-    Record Transactions: Enter details like type (income or expense), amount, category, wallet, date, and optional notes. (Up and Down Arrow key can use to navigate through input fields)
-=======
-    Record Transactions: Enter details like type (income or expense), amount, category, wallet, date, and optional notes.
->>>>>>> 045f6165eeecf58e067104452060e6134fee06dc
-    Customize Categories and Wallets: Create tailored categories and wallets to match your specific financial needs.
-    Set Budgets: Establish spending limits for specific periods and assign them to wallets to monitor your budget adherence.
+2. Customize Categories and Wallets:
+Create personalized categories and wallets to suit your specific financial needs.
 
-Analysis and Insights:
-    The Analysis tab provides comprehensive financial insights:
-    Overall Financial Health: Visualize trends in your total balance over time.
-    Detailed Budget and Wallet Analysis: Dive deep into specific budgets and wallets to track performance and spending patterns.
-    Category-Based Insights: Understand how your spending is distributed across different categories.
-<<<<<<< HEAD
-    (using Left and Right Arrow key to select wallet, Tab key to go through periods)
-=======
->>>>>>> 045f6165eeecf58e067104452060e6134fee06dc
+3. Set Budgets:
+Establish spending limits for defined periods and assign them to wallets to monitor adherence.
 
 **App Functions:**
 
