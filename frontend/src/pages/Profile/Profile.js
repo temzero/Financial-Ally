@@ -7,7 +7,7 @@ import TextInput from '../../components/FormInput/TextInput';
 import PasswordInput from '../../components/FormInput/PasswordInput';
 import EmailInput from '../../components/FormInput/EmailInput';
 import Category from '../../components/Category/Category';
-import useClickOutside from '../../components/ClickOutside/useClickOutside';
+// import useClickOutside from '../../components/ClickOutside/useClickOutside';
 
 function Profile() {
     const currentUser = useSelector((state) => state.user.user);
@@ -75,7 +75,7 @@ function Profile() {
         alert('Profile saved!');
     };
 
-    useClickOutside(userRef, handleCancelEdit);
+    // useClickOutside(userRef, handleCancelEdit);
 
     const formattedDate = new Date(createdAt).toLocaleDateString('en-GB', {
         day: '2-digit',
