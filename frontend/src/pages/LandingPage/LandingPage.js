@@ -1,5 +1,6 @@
 import styles from './LandingPage.module.scss'
 import { GiCoinflip } from 'react-icons/gi';
+import picture from '../../assets/images/painting.jpg'
 
 
 const LandingPage = function () {
@@ -9,7 +10,14 @@ const LandingPage = function () {
                 <h1 className={styles.title}>Track Your Bills,<br/>Track Your Success!</h1>
                 <GiCoinflip className={styles.icon} />
             </div>
-            <div className={styles.content}>
+            <div  className={styles.imageContainer}>
+                <img 
+                    src={picture} 
+                    alt="Roman Painting" 
+                    className={styles.image} 
+                />
+            </div>
+            {/* <div className={styles.content}>
                 <h1 className={styles.contentTitle}>Read me!</h1>
                 <div className={styles.description}>
                     <div>This is CS50 Final Project</div>
@@ -34,7 +42,7 @@ const LandingPage = function () {
 
                     <div>Date recorded: December 20, 2024</div>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

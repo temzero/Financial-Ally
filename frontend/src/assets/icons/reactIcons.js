@@ -61,8 +61,6 @@ import wifiIcon from './wifiIcon';
 import wineIcon from './wineIcon';
 import otherIcon from './otherIcon'
 
-import {salonIcon, canIcon, cashIcon, dollarIcon, dollarCoin2Icon, dollarWastingIcon, noodleIcon, dressIcon, mugIcon} from './icons'
-
 // Structure where each icon is a function that returns an SVG or React component
 const reactIcons = [
   // A
