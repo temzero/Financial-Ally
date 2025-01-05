@@ -42,7 +42,6 @@ const walletControllers = {
         color,
         userId,
       }
-      console.log('New wallet created', walletData)
 
       const addedWallet = await Wallet.create(walletData);
 

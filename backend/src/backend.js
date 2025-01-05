@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 const express = require('express')
 const app = express()
-const port = 4000
 const userRouter = require('./routes/user.route')
 const cors = require('cors')
+const port = 4000
 
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))

@@ -20,14 +20,14 @@ function AddTransaction() {
     const user = useSelector((state) => state.user.user);
     const budgets = useSelector((state) => state.budget.budgets);
     const Overlay = useSelector((state) => state.state.isOverlay);
-    useEffect(() => {dispatch(setOverlay(false))}, [])
+    const dispatch = useDispatch();
+    useEffect(() => {dispatch(setOverlay(false))}, []);
 
     const addTransactionRef = useRef(null);
 
     const [type, setType] = useState('');
     const [amount, setAmount] = useState('');
     const [category, setCategory] = useState('');
-    console.log('category: ', category)
     const [wallet, setWallet] = useState('');
     const [date, setDate] = useState('');
     const [note, setNote] = useState('');
@@ -44,14 +44,14 @@ function AddTransaction() {
 
     useClickOnlyOutside(addTransactionRef, () => setCounter(-1));
 
-    const dispatch = useDispatch();
-
     useEffect(() => {
         if (Overlay) return; 
-    
+        console.log('Overlay: ', Overlay)
+
         const handleKeyDown = (event) => {
             const { key, shiftKey } = event;
-
+            console.log('Keydown function')
+            
             if (key === 'Escape') {
                 event.preventDefault();
                 setIsNoteFocus(false)

@@ -34,6 +34,8 @@ function TransactionList({ transactions = [], currency = '$' }) {
         (a, b) => Date.parse(b.date) - Date.parse(a.date)
     );
 
+    console.log('sortedTransactions: ', sortedTransactions)
+
     const displayWallet = (walletId) => {
         const wallet = wallets.find((wallet) => wallet._id === walletId);
         return wallet ? (
@@ -48,10 +50,7 @@ function TransactionList({ transactions = [], currency = '$' }) {
 
     const categoryIcon = (categoryId) => {
         if (!categoryId) {categoryId = 'other' }
-        console.log('categoryId: ', categoryId)
         const category = categories.find((cat) => cat._id === categoryId) || { _id: 'other', name: 'Other', type: '', icon: 'Other' };
-        console.log('category: ', category)
-        console.log('categories: ', categories)
 
         if (!category) {
             return <div className={styles.categoryName}></div>;
@@ -80,8 +79,9 @@ function TransactionList({ transactions = [], currency = '$' }) {
 
     const renderNetBalance = (date) => {
         const transactionsByDate = sortedTransactions.filter(
-            (trans) => trans.date === date
+            (trans) => trans.date.split('T')[0] === date
         );
+        console.log('transactionsByDate: ', transactionsByDate)
         const netBalance = transactionsByDate.reduce((total, trans) => {
             return trans.type.toLowerCase() === 'income'
                 ? total + trans.amount
@@ -91,15 +91,13 @@ function TransactionList({ transactions = [], currency = '$' }) {
         if (netBalance > 0) {
             return (
                 <div className='primary-green'>
-                    (+{currency}
-                    {netBalance.toLocaleString('en-US')})
+                    (+{currency}{netBalance.toLocaleString('en-US')})
                 </div>
             );
         } else if (netBalance < 0) {
             return (
                 <div className='primary-red'>
-                    (-{currency}
-                    {Math.abs(netBalance).toLocaleString('en-US')})
+                    (-{currency}{Math.abs(netBalance).toLocaleString('en-US')})
                 </div>
             );
         }
@@ -107,10 +105,12 @@ function TransactionList({ transactions = [], currency = '$' }) {
     };
 
     let lastDate = '';
+
     return (
         <div className={styles.transactions}>
             {sortedTransactions.map((transaction) => {
-                const transactionDate = formatTransactionDate(transaction.date);
+                const transactionDateData = transaction.date.split('T')[0];
+                const transactionDate = formatTransactionDate(transactionDateData);
                 const showDivider = transactionDate !== lastDate;
                 lastDate = transactionDate;
 
@@ -124,7 +124,7 @@ function TransactionList({ transactions = [], currency = '$' }) {
                         {showDivider && (
                             <div className={styles.dateDivider}>
                                 {transactionDate}
-                                {renderNetBalance(transaction.date)}
+                                {renderNetBalance(transactionDateData)}
                             </div>
                         )}
                         <div

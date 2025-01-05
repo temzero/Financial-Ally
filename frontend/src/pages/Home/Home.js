@@ -14,8 +14,6 @@ function Home() {
     const wallets = useSelector((state) => state.wallet.wallets);
     const transactions = useSelector((state) => state.transaction.transactions);
 
-    
-
     const totalBalance = (wallets || []).reduce(
         (sum, wallet) => sum + wallet.balance,
         0
@@ -35,10 +33,10 @@ function Home() {
                     <span className={styles.currency}>{currency}</span>
                     <CountUpEffect n={totalBalance} />{' '}
                 </div>
-                <Chart />
+                <Chart/>
                 <div className='spacer-medium'></div>
                 <div className='section-header'>Transactions</div>
-                <TransactionList transactions={transactions} />
+                <TransactionList transactions={transactions}/>
             </div>
             <AddTransaction/>
         </div>

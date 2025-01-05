@@ -1,24 +1,27 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styles from './Login.module.scss';
-import Button from '../../components/Button/Button';
+import { useState, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { loginRequest } from '../../redux/actions';
+import styles from './Login.module.scss';
+import Button from '../../components/Button/Button';
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
 
-    const navigate = useNavigate();
-    const dispatch = useDispatch()
+    const emailInputRef = useRef(null);
+    const dispatch = useDispatch();
     const successMessage = 'Welcome back! Please wait...';
+
+    useEffect(() => {
+        emailInputRef.current.focus();
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         const loginInfo = { email, password };
-        dispatch(loginRequest(loginInfo, setMessage, navigate));
+        dispatch(loginRequest(loginInfo, setMessage));
     };
 
     return (
@@ -29,6 +32,7 @@ function Login() {
                     <input
                         type="email"
                         id="email"
+                        ref={emailInputRef}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className={styles.input}

@@ -34,7 +34,6 @@ const categoryControllers = {
   addCategory: async (req, res) => {
     try {
       const { name, type, icon, color, userId } = req.body;
-      console.log('add category data: ', name)
 
       const newCategory = await Category.create({ name, type, icon, color, userId });
 

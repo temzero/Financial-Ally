@@ -36,7 +36,6 @@ function Transaction({
         budget.transactionIds.includes(transactionId)
     );
     const categories = useSelector((state) => state.category.categories) || [];
-    console.log('categories: ', categories)
 
     const wallets = useSelector((state) => state.wallet.wallets) || [];
     const wallet = wallets.find((wallet) => wallet._id === transaction.walletId);
@@ -99,7 +98,6 @@ function Transaction({
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [counter, editable, isNoteFocus]);
-
 
     useEffect(() => {
         const focusStates = {
