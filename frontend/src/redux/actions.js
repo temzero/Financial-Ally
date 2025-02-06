@@ -1,16 +1,16 @@
 import axios from 'axios';
 import { Types } from './types';
 
-// const server = 'http://localhost:4000';
-const server = 'https://financial-ally-backend.vercel.app';
+const server = 'http://localhost:4000';
+// const server = 'https://financial-ally-backend.vercel.app';
 
 // Authentication
-export const loginRequest = (loginRequestInfo, setMessage) => {
+export const loginRequest = (loginInfo, setMessage) => {
     return async (dispatch) => {
         try {
             const response = await axios.post(
                 `${server}/login`,
-                loginRequestInfo
+                loginInfo
             );
             const user = response.data;
 
@@ -96,11 +96,11 @@ export const updateUser = (userId, userUpdateData) => {
 
             // Dispatch the action to update user in the store
             dispatch(updateUserSuccess(updatedUser));
-
             // Optionally return the updated user for use in other parts of the app
             return updatedUser;
         } catch (error) {
             console.error('Cannot update user:', error);
+            throw error;
         }
     };
 };

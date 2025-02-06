@@ -19,9 +19,9 @@ function Login() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
         const loginInfo = { email, password };
         dispatch(loginRequest(loginInfo, setMessage));
+        console.log('Submit')
     };
 
     return (

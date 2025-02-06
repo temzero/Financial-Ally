@@ -55,8 +55,8 @@ function Profile() {
         setUserPassword(password);
     };
 
-    const handleEditSubmit = () => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email validation regex
+    const handleEditSubmit = async () => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email validation
     
         if (!emailRegex.test(userEmail)) {
             alert('Invalid email address. Please enter a valid email (name@email.com).');
@@ -70,11 +70,21 @@ function Profile() {
             password: userPassword,
         };
     
-        dispatch(updateUser(currentUser._id, userUpdateData));
-        setEditable(false);
-        alert('Profile saved!');
-    };
+        try {
+            await dispatch(updateUser(currentUser._id, userUpdateData));
+            setEditable(false);
+            alert('Profile updated successfully!');
+            
+        } catch (error) {
+            alert('Email is already in use, please try again!');
 
+            setUserFirstName(firstName);
+            setUserLastName(lastName);
+            setUserEmail(email);
+            setUserPassword(password);
+        }
+    };
+    
     useClickOutside(userRef, handleCancelEdit);
 
     const formattedDate = new Date(createdAt).toLocaleDateString('en-GB', {

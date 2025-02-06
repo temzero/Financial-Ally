@@ -86,20 +86,29 @@ const userControllers = {
   },
 
   updateUser: async (req, res) => {
-    try {
-      const userID = req.params.id;
-      const updatedUser = await User.findByIdAndUpdate(userID, req.body, {
-        new: true,
-      });
+      try {
+          const { email } = req.body;
+          const userID = req.params.id;
 
-      if (!updatedUser) {
-        return res.status(404).json({ message: "User not found!" });
+          // Check if the email is already in use by another user
+          const existingUser = await User.findOne({ email });
+
+          if (existingUser && existingUser._id.toString() !== userID) {
+              return res.status(400).json({ message: "Email is already in use, please try again!" });
+          }
+
+          const updatedUser = await User.findByIdAndUpdate(userID, req.body, {
+              new: true,
+          });
+
+          if (!updatedUser) {
+              return res.status(404).json({ message: "User not found!" });
+          }
+
+          res.status(200).json(updatedUser);
+      } catch (error) {
+          res.status(500).json({ message: error.message });
       }
-
-      res.status(200).json(updatedUser);
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
   },
 
   deleteUser: async (req, res) => {
